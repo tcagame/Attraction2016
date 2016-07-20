@@ -10,7 +10,7 @@ PTR( Model );
 class ModelMaker : public Task {
 public:
 	static ModelMakerPtr getTask( );
-	static std::string getTag( ) { return "VIEWER"; }
+	static std::string getTag( ) { return "MODELMAKER"; }
 public:
 	ModelMaker( );
 	virtual ~ModelMaker( );

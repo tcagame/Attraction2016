@@ -5,6 +5,7 @@
 const double CHIP_SIZE = 0.5;
 const double TEXTURE_SIZE = 0.5;
 const double T = TEXTURE_SIZE / 2;
+const int    POLYGON_NUM = 2;
 
 enum COLOR_TYPE {
 	COLOR_TYPE_RED,
@@ -19,20 +20,17 @@ const std::string MODEL_NAME[ COLOR_TYPE_MAX ] = {
 
 void makePlane ( int type ) {
 	ModelPtr model = ModelPtr( new Model( ) );
-	int polygon_num = 2;
-	model->alloc( polygon_num );
+	model->alloc( POLYGON_NUM );
 
 	int idx = 0;
-
 	double tex_pos_x = type * TEXTURE_SIZE;
-	double tex_pos_y = 0;
 
-	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE, -CHIP_SIZE, 0 ), tex_pos_x, tex_pos_y ) );
-	model->set( idx++, Model::VERTEX( Vector(  0, -CHIP_SIZE, 0 ), T + tex_pos_x, tex_pos_y ) );
-	model->set( idx++, Model::VERTEX( Vector(  0,  0, 0 ), T + tex_pos_x, T + tex_pos_y ) );
-	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE, -CHIP_SIZE, 0 ), tex_pos_x, tex_pos_y ) );
-	model->set( idx++, Model::VERTEX( Vector(  0,  0, 0 ), T + tex_pos_x, T + tex_pos_y ) );
-	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE,  0, 0 ), tex_pos_x, T + tex_pos_y ) );
+	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE, -CHIP_SIZE, 0 ),     tex_pos_x, 0 ) );
+	model->set( idx++, Model::VERTEX( Vector(		   0, -CHIP_SIZE, 0 ), T + tex_pos_x, 0 ) );
+	model->set( idx++, Model::VERTEX( Vector(          0,          0, 0 ), T + tex_pos_x, T ) );
+	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE, -CHIP_SIZE, 0 ),     tex_pos_x, 0 ) );
+	model->set( idx++, Model::VERTEX( Vector(          0,          0, 0 ), T + tex_pos_x, T ) );
+	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE,          0, 0 ),     tex_pos_x, T ) );
 	std::string filename = MODEL_NAME[ type ] + ".mdl";
 	model->save( filename );
 }

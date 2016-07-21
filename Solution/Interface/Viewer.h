@@ -15,5 +15,7 @@ public:
 	void update( );
 	void initialize( );
 	void finalize( );
+private:
+	void drawPlayer( );
 };
 

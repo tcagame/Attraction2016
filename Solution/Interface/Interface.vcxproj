@@ -86,7 +86,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Viewer.cpp" />
-    <ClCompile Include="ViewerPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Framework\Framework.vcxproj">
@@ -95,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Viewer.h" />
-    <ClInclude Include="ViewerPlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -38,6 +38,7 @@ public:
 	void mergeModel( ModelConstPtr model );
 	Vector getPoint( int idx ) const;
 	ModelImplConstPtr getModelImpl( ) const;
+	int getTextureHandle( const char* filename );
 private:
 	ModelImplPtr _impl;
 };

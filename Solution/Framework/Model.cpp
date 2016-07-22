@@ -134,3 +134,7 @@ Vector Model::getPoint( int idx ) const {
 int Model::getPolygonNum( ) const {
 	return _impl->_polygon_num;
 }
+
+int Model::getTextureHandle( const char* filename ) {
+	return LoadGraph( filename );
+}

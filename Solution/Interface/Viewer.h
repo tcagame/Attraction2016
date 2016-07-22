@@ -3,6 +3,8 @@
 #include <string>
 
 PTR( Viewer );
+PTR( Model );
+PTR( Ground );
 
 class Viewer : public Task {
 public:
@@ -17,5 +19,10 @@ public:
 	void finalize( );
 private:
 	void drawPlayer( );
+	void drawPillarGroundModel( );
+	void drawPlainGroundModel( );
+private:
+	ModelPtr _model;
+	int _tex_handle;
 };
 

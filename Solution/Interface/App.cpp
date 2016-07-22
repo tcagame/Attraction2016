@@ -26,3 +26,7 @@ void App::initialize( ) {
 void App::finalize( ) {
 
 }
+
+GroundPtr App::getGroundPtr( ) const {
+	return _ground;
+}

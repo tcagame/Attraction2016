@@ -16,6 +16,7 @@ public:
 	void update( );
 	void initialize( );
 	void finalize( );
+	GroundPtr getGroundPtr( ) const;
 private:
 	GroundPtr _ground;
 };

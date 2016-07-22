@@ -51,3 +51,20 @@ bool Ground::loadGroundCSV( const char* file_name ) {
 	_height = height;
 	return true;
 }
+
+
+int Ground::getWidth( ) const {
+	return _width;
+}
+
+int Ground::getHeight( ) const {
+	return _height;
+}
+
+int Ground::getIdx( int x, int y ) {
+	return x + y * _width;
+}
+
+int Ground::getGroundData( int idx ) const {
+	return _ground_data[ idx ];
+}

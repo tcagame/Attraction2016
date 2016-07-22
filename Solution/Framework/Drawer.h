@@ -40,6 +40,7 @@ public:
 	void set( const Sprite& sprite );
 private:
 	void drawSprite( );
+	void flip( );
 private:
 	static const int ID_NUM = 1000;
 	static const int SPRITE_NUM = 10000;
@@ -47,5 +48,8 @@ private:
 	std::array< Sprite, SPRITE_NUM > _sprite; 
 	const char* _directory;
 	int _sprite_idx;
+
+	int _refresh_count;
+	int _start_time;
 };
 

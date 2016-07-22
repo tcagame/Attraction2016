@@ -3,6 +3,9 @@
 #include "DxLib.h"
 #include <assert.h>
 
+static const int REFRESH_COUNT = 60;	//平均を取るサンプル数
+static const int FPS = 60;
+
 Drawer::Transform::Transform( ) :
 x( 0 ),
 y( 0 ),
@@ -47,9 +50,13 @@ void Drawer::initialize( ) {
 		_id[ i ].body = -1;
 	}
 	_sprite_idx = 0;
+
+	_refresh_count = REFRESH_COUNT;
+	_start_time = 0;
 }
 
 void Drawer::update( ) {
+	flip( );
 	drawSprite( );
 }
 
@@ -88,9 +95,7 @@ void Drawer::load( int res, const char* filename ) {
 	assert( res < ID_NUM );
 	int& id = _id[ res ].body;
 	id = MV1LoadModel( path.c_str( ) );
-	if ( id < 0 ) {
-		return;
-	}
+	assert( id > 0 );
 	int num = MV1GetMaterialNum( id ) ;
 	for ( int i = 0; i < num; i++ ) {
 		MV1SetMaterialEmiColor( id, i, GetColorF( 1.0f, 1.0f, 1.0f, 1.0f ) );
@@ -103,4 +108,21 @@ void Drawer::set( const Sprite& sprite ) {
 	assert( _sprite_idx < SPRITE_NUM );
 	_sprite[ _sprite_idx ] = sprite;
 	_sprite_idx++;
+}
+
+void Drawer::flip( ) {
+	if ( _refresh_count == REFRESH_COUNT ){ //60フレーム目なら平均を計算する
+		_refresh_count = 0;
+		_start_time = GetNowCount( );
+	}
+	_refresh_count++;
+
+	int took_time = GetNowCount( ) - _start_time;	//かかった時間
+	int wait_time = _refresh_count * 1000 / FPS - took_time;	//待つべき時間
+	if ( wait_time > 0 ) {
+		Sleep( wait_time );	//待機
+	}
+
+	ScreenFlip( );
+	ClearDrawScreen( );
 }

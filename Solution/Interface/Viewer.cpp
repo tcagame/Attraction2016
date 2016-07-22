@@ -1,6 +1,7 @@
 #include "Viewer.h"
 #include "Framework.h"
 #include "Drawer.h"
+#include "mathmatics.h"
 
 enum MOTION {
 	MOTION_WAIT
@@ -18,6 +19,9 @@ Viewer::~Viewer( ) {
 }
 
 void Viewer::initialize( ) {
+	FrameworkPtr fw = Framework::getInstance( );
+	fw->setCamera( Vector( 0, 0, 100 ), Vector( 0, 0, 0 ) );
+	fw->setCameraUp( Vector( 0, 1, 0 ) );
 	DrawerPtr drawer = Drawer::getTask( );
 	drawer->load( MOTION_WAIT, "knight/player_knight_wait.mv1" );
 }

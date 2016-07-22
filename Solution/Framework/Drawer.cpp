@@ -125,4 +125,4 @@ void Drawer::flip( ) {
 
 	ScreenFlip( );
 	ClearDrawScreen( );
-}
+}	

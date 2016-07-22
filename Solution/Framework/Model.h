@@ -36,6 +36,8 @@ public:
 	bool load( std::string filename );
 	void save( std::string filename );
 	void mergeModel( ModelConstPtr model );
+	void translate( Vector move );
+	void reset( );
 	Vector getPoint( int idx ) const;
 	ModelImplConstPtr getModelImpl( ) const;
 	int getTextureHandle( const char* filename );

@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interface", "Interface\Inte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stage", "Stage\Stage.vcxproj", "{4181F35D-AF1D-4BC9-8287-CF97D76D749E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlaneMaker", "PlaneMaker\PlaneMaker.vcxproj", "{051BB64F-0C7A-4222-BD30-962AEA892F63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +41,10 @@ Global
 		{4181F35D-AF1D-4BC9-8287-CF97D76D749E}.Debug|Win32.Build.0 = Debug|Win32
 		{4181F35D-AF1D-4BC9-8287-CF97D76D749E}.Release|Win32.ActiveCfg = Release|Win32
 		{4181F35D-AF1D-4BC9-8287-CF97D76D749E}.Release|Win32.Build.0 = Release|Win32
+		{051BB64F-0C7A-4222-BD30-962AEA892F63}.Debug|Win32.ActiveCfg = Debug|Win32
+		{051BB64F-0C7A-4222-BD30-962AEA892F63}.Debug|Win32.Build.0 = Debug|Win32
+		{051BB64F-0C7A-4222-BD30-962AEA892F63}.Release|Win32.ActiveCfg = Release|Win32
+		{051BB64F-0C7A-4222-BD30-962AEA892F63}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

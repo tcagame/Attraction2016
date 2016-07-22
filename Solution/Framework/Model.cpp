@@ -33,7 +33,9 @@ void Model::setPolygonNum( int num ) {
 }
 
 void Model::draw( int texture, bool trans ) const {
+
 	int check = DrawPolygon3D( _impl->_vertex, _impl->_polygon_num, texture, trans ? TRUE : FALSE );
+		
 }
 
 void Model::set( int n, VERTEX vertex ) {
@@ -66,6 +68,14 @@ bool Model::load( std::string filename ) {
 
 	FileRead_close( fh );
 	return true;
+}
+
+void Model::translate( Vector move ) {
+	for ( int i = 0; i < _impl->_polygon_num * 3; i++ ) {
+		_impl->_vertex[ i ].pos.x += ( float )move.x;
+		_impl->_vertex[ i ].pos.y += ( float )move.y;
+		_impl->_vertex[ i ].pos.z += ( float )move.z;
+	}
 }
 
 void Model::save( std::string filename ) {
@@ -137,4 +147,11 @@ int Model::getPolygonNum( ) const {
 
 int Model::getTextureHandle( const char* filename ) {
 	return LoadGraph( filename );
+}
+
+void Model::reset( ) {
+	_impl = ModelImplPtr( new ModelImpl );
+
+	_impl->_vertex = NULL;
+	_impl->_polygon_num = 0;
 }

@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "DxLib.h"
 
-const double CHIP_SIZE = 0.5;
+const double CHIP_SIZE = 1;
 const double TEXTURE_SIZE = 0.5;
 const double T = TEXTURE_SIZE / 2;
 const int    POLYGON_NUM = 2;
@@ -25,12 +25,12 @@ void makePlane ( int type ) {
 	int idx = 0;
 	double tex_pos_x = type * TEXTURE_SIZE;
 
-	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE, -CHIP_SIZE, 0 ),     tex_pos_x, 0 ) );
-	model->set( idx++, Model::VERTEX( Vector(		   0, -CHIP_SIZE, 0 ), T + tex_pos_x, 0 ) );
-	model->set( idx++, Model::VERTEX( Vector(          0,          0, 0 ), T + tex_pos_x, T ) );
-	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE, -CHIP_SIZE, 0 ),     tex_pos_x, 0 ) );
-	model->set( idx++, Model::VERTEX( Vector(          0,          0, 0 ), T + tex_pos_x, T ) );
-	model->set( idx++, Model::VERTEX( Vector( -CHIP_SIZE,          0, 0 ),     tex_pos_x, T ) );
+	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, 0, CHIP_SIZE ),     tex_pos_x, 0 ) );
+	model->set( idx++, Model::VERTEX( Vector(         0, 0,         0 ), T + tex_pos_x, T ) );
+	model->set( idx++, Model::VERTEX( Vector(		  0, 0, CHIP_SIZE ), T + tex_pos_x, 0 ) );
+	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, 0, CHIP_SIZE ),     tex_pos_x, 0 ) );
+	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, 0,         0 ),     tex_pos_x, T ) );
+	model->set( idx++, Model::VERTEX( Vector(         0, 0,         0 ), T + tex_pos_x, T ) );
 	std::string filename = MODEL_NAME[ type ] + ".mdl";
 	model->save( filename );
 }

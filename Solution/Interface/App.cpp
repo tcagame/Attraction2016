@@ -8,7 +8,7 @@ AppPtr App::getTask( ) {
 }
 
 App::App( ) {
-	initialize( );
+
 }
 
 

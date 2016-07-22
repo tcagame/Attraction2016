@@ -19,8 +19,7 @@ public:
 	void finalize( );
 private:
 	void drawPlayer( );
-	void drawPillarGroundModel( );
-	void drawPlainGroundModel( );
+	void drawGroundModel( );
 private:
 	ModelPtr _model;
 	int _tex_handle;

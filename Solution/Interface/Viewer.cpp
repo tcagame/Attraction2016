@@ -18,7 +18,13 @@ enum GROUND_TYPE {
 };
 
 enum MOTION {
-	MOTION_WAIT
+	MOTION_WAIT,
+	MOTION_WALK,
+	MOTION_ATTACK,
+	MOTION_DAMAGE,
+	MOTION_DEAD,
+	MOTION_USE,
+	MOTION_MAX
 };
 
 ViewerPtr Viewer::getTask( ) {
@@ -34,13 +40,21 @@ Viewer::~Viewer( ) {
 
 void Viewer::initialize( ) {
 	FrameworkPtr fw = Framework::getInstance( );
-	fw->setCamera( Vector( 0, 0, 100 ), Vector( 0, 0, 0 ) );
 	fw->setCameraUp( Vector( 0, 1, 0 ) );
-
-	DrawerPtr drawer = Drawer::getTask( );
-	drawer->load( MOTION_WAIT, "knight/player_knight_wait.mv1" );
+	fw->setCamera( Vector( 0, 40, 40 ), Vector( 0, 0, 0 ) );
 	_model = ModelPtr( new Model( ) );
 	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
+	
+	//モーションのロード
+	DrawerPtr drawer = Drawer::getTask( );
+	drawer->load( MOTION_WAIT, "knight/player_knight_wait.mv1" );
+	drawer->load( MOTION_WALK, "knight/player_knight_walk.mv1" );
+	drawer->load( MOTION_ATTACK, "knight/player_knight_attack.mv1" );
+	drawer->load( MOTION_DAMAGE, "knight/player_knight_damege.mv1" );
+	drawer->load( MOTION_DEAD, "knight/player_knight_dead.mv1" );
+	drawer->load( MOTION_USE, "knight/player_knight_use.mv1" );
+
+	_time = 0.0;
 }
 
 void Viewer::finalize( ) {
@@ -51,12 +65,21 @@ void Viewer::update( ) {
 }
 
 void Viewer::drawPlayer( ) {
+	static int res = 0;
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Sprite sprite;
-	sprite.res = MOTION_WAIT;
-	sprite.transform = Drawer::Transform( 0, 0, 0, 1, 0 );
-	sprite.time = 0;
+	sprite.res = res;
+	sprite.transform = Drawer::Transform( 0, 0, 0, 0, -1 );
+	sprite.time = _time;
 	drawer->set( sprite );
+	if ( drawer->getEndAnimTime( sprite.res ) < _time ) {
+		res++;
+		if ( res == MOTION_MAX ) {
+			res = 0;
+		}
+		_time = 0;
+	}
+	_time += 1;
 }
 
 void Viewer::drawPillarGroundModel( ) {

@@ -37,6 +37,7 @@ public:
 	void initialize( );
 	void update( );
 	void load( int res, const char* filename );
+	double getEndAnimTime( int res );
 	void set( const Sprite& sprite );
 private:
 	void drawSprite( );

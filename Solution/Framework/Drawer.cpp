@@ -125,4 +125,8 @@ void Drawer::flip( ) {
 
 	ScreenFlip( );
 	ClearDrawScreen( );
-}	
+}
+
+double Drawer::getEndAnimTime( int res ) {
+	return MV1GetAnimTotalTime( _id[ res ].body, _id[ res ].body_anim );
+}

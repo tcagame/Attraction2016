@@ -4,6 +4,8 @@
 #include "Ground.h"
 #include "Drawer.h"
 #include "Framework.h"
+#include "mathmatics.h"
+
 
 const char* TEXTURE_NAME = "dummy_tex.jpg";
 const char* PILLAR_NAME = "dummy_tex.jpg";
@@ -14,7 +16,6 @@ enum GROUND_TYPE {
 	GROUND_TYPE_PLAIN,
 	GROUND_TYPE_MAX
 };
-
 
 enum MOTION {
 	MOTION_WAIT
@@ -32,6 +33,10 @@ Viewer::~Viewer( ) {
 }
 
 void Viewer::initialize( ) {
+	FrameworkPtr fw = Framework::getInstance( );
+	fw->setCamera( Vector( 0, 0, 100 ), Vector( 0, 0, 0 ) );
+	fw->setCameraUp( Vector( 0, 1, 0 ) );
+
 	DrawerPtr drawer = Drawer::getTask( );
 	drawer->load( MOTION_WAIT, "knight/player_knight_wait.mv1" );
 	_model = ModelPtr( new Model( ) );

@@ -20,12 +20,19 @@ enum GROUND_TYPE {
 };
 
 enum MOTION {
-	MOTION_WAIT,
-	MOTION_WALK,
-	MOTION_ATTACK,
-	MOTION_DAMAGE,
-	MOTION_DEAD,
-	MOTION_USE,
+	MOTION_PLAYER_WAIT,
+	MOTION_PLAYER_WALK,
+	MOTION_PLAYER_ATTACK,
+	MOTION_PLAYER_DAMAGE,
+	MOTION_PLAYER_DEAD,
+	MOTION_PLAYER_USE,
+	MOTION_MINOTAUR_WAIT,
+	MOTION_MINOTAUR_WALK,
+	MOTION_MINOTAUR_CLEAVE,
+	MOTION_MINOTAUR_DAMAGE,
+	MOTION_MINOTAUR_DEAD,
+	MOTION_MINOTAUR_SMASH,
+	MOTION_MINOTAUR_STATUE,
 	MOTION_MAX
 };
 
@@ -49,13 +56,13 @@ void Viewer::initialize( ) {
 	
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
-	drawer->load( MOTION_WAIT, "knight/player_knight_wait.mv1" );
-	drawer->load( MOTION_WALK, "knight/player_knight_walk.mv1" );
-	drawer->load( MOTION_ATTACK, "knight/player_knight_attack.mv1" );
-	drawer->load( MOTION_DAMAGE, "knight/player_knight_damege.mv1" );
-	drawer->load( MOTION_DEAD, "knight/player_knight_dead.mv1" );
-	drawer->load( MOTION_USE, "knight/player_knight_use.mv1" );
-
+	drawer->load( MOTION_PLAYER_WAIT, "knight/player_knight_wait.mv1" );
+	drawer->load( MOTION_PLAYER_WALK, "knight/player_knight_walk.mv1" );
+	drawer->load( MOTION_PLAYER_ATTACK, "knight/player_knight_attack.mv1" );
+	drawer->load( MOTION_PLAYER_DAMAGE, "knight/player_knight_damege.mv1" );
+	drawer->load( MOTION_PLAYER_DEAD, "knight/player_knight_dead.mv1" );
+	drawer->load( MOTION_PLAYER_USE, "knight/player_knight_use.mv1" );
+	
 	_time = 0.0;
 }
 

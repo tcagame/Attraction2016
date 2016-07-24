@@ -19,9 +19,9 @@ public:
 	void finalize( );
 private:
 	void drawPlayer( );
+	void drawEnemy( );
 	void drawGroundModel( );
 private:
-	double _time;
 	ModelPtr _model;
 	int _tex_handle;
 };

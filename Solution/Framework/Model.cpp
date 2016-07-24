@@ -71,7 +71,7 @@ bool Model::load( std::string filename ) {
 }
 
 void Model::translate( Vector move ) {
-	for ( int i = 0; i < _impl->_polygon_num * 3; i++ ) {
+	for ( int i = 0; i < ( int )_impl->_polygon_num * 3; i++ ) {
 		_impl->_vertex[ i ].pos.x += ( float )move.x;
 		_impl->_vertex[ i ].pos.y += ( float )move.y;
 		_impl->_vertex[ i ].pos.z += ( float )move.z;

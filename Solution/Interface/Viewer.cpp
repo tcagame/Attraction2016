@@ -32,7 +32,7 @@ enum MOTION {
 	MOTION_MINOTAUR_DAMAGE,
 	MOTION_MINOTAUR_DEAD,
 	MOTION_MINOTAUR_SMASH,
-	MOTION_MINOTAUR_STATUE,
+	MOTION_MINOTAUR_DASH,
 	MOTION_MAX
 };
 
@@ -62,8 +62,13 @@ void Viewer::initialize( ) {
 	drawer->load( MOTION_PLAYER_DAMAGE, "knight/player_knight_damege.mv1" );
 	drawer->load( MOTION_PLAYER_DEAD, "knight/player_knight_dead.mv1" );
 	drawer->load( MOTION_PLAYER_USE, "knight/player_knight_use.mv1" );
-	
-	_time = 0.0;
+	drawer->load( MOTION_MINOTAUR_WAIT, "minotaur/enemy_minotaur_wait.mv1" );
+	drawer->load( MOTION_MINOTAUR_WALK, "minotaur/enemy_minotaur_walk.mv1" );
+	drawer->load( MOTION_MINOTAUR_CLEAVE, "minotaur/enemy_minotaur_cleave.mv1" );
+	drawer->load( MOTION_MINOTAUR_DAMAGE, "minotaur/enemy_minotaur_damege.mv1" );
+	drawer->load( MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
+	drawer->load( MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
+	drawer->load( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
 }
 
 void Viewer::finalize( ) {
@@ -71,26 +76,47 @@ void Viewer::finalize( ) {
 
 void Viewer::update( ) {
 	drawPlayer( );
+	drawEnemy( );
 	drawGroundModel( );
 
 }
 
 void Viewer::drawPlayer( ) {
-	static int res = 0;
+	static int res = MOTION_PLAYER_WAIT;
+	static int p_time = 0;
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Sprite sprite;
 	sprite.res = res;
 	sprite.transform = Drawer::Transform( 0, 0, 0, 0, -1 );
-	sprite.time = _time;
+	sprite.time = p_time;
 	drawer->set( sprite );
-	if ( drawer->getEndAnimTime( sprite.res ) < _time ) {
+	if ( drawer->getEndAnimTime( sprite.res ) < p_time ) {
 		res++;
-		if ( res == MOTION_MAX ) {
+		if ( res == MOTION_MINOTAUR_WAIT ) {
 			res = 0;
 		}
-		_time = 0;
+		p_time = 0;
 	}
-	_time += 1;
+	p_time += 1;
+}
+
+void Viewer::drawEnemy( ) {
+	static int res = MOTION_MINOTAUR_WAIT;
+	static int e_time = 0;
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::Sprite sprite;
+	sprite.res = res;
+	sprite.transform = Drawer::Transform( 0, 0, 0, 0, -1 );
+	sprite.time = e_time;
+	drawer->set( sprite );
+	if ( drawer->getEndAnimTime( sprite.res ) < e_time ) {
+		res++;
+		if ( res == MOTION_MAX ) {
+			res = MOTION_MINOTAUR_WAIT;
+		}
+		e_time = 0;
+	}
+	e_time += 1;
 }
 
 void Viewer::drawGroundModel( ) {

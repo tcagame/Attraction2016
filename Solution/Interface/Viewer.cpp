@@ -4,6 +4,7 @@
 #include "Ground.h"
 #include "Drawer.h"
 #include "Framework.h"
+#include "Device.h"
 #include "mathmatics.h"
 
 
@@ -11,6 +12,9 @@ const char* TEXTURE_NAME = "../Resource/data/dummy_tex.jpg";
 const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
 const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
 const double CHIP_SIZE = 1;
+const Vector UP_VEC = Vector( 0, 1, 0 );
+const Vector START_CAMERA_POS = Vector( 0, 50, 50 );
+const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
 
 enum GROUND_TYPE {
@@ -49,8 +53,8 @@ Viewer::~Viewer( ) {
 
 void Viewer::initialize( ) {
 	FrameworkPtr fw = Framework::getInstance( );
-	fw->setCameraUp( Vector( 0, 1, 0 ) );
-	fw->setCamera( Vector( 40, 50, 50 ), Vector( 0, 0, 0 ) );
+	fw->setCameraUp( UP_VEC );
+	fw->setCamera( START_CAMERA_POS, START_TARGET_POS );
 	_model = ModelPtr( new Model( ) );
 	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
 	
@@ -71,32 +75,40 @@ void Viewer::initialize( ) {
 	drawer->load( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
 }
 
-void Viewer::finalize( ) {
+Vector Viewer::getDeviceConvertDir( ) {
+	const Vector BASE_DIR = Vector( 0, 0, 1 );
+	Vector camera_dir = START_TARGET_POS - START_CAMERA_POS;
+	camera_dir.y = 0;
+	double angle = camera_dir.angle( BASE_DIR );
+	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), angle );
+	DevicePtr device = Device::getTask( );
+	Vector device_dir;
+	device_dir.x = device->getDirX( );
+	device_dir.z = device->getDirY( );
+	return mat.multiply( device_dir );
 }
 
 void Viewer::update( ) {
 	drawPlayer( );
-	drawEnemy( );
+	//drawEnemy( );
 	drawGroundModel( );
-
 }
 
 void Viewer::drawPlayer( ) {
+	Vector move_vec = getDeviceConvertDir( );
 	static int res = MOTION_PLAYER_WAIT;
+	if ( move_vec.getLength( )  > 0 ) {
+		res = MOTION_PLAYER_WALK;
+	} else {
+		 res = MOTION_PLAYER_WAIT;
+	}
 	static int p_time = 0;
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Sprite sprite;
 	sprite.res = res;
-	sprite.transform = Drawer::Transform( 0, 0, 0, 0, -1 );
-	sprite.time = p_time;
+	sprite.transform = Drawer::Transform( move_vec.x / 100, move_vec.y / 100, move_vec.z / 100, move_vec.x, move_vec.z );
+	sprite.time = p_time % ( int )( drawer->getEndAnimTime( sprite.res ) );
 	drawer->set( sprite );
-	if ( drawer->getEndAnimTime( sprite.res ) < p_time ) {
-		res++;
-		if ( res == MOTION_MINOTAUR_WAIT ) {
-			res = 0;
-		}
-		p_time = 0;
-	}
 	p_time += 1;
 }
 

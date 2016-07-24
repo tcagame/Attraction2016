@@ -1,5 +1,6 @@
 #pragma once
 #include "Task.h"
+#include "mathmatics.h"
 #include <string>
 
 PTR( Viewer );
@@ -16,11 +17,11 @@ public:
 public:
 	void update( );
 	void initialize( );
-	void finalize( );
 private:
 	void drawPlayer( );
 	void drawEnemy( );
 	void drawGroundModel( );
+	Vector getDeviceConvertDir( );
 private:
 	ModelPtr _model;
 	int _tex_handle;

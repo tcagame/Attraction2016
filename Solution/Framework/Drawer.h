@@ -43,12 +43,14 @@ private:
 	void drawSprite( );
 	void flip( );
 private:
-	static const int ID_NUM = 1000;
-	static const int SPRITE_NUM = 10000;
-	std::array< ID, ID_NUM > _id;
-	std::array< Sprite, SPRITE_NUM > _sprite; 
 	const char* _directory;
+
+	static const int SPRITE_NUM = 10000;
+	std::array< Sprite, SPRITE_NUM > _sprite; 
 	int _sprite_idx;
+
+	static const int ID_NUM = 1000;
+	std::array< ID, ID_NUM > _id;
 
 	int _refresh_count;
 	int _start_time;

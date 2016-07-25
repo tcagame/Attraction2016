@@ -2,6 +2,7 @@
 #include "App.h"
 #include "Model.h"
 #include "Ground.h"
+#include "Player.h"
 #include "Drawer.h"
 #include "Framework.h"
 #include "Device.h"
@@ -13,7 +14,7 @@ const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
 const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
 const double CHIP_SIZE = 1;
 const Vector UP_VEC = Vector( 0, 1, 0 );
-const Vector START_CAMERA_POS = Vector( 0, 50, 50 );
+const Vector START_CAMERA_POS = Vector( 50, 50, -50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
 
@@ -58,6 +59,12 @@ void Viewer::initialize( ) {
 	_model = ModelPtr( new Model( ) );
 	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
 	
+	DevicePtr device = Device::getTask( );
+	Vector base_dir = START_TARGET_POS - START_CAMERA_POS;
+	base_dir.y = base_dir.z;
+	base_dir.z = 0;
+	device->changeInputVec( base_dir );
+
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
 	drawer->load( MOTION_PLAYER_WAIT, "knight/player_knight_wait.mv1" );
@@ -75,19 +82,6 @@ void Viewer::initialize( ) {
 	drawer->load( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
 }
 
-Vector Viewer::getDeviceConvertDir( ) {
-	const Vector BASE_DIR = Vector( 0, 0, 1 );
-	Vector camera_dir = START_TARGET_POS - START_CAMERA_POS;
-	camera_dir.y = 0;
-	double angle = camera_dir.angle( BASE_DIR );
-	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), angle );
-	DevicePtr device = Device::getTask( );
-	Vector device_dir;
-	device_dir.x = device->getDirX( );
-	device_dir.z = device->getDirY( );
-	return mat.multiply( device_dir );
-}
-
 void Viewer::update( ) {
 	drawPlayer( );
 	//drawEnemy( );
@@ -95,21 +89,30 @@ void Viewer::update( ) {
 }
 
 void Viewer::drawPlayer( ) {
-	Vector move_vec = getDeviceConvertDir( );
-	static int res = MOTION_PLAYER_WAIT;
-	if ( move_vec.getLength( )  > 0 ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayer( );
+
+	int res = MOTION_PLAYER_WAIT;
+	switch( player->getStatus( ) ) {
+	case Player::STATUS_WAIT:
+		res = MOTION_PLAYER_WAIT;
+		break;
+	case Player::STATUS_WALK:
 		res = MOTION_PLAYER_WALK;
-	} else {
-		 res = MOTION_PLAYER_WAIT;
+		break;
+	default:
+		break;
 	}
-	static int p_time = 0;
+
+	int time = player->getAnimTime( );
+	Vector pos = player->getPos( );
+	Vector dir = player->getDir( );
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Sprite sprite;
 	sprite.res = res;
-	sprite.transform = Drawer::Transform( move_vec.x / 100, move_vec.y / 100, move_vec.z / 100, move_vec.x, move_vec.z );
-	sprite.time = p_time % ( int )( drawer->getEndAnimTime( sprite.res ) );
+	sprite.transform = Drawer::Transform( pos.x, pos.y, pos.z, dir.x, dir.z );
+	sprite.time = time;
 	drawer->set( sprite );
-	p_time += 1;
 }
 
 void Viewer::drawEnemy( ) {

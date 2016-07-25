@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Ground.h"
+#include "Player.h"
 #include "Framework.h"
 
 AppPtr App::getTask( ) {
@@ -16,11 +17,12 @@ App::~App( ) {
 }
 
 void App::update( ) {
-
+	_player->update( );
 }
 
 void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "map.csv" ) );
+	_player = PlayerPtr( new Player( ) );
 }
 
 void App::finalize( ) {
@@ -29,4 +31,8 @@ void App::finalize( ) {
 
 GroundPtr App::getGroundPtr( ) const {
 	return _ground;
+}
+
+PlayerPtr App::getPlayer( ) const {
+	return _player;
 }

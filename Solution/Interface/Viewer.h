@@ -17,11 +17,11 @@ public:
 public:
 	void update( );
 	void initialize( );
+	Vector getDeviceConvertDir( );
 private:
 	void drawPlayer( );
 	void drawEnemy( );
 	void drawGroundModel( );
-	Vector getDeviceConvertDir( );
 private:
 	ModelPtr _model;
 	int _tex_handle;

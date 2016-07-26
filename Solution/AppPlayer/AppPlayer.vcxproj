@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0A6340B7-A805-4286-8354-D7AA170D99D0}</ProjectGuid>
+    <ProjectGuid>{3F3DDB20-D457-44C1-8ABA-9C6B12B571FB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Interface</RootNamespace>
+    <RootNamespace>AppPlayer</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -53,8 +53,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Framework;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Framework;$(SolutionDir)Stage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -72,8 +72,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Framework;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Framework;$(SolutionDir)Stage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -84,23 +84,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Viewer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{168a8c19-ae61-4a9b-a1e3-d123f5567a05}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Framework\Framework.vcxproj">
-      <Project>{c3d3fcf4-9678-4290-a376-c23adf6bdefe}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Stage\Stage.vcxproj">
-      <Project>{4181f35d-af1d-4bc9-8287-cf97d76d749e}</Project>
+      <Project>{8f046e7a-ce27-43a0-bb98-50fe657ca528}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Viewer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Viewer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

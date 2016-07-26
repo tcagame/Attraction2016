@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "Device.h"
+#include "Viewer.h"
 
 const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 	20, // MOTION_WAIT,
@@ -22,11 +22,9 @@ Player::~Player( ) {
 }
 
 void Player::update( ) {
-	DevicePtr device = Device::getTask( );
+	ViewerPtr viewer = Viewer::getTask( );
 
-	Vector device_dir = Vector( 0, 0, 0 );
-	device_dir.x = device->getDirX( );
-	device_dir.z = device->getDirY( );
+	Vector device_dir = viewer->getConvertDeviceVec( );
 	
 	STATUS before = _status;
 

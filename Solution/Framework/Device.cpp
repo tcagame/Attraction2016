@@ -9,7 +9,6 @@ DevicePtr Device::getTask( ) {
 }
 
 Device::Device( ) {
-	_mat = Matrix::Matrix( );
 }
 
 Device::~Device( ) {
@@ -31,13 +30,6 @@ void Device::update( ) {
 	vec.x = x;
 	vec.y = y;
 
-	vec = _mat.multiply( vec );
 	_data.x = ( char )vec.x;
-	_data.y = -( char )vec.y;
-}
-
-void Device::changeInputVec( Vector base_dir ) {
-	const Vector BASE_DIR = Vector( 0, 1, 0 );
-	double angle = BASE_DIR.angle( base_dir.normalize( ) );
-	_mat = Matrix::makeTransformRotation( Vector( 0, 0, -1 ), angle );
+	_data.y = ( char )vec.y;
 }

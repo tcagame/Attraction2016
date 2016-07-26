@@ -16,7 +16,6 @@ public:
 	void update( );
 	char getDirX( ) const;
 	char getDirY( ) const;
-	void changeInputVec( Vector base_dir );
 	unsigned char getButton( ) const;
 private:
 	struct DATA {
@@ -25,5 +24,4 @@ private:
 	};
 private:
 	DATA _data;
-	Matrix _mat;
 };

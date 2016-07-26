@@ -14,9 +14,8 @@ const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
 const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
 const double CHIP_SIZE = 1;
 const Vector UP_VEC = Vector( 0, 1, 0 );
-const Vector START_CAMERA_POS = Vector( 50, 50, -50 );
+const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
-
 
 enum GROUND_TYPE {
 	GROUND_TYPE_PILLAR,
@@ -41,6 +40,24 @@ enum MOTION {
 	MOTION_MAX
 };
 
+Vector Viewer::getConvertDeviceVec( ) {
+	DevicePtr device = Device::getTask( );
+	Vector base_dir = START_TARGET_POS - START_CAMERA_POS;
+	base_dir = base_dir.normalize( );
+	base_dir.y = 0;
+
+	Vector device_dir;
+	device_dir.x = device->getDirX( );
+	device_dir.z = device->getDirY( );
+	
+	double angle = base_dir.angle( Vector( 0, 0, 1 ) );
+	
+	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), angle );
+	device_dir = mat.multiply( device_dir );
+
+	return device_dir;
+}
+
 ViewerPtr Viewer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< Viewer >( fw->getTask( getTag( ) ) );
@@ -58,12 +75,6 @@ void Viewer::initialize( ) {
 	fw->setCamera( START_CAMERA_POS, START_TARGET_POS );
 	_model = ModelPtr( new Model( ) );
 	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
-	
-	DevicePtr device = Device::getTask( );
-	Vector base_dir = START_TARGET_POS - START_CAMERA_POS;
-	base_dir.y = base_dir.z;
-	base_dir.z = 0;
-	device->changeInputVec( base_dir );
 
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
@@ -113,24 +124,19 @@ void Viewer::drawPlayer( ) {
 }
 
 void Viewer::drawEnemy( ) {
-	/*
-	static int res = MOTION_MINOTAUR_WAIT;
-	static int e_time = 0;
+	static int motion = MOTION_MINOTAUR_WAIT;
+	static int time = 0;
 	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::Sprite sprite;
-	sprite.res = res;
-	sprite.transform = Drawer::Transform( 0, 0, 0, 0, -1 );
-	sprite.time = e_time;
-	drawer->set( sprite );
-	if ( drawer->getEndAnimTime( sprite.res ) < e_time ) {
-		res++;
-		if ( res == MOTION_MAX ) {
-			res = MOTION_MINOTAUR_WAIT;
+	Drawer::Model model = Drawer::Model( 0, 0, 0, 1, 0, motion, time );
+	drawer->setModel( model );
+	if ( drawer->getEndAnimTime( model.motion ) < time ) {
+		motion++;
+		if ( motion == MOTION_MAX ) {
+			motion = MOTION_MINOTAUR_WAIT;
 		}
-		e_time = 0;
+		time = 0;
 	}
-	e_time += 1;
-	*/
+	time += 1;
 }
 
 void Viewer::drawGroundModel( ) {

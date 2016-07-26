@@ -17,7 +17,7 @@ public:
 public:
 	void update( );
 	void initialize( );
-	Vector getDeviceConvertDir( );
+	Vector getConvertDeviceVec( );
 private:
 	void drawPlayer( );
 	void drawEnemy( );

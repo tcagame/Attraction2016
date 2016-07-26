@@ -7,30 +7,50 @@ static const int REFRESH_COUNT = 60;	//平均を取るサンプル数
 static const int FPS = 60;
 
 Drawer::Transform::Transform( ) :
-x( 0 ),
-y( 0 ),
-z( 0 ),
-dir_x( 0 ),
-dir_z( -1 ) {
+sx( 0 ),
+sy( 0 ),
+tx( 0 ),
+ty( 0 ),
+tw( 0 ),
+th( -1 ) {
 }
 
-Drawer::Transform::Transform( double x_, double y_, double z_, double dir_x_, double dir_z_  ) :
+Drawer::Transform::Transform( int sx_, int sy_, int tx_, int ty_, int tw_, int th_ ) :
+sx( sx_ ),
+sy( sy_ ),
+tx( tx_ ),
+ty( ty_ ),
+tw( tw_ ),
+th( th_ ) {
+}
+
+Drawer::Model::Model( ) :
+motion( -1 ),
+time( 0 ){
+}
+
+Drawer::Model::Model( double x_, double y_, double z_, double dir_x_, double dir_z_, int motion_, double time_ ) :
 x( x_ ),
 y( y_ ),
 z( z_ ),
 dir_x( dir_x_ ),
-dir_z( dir_z_ ){
+dir_z( dir_z_ ),
+motion( motion_ ),
+time( time_ ) {
 }
 
 Drawer::Sprite::Sprite( ) :
 res( -1 ),
-time( 0 ){
+blend( BLEND_NONE ) {
+
 }
 
-Drawer::Sprite::Sprite( Transform transform_, int res_, double time_ ) :
-transform( transform_ ),
+Drawer::Sprite::Sprite( Transform trans_ ,int res_, BLEND blend_, double ratio_ ) :
+trans( trans_ ),
 res( res_ ),
-time( time_ ) {
+blend( blend_ ),
+ratio( ratio_ ) {
+
 }
 
 DrawerPtr Drawer::getTask( ) {
@@ -46,10 +66,11 @@ Drawer::~Drawer( ) {
 }
 
 void Drawer::initialize( ) {
-	for ( int i = 0; i < ID_NUM; i++ ) {
-		_id[ i ].body = -1;
+	for ( int i = 0; i < MODEL_ID_NUM; i++ ) {
+		_model_id[ i ].body = -1;
 	}
 	_sprite_idx = 0;
+	_model_idx = 0;
 
 	_refresh_count = REFRESH_COUNT;
 	_start_time = 0;
@@ -57,17 +78,17 @@ void Drawer::initialize( ) {
 
 void Drawer::update( ) {
 	flip( );
+	drawModel( );
 	drawSprite( );
 }
 
-void Drawer::drawSprite( ) {
-	for ( int i = 0; i < _sprite_idx; i++ ) {
-		int id = _id[ _sprite[ i ].res ].body;
-		int anim = _id[ _sprite[ i ].res ].body_anim;
-		double time = _sprite[ i ].time;
-		Transform transform = _sprite[ i ].transform;
-		double dir_x = transform.dir_x;
-		double dir_z = transform.dir_z;
+void Drawer::drawModel( ) {
+	for ( int i = 0; i < _model_idx; i++ ) {
+		int id = _model_id[ _model[ i ].motion ].body;
+		int anim = _model_id[ _model[ i ].motion ].body_anim;
+		double time = _model[ i ].time;
+		double dir_x = _model[ i ].dir_x;
+		double dir_z = _model[ i ].dir_z;
 		if ( ( float )dir_x == 0 ) {
 			dir_x = 0.001;
 		}
@@ -76,7 +97,7 @@ void Drawer::drawSprite( ) {
 		MATRIX matrix = MGetIdent( );
 		matrix = MMult( matrix, MGetRotVec2( VGet( 0, 0, -1 ), VGet( ( float )dir_x, 0, ( float )dir_z ) ) );
 		matrix = MMult( matrix, MGetScale( VGet( 0.008f, 0.008f, 0.008f ) ) );
-		matrix = MMult( matrix, MGetTranslate( VGet( ( float )transform.x, ( float )transform.y, ( float )transform.z ) ) );
+		matrix = MMult( matrix, MGetTranslate( VGet( ( float )_model[ i ].x, ( float )_model[ i ].y, ( float )_model[ i ].z ) ) );
 		MV1SetMatrix( id, matrix );
 
 		// アニメーション時間設定
@@ -85,29 +106,74 @@ void Drawer::drawSprite( ) {
 		// ３Ｄモデルの描画
 		MV1DrawModel( id ) ;
 	}
+	_model_idx = 0;
+}
+
+void Drawer::drawSprite( ) {
+	for ( int i = 0; i < _sprite_idx; i++ ) {
+		const Sprite& sprite = _sprite[ i ];
+
+		switch ( sprite.blend ) {
+		case BLEND_ALPHA:
+			SetDrawBlendMode( DX_BLENDMODE_ALPHA, ( int )( 255 * sprite.ratio ) );
+			break;
+		case BLEND_ADD:
+			SetDrawBlendMode( DX_BLENDMODE_ADD  , ( int )( 255 * sprite.ratio ) );
+			break;
+		}
+
+		if ( sprite.trans.tw < 0 ) {
+			DrawGraph( sprite.trans.sx, sprite.trans.sy, _graphic_id[ sprite.res ], TRUE );
+		} else {
+			DrawRectGraph( sprite.trans.sx, sprite.trans.sy, sprite.trans.tx, sprite.trans.ty, sprite.trans.tw, sprite.trans.th, _graphic_id[ sprite.res ], TRUE, FALSE );
+		}
+
+		if ( sprite.blend != BLEND_NONE ) {
+			SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
+		}
+	}
 	_sprite_idx = 0;
 }
 
-void Drawer::load( int res, const char* filename ) {
+void Drawer::loadMV1Model( int motion, const char* filename ) {
 	std::string path = _directory;
 	path += "/";
 	path += filename;
-	assert( res < ID_NUM );
-	int& id = _id[ res ].body;
+	assert( motion < MODEL_ID_NUM );
+	int& id = _model_id[ motion ].body;
 	id = MV1LoadModel( path.c_str( ) );
 	assert( id > 0 );
 	int num = MV1GetMaterialNum( id ) ;
 	for ( int i = 0; i < num; i++ ) {
 		MV1SetMaterialEmiColor( id, i, GetColorF( 1.0f, 1.0f, 1.0f, 1.0f ) );
 	}
-	int& anim = _id[ res ].body_anim;
+	int& anim = _model_id[ motion ].body_anim;
 	anim = MV1AttachAnim( id, 0, -1, FALSE );
 }
 
-void Drawer::set( const Sprite& sprite ) {
+void Drawer::loadGraph( int res, const char * filename ) {
+	std::string path = _directory;
+	path += "/";
+	path +=  filename;
+	assert( res < GRAPHIC_ID_NUM );
+	_graphic_id[ res ] = LoadGraph( path.c_str( ) );
+	if ( _graphic_id[ res ] < 0 ) {
+		path = "../" + path;
+		_graphic_id[ res ] = LoadGraph( path.c_str( ) );
+		assert( _graphic_id[ res ] >= 0 );
+	}
+}
+
+void Drawer::setSprite( const Sprite& sprite ) {
 	assert( _sprite_idx < SPRITE_NUM );
 	_sprite[ _sprite_idx ] = sprite;
 	_sprite_idx++;
+}
+
+void Drawer::setModel( const Model& model ) {
+	assert( _model_idx < MODEL_NUM );
+	_model[ _model_idx ] = model;
+	_model_idx++;
 }
 
 void Drawer::flip( ) {
@@ -127,6 +193,6 @@ void Drawer::flip( ) {
 	ClearDrawScreen( );
 }
 
-double Drawer::getEndAnimTime( int res ) {
-	return MV1GetAnimTotalTime( _id[ res ].body, _id[ res ].body_anim );
+double Drawer::getEndAnimTime( int motion ) {
+	return MV1GetAnimTotalTime( _model_id[ motion ].body, _model_id[ motion ].body_anim );
 }

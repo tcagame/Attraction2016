@@ -13,7 +13,7 @@ const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 Player::Player( ) {
 	_pos = Vector( 0, 0, 0 );
 	_speed = 0.01;
-	_dir = Vector( 0, 0, 1 );
+	_dir = Vector( 0, 0, -1 );
 	_status = STATUS_WAIT;
 	_anim_time = 0;
 }
@@ -47,7 +47,6 @@ void Player::update( ) {
 	}
 
 	_anim_time++;
-
 }
 
 Vector Player::getPos( ) const {

@@ -14,7 +14,7 @@ const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
 const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
 const double CHIP_SIZE = 1;
 const Vector UP_VEC = Vector( 0, 1, 0 );
-const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
+const Vector START_CAMERA_POS = Vector( 0, 50, 50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
 enum GROUND_TYPE {
@@ -41,20 +41,18 @@ enum MOTION {
 };
 
 Vector Viewer::getConvertDeviceVec( ) {
-	DevicePtr device = Device::getTask( );
-	Vector base_dir = START_TARGET_POS - START_CAMERA_POS;
-	base_dir = base_dir.normalize( );
-	base_dir.y = 0;
-
-	Vector device_dir;
-	device_dir.x = device->getDirX( );
-	device_dir.z = device->getDirY( );
-	
-	double angle = base_dir.angle( Vector( 0, 0, 1 ) );
-	
+	//カメラの向きを求めている
+	Vector camera_dir = getCameraDir( );
+	//カメラの向きとまっすぐ進む向きとの差角を求める
+	double angle = camera_dir.angle( Vector( 0, 0, 1 ) );
+	int temp = ( angle * 180 ) / PI;//度数で確認する用
+	//差角分回転する回転行列をつくる
 	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), angle );
-	device_dir = mat.multiply( device_dir );
 
+	//デバイスの入力方向をXZに
+	Vector device_dir = covertInputDirXZ( );
+	//差角分回転させる
+	device_dir = mat.multiply( device_dir );
 	return device_dir;
 }
 
@@ -70,11 +68,11 @@ Viewer::~Viewer( ) {
 }
 
 void Viewer::initialize( ) {
+	//カメラの設定
 	FrameworkPtr fw = Framework::getInstance( );
 	fw->setCameraUp( UP_VEC );
-	fw->setCamera( START_CAMERA_POS, START_TARGET_POS );
-	_model = ModelPtr( new Model( ) );
-	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
+	_camera_pos = START_CAMERA_POS;
+	_target_pos = START_TARGET_POS;
 
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
@@ -91,12 +89,17 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
 	drawer->loadMV1Model( MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
 	drawer->loadMV1Model( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
+
+	_model = ModelPtr( new Model( ) );
+	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
 }
 
 void Viewer::update( ) {
+	FrameworkPtr fw = Framework::getInstance( );
 	drawPlayer( );
 	//drawEnemy( );
 	drawGroundModel( );
+	fw->setCamera( _camera_pos, _target_pos );
 }
 
 void Viewer::drawPlayer( ) {
@@ -167,4 +170,19 @@ void Viewer::drawGroundModel( ) {
 			}
 		}
 	}
+}
+
+Vector Viewer::getCameraDir( ) {
+	Vector result = _target_pos - _camera_pos;
+	result.y = 0;//Yの値を０にしてXZ平面のベクトルにする。
+	return result.normalize( );
+}
+
+Vector Viewer::covertInputDirXZ( ) {
+	//ゲームパッドからの入力をXZ平面に
+	DevicePtr device = Device::getTask( );
+	Vector result;
+	result.x = -device->getDirX( );
+	result.z = device->getDirY( );
+	return result;
 }

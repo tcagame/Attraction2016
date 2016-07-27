@@ -9,6 +9,8 @@ DevicePtr Device::getTask( ) {
 }
 
 Device::Device( ) {
+	_data.x = 0;
+	_data.y = 0;
 }
 
 Device::~Device( ) {
@@ -32,4 +34,7 @@ void Device::update( ) {
 
 	_data.x = ( char )vec.x;
 	_data.y = ( char )vec.y;
+	if ( vec.getLength( ) > 0 ) {
+		int test = 0;
+	}
 }

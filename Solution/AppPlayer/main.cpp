@@ -6,13 +6,13 @@
 
 void main( ) {
 	FrameworkPtr fw = Framework::getInstance ( );
-	ViewerPtr viewer = ViewerPtr( new Viewer );
-	AppPtr app = AppPtr( new App );
-	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
 	DevicePtr device = DevicePtr( new Device );
+	AppPtr app = AppPtr( new App );
+	ViewerPtr viewer = ViewerPtr( new Viewer );
+	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
 
-	fw->addTask( Viewer::getTag( ), viewer );
-	fw->addTask( App::getTag( ), app );
-	fw->addTask( Drawer::getTag( ), drawer );
 	fw->addTask( Device::getTag( ), device );
+	fw->addTask( App::getTag( ), app );
+	fw->addTask( Viewer::getTag( ), viewer );
+	fw->addTask( Drawer::getTag( ), drawer );
 }

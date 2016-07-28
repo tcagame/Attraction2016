@@ -14,7 +14,7 @@ const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
 const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
 const double CHIP_SIZE = 1;
 const Vector UP_VEC = Vector( 0, 1, 0 );
-const Vector START_CAMERA_POS = Vector( 0, 50, 50 );
+const Vector START_CAMERA_POS = Vector( -50, 50, -50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
 enum GROUND_TYPE {
@@ -46,11 +46,13 @@ Vector Viewer::getConvertDeviceVec( ) {
 	//ƒJƒƒ‰‚ÌŒü‚«‚Æ‚Ü‚Á‚·‚®i‚ŞŒü‚«‚Æ‚Ì·Šp‚ğ‹‚ß‚é
 	double angle = camera_dir.angle( Vector( 0, 0, 1 ) );
 	int temp = ( angle * 180 ) / PI;//“x”‚ÅŠm”F‚·‚é—p
+	Vector axis = camera_dir.cross( Vector( 0, 0, 1 ) );
 	//·Šp•ª‰ñ“]‚·‚é‰ñ“]s—ñ‚ğ‚Â‚­‚é
-	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ), angle );
+	Matrix mat = Matrix::makeTransformRotation( axis, angle );
 
 	//ƒfƒoƒCƒX‚Ì“ü—Í•ûŒü‚ğXZ‚É
 	Vector device_dir = covertInputDirXZ( );
+	device_dir.x *= -1;
 	//·Šp•ª‰ñ“]‚³‚¹‚é
 	device_dir = mat.multiply( device_dir );
 	return device_dir;
@@ -182,7 +184,7 @@ Vector Viewer::covertInputDirXZ( ) {
 	//ƒQ[ƒ€ƒpƒbƒh‚©‚ç‚Ì“ü—Í‚ğXZ•½–Ê‚É
 	DevicePtr device = Device::getTask( );
 	Vector result;
-	result.x = -device->getDirX( );
+	result.x = device->getDirX( );
 	result.z = device->getDirY( );
 	return result;
 }

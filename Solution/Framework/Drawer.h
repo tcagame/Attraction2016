@@ -1,5 +1,6 @@
 #pragma once
 #include "Task.h"
+#include "mathmatics.h"
 #include <string>
 #include <array>
 
@@ -38,15 +39,12 @@ public:
 		Sprite( Transform trans_, int res_, BLEND blend_ = BLEND_NONE, double ratio_ = 1.0 );
 	};
 	struct Model {
-		double x;
-		double y;
-		double z;
-		double dir_x;
-		double dir_z;
+		Vector pos;
+		Vector dir;
 		int motion;
 		double time;
 		Model( );
-		Model( double x_, double y_, double z_, double dir_x_, double dir_z_, int motion_, double time_ );
+		Model( Vector pos_, Vector dir_, int motion_, double time_ );
 	};
 	struct MV1_ID {
 		int body;

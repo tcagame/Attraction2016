@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Binary.h" />
-    <ClInclude Include="mathConst.h" />
     <ClInclude Include="mathmatics.h" />
     <ClInclude Include="smart_ptr.h" />
     <ClInclude Include="Task.h" />

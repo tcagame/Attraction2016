@@ -9,7 +9,6 @@ Ground::Ground( const char* file_name ) {
 
 
 Ground::~Ground( ) {
-
 }
 
 bool Ground::loadGroundCSV( const char* file_name ) {

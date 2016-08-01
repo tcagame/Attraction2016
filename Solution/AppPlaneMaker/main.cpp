@@ -25,12 +25,13 @@ void makePlane ( int type ) {
 	int idx = 0;
 	double tex_pos_x = type * TEXTURE_SIZE;
 
-	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, 0, CHIP_SIZE ),     tex_pos_x, 0 ) );
-	model->set( idx++, Model::VERTEX( Vector(         0, 0,         0 ), T + tex_pos_x, T ) );
-	model->set( idx++, Model::VERTEX( Vector(		  0, 0, CHIP_SIZE ), T + tex_pos_x, 0 ) );
-	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, 0, CHIP_SIZE ),     tex_pos_x, 0 ) );
-	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, 0,         0 ),     tex_pos_x, T ) );
-	model->set( idx++, Model::VERTEX( Vector(         0, 0,         0 ), T + tex_pos_x, T ) );
+	model->set( idx++, Model::VERTEX( Vector(		  0,		 0, 0 ),     tex_pos_x, 0 ) );//¶ã
+	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, CHIP_SIZE, 0 ), T + tex_pos_x, T ) );//‰E‰º
+	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE,		 0, 0 ), T + tex_pos_x, 0 ) );//‰Eã
+
+	model->set( idx++, Model::VERTEX( Vector(		  0,		 0, 0 ),     tex_pos_x, 0 ) );//¶ã
+	model->set( idx++, Model::VERTEX( Vector(		  0, CHIP_SIZE, 0 ),     tex_pos_x, T ) );//¶‰º
+	model->set( idx++, Model::VERTEX( Vector( CHIP_SIZE, CHIP_SIZE, 0 ), T + tex_pos_x, T ) );//‰E‰º
 	std::string filename = MODEL_NAME[ type ] + ".mdl";
 	model->save( filename );
 }

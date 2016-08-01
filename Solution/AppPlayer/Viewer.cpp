@@ -13,8 +13,9 @@ const char* TEXTURE_NAME = "../Resource/data/dummy_tex.jpg";
 const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
 const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
 const double CHIP_SIZE = 1;
+
 const Vector UP_VEC = Vector( 0, 0, 1 );
-const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
+const Vector START_CAMERA_POS = Vector( 50, 50, 10 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
 enum GROUND_TYPE {
@@ -169,7 +170,7 @@ void Viewer::drawGroundModel( ) {
 				break;
 			}
 			if ( _model ) {
-				_model->translate( Vector( i * CHIP_SIZE, 0, j * CHIP_SIZE ) );
+				_model->translate( Vector( i * CHIP_SIZE, j * CHIP_SIZE, 0 ) );
 				_model->draw( _tex_handle );
 			}
 		}

@@ -89,13 +89,17 @@ void Drawer::drawModel( ) {
 		if ( ( float )dir.x == 0 ) {
 			dir.x = 0.001;
 		}
-		// 座標変換
 		MATRIX matrix = MGetIdent( );
-		matrix = MMult( matrix, MGetRotVec2( VGet( 0, 1, 0 ), VGet( ( float )dir.x, ( float )dir.y, ( float )dir.z ) ) );
 		//上をZにするための回転
-		Vector axis = dir.cross( Vector( 0, 0, 1 ) );
-		matrix = MMult( matrix, MGetRotAxis( VGet( ( float )axis.x, ( float )axis.y, ( float )axis.z ), PI / 2 ) );
+		matrix = MMult( matrix, MGetRotX( ( float )( PI / 2 ) ) );
+		matrix = MMult( matrix, MGetRotY( ( float )( PI2 ) ) );
+		//回転
+		float angle = ( float )dir.angle( Vector( 0, 1, 0 ) );
+		Vector axis = dir.cross( Vector( 0, -1, 0 ) );
+		matrix = MMult( matrix, MGetRotAxis( VGet( ( float )axis.x, ( float )axis.y, ( float )axis.z ), angle ) );
+		//サイズ変換
 		matrix = MMult( matrix, MGetScale( VGet( 0.008f, 0.008f, 0.008f ) ) );
+		// 座標変換
 		matrix = MMult( matrix, MGetTranslate( VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z ) ) );
 		MV1SetMatrix( id, matrix );
 

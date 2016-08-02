@@ -5,6 +5,7 @@
 PTR( App );
 PTR( Ground );
 PTR( Player );
+PTR( Enemy );
 
 class App : public Task {
 public:
@@ -17,10 +18,12 @@ public:
 	void update( );
 	void initialize( );
 	void finalize( );
-	GroundPtr getGroundPtr( ) const;
+	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
+	EnemyPtr  getEnemy( ) const;
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
+	EnemyPtr _enemy;
 };
 

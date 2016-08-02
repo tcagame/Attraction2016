@@ -20,13 +20,14 @@ public:
 	virtual ~Player( );
 public:
 	void update( );
+	void setPos( const Vector& pos );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	int getAnimTime( ) const;
 	STATUS getStatus( ) const;
+	bool getExistence( ) const;
 private:
-
-private:
+	bool _is_existence;
 	Vector _pos;
 	double _speed;
 	Vector _dir;

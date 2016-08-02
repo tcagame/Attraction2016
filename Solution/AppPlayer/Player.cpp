@@ -13,6 +13,13 @@ const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 
 Player::Player( CameraConstPtr camera ) :
 _camera( camera ) {
+	init( );
+}
+
+Player::~Player( ) {
+}
+
+void Player::init( ) {
 	_pos = Vector( 0, 0, 0 );
 	_speed = 0.001;
 	_dir = Vector( -1, 0, 0 );
@@ -22,14 +29,13 @@ _camera( camera ) {
 	is_attack = false;
 }
 
-Player::~Player( ) {
-}
-
 void Player::update( ) {
-	Vector device_dir = _camera->getConvertDeviceVec( );
-	
+	if ( !_is_existence ) {
+		return;
+	}
 	STATUS before = _status;
 
+	Vector device_dir = _camera->getConvertDeviceVec( );
 	DevicePtr device = Device::getTask( );
 	if ( !is_attack ) {
 		_status = STATUS_WAIT;
@@ -69,7 +75,8 @@ void Player::update( ) {
 	_anim_time++;
 }
 
-void Player::setPos( const Vector& pos ) {
+void Player::create( const Vector& pos ) {
+	init( );
 	_pos = pos;
 	_is_existence = true;
 }

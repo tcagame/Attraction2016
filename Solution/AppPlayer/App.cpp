@@ -23,7 +23,7 @@ void App::update( ) {
 	_camera->update( );
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
-		_player->setPos( Vector( 0, 0, 0 ) );
+		_player->create( Vector( 0, 0, 0 ) );
 	}
 
 }

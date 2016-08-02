@@ -2,41 +2,37 @@
 #include "smart_ptr.h"
 #include "mathmatics.h"
 
-PTR( Player );
-PTR( Camera );
+PTR( Enemy );
 
-class Player {
+class Enemy {
 public:
 	enum STATUS {
 		STATUS_WAIT,
 		STATUS_WALK,
-		STATUS_ATTACK,
+		STATUS_CLEAVE,
 		STATUS_DAMAGE,
 		STATUS_DEAD,
-		STATUS_USE,
+		STATUS_SMASH,
 		STATUS_MAX
 	};
 public:
-	Player( CameraConstPtr camera );
-	virtual ~Player( );
+	Enemy( );
+	virtual ~Enemy( );
 public:
 	void update( );
-	void create( const Vector& pos );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	int getAnimTime( ) const;
 	STATUS getStatus( ) const;
-	bool getExistence( ) const;
 private:
-	void init( );
+	void moveToTarget( );
 private:
-	CameraConstPtr _camera;
-	bool is_attack;
-	bool _is_existence;
+	private:
 	Vector _pos;
 	double _speed;
 	Vector _dir;
 	int _anim_time;
 	STATUS _status;
+	double _range;
 };
 

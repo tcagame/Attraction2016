@@ -5,7 +5,12 @@
 PTR( App );
 PTR( Ground );
 PTR( Player );
+<<<<<<< HEAD
 PTR( GroundModel );
+=======
+PTR( Enemy );
+PTR( Camera );
+>>>>>>> origin/master
 
 class App : public Task {
 public:
@@ -20,9 +25,13 @@ public:
 	void finalize( );
 	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
+	EnemyPtr  getEnemy( ) const;
+	CameraPtr getCamera( ) const;
+
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
 	GroundModelPtr _ground_model;
+	EnemyPtr _enemy;
+	CameraPtr _camera;
 };
-

@@ -3,11 +3,13 @@
 #include "Model.h"
 #include "Ground.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Drawer.h"
 #include "Framework.h"
 #include "Device.h"
 #include "mathmatics.h"
-
+#include "Mouse.h"
+#include "Camera.h"
 
 const char* TEXTURE_NAME = "../Resource/data/dummy_tex.jpg";
 const char* VIEW_MODLE_NAME = "../Resource/data/Overall.mdl";
@@ -35,26 +37,6 @@ enum MOTION {
 	MOTION_MAX
 };
 
-Vector Viewer::getConvertDeviceVec( ) {
-	//ƒJƒƒ‰‚ÌŒü‚«‚ğ‹‚ß‚Ä‚¢‚é
-	Vector camera_dir = START_TARGET_POS - START_CAMERA_POS;
-	camera_dir.z = 0;
-	//ƒJƒƒ‰‚ÌŒü‚«‚Æ‚Ü‚Á‚·‚®i‚ŞŒü‚«‚Æ‚Ì·Šp‚ğ‹‚ß‚é
-	double angle = camera_dir.angle( Vector( 0, 1, 0 ) );
-	Vector axis = camera_dir.cross( Vector( 0, 1, 0 ) );
-	//·Šp•ª‰ñ“]‚·‚é‰ñ“]s—ñ‚ğ‚Â‚­‚é
-	Matrix mat = Matrix::makeTransformRotation( axis, angle );
-
-	DevicePtr device = Device::getTask( );
-	Vector device_dir;
-	device_dir.x = device->getDirX( );
-	device_dir.y = device->getDirY( );
-	device_dir.z = 0;
-	//·Šp•ª‰ñ“]‚³‚¹‚é
-	device_dir = mat.multiply( device_dir );
-	return device_dir;
-}
-
 ViewerPtr Viewer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< Viewer >( fw->getTask( getTag( ) ) );
@@ -70,9 +52,6 @@ void Viewer::initialize( ) {
 	//ƒJƒƒ‰‚Ìİ’è
 	FrameworkPtr fw = Framework::getInstance( );
 	fw->setCameraUp( UP_VEC );
-	_camera_pos = START_CAMERA_POS;
-	_target_pos = START_TARGET_POS;
-	fw->setCamera( _camera_pos, _target_pos );
 	//ƒ‚[ƒVƒ‡ƒ“‚Ìƒ[ƒh
 	DrawerPtr drawer = Drawer::getTask( );
 	drawer->loadMV1Model( MOTION_PLAYER_WAIT, "knight/player_knight_wait.mv1" );
@@ -94,12 +73,21 @@ void Viewer::initialize( ) {
 }
 
 void Viewer::update( ) {
-	FrameworkPtr fw = Framework::getInstance( );
 	drawPlayer( );
-	//drawEnemy( );
+	drawEnemy( );
 	drawGroundModel( );
-	fw->setCamera( _camera_pos, _target_pos );
+	updateCamera( );
 }
+
+void Viewer::updateCamera( ) {
+	FrameworkPtr fw = Framework::getInstance( );
+	AppPtr app = App::getTask( );
+	CameraPtr camera = app->getCamera( );
+	Vector camera_pos = camera->getPos( );
+	Vector camera_target = camera->getTarget( );
+	fw->setCamera( camera_pos, camera_target );
+}
+
 
 void Viewer::drawPlayer( ) {
 	AppPtr app = App::getTask( );
@@ -115,10 +103,12 @@ void Viewer::drawPlayer( ) {
 	case Player::STATUS_WALK:
 		motion = MOTION_PLAYER_WALK;
 		break;
+	case Player::STATUS_ATTACK:
+		motion = MOTION_PLAYER_ATTACK;
+		break;
 	default:
 		break;
 	}
-	
 	int time = player->getAnimTime( );
 	Vector pos = player->getPos( );
 	Vector dir = player->getDir( );
@@ -128,24 +118,34 @@ void Viewer::drawPlayer( ) {
 }
 
 void Viewer::drawEnemy( ) {
-	static int motion = MOTION_MINOTAUR_WAIT;
-	static int time = 0;
-	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::Model model = Drawer::Model( Vector( 0, 0, 0 ),Vector( 1, 0, 0 ), motion, time );
-	drawer->setModel( model );
-	if ( drawer->getEndAnimTime( model.motion ) < time ) {
-		motion++;
-		if ( motion == MOTION_MAX ) {
-			motion = MOTION_MINOTAUR_WAIT;
-		}
-		time = 0;
+	AppPtr app = App::getTask( );
+	EnemyPtr enemy = app->getEnemy( );
+
+	int motion = MOTION_MINOTAUR_WAIT;
+	switch( enemy->getStatus( ) ) {
+	case Player::STATUS_WAIT:
+		motion = MOTION_MINOTAUR_WAIT;
+		break;
+	case Player::STATUS_WALK:
+		motion = MOTION_MINOTAUR_WALK;
+		break;
+	default:
+		break;
 	}
-	time += 1;
+	
+	int time = enemy->getAnimTime( );
+	Vector pos = enemy->getPos( );
+	Vector dir = enemy->getDir( );
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
+	drawer->setModel( model );
 }
 
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
+	_model->load( PILLAR_NAME );
+	
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
 

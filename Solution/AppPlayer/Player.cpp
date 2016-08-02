@@ -16,6 +16,7 @@ Player::Player( ) {
 	_dir = Vector( -1, 0, 0 );
 	_status = STATUS_WAIT;
 	_anim_time = 0;
+	_is_existence = false;
 }
 
 Player::~Player( ) {
@@ -49,6 +50,11 @@ void Player::update( ) {
 	_anim_time++;
 }
 
+void Player::setPos( const Vector& pos ) {
+	_pos = pos;
+	_is_existence = true;
+}
+
 Vector Player::getPos( ) const {
 	return _pos;
 }
@@ -63,4 +69,8 @@ int Player::getAnimTime( )const {
 
 Player::STATUS Player::getStatus( ) const {
 	return _status;
+}
+
+bool Player::getExistence( ) const {
+	return _is_existence;
 }

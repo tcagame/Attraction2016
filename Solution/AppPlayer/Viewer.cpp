@@ -110,7 +110,9 @@ void Viewer::update( ) {
 void Viewer::drawPlayer( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
-
+	if ( !player->getExistence( ) ) {
+		return;
+	}
 	int motion = MOTION_PLAYER_WAIT;
 	switch( player->getStatus( ) ) {
 	case Player::STATUS_WAIT:

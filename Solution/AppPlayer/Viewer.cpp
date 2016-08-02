@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Ground.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Drawer.h"
 #include "Framework.h"
 #include "Device.h"
@@ -77,7 +78,7 @@ void Viewer::initialize( ) {
 
 void Viewer::update( ) {
 	drawPlayer( );
-	//drawEnemy( );
+	drawEnemy( );
 	drawGroundModel( );
 	updateCamera( );
 }
@@ -121,24 +122,32 @@ void Viewer::drawPlayer( ) {
 }
 
 void Viewer::drawEnemy( ) {
-	static int motion = MOTION_MINOTAUR_WAIT;
-	static int time = 0;
-	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::Model model = Drawer::Model( Vector( 0, 0, 0 ),Vector( 1, 0, 0 ), motion, time );
-	drawer->setModel( model );
-	if ( drawer->getEndAnimTime( model.motion ) < time ) {
-		motion++;
-		if ( motion == MOTION_MAX ) {
-			motion = MOTION_MINOTAUR_WAIT;
-		}
-		time = 0;
+	AppPtr app = App::getTask( );
+	EnemyPtr enemy = app->getEnemy( );
+
+	int motion = MOTION_MINOTAUR_WAIT;
+	switch( enemy->getStatus( ) ) {
+	case Player::STATUS_WAIT:
+		motion = MOTION_MINOTAUR_WAIT;
+		break;
+	case Player::STATUS_WALK:
+		motion = MOTION_MINOTAUR_WALK;
+		break;
+	default:
+		break;
 	}
-	time += 1;
+	
+	int time = enemy->getAnimTime( );
+	Vector pos = enemy->getPos( );
+	Vector dir = enemy->getDir( );
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
+	drawer->setModel( model );
 }
 
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
-	GroundPtr ground = app->getGroundPtr( );
+	GroundPtr ground = app->getGround( );
 	_model->load( PILLAR_NAME );
 	
 	int width = ground->getWidth( );

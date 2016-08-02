@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Ground.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Camera.h"
 #include "Keyboard.h"
 #include "Framework.h"
@@ -20,30 +21,35 @@ App::~App( ) {
 
 void App::update( ) {
 	_player->update( );
+	_enemy->update( );
 	_camera->update( );
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
 		_player->create( Vector( 0, 0, 0 ) );
 	}
-
 }
 
 void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "map.csv" ) );
-	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( _camera ) );
+	_enemy = EnemyPtr( new Enemy( ) );
+	_camera = CameraPtr( new Camera( ) );
 }
 
 void App::finalize( ) {
 
 }
 
-GroundPtr App::getGroundPtr( ) const {
+GroundPtr App::getGround( ) const {
 	return _ground;
 }
 
 PlayerPtr App::getPlayer( ) const {
 	return _player;
+}
+
+EnemyPtr App::getEnemy( ) const {
+	return _enemy;
 }
 
 CameraPtr App::getCamera( ) const {

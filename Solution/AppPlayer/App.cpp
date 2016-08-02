@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Ground.h"
+#include "GroundModel.h"
 #include "Player.h"
 #include "Keyboard.h"
 #include "Framework.h"
@@ -28,13 +29,15 @@ void App::update( ) {
 void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "map.csv" ) );
 	_player = PlayerPtr( new Player( ) );
+	_ground_model = GroundModelPtr( new GroundModel( ) );
+	_ground_model->loadModelData( );
 }
 
 void App::finalize( ) {
 
 }
 
-GroundPtr App::getGroundPtr( ) const {
+GroundPtr App::getGround( ) const {
 	return _ground;
 }
 

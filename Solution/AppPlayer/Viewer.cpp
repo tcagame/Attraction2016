@@ -10,19 +10,13 @@
 
 
 const char* TEXTURE_NAME = "../Resource/data/dummy_tex.jpg";
-const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
-const char* PLAIN_NAME = "../Resource/data/Plain.mdl";
+const char* VIEW_MODLE_NAME = "../Resource/data/Overall.mdl";
 const double CHIP_SIZE = 1;
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
-const Vector START_CAMERA_POS = Vector( 50, 50, 10 );
+const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
-enum GROUND_TYPE {
-	GROUND_TYPE_PILLAR,
-	GROUND_TYPE_PLAIN,
-	GROUND_TYPE_MAX
-};
 
 enum MOTION {
 	MOTION_PLAYER_WAIT,
@@ -151,29 +145,21 @@ void Viewer::drawEnemy( ) {
 
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
-	GroundPtr ground = app->getGroundPtr( );
-	_model->load( PILLAR_NAME );
-	
+	GroundPtr ground = app->getGround( );
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
 
 	for ( int i = 0; i < width; i++ ) {
 		for ( int j = 0; j < height; j++ ) {
 			int idx = ground->getIdx( i, j );
-			int data = ground->getGroundData( idx );
-			switch( data ) {
-			case GROUND_TYPE_PILLAR:
-				_model->load( PILLAR_NAME );
-				break;
-			case GROUND_TYPE_PLAIN:
-				_model->load( PLAIN_NAME );
-				break;
-			default:
-				break;
+			int type = ground->getGroundData( idx );
+			if( type == Ground::GROUND_TYPE_OVERALL ) {
+				_model->load( VIEW_MODLE_NAME );
 			}
 			if ( _model ) {
 				_model->translate( Vector( i * CHIP_SIZE, j * CHIP_SIZE, 0 ) );
 				_model->draw( _tex_handle );
+				_model->reset( );
 			}
 		}
 	}

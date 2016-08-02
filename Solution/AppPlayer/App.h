@@ -5,6 +5,7 @@
 PTR( App );
 PTR( Ground );
 PTR( Player );
+PTR( GroundModel );
 
 class App : public Task {
 public:
@@ -17,10 +18,11 @@ public:
 	void update( );
 	void initialize( );
 	void finalize( );
-	GroundPtr getGroundPtr( ) const;
+	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
+	GroundModelPtr _ground_model;
 };
 

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Device.h"
 #include "Viewer.h"
 
 const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
@@ -17,6 +18,7 @@ Player::Player( ) {
 	_status = STATUS_WAIT;
 	_anim_time = 0;
 	_is_existence = false;
+	is_attack = false;
 }
 
 Player::~Player( ) {
@@ -29,12 +31,24 @@ void Player::update( ) {
 	
 	STATUS before = _status;
 
-	if ( device_dir.getLength( ) > 0 ) {
-		_pos += device_dir * _speed;
-		_dir = device_dir.normalize( );
-		_status = STATUS_WALK;
-	} else {
+	DevicePtr device = Device::getTask( );
+	if ( !is_attack ) {
 		_status = STATUS_WAIT;
+		//ˆÚ“®ˆ—
+		if ( device_dir.getLength( ) > 0 ) {
+			_pos += device_dir * _speed;
+			_dir = device_dir.normalize( );
+			_status = STATUS_WALK;
+		}
+		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {
+			_status = STATUS_ATTACK;
+		}
+	}
+
+	if ( _status == STATUS_ATTACK && _anim_time < ( int )ANIMATION_TIME[ _status ] ) {
+		is_attack = true;
+	} else {
+		is_attack = false;
 	}
 
 	if ( before != _status ) {
@@ -44,8 +58,14 @@ void Player::update( ) {
 		case STATUS_WAIT:
 		case STATUS_WALK:
 			_anim_time %= ( int )ANIMATION_TIME[ _status ];
-			break; 
+			break;
+		case STATUS_ATTACK:
+			if ( _anim_time > ( int )ANIMATION_TIME[ _status ] ) {
+				_anim_time = 0;
+			}
+			break;
 	}
+
 
 	_anim_time++;
 }

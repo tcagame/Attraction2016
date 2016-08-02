@@ -27,6 +27,7 @@ public:
 	STATUS getStatus( ) const;
 	bool getExistence( ) const;
 private:
+	bool is_attack;
 	bool _is_existence;
 	Vector _pos;
 	double _speed;

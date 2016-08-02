@@ -121,10 +121,12 @@ void Viewer::drawPlayer( ) {
 	case Player::STATUS_WALK:
 		motion = MOTION_PLAYER_WALK;
 		break;
+	case Player::STATUS_ATTACK:
+		motion = MOTION_PLAYER_ATTACK;
+		break;
 	default:
 		break;
 	}
-	
 	int time = player->getAnimTime( );
 	Vector pos = player->getPos( );
 	Vector dir = player->getDir( );

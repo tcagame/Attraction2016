@@ -22,12 +22,14 @@ private:
 	void drawPlayer( );
 	void drawEnemy( );
 	void drawGroundModel( );
+	void updateCamera( );
 
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
 private:
 	Vector _camera_pos;
 	Vector _target_pos;
+	Vector _store_mouse_pos;
 
 	ModelPtr _model;
 	int _tex_handle;

@@ -7,7 +7,7 @@
 #include "Framework.h"
 #include "Device.h"
 #include "mathmatics.h"
-
+#include "Mouse.h"
 
 const char* TEXTURE_NAME = "../Resource/data/dummy_tex.jpg";
 const char* PILLAR_NAME = "../Resource/data/Pillar.mdl";
@@ -100,11 +100,42 @@ void Viewer::initialize( ) {
 }
 
 void Viewer::update( ) {
-	FrameworkPtr fw = Framework::getInstance( );
 	drawPlayer( );
 	//drawEnemy( );
 	drawGroundModel( );
+	updateCamera( );
+}
+
+void Viewer::updateCamera( ) {
+	FrameworkPtr fw = Framework::getInstance( );
+	MousePtr mouse = Mouse::getTask( );
+
+	Vector vec = _camera_pos - _target_pos;
+	const double RATIO = 0.01;
+
+	Vector mouse_pos = mouse->getPos( );
+
+	//YAW軸回転
+	double rad_yaw = ( mouse_pos.x - _store_mouse_pos.x ) * RATIO;
+	Matrix mat_yaw = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), rad_yaw );
+	vec = mat_yaw.multiply( vec );
+
+	// PITCH軸回転
+	double rad_pitch = ( mouse_pos.y - _store_mouse_pos.y ) * RATIO;
+	Vector axis = Vector( 0, 0, 1 ).cross( vec );
+	Matrix mat_pitch = Matrix::makeTransformRotation( axis, rad_pitch );
+	vec = mat_pitch.multiply( vec );
+
+	// _camera_posを変更
+	_camera_pos = _target_pos + vec;
+
+	// 更新
 	fw->setCamera( _camera_pos, _target_pos );
+
+	
+	// マウスの位置を記憶
+	_store_mouse_pos = mouse_pos;
+
 }
 
 void Viewer::drawPlayer( ) {

@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "Device.h"
-#include "Viewer.h"
+#include "Camera.h"
 
 const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 	20, // MOTION_WAIT,
@@ -11,7 +11,8 @@ const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 	60, // MOTION_USE,
 };
 
-Player::Player( ) {
+Player::Player( CameraConstPtr camera ) :
+_camera( camera ) {
 	_pos = Vector( 0, 0, 0 );
 	_speed = 0.001;
 	_dir = Vector( -1, 0, 0 );
@@ -25,9 +26,7 @@ Player::~Player( ) {
 }
 
 void Player::update( ) {
-	ViewerPtr viewer = Viewer::getTask( );
-
-	Vector device_dir = viewer->getConvertDeviceVec( );
+	Vector device_dir = _camera->getConvertDeviceVec( );
 	
 	STATUS before = _status;
 

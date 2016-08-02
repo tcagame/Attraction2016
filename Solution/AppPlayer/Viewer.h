@@ -17,7 +17,6 @@ public:
 public:
 	void update( );
 	void initialize( );
-	Vector getConvertDeviceVec( );
 private:
 	void drawPlayer( );
 	void drawEnemy( );
@@ -27,9 +26,9 @@ private:
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
 private:
-	Vector _camera_pos;
-	Vector _target_pos;
-	Vector _store_mouse_pos;
+	//Vector _camera_pos;
+	//Vector _target_pos;
+	//Vector _store_mouse_pos;
 
 	ModelPtr _model;
 	int _tex_handle;

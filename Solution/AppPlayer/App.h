@@ -5,6 +5,7 @@
 PTR( App );
 PTR( Ground );
 PTR( Player );
+PTR( Camera );
 
 class App : public Task {
 public:
@@ -19,8 +20,10 @@ public:
 	void finalize( );
 	GroundPtr getGroundPtr( ) const;
 	PlayerPtr getPlayer( ) const;
+	CameraPtr getCamera( ) const;
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
+	CameraPtr _camera;
 };
 

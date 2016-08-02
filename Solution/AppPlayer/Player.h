@@ -20,12 +20,14 @@ public:
 	virtual ~Player( );
 public:
 	void update( );
-	void setPos( const Vector& pos );
+	void create( const Vector& pos );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	int getAnimTime( ) const;
 	STATUS getStatus( ) const;
 	bool getExistence( ) const;
+private:
+	void init( );
 private:
 	bool is_attack;
 	bool _is_existence;

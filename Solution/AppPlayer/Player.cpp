@@ -12,6 +12,13 @@ const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 };
 
 Player::Player( ) {
+	init( );
+}
+
+Player::~Player( ) {
+}
+
+void Player::init( ) {
 	_pos = Vector( 0, 0, 0 );
 	_speed = 0.001;
 	_dir = Vector( -1, 0, 0 );
@@ -21,10 +28,10 @@ Player::Player( ) {
 	is_attack = false;
 }
 
-Player::~Player( ) {
-}
-
 void Player::update( ) {
+	if ( !_is_existence ) {
+		return;
+	}
 	ViewerPtr viewer = Viewer::getTask( );
 
 	Vector device_dir = viewer->getConvertDeviceVec( );
@@ -70,7 +77,8 @@ void Player::update( ) {
 	_anim_time++;
 }
 
-void Player::setPos( const Vector& pos ) {
+void Player::create( const Vector& pos ) {
+	init( );
 	_pos = pos;
 	_is_existence = true;
 }

@@ -93,7 +93,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Enemy.cpp" />
+=======
+    <ClCompile Include="Camera.cpp" />
+>>>>>>> origin/master
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -101,7 +105,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+<<<<<<< HEAD
     <ClInclude Include="Enemy.h" />
+=======
+    <ClInclude Include="Camera.h" />
+>>>>>>> origin/master
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Viewer.h" />

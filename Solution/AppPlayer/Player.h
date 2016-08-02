@@ -3,6 +3,7 @@
 #include "mathmatics.h"
 
 PTR( Player );
+PTR( Camera );
 
 class Player {
 public:
@@ -16,17 +17,22 @@ public:
 		STATUS_MAX
 	};
 public:
-	Player( );
+	Player( CameraConstPtr camera );
 	virtual ~Player( );
 public:
 	void update( );
+	void create( const Vector& pos );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	int getAnimTime( ) const;
 	STATUS getStatus( ) const;
+	bool getExistence( ) const;
 private:
-
+	void init( );
 private:
+	CameraConstPtr _camera;
+	bool is_attack;
+	bool _is_existence;
 	Vector _pos;
 	double _speed;
 	Vector _dir;

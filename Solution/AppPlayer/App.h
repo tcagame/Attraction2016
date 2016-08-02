@@ -6,6 +6,7 @@ PTR( App );
 PTR( Ground );
 PTR( Player );
 PTR( Enemy );
+PTR( Camera );
 
 class App : public Task {
 public:
@@ -21,9 +22,11 @@ public:
 	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
 	EnemyPtr  getEnemy( ) const;
+	CameraPtr getCamera( ) const;
+
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
 	EnemyPtr _enemy;
-};
-
+	CameraPtr _camera;
+}

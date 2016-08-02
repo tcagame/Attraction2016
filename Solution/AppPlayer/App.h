@@ -5,12 +5,9 @@
 PTR( App );
 PTR( Ground );
 PTR( Player );
-<<<<<<< HEAD
 PTR( GroundModel );
-=======
 PTR( Enemy );
 PTR( Camera );
->>>>>>> origin/master
 
 class App : public Task {
 public:

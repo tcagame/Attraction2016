@@ -144,7 +144,7 @@ void Viewer::drawEnemy( ) {
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
-	_model->load( PILLAR_NAME );
+	_model->load( VIEW_MODLE_NAME );
 	
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );

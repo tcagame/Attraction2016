@@ -49,14 +49,13 @@ bool Device::isHoldButton( BUTTON_LIST button  ) const {
 }
 
 void Device::update( ) {
-	int key = GetJoypadInputState( DX_INPUT_KEY_PAD1 );
+	int key = GetJoypadInputState( DX_INPUT_PAD1 );
 	Vector vec;
 	int x = 0, y = 0;
-	GetJoypadAnalogInput( &x, &y, DX_INPUT_KEY_PAD1 );
+	GetJoypadAnalogInput( &x, &y, DX_INPUT_PAD1 );
 	vec.x = x;
 	vec.y = y;
-
-
+	vec = vec.normalize( ) * -100;
 
 	_data.x = ( char )vec.x;
 	_data.y = ( char )vec.y;
@@ -64,4 +63,5 @@ void Device::update( ) {
 	if ( vec.getLength( ) > 0 ) {
 		int test = 0;
 	}
+	DrawFormatString( 0, 0, 0xFFFFFF,"X:%d Y:%d", _data.x, _data.y );
 }

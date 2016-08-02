@@ -13,7 +13,7 @@ const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 
 Player::Player( ) {
 	_pos = Vector( 0, 0, 0 );
-	_speed = 0.01;
+	_speed = 0.001;
 	_dir = Vector( -1, 0, 0 );
 	_status = STATUS_WAIT;
 	_anim_time = 0;
@@ -36,8 +36,8 @@ void Player::update( ) {
 		_status = STATUS_WAIT;
 		//ˆÚ“®ˆ—
 		if ( device_dir.getLength( ) > 0 ) {
-			_pos += device_dir * _speed;
 			_dir = device_dir.normalize( );
+			_pos += device_dir * _speed;
 			_status = STATUS_WALK;
 		}
 		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {

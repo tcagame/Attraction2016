@@ -13,6 +13,7 @@ public:
 public:
 	void loadModelData( );
 	void update( );
+	bool isCollisionGround( Vector pos );
 private:
 	void loadModelPos( int x, int y, ModelPtr model );
 private:

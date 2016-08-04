@@ -26,7 +26,7 @@ void App::update( ) {
 	_camera->update( );
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
-		_player->create( Vector( 0, 0, 0 ) );
+		_player->create( Vector( 1, 1, 0 ) );
 	}
 }
 
@@ -57,4 +57,8 @@ EnemyPtr App::getEnemy( ) const {
 
 CameraPtr App::getCamera( ) const {
 	return _camera;
+}
+
+GroundModelPtr App::getGroundModel( ) const {
+	return _ground_model;
 }

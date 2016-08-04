@@ -75,7 +75,7 @@ void Viewer::initialize( ) {
 void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
-	drawGroundModel( );
+	//drawGroundModel( );
 	updateCamera( );
 }
 

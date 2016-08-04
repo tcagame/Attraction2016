@@ -5,7 +5,9 @@
 const double CHIP_SIZE = 1;
 const double TEXTURE_SIZE = 0.5;
 const double T = TEXTURE_SIZE / 2;
-const int    POLYGON_NUM = 12;
+const int    OVERALL_POLYGON_NUM = 12;
+const int    SOLID_POLYGON_NUM = 6;
+
 
 enum MODEL_TYPE {
 	MODEL_TYPE_OVERALL,
@@ -20,8 +22,11 @@ const std::string MODEL_NAME[ MODEL_TYPE_MAX ] = {
 
 void makePlane ( int type ) {
 	ModelPtr model = ModelPtr( new Model( ) );
-	model->alloc( POLYGON_NUM );
-
+	if ( type == MODEL_TYPE_OVERALL ) {
+		model->alloc( OVERALL_POLYGON_NUM );
+	} else {
+		model->alloc( SOLID_POLYGON_NUM );
+	}
 	int idx = 0;
 	double tex_pos_x = type * TEXTURE_SIZE;
 

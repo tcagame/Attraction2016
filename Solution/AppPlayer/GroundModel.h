@@ -12,9 +12,13 @@ public:
 	virtual ~GroundModel();
 public:
 	void loadModelData( );
+	void update( );
 private:
 	void loadModelPos( int x, int y, ModelPtr model );
 private:
 	std::vector< Vector > _pos;
+	ModelPtr _model; 
+	int _polygon_num;
+
 };
 

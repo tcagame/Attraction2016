@@ -29,6 +29,7 @@ private:
 	bool switchStatusOnRange( );
 	void setStatus( STATUS status );
 	void managementAnimationTimeOnStatus( );
+	void onAttack( );
 private:
 	private:
 	Vector _pos;
@@ -36,7 +37,10 @@ private:
 	Vector _dir;
 	int _anim_time;
 	STATUS _status;
+	STATUS _before;
 	double _move_range;
 	double _attack_range;
+	int _power;
+	bool _is_attack;
 };
 

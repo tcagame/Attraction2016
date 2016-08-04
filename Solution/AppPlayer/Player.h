@@ -27,6 +27,7 @@ public:
 	int getAnimTime( ) const;
 	STATUS getStatus( ) const;
 	bool getExistence( ) const;
+	void damage( int power );
 private:
 	void init( );
 private:
@@ -38,5 +39,6 @@ private:
 	Vector _dir;
 	int _anim_time;
 	STATUS _status;
+	int _check_life;
 };
 

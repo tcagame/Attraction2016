@@ -27,6 +27,7 @@ void Player::init( ) {
 	_anim_time = 0;
 	_is_existence = false;
 	_is_attack = false;
+	_check_life = 150;
 }
 
 void Player::update( ) {
@@ -70,8 +71,6 @@ void Player::update( ) {
 			}
 			break;
 	}
-
-
 	_anim_time++;
 }
 
@@ -99,4 +98,8 @@ Player::STATUS Player::getStatus( ) const {
 
 bool Player::getExistence( ) const {
 	return _is_existence;
+}
+
+void Player::damage( int power ) {
+	_check_life -= power;
 }

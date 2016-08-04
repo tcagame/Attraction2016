@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Device.h"
 #include "Camera.h"
+#include "GroundModel.h"
+#include "App.h"
 
 const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 	20, // MOTION_WAIT,
@@ -42,7 +44,12 @@ void Player::update( ) {
 		//ˆÚ“®ˆ—
 		if ( device_dir.getLength( ) > 0 ) {
 			_dir = device_dir.normalize( );
-			_pos += device_dir * _speed;
+			AppPtr app = App::getTask( );
+			GroundModelPtr ground_model = app->getGroundModel( );
+			Vector move_pos = _pos + device_dir * _speed;
+			if( ground_model->isCollisionGround( move_pos ) ) {
+				_pos = move_pos; 
+			}
 			_status = STATUS_WALK;
 		}
 		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {

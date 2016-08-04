@@ -24,7 +24,7 @@ public:
 	PlayerPtr getPlayer( ) const;
 	EnemyPtr  getEnemy( ) const;
 	CameraPtr getCamera( ) const;
-
+	GroundModelPtr getGroundModel( ) const;
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;

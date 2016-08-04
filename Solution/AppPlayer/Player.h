@@ -31,7 +31,7 @@ private:
 	void init( );
 private:
 	CameraConstPtr _camera;
-	bool is_attack;
+	bool _is_attack;
 	bool _is_existence;
 	Vector _pos;
 	double _speed;

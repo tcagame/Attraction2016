@@ -26,7 +26,7 @@ void Player::init( ) {
 	_status = STATUS_WAIT;
 	_anim_time = 0;
 	_is_existence = false;
-	is_attack = false;
+	_is_attack = false;
 }
 
 void Player::update( ) {
@@ -37,7 +37,7 @@ void Player::update( ) {
 
 	Vector device_dir = _camera->getConvertDeviceVec( );
 	DevicePtr device = Device::getTask( );
-	if ( !is_attack ) {
+	if ( !_is_attack ) {
 		_status = STATUS_WAIT;
 		//ˆÚ“®ˆ—
 		if ( device_dir.getLength( ) > 0 ) {
@@ -51,9 +51,9 @@ void Player::update( ) {
 	}
 
 	if ( _status == STATUS_ATTACK && _anim_time < ( int )ANIMATION_TIME[ _status ] ) {
-		is_attack = true;
+		_is_attack = true;
 	} else {
-		is_attack = false;
+		_is_attack = false;
 	}
 
 	if ( before != _status ) {

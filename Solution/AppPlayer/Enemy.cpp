@@ -23,7 +23,6 @@ Enemy::Enemy( ) {
 	_attack_range = 2.0;
 }
 
-
 Enemy::~Enemy( ) {
 }
 

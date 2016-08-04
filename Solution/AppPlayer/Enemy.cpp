@@ -15,11 +15,12 @@ const double ANIMATION_TIME[ Enemy::STATUS_MAX ] = {
 
 Enemy::Enemy( ) {
 	_pos = Vector( 5, 5, 0 );
-	_speed = 0.05;
+	_speed = 0.03;
 	_dir = Vector( -1, 0, 0 );
 	_status = STATUS_WAIT;
 	_anim_time = 0;
 	_move_range = 12.5;
+	_attack_range = 2.0;
 }
 
 
@@ -27,7 +28,8 @@ Enemy::~Enemy( ) {
 }
 
 void Enemy::update( ) {
-		moveToTarget( );
+		movePosToTarget( );
+		managementAnimationTimeOnStatus( );
 }
 
 Vector Enemy::getPos( ) const {
@@ -46,37 +48,21 @@ Enemy::STATUS Enemy::getStatus( ) const {
 	return _status;
 }
 
-void Enemy::moveToTarget( ) {
+void Enemy::movePosToTarget( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
-	ViewerPtr viewer = Viewer::getTask( );
-	STATUS before = _status;
 
 	Vector target_pos = player->getPos( );
 	
 	Vector distance = target_pos - _pos;
 	double length = distance.getLength( );
-	if ( confirmationMoveRange( ) ) {
+	if ( switchStatusOnRange( ) ) {
 		_dir = distance.normalize( );
 		_pos += _dir * _speed;
-		_status = STATUS_WALK;
-	} else {
-		_status = STATUS_WAIT;
 	}
-
-	if ( before != _status ) {
-		_anim_time = 0;
-	}
-	switch( _status ) {
-		case STATUS_WAIT:
-		case STATUS_WALK:
-			_anim_time %= ( int )ANIMATION_TIME[ _status ];
-			break; 
-	}
-	_anim_time++;
 }
 
-bool Enemy::confirmationMoveRange( ) {
+bool Enemy::switchStatusOnRange( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
 
@@ -84,8 +70,35 @@ bool Enemy::confirmationMoveRange( ) {
 	Vector stance = target_pos - _pos;
 
 	double range = stance.getLength( );
-	if ( range <= _move_range ) {
-		return true;
+	if ( range <= _attack_range ) {
+		setStatus( STATUS_CLEAVE );
+		return false;
 	}
-	return false;
+	if ( range <= _move_range ) {
+		setStatus( STATUS_WALK );
+		return true;
+	} else {
+		setStatus( STATUS_WAIT );
+		return false;
+	}
+}
+
+void Enemy::setStatus( Enemy::STATUS status ) {
+	_status = status;
+}
+
+void Enemy::managementAnimationTimeOnStatus( ) {
+	STATUS before = _status;
+
+	if ( before != _status ) {
+		_anim_time = 0;
+	}
+	switch( _status ) {
+		case STATUS_WAIT:
+		case STATUS_WALK:
+		case STATUS_CLEAVE:
+			_anim_time %= ( int )ANIMATION_TIME[ _status ];
+			break; 
+	}
+	_anim_time++;
 }

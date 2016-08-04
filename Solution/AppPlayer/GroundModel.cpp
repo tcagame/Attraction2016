@@ -29,7 +29,7 @@ void GroundModel::loadModelData( ) {
 			switch( type ) {
 			case Ground::GROUND_TYPE_OVERALL:
 				model->load( SOLID_MODLE_NAME );
-				loadModelPos( i, j, _model );
+				loadModelPos( i, j, model );
 			default:
 				break;
 			}

@@ -25,8 +25,10 @@ public:
 	int getAnimTime( ) const;
 	STATUS getStatus( ) const;
 private:
-	void moveToTarget( );
-	bool confirmationMoveRange( );
+	void movePosToTarget( );
+	bool switchStatusOnRange( );
+	void setStatus( STATUS status );
+	void managementAnimationTimeOnStatus( );
 private:
 	private:
 	Vector _pos;
@@ -35,5 +37,6 @@ private:
 	int _anim_time;
 	STATUS _status;
 	double _move_range;
+	double _attack_range;
 };
 

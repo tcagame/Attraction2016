@@ -26,6 +26,7 @@ public:
 	STATUS getStatus( ) const;
 private:
 	void moveToTarget( );
+	bool confirmationMoveRange( );
 private:
 	private:
 	Vector _pos;
@@ -33,6 +34,6 @@ private:
 	Vector _dir;
 	int _anim_time;
 	STATUS _status;
-	double _range;
+	double _move_range;
 };
 

@@ -34,9 +34,9 @@ void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "map.csv" ) );
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );
+	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( _camera ) );
 	_enemy = EnemyPtr( new Enemy( ) );
-	_camera = CameraPtr( new Camera( ) );
 }
 
 void App::finalize( ) {

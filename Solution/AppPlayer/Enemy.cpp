@@ -14,12 +14,12 @@ const double ANIMATION_TIME[ Enemy::STATUS_MAX ] = {
 };
 
 Enemy::Enemy( ) {
-	_pos = Vector( 0, 0, 0 );
-	_speed = 0.1;
+	_pos = Vector( 5, 5, 0 );
+	_speed = 0.05;
 	_dir = Vector( -1, 0, 0 );
 	_status = STATUS_WAIT;
 	_anim_time = 0;
-	_range = 1.5;
+	_move_range = 12.5;
 }
 
 
@@ -27,7 +27,7 @@ Enemy::~Enemy( ) {
 }
 
 void Enemy::update( ) {
-	moveToTarget( );
+		moveToTarget( );
 }
 
 Vector Enemy::getPos( ) const {
@@ -56,7 +56,7 @@ void Enemy::moveToTarget( ) {
 	
 	Vector distance = target_pos - _pos;
 	double length = distance.getLength( );
-	if ( length >= _range ) {
+	if ( confirmationMoveRange( ) ) {
 		_dir = distance.normalize( );
 		_pos += _dir * _speed;
 		_status = STATUS_WALK;
@@ -74,4 +74,18 @@ void Enemy::moveToTarget( ) {
 			break; 
 	}
 	_anim_time++;
+}
+
+bool Enemy::confirmationMoveRange( ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayer( );
+
+	Vector target_pos = player->getPos( );
+	Vector stance = target_pos - _pos;
+
+	double range = stance.getLength( );
+	if ( range <= _move_range ) {
+		return true;
+	}
+	return false;
 }

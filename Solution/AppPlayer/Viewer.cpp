@@ -123,12 +123,14 @@ void Viewer::drawEnemy( ) {
 
 	int motion = MOTION_MINOTAUR_WAIT;
 	switch( enemy->getStatus( ) ) {
-	case Player::STATUS_WAIT:
+	case Enemy::STATUS_WAIT:
 		motion = MOTION_MINOTAUR_WAIT;
 		break;
-	case Player::STATUS_WALK:
+	case Enemy::STATUS_WALK:
 		motion = MOTION_MINOTAUR_WALK;
 		break;
+	case Enemy::STATUS_CLEAVE:
+		motion = MOTION_MINOTAUR_CLEAVE;
 	default:
 		break;
 	}

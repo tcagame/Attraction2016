@@ -199,3 +199,13 @@ void Drawer::flip( ) {
 double Drawer::getEndAnimTime( int motion ) {
 	return MV1GetAnimTotalTime( _model_id[ motion ].body, _model_id[ motion ].body_anim );
 }
+
+//デバック機能
+void Drawer::drawString( int x, int y, const char* string, ... ) {
+	char buf[ 1024 ];
+	va_list ap;
+	va_start(ap, string);
+	vsprintf_s( buf, 1024, string, ap );
+	DrawString( x, y, buf, 0xFFFFFF );
+	va_end(ap);
+}

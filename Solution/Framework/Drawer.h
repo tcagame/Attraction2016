@@ -58,6 +58,7 @@ public:
 	double getEndAnimTime( int res );
 	void setSprite( const Sprite& sprite );
 	void setModel( const Model& model );
+	void drawString( int x, int y, const char* string, ... );
 private:
 	void drawModel( );
 	void drawSprite( );

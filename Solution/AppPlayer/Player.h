@@ -28,8 +28,10 @@ public:
 	STATUS getStatus( ) const;
 	bool getExistence( ) const;
 	void damage( int power );
+	int getHP( ) const;
 private:
 	void init( );
+	void dead( );
 private:
 	CameraConstPtr _camera;
 	bool _is_attack;
@@ -39,6 +41,6 @@ private:
 	Vector _dir;
 	int _anim_time;
 	STATUS _status;
-	int _check_life;
+	int _hp;
 };
 

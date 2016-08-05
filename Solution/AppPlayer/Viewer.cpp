@@ -115,6 +115,7 @@ void Viewer::drawPlayer( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+	drawer->drawString( 0, 50, "Palyer_HP: %d", player->getHP( ) );
 }
 
 void Viewer::drawEnemy( ) {

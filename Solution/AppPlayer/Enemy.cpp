@@ -44,7 +44,7 @@ Vector Enemy::getDir( ) const {
 	return _dir;
 }
 
-int Enemy::getAnimTime( )const {
+double Enemy::getAnimTime( )const {
 	return _anim_time;
 }
 
@@ -55,7 +55,6 @@ Enemy::STATUS Enemy::getStatus( ) const {
 void Enemy::movePosToTarget( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
-
 	Vector target_pos = player->getPos( );
 	
 	Vector distance = target_pos - _pos;
@@ -99,16 +98,20 @@ void Enemy::managementAnimationTimeOnStatus( ) {
 	switch( _status ) {
 		case STATUS_WAIT:
 		case STATUS_WALK:
-			_anim_time %= ( int )ANIMATION_TIME[ _status ];
+			if ( ( int )ANIMATION_TIME[ _status ] < _anim_time ) {
+				_anim_time = 0;
+			}
 			break;
 		case STATUS_CLEAVE:
-			_anim_time %= ( int )ANIMATION_TIME[ _status ];
+			if ( ( int )ANIMATION_TIME[ _status ] < _anim_time ) {
+				_anim_time = 0;
+			}
 			if ( _anim_time == 40 ) {
 				onAttack( );
 			}
 			break; 
 	}
-	_anim_time++;
+	_anim_time += 0.5;
 }
 
 void Enemy::onAttack( ) {

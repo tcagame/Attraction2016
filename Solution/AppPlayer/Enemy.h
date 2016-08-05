@@ -22,7 +22,7 @@ public:
 	void update( );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
-	int getAnimTime( ) const;
+	double getAnimTime( ) const;
 	STATUS getStatus( ) const;
 private:
 	void movePosToTarget( );
@@ -35,7 +35,7 @@ private:
 	Vector _pos;
 	double _speed;
 	Vector _dir;
-	int _anim_time;
+	double _anim_time;
 	STATUS _status;
 	STATUS _before;
 	double _move_range;

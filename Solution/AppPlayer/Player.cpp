@@ -29,7 +29,7 @@ void Player::init( ) {
 	_anim_time = 0;
 	_is_existence = false;
 	_is_attack = false;
-	_check_life = 150;
+	_hp = 150;
 }
 
 void Player::update( ) {
@@ -67,6 +67,7 @@ void Player::update( ) {
 	if ( before != _status ) {
 		_anim_time = 0;
 	}
+
 	switch( _status ) {
 		case STATUS_WAIT:
 		case STATUS_WALK:
@@ -79,6 +80,10 @@ void Player::update( ) {
 			break;
 	}
 	_anim_time++;
+
+	if ( _hp <= 0 ) {
+		dead( );
+	}
 }
 
 void Player::create( const Vector& pos ) {
@@ -108,5 +113,14 @@ bool Player::getExistence( ) const {
 }
 
 void Player::damage( int power ) {
-	_check_life -= power;
+	_hp -= power;
+}
+
+int Player::getHP( ) const {
+	return _hp;
+}
+
+void Player::dead( ) {
+	_status = STATUS_DEAD;
+	_is_existence = false;
 }

@@ -32,8 +32,16 @@ Enemy::~Enemy( ) {
 }
 
 void Enemy::update( ) {
-		movePosToTarget( );
-		managementAnimationTimeOnStatus( );
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayer( );
+	if ( player->getExistence( ) ) {
+		_target = player;
+	} else {
+		_target.reset( );
+	}
+	movePosToTarget( );
+	switchStatusOnRange( );
+	managementAnimationTimeOnStatus( );
 }
 
 Vector Enemy::getPos( ) const {
@@ -53,41 +61,39 @@ Enemy::STATUS Enemy::getStatus( ) const {
 }
 
 void Enemy::movePosToTarget( ) {
-	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	if ( _target.expired( ) ) {
+		return;
+	}
+	PlayerPtr player = _target.lock( );
 	Vector target_pos = player->getPos( );
 	
 	Vector distance = target_pos - _pos;
 	double length = distance.getLength( );
-	if ( switchStatusOnRange( ) ) {
+	if ( _status == STATUS_WALK ) {
 		_dir = distance.normalize( );
 		_pos += _dir * _speed;
 	}
 }
 
-bool Enemy::switchStatusOnRange( ) {
-	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
-
+void Enemy::switchStatusOnRange( ) {
+	setStatus( STATUS_WAIT );
+	if ( _target.expired( ) ) {
+		return;
+	}
+	PlayerPtr player = _target.lock( );
 	Vector target_pos = player->getPos( );
 	Vector stance = target_pos - _pos;
 
 	double range = stance.getLength( );
-	if ( range <= _attack_range ) {
-		setStatus( STATUS_CLEAVE );
-		return false;
-	}
 	if ( range <= _move_range ) {
 		setStatus( STATUS_WALK );
-		return true;
-	} else {
-		setStatus( STATUS_WAIT );
-		return false;
+	}
+	if ( range <= _attack_range ) {
+		setStatus( STATUS_CLEAVE );
 	}
 }
 
 void Enemy::setStatus( Enemy::STATUS status ) {
-	_before = _status;
 	_status = status;
 }
 
@@ -112,6 +118,7 @@ void Enemy::managementAnimationTimeOnStatus( ) {
 			break; 
 	}
 	_anim_time += 0.5;
+	_before = _status;
 }
 
 void Enemy::onAttack( ) {

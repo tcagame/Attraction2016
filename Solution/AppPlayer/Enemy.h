@@ -3,6 +3,7 @@
 #include "mathmatics.h"
 
 PTR( Enemy );
+PTR( Player );
 
 class Enemy {
 public:
@@ -26,12 +27,12 @@ public:
 	STATUS getStatus( ) const;
 private:
 	void movePosToTarget( );
-	bool switchStatusOnRange( );
+	void switchStatusOnRange( );
 	void setStatus( STATUS status );
 	void managementAnimationTimeOnStatus( );
 	void onAttack( );
 private:
-	private:
+	PlayerWeakPtr _target;
 	Vector _pos;
 	double _speed;
 	Vector _dir;

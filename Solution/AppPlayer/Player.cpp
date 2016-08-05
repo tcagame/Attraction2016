@@ -56,11 +56,11 @@ void Player::update( ) {
 		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {
 			_status = STATUS_ATTACK;
 		}
-		if ( _hp <= 0 ) {
-			_status = STATUS_DEAD;
-		}
+		
 	}
-
+	if ( _hp <= 0 ) {
+		_status = STATUS_DEAD;
+	}
 	if ( _status == STATUS_ATTACK && _anim_time < ( int )ANIMATION_TIME[ _status ] ) {
 		_is_attack = true;
 	} else {
@@ -120,7 +120,7 @@ bool Player::getExistence( ) const {
 
 void Player::damage( int power ) {
 	_hp -= power;
-	
+	_status = STATUS_DAMAGE;
 }
 
 int Player::getHP( ) const {

@@ -106,6 +106,9 @@ void Viewer::drawPlayer( ) {
 	case Player::STATUS_ATTACK:
 		motion = MOTION_PLAYER_ATTACK;
 		break;
+	case Player::STATUS_DEAD:
+		motion = MOTION_PLAYER_DEAD;
+		break;
 	default:
 		break;
 	}

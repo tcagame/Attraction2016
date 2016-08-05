@@ -56,6 +56,9 @@ void Player::update( ) {
 		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {
 			_status = STATUS_ATTACK;
 		}
+		if ( _hp <= 0 ) {
+			_status = STATUS_DEAD;
+		}
 	}
 
 	if ( _status == STATUS_ATTACK && _anim_time < ( int )ANIMATION_TIME[ _status ] ) {
@@ -78,12 +81,15 @@ void Player::update( ) {
 				_anim_time = 0;
 			}
 			break;
+
+	}
+
+	
+	if ( _anim_time > ( int )ANIMATION_TIME[ _status ] ) {
+		dead( );
 	}
 	_anim_time++;
 
-	if ( _hp <= 0 ) {
-		dead( );
-	}
 }
 
 void Player::create( const Vector& pos ) {
@@ -114,6 +120,7 @@ bool Player::getExistence( ) const {
 
 void Player::damage( int power ) {
 	_hp -= power;
+	
 }
 
 int Player::getHP( ) const {
@@ -121,6 +128,5 @@ int Player::getHP( ) const {
 }
 
 void Player::dead( ) {
-	_status = STATUS_DEAD;
 	_is_existence = false;
 }

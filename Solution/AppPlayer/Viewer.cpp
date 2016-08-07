@@ -138,16 +138,21 @@ void Viewer::drawEnemy( ) {
 		break;
 	case Enemy::STATUS_CLEAVE:
 		motion = MOTION_MINOTAUR_CLEAVE;
+		break;
+	case Enemy::STATUS_DAMAGE:
+		motion = MOTION_MINOTAUR_DAMAGE;
+		break;
 	default:
 		break;
 	}
 	
-	int time = enemy->getAnimTime( );
+	double time = enemy->getAnimTime( );
 	Vector pos = enemy->getPos( );
 	Vector dir = enemy->getDir( );
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+	drawer->drawString( 0, 100, "Enemy_HP: %d", enemy->getHP( ) );
 }
 
 void Viewer::drawGroundModel( ) {

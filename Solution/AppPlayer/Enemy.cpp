@@ -14,6 +14,7 @@ const double ANIMATION_TIME[ Enemy::STATUS_MAX ] = {
 };
 
 const Vector START_POS = Vector( 5, 5, 0 );
+const int MAX_HP = 200;
 
 Enemy::Enemy( ) {
 	_pos = START_POS;
@@ -26,6 +27,8 @@ Enemy::Enemy( ) {
 	_attack_range = 2.0;
 	_power = 50;
 	_is_attack = false;
+	_hp = MAX_HP;
+	_on_damege = false;
 }
 
 Enemy::~Enemy( ) {
@@ -95,6 +98,9 @@ void Enemy::switchStatusOnRange( ) {
 
 void Enemy::setStatus( Enemy::STATUS status ) {
 	_status = status;
+	if ( _on_damege ) {
+		_status = STATUS_DAMAGE;
+	}
 }
 
 void Enemy::managementAnimationTimeOnStatus( ) {
@@ -116,6 +122,13 @@ void Enemy::managementAnimationTimeOnStatus( ) {
 				onAttack( );
 			}
 			break; 
+		case STATUS_DAMAGE:
+			if ( ( int )ANIMATION_TIME[ _status ] < _anim_time ) {
+				_anim_time = 0;
+				_on_damege = false;
+				_status = STATUS_WAIT;
+			}
+			break;
 	}
 	_anim_time += 0.5;
 	_before = _status;
@@ -126,4 +139,14 @@ void Enemy::onAttack( ) {
 	PlayerPtr player = app->getPlayer( );
 
 	player->damage( _power );
+}
+
+int Enemy::getHP( ) const {
+	return _hp;
+}
+
+void Enemy::damage( int pow ) {
+	_hp -= pow;
+	_on_damege = true;
+	_status = STATUS_DAMAGE;
 }

@@ -1,4 +1,6 @@
 #include "Bullet.h"
+#include "App.h"
+#include "Enemy.h"
 #include "mathmatics.h"
 #include "Framework.h"
 
@@ -12,4 +14,20 @@ Bullet::~Bullet( ) {
 
 Bullet::TYPE Bullet::getType( ) const {
 	return _type;
+}
+
+bool Bullet::attackEnemy( const Vector& pos, double power ) {
+	AppPtr app = App::getTask( );
+	EnemyPtr enemy = app->getEnemy( );
+	double bottom = enemy->getPos( ).z;
+	double top = bottom + enemy->getHeight( );
+	if ( pos.z > bottom && pos.z < top ) {
+		Vector distance = pos - enemy->getPos( );
+		double length = distance.getLength( );
+		if ( length <= 1 ) {
+			enemy->damage( power );
+			return true;
+		}
+	}
+	return false;
 }

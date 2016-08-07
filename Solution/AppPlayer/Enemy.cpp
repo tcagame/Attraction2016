@@ -17,6 +17,7 @@ const Vector START_POS = Vector( 5, 5, 0 );
 
 Enemy::Enemy( ) {
 	_pos = START_POS;
+	_height = 2.0;
 	_speed = 0.03;
 	_dir = Vector( -1, 0, 0 );
 	_status = STATUS_WAIT;
@@ -26,6 +27,7 @@ Enemy::Enemy( ) {
 	_attack_range = 2.0;
 	_power = 50;
 	_is_attack = false;
+	_life = 100;
 }
 
 Enemy::~Enemy( ) {
@@ -52,12 +54,24 @@ Vector Enemy::getDir( ) const {
 	return _dir;
 }
 
-double Enemy::getAnimTime( )const {
+double Enemy::getAnimTime( ) const {
 	return _anim_time;
 }
 
 Enemy::STATUS Enemy::getStatus( ) const {
 	return _status;
+}
+
+double Enemy::getHeight( ) const {
+	return _height;
+}
+
+int Enemy::getHP( ) const {
+	return _life;
+}
+
+void Enemy::damage( double power ) {
+	_life -= power;
 }
 
 void Enemy::movePosToTarget( ) {

@@ -148,6 +148,7 @@ void Viewer::drawEnemy( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+	drawer->drawString( 0, 100, "Enemy_HP: %d", enemy->getHP( ) );
 }
 
 void Viewer::drawGroundModel( ) {

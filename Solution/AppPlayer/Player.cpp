@@ -1,8 +1,10 @@
 #include "Player.h"
+#include "BulletSword.h"
+#include "Weapon.h"
+#include "App.h"
 #include "Device.h"
 #include "Camera.h"
 #include "GroundModel.h"
-#include "App.h"
 
 const double ANIMATION_TIME[ Player::STATUS_MAX ] = {
 	20, // MOTION_WAIT,
@@ -56,8 +58,14 @@ void Player::update( ) {
 		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {
 			_status = STATUS_ATTACK;
 		}
-		
 	}
+	if ( _is_attack ) {
+		AppPtr app = App::getTask( );
+		WeaponPtr weapon = app->getWeapon( );
+		BulletPtr bullet = BulletSwordPtr( new BulletSword( getPos( ) + Vector( 0, 0, 0.5 ), getDir( ).x, getDir( ).y ) );
+		weapon->add( bullet );
+	}
+
 	if ( _hp <= 0 ) {
 		_status = STATUS_DEAD;
 	}

@@ -8,6 +8,7 @@ PTR( Player );
 PTR( GroundModel );
 PTR( Enemy );
 PTR( Camera );
+PTR( Weapon );
 
 class App : public Task {
 public:
@@ -25,10 +26,12 @@ public:
 	EnemyPtr  getEnemy( ) const;
 	CameraPtr getCamera( ) const;
 	GroundModelPtr getGroundModel( ) const;
+	WeaponPtr getWeapon( ) const;
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
 	GroundModelPtr _ground_model;
 	EnemyPtr _enemy;
 	CameraPtr _camera;
+	WeaponPtr _weapon;
 };

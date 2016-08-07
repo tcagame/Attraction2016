@@ -32,6 +32,7 @@ public:
 private:
 	void init( );
 	void dead( );
+	void attack( );
 private:
 	CameraConstPtr _camera;
 	bool _is_attack;

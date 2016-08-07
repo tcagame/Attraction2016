@@ -3,6 +3,7 @@
 #include "GroundModel.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Weapon.h"
 #include "Camera.h"
 #include "Keyboard.h"
 #include "Framework.h"
@@ -24,6 +25,9 @@ void App::update( ) {
 	_player->update( );
 	_enemy->update( );
 	_camera->update( );
+	if ( _weapon ) {
+		_weapon->update( );
+	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
 		_player->create( Vector( 1, 1, 0 ) );
@@ -37,6 +41,7 @@ void App::initialize( ) {
 	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( _camera ) );
 	_enemy = EnemyPtr( new Enemy( ) );
+	_weapon = WeaponPtr( new Weapon( ) );
 }
 
 void App::finalize( ) {
@@ -61,4 +66,8 @@ CameraPtr App::getCamera( ) const {
 
 GroundModelPtr App::getGroundModel( ) const {
 	return _ground_model;
+}
+
+WeaponPtr App::getWeapon( ) const {
+	return _weapon;
 }

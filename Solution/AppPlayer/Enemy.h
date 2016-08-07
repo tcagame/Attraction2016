@@ -25,6 +25,9 @@ public:
 	Vector getDir( ) const;
 	double getAnimTime( ) const;
 	STATUS getStatus( ) const;
+	double getHeight( ) const;
+	int getHP( ) const;
+	void damage( double power );
 private:
 	void movePosToTarget( );
 	void switchStatusOnRange( );
@@ -33,6 +36,7 @@ private:
 	void onAttack( );
 private:
 	PlayerWeakPtr _target;
+	double _height;
 	Vector _pos;
 	double _speed;
 	Vector _dir;
@@ -43,5 +47,6 @@ private:
 	double _attack_range;
 	int _power;
 	bool _is_attack;
+	int _life;
 };
 

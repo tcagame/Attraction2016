@@ -11,9 +11,8 @@
 #include "Mouse.h"
 #include "Camera.h"
 
-const char* TEXTURE_NAME = "../Resource/data/dummy_tex.jpg";
-const char* VIEW_MODLE_NAME = "../Resource/data/Overall.mdl";
-const double CHIP_SIZE = 1;
+const double CHIP_WIDTH_SIZE = 7;
+const double CHIP_HEIGHT_SIZE = 4;
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
@@ -67,9 +66,15 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
 	drawer->loadMV1Model( MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
 	drawer->loadMV1Model( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
-
+	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
+	_map_path01_filepath = "../Resource/map_model/path01.mdl";
+	_map_path02_filepath = "../Resource/map_model/path02.mdl";
+	_map_path03_filepath = "../Resource/map_model/path03.mdl";
+	_map_floor_texture_filepath = "../Resource/map_model/floor01_DM.jpg";
+	_map_path_texture_filepath = "../Resource/map_model/path01_DM.jpg";
 	_model = ModelPtr( new Model( ) );
-	_tex_handle = _model->getTextureHandle( TEXTURE_NAME );
+	_floor_tex_handle = _model->getTextureHandle( _map_floor_texture_filepath );
+	_path_tex_handle = _model->getTextureHandle( _map_path_texture_filepath );
 }
 
 void Viewer::update( ) {
@@ -142,7 +147,7 @@ void Viewer::drawEnemy( ) {
 		break;
 	}
 	
-	int time = enemy->getAnimTime( );
+	double time = enemy->getAnimTime( );
 	Vector pos = enemy->getPos( );
 	Vector dir = enemy->getDir( );
 	DrawerPtr drawer = Drawer::getTask( );
@@ -153,21 +158,33 @@ void Viewer::drawEnemy( ) {
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
-	_model->load( VIEW_MODLE_NAME );
 	
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
-
+	int tex_handle = 0;
 	for ( int i = 0; i < width; i++ ) {
 		for ( int j = 0; j < height; j++ ) {
 			int idx = ground->getIdx( i, j );
 			int type = ground->getGroundData( idx );
-			if( type == Ground::GROUND_TYPE_OVERALL ) {
-				_model->load( VIEW_MODLE_NAME );
+			if( type == Ground::GROUND_TYPE_FLOOR_01 ) {
+				_model->load( _map_floor01_filepath );
+				tex_handle = _floor_tex_handle;
+			}
+			if( type == Ground::GROUND_TYPE_PATH_01 ) {
+				_model->load( _map_path01_filepath );
+				tex_handle = _path_tex_handle;
+			}
+			if( type == Ground::GROUND_TYPE_PATH_02 ) {
+				_model->load( _map_path02_filepath );
+				tex_handle = _path_tex_handle;
+			}
+			if( type == Ground::GROUND_TYPE_PATH_03 ) {
+				_model->load( _map_path03_filepath );
+				tex_handle = _path_tex_handle;
 			}
 			if ( _model ) {
-				_model->translate( Vector( i * CHIP_SIZE, j * CHIP_SIZE, 0 ) );
-				_model->draw( _tex_handle );
+				_model->translate( Vector( i * CHIP_WIDTH_SIZE, j * CHIP_HEIGHT_SIZE, 0 ) );
+				_model->draw( tex_handle );
 				_model->reset( );
 			}
 		}

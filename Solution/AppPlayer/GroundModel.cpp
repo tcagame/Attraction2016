@@ -3,11 +3,14 @@
 #include "Model.h"
 #include "App.h"
 
-const char* SOLID_MODLE_NAME = "../Resource/data/Solid.mdl";
-const int SIZE = 1;
+const double WIDTH_SIZE = 7;
+const double HEIGHT_SIZE = 4;
 
 GroundModel::GroundModel() {
-	
+	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
+	_map_path01_filepath = "../Resource/map_model/path01.mdl";
+	_map_path02_filepath = "../Resource/map_model/path02.mdl";
+	_map_path03_filepath = "../Resource/map_model/path03.mdl";
 }
 
 
@@ -27,8 +30,17 @@ void GroundModel::loadModelData( ) {
 			int type = ground->getGroundData( idx );
 			
 			switch( type ) {
-			case Ground::GROUND_TYPE_OVERALL:
-				model->load( SOLID_MODLE_NAME );
+			case Ground::GROUND_TYPE_FLOOR_01:
+				model->load( _map_floor01_filepath );
+				loadModelPos( i, j, model );
+			case Ground::GROUND_TYPE_PATH_01:
+				model->load( _map_path01_filepath );
+				loadModelPos( i, j, model );
+			case Ground::GROUND_TYPE_PATH_02:
+				model->load( _map_path02_filepath );
+				loadModelPos( i, j, model );
+			case Ground::GROUND_TYPE_PATH_03:
+				model->load( _map_path03_filepath );
 				loadModelPos( i, j, model );
 			default:
 				break;
@@ -40,7 +52,7 @@ void GroundModel::loadModelData( ) {
 void GroundModel::loadModelPos( int x, int y, ModelPtr model ) {
 	int polygon_num = model->getPolygonNum( );
 	_polygon_num += polygon_num;
-	model->translate( Vector( x * SIZE, y * SIZE ) );
+	model->translate( Vector( x * WIDTH_SIZE, y * HEIGHT_SIZE ) );
 	for ( int i = 0; i < polygon_num * 3; i++ ) {
 		Vector pos = model->getPoint( i );
 		_pos.push_back( pos );

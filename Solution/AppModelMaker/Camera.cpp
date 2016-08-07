@@ -5,7 +5,7 @@
 #include "ModelMaker.h"
 #include "Model.h"
 
-const Vector START_TO_POS = Vector( 0, 40, 40 );
+const Vector START_TO_POS = Vector( 0, 50, 50 );
 
 CameraPtr Camera::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );

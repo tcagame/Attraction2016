@@ -2,7 +2,7 @@
 
 const double SLASH_RADIUS = PI * 0.8;
 
-const double SWORD_POWER = 0.1;
+const int SWORD_POWER = 1;
 const double SWORD_SPEED = 0.5;
 const int SWORD_LENGTH = 3;
 

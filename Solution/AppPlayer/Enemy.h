@@ -27,26 +27,32 @@ public:
 	STATUS getStatus( ) const;
 	double getHeight( ) const;
 	int getHP( ) const;
-	void damage( double power );
+	bool isExistance( ) const;
+	void damage( int pow );
 private:
 	void movePosToTarget( );
-	void switchStatusOnRange( );
+	void switchStatus( );
 	void setStatus( STATUS status );
 	void managementAnimationTimeOnStatus( );
 	void onAttack( );
 private:
-	PlayerWeakPtr _target;
 	double _height;
 	Vector _pos;
-	double _speed;
 	Vector _dir;
-	double _anim_time;
+	int _power;
+	int _hp;
+	double _speed;
+	
 	STATUS _status;
 	STATUS _before;
-	double _move_range;
+
+	PlayerWeakPtr _target;
 	double _attack_range;
-	int _power;
+	double _move_range;
+	
+	bool _is_existance;
 	bool _is_attack;
-	int _life;
+	bool _on_damege;
+	double _anim_time;
 };
 

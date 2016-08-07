@@ -19,6 +19,9 @@ private:
 private:
 	std::vector< Vector > _pos;
 	int _polygon_num;
-
+	char* _map_floor01_filepath;
+	char* _map_path01_filepath;
+	char* _map_path02_filepath;
+	char* _map_path03_filepath;
 };
 

@@ -23,25 +23,35 @@ public:
 	void update( );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
+	int getHP( ) const;
 	double getAnimTime( ) const;
 	STATUS getStatus( ) const;
+	bool isExistance( ) const;
+	void damage( int pow );
 private:
 	void movePosToTarget( );
-	void switchStatusOnRange( );
+	void switchStatus( );
 	void setStatus( STATUS status );
 	void managementAnimationTimeOnStatus( );
 	void onAttack( );
 private:
-	PlayerWeakPtr _target;
 	Vector _pos;
-	double _speed;
 	Vector _dir;
-	double _anim_time;
+	int _power;
+	int _hp;
+	double _speed;
+	
 	STATUS _status;
 	STATUS _before;
-	double _move_range;
+
+	PlayerWeakPtr _target;
 	double _attack_range;
-	int _power;
+	double _move_range;
+	
+	bool _is_existance;
 	bool _is_attack;
+	bool _on_damege;
+	
+	double _anim_time;
 };
 

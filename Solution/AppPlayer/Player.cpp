@@ -40,7 +40,7 @@ void Player::update( ) {
 
 	Vector device_dir = _camera->getConvertDeviceVec( );
 	DevicePtr device = Device::getTask( );
-	if ( !_is_attack ) {
+	if ( _status == STATUS_WAIT || _status == STATUS_WALK ) {
 		_status = STATUS_WAIT;
 		//ˆÚ“®ˆ—
 		if ( device_dir.getLength( ) > 0 ) {
@@ -53,11 +53,14 @@ void Player::update( ) {
 			}
 			_status = STATUS_WALK;
 		}
+	}
+
+	if ( !_is_attack ) {
 		if ( device->isHoldButton( Device::BUTTON_LIST_1 ) ) {
 			_status = STATUS_ATTACK;
 		}
-		
 	}
+
 	if ( _hp <= 0 ) {
 		_status = STATUS_DEAD;
 	}
@@ -81,12 +84,16 @@ void Player::update( ) {
 				_anim_time = 0;
 			}
 			break;
-
-	}
-
-	
-	if ( _anim_time > ( int )ANIMATION_TIME[ _status ] ) {
-		dead( );
+		case STATUS_DAMAGE:
+			if ( _anim_time > ( int )ANIMATION_TIME[ _status ] ) {
+				_anim_time = 0;
+				_status = STATUS_WAIT;
+			}
+		case STATUS_DEAD:
+			if ( _anim_time > ( int )ANIMATION_TIME[ _status ] ) {
+				dead( );
+			}
+		break;
 	}
 	_anim_time++;
 

@@ -132,6 +132,9 @@ void Viewer::drawPlayer( ) {
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
 	EnemyPtr enemy = app->getEnemy( );
+	if ( !enemy->isExistance( ) ) {
+		return;
+	}
 
 	int motion = MOTION_MINOTAUR_WAIT;
 	switch( enemy->getStatus( ) ) {
@@ -143,6 +146,13 @@ void Viewer::drawEnemy( ) {
 		break;
 	case Enemy::STATUS_CLEAVE:
 		motion = MOTION_MINOTAUR_CLEAVE;
+		break;
+	case Enemy::STATUS_DAMAGE:
+		motion = MOTION_MINOTAUR_DAMAGE;
+		break;
+	case Enemy::STATUS_DEAD:
+		motion = MOTION_MINOTAUR_DEAD;
+		break;
 	default:
 		break;
 	}
@@ -153,6 +163,7 @@ void Viewer::drawEnemy( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+	drawer->drawString( 0, 100, "Enemy_HP: %d", enemy->getHP( ) );
 }
 
 void Viewer::drawGroundModel( ) {

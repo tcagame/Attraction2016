@@ -42,7 +42,6 @@ void Enemy::update( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
 	if ( player->getExistence( ) ) {
-		damage( 1 );
 		_target = player;
 	} else {
 		_target.reset( );

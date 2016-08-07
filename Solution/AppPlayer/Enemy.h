@@ -26,10 +26,11 @@ public:
 	int getHP( ) const;
 	double getAnimTime( ) const;
 	STATUS getStatus( ) const;
+	bool isExistance( ) const;
 	void damage( int pow );
 private:
 	void movePosToTarget( );
-	void switchStatusOnRange( );
+	void switchStatus( );
 	void setStatus( STATUS status );
 	void managementAnimationTimeOnStatus( );
 	void onAttack( );
@@ -47,6 +48,7 @@ private:
 	double _attack_range;
 	double _move_range;
 	
+	bool _is_existance;
 	bool _is_attack;
 	bool _on_damege;
 	

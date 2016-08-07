@@ -127,6 +127,9 @@ void Viewer::drawPlayer( ) {
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
 	EnemyPtr enemy = app->getEnemy( );
+	if ( !enemy->isExistance( ) ) {
+		return;
+	}
 
 	int motion = MOTION_MINOTAUR_WAIT;
 	switch( enemy->getStatus( ) ) {
@@ -141,6 +144,9 @@ void Viewer::drawEnemy( ) {
 		break;
 	case Enemy::STATUS_DAMAGE:
 		motion = MOTION_MINOTAUR_DAMAGE;
+		break;
+	case Enemy::STATUS_DEAD:
+		motion = MOTION_MINOTAUR_DEAD;
 		break;
 	default:
 		break;

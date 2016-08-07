@@ -29,21 +29,26 @@ Enemy::Enemy( ) {
 	_is_attack = false;
 	_hp = MAX_HP;
 	_on_damege = false;
+	_is_existance = true;
 }
 
 Enemy::~Enemy( ) {
 }
 
 void Enemy::update( ) {
+	if ( !_is_existance ) {
+		return;
+	}
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
 	if ( player->getExistence( ) ) {
+		damage( 1 );
 		_target = player;
 	} else {
 		_target.reset( );
 	}
 	movePosToTarget( );
-	switchStatusOnRange( );
+	switchStatus( );
 	managementAnimationTimeOnStatus( );
 }
 
@@ -78,7 +83,7 @@ void Enemy::movePosToTarget( ) {
 	}
 }
 
-void Enemy::switchStatusOnRange( ) {
+void Enemy::switchStatus( ) {
 	setStatus( STATUS_WAIT );
 	if ( _target.expired( ) ) {
 		return;
@@ -94,13 +99,23 @@ void Enemy::switchStatusOnRange( ) {
 	if ( range <= _attack_range ) {
 		setStatus( STATUS_CLEAVE );
 	}
+	if ( _on_damege ) {
+		setStatus( STATUS_DAMAGE );
+	}
+	if ( _hp <= 0 ) {
+		setStatus( STATUS_DEAD );
+	}
+	
+	if ( _status != STATUS_CLEAVE ) {
+		_is_attack = false;
+	}
+	if ( _status != STATUS_DAMAGE ) {
+		_on_damege = false;
+	}
 }
 
 void Enemy::setStatus( Enemy::STATUS status ) {
 	_status = status;
-	if ( _on_damege ) {
-		_status = STATUS_DAMAGE;
-	}
 }
 
 void Enemy::managementAnimationTimeOnStatus( ) {
@@ -129,6 +144,12 @@ void Enemy::managementAnimationTimeOnStatus( ) {
 				_status = STATUS_WAIT;
 			}
 			break;
+		case STATUS_DEAD:
+			if ( ( int )ANIMATION_TIME[ _status ] < _anim_time ) {
+				_anim_time = 0;
+				_is_existance = false;
+			}
+			break;
 	}
 	_anim_time += 0.5;
 	_before = _status;
@@ -146,7 +167,12 @@ int Enemy::getHP( ) const {
 }
 
 void Enemy::damage( int pow ) {
-	_hp -= pow;
-	_on_damege = true;
-	_status = STATUS_DAMAGE;
+	if ( _hp > 0 ) {
+		_hp -= pow;
+		_on_damege = true;
+	}
+}
+
+bool Enemy::isExistance( ) const {
+	return _is_existance;
 }

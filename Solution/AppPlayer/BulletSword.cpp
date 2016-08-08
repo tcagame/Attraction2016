@@ -2,7 +2,7 @@
 
 const double SLASH_RADIUS = PI * 0.8;
 
-const int SWORD_POWER = 1;
+const int SWORD_POWER = 25;
 const double SWORD_SPEED = 0.5;
 const int SWORD_LENGTH = 3;
 
@@ -11,6 +11,8 @@ BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y )
 , _pos( pos )
 , _dir( dir_x, dir_y, 0 ) {
 	_ratio = 0;
+	_is_attack = false;
+
 }
 
 
@@ -42,7 +44,7 @@ bool BulletSword::update( ) {
 	if ( _ratio < 1.0 ) {
 		return true;
 	}
-
+	int count = 0;
 	Vector pos = getPos( );
 	Vector end_dir = getEndDir( );
 	Vector begin_dir = getBeginDir( );
@@ -59,7 +61,9 @@ bool BulletSword::update( ) {
 			double center_angle = center_dir.angle( p - pos );
 			if ( center_angle < angle  ) {
 				if ( ( pos - p ).getLength( ) < getLength( ) ) {
+					count++;
 					attackEnemy( p, SWORD_POWER );
+					_is_attack = true;
 				}
 			}
 		}

@@ -111,7 +111,6 @@ void Enemy::switchStatus( ) {
 	if ( _hp <= 0 ) {
 		setStatus( STATUS_DEAD );
 	}
-	
 	if ( _status != STATUS_CLEAVE ) {
 		_is_attack = false;
 	}
@@ -139,7 +138,7 @@ void Enemy::managementAnimationTimeOnStatus( ) {
 			if ( ( int )ANIMATION_TIME[ _status ] < _anim_time ) {
 				_anim_time = 0;
 			}
-			if ( _anim_time == 40 ) {
+			if ( _anim_time == 35 ) {
 				onAttack( );
 			}
 			break; 

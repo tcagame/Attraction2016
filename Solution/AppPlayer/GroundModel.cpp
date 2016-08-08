@@ -23,9 +23,10 @@ void GroundModel::loadModelData( ) {
 	GroundPtr ground = app->getGround( );
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
-	ModelPtr model = ModelPtr( new Model( ) ); 
+
 	for ( int i = 0; i < width; i++ ) {
 		for ( int j = 0; j < height; j++ ) {
+			ModelPtr model = ModelPtr( new Model( ) ); 
 			int idx = ground->getIdx( i, j );
 			int type = ground->getGroundData( idx );
 			
@@ -33,15 +34,19 @@ void GroundModel::loadModelData( ) {
 			case Ground::GROUND_TYPE_FLOOR_01:
 				model->load( _map_floor01_filepath );
 				loadModelPos( i, j, model );
+				break;
 			case Ground::GROUND_TYPE_PATH_01:
 				model->load( _map_path01_filepath );
 				loadModelPos( i, j, model );
+				break;
 			case Ground::GROUND_TYPE_PATH_02:
 				model->load( _map_path02_filepath );
 				loadModelPos( i, j, model );
+				break;
 			case Ground::GROUND_TYPE_PATH_03:
 				model->load( _map_path03_filepath );
 				loadModelPos( i, j, model );
+				break;
 			default:
 				break;
 			}

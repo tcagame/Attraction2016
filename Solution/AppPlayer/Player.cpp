@@ -31,6 +31,7 @@ void Player::init( ) {
 	_anim_time = 0;
 	_is_existence = false;
 	_is_attack = false;
+	_is_attacked = false;
 	_hp = 150;
 }
 
@@ -63,10 +64,13 @@ void Player::update( ) {
 		}
 	}
 	if ( _is_attack ) {
-		AppPtr app = App::getTask( );
-		WeaponPtr weapon = app->getWeapon( );
-		BulletPtr bullet = BulletSwordPtr( new BulletSword( getPos( ) + Vector( 0, 0, 0.5 ), getDir( ).x, getDir( ).y ) );
-		weapon->add( bullet );
+		if ( !_is_attacked ) {
+			_is_attacked = true;
+			AppPtr app = App::getTask( );
+			WeaponPtr weapon = app->getWeapon( );
+			BulletPtr bullet = BulletSwordPtr( new BulletSword( getPos( ) + Vector( 0, 0, 0.5 ), getDir( ).x, getDir( ).y ) );
+			weapon->add( bullet );
+		}
 	}
 
 	if ( _hp <= 0 ) {
@@ -91,6 +95,7 @@ void Player::update( ) {
 			if ( _anim_time > ( int )ANIMATION_TIME[ _status ] ) {
 				_anim_time = 0;
 				_status = STATUS_WAIT;
+				_is_attacked = false;
 			}
 			break;
 		case STATUS_DAMAGE:
@@ -105,7 +110,6 @@ void Player::update( ) {
 		break;
 	}
 	_anim_time++;
-
 }
 
 void Player::create( const Vector& pos ) {

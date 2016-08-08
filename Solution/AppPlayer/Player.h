@@ -36,6 +36,7 @@ private:
 private:
 	CameraConstPtr _camera;
 	bool _is_attack;
+	bool _is_attacked;
 	bool _is_existence;
 	Vector _pos;
 	double _speed;

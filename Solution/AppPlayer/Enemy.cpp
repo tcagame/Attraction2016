@@ -42,7 +42,7 @@ void Enemy::update( ) {
 	}
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
-	if ( player->getExistence( ) ) {
+	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
 		_target.reset( );

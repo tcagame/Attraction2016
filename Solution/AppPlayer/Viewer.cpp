@@ -10,6 +10,7 @@
 #include "mathmatics.h"
 #include "Mouse.h"
 #include "Camera.h"
+#include "Animation.h"
 
 const double CHIP_WIDTH_SIZE = 7;
 const double CHIP_HEIGHT_SIZE = 4;
@@ -17,24 +18,6 @@ const double CHIP_HEIGHT_SIZE = 4;
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
-
-
-enum MOTION {
-	MOTION_PLAYER_WAIT,
-	MOTION_PLAYER_WALK,
-	MOTION_PLAYER_ATTACK,
-	MOTION_PLAYER_DAMAGE,
-	MOTION_PLAYER_DEAD,
-	MOTION_PLAYER_USE,
-	MOTION_MINOTAUR_WAIT,
-	MOTION_MINOTAUR_WALK,
-	MOTION_MINOTAUR_CLEAVE,
-	MOTION_MINOTAUR_DAMAGE,
-	MOTION_MINOTAUR_DEAD,
-	MOTION_MINOTAUR_SMASH,
-	MOTION_MINOTAUR_DASH,
-	MOTION_MAX
-};
 
 ViewerPtr Viewer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -53,19 +36,19 @@ void Viewer::initialize( ) {
 	fw->setCameraUp( UP_VEC );
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
-	drawer->loadMV1Model( MOTION_PLAYER_WAIT, "knight/player_knight_wait.mv1" );
-	drawer->loadMV1Model( MOTION_PLAYER_WALK, "knight/player_knight_walk.mv1" );
-	drawer->loadMV1Model( MOTION_PLAYER_ATTACK, "knight/player_knight_attack.mv1" );
-	drawer->loadMV1Model( MOTION_PLAYER_DAMAGE, "knight/player_knight_damege.mv1" );
-	drawer->loadMV1Model( MOTION_PLAYER_DEAD, "knight/player_knight_dead.mv1" );
-	drawer->loadMV1Model( MOTION_PLAYER_USE, "knight/player_knight_use.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_WAIT, "minotaur/enemy_minotaur_wait.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_WALK, "minotaur/enemy_minotaur_walk.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_CLEAVE, "minotaur/enemy_minotaur_cleave.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_DAMAGE, "minotaur/enemy_minotaur_damege.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
-	drawer->loadMV1Model( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WAIT, "knight/player_knight_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WALK, "knight/player_knight_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_ATTACK, "knight/player_knight_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_DAMAGE, "knight/player_knight_damege.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_DEAD, "knight/player_knight_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_USE, "knight/player_knight_use.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WAIT, "minotaur/enemy_minotaur_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WALK, "minotaur/enemy_minotaur_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_CLEAVE, "minotaur/enemy_minotaur_cleave.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DAMAGE, "minotaur/enemy_minotaur_damege.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";
@@ -97,36 +80,21 @@ void Viewer::updateCamera( ) {
 void Viewer::drawPlayer( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
-	if ( !player->getExistence( ) ) {
+	if ( !player->isExpired( ) ) {
 		return;
 	}
-	int motion = MOTION_PLAYER_WAIT;
-	switch( player->getStatus( ) ) {
-	case Player::STATUS_WAIT:
-		motion = MOTION_PLAYER_WAIT;
-		break;
-	case Player::STATUS_WALK:
-		motion = MOTION_PLAYER_WALK;
-		break;
-	case Player::STATUS_ATTACK:
-		motion = MOTION_PLAYER_ATTACK;
-		break;
-	case Player::STATUS_DAMAGE:
-		motion = MOTION_PLAYER_DAMAGE;
-		break;
-	case Player::STATUS_DEAD:
-		motion = MOTION_PLAYER_DEAD;
-		break;
-	default:
-		break;
-	}
-	int time = player->getAnimTime( );
+	AnimationPtr animation = player->getAnimation( );
+	int motion = animation->getMotion( );
+	double time = animation->getAnimTime( );
 	Vector pos = player->getPos( );
 	Vector dir = player->getDir( );
+
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
-	drawer->drawString( 0, 50, "Palyer_HP: %d", player->getHP( ) );
+	
+	Player::STATUS status = player->getStatus( );
+	drawer->drawString( 0, 50, "Palyer_HP: %d", status.hp );
 }
 
 void Viewer::drawEnemy( ) {
@@ -136,22 +104,22 @@ void Viewer::drawEnemy( ) {
 		return;
 	}
 
-	int motion = MOTION_MINOTAUR_WAIT;
+	int motion = Animation::MOTION_MINOTAUR_WAIT;
 	switch( enemy->getStatus( ) ) {
 	case Enemy::STATUS_WAIT:
-		motion = MOTION_MINOTAUR_WAIT;
+		motion = Animation::MOTION_MINOTAUR_WAIT;
 		break;
 	case Enemy::STATUS_WALK:
-		motion = MOTION_MINOTAUR_WALK;
+		motion = Animation::MOTION_MINOTAUR_WALK;
 		break;
 	case Enemy::STATUS_CLEAVE:
-		motion = MOTION_MINOTAUR_CLEAVE;
+		motion = Animation::MOTION_MINOTAUR_CLEAVE;
 		break;
 	case Enemy::STATUS_DAMAGE:
-		motion = MOTION_MINOTAUR_DAMAGE;
+		motion = Animation::MOTION_MINOTAUR_DAMAGE;
 		break;
 	case Enemy::STATUS_DEAD:
-		motion = MOTION_MINOTAUR_DEAD;
+		motion = Animation::MOTION_MINOTAUR_DEAD;
 		break;
 	default:
 		break;

@@ -55,6 +55,8 @@ void App::update( ) {
 
 		_player->create( Vector( x, y, 0 ) );
 	}
+	Vector player_pos = _player->getPos( );
+	_camera->setTarget( player_pos );
 }
 
 

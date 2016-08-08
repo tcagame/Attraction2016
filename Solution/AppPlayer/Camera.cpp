@@ -22,6 +22,10 @@ Vector Camera::getTarget( ) const {
 	return _target;
 }
 
+void Camera::setTarget( Vector target ) {
+	_target = target;
+}
+
 Vector Camera::getConvertDeviceVec( ) const {
 
 	//ƒJƒƒ‰‚ÌŒü‚«‚ğ‹‚ß‚Ä‚¢‚é

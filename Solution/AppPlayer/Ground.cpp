@@ -4,14 +4,14 @@
 
 
 Ground::Ground( const char* file_name ) {
-	loadGroundCSV( file_name );
+	loadMapCSV( file_name );
 }
 
 
 Ground::~Ground( ) {
 }
 
-bool Ground::loadGroundCSV( const char* file_name ) {
+bool Ground::loadMapCSV( const char* file_name ) {
 	//ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
 	FILE* fp;
 	errno_t err = fopen_s( &fp, file_name, "r" );

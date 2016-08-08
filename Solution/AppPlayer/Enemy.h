@@ -17,7 +17,7 @@ public:
 		STATUS_MAX
 	};
 public:
-	Enemy( );
+	Enemy( Vector START_POS );
 	virtual ~Enemy( );
 public:
 	void update( );

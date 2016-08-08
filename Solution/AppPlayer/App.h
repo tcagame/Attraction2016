@@ -9,6 +9,7 @@ PTR( GroundModel );
 PTR( Enemy );
 PTR( Camera );
 PTR( Weapon );
+PTR( CharacterPlacement );
 
 class App : public Task {
 public:
@@ -34,4 +35,5 @@ private:
 	EnemyPtr _enemy;
 	CameraPtr _camera;
 	WeaponPtr _weapon;
+	CharacterPlacementPtr _charcter_placement;
 };

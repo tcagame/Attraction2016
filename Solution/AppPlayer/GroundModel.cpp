@@ -3,8 +3,6 @@
 #include "Model.h"
 #include "App.h"
 
-const double WIDTH_SIZE = 7;
-const double HEIGHT_SIZE = 4;
 
 GroundModel::GroundModel() {
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
@@ -57,7 +55,7 @@ void GroundModel::loadModelData( ) {
 void GroundModel::loadModelPos( int x, int y, ModelPtr model ) {
 	int polygon_num = model->getPolygonNum( );
 	_polygon_num += polygon_num;
-	model->translate( Vector( x * WIDTH_SIZE, y * HEIGHT_SIZE ) );
+	model->translate( Vector( x * Ground::CHIP_WIDTH, y * Ground::CHIP_HEIGHT ) );
 	for ( int i = 0; i < polygon_num * 3; i++ ) {
 		Vector pos = model->getPoint( i );
 		_pos.push_back( pos );

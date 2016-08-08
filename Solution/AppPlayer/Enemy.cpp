@@ -13,10 +13,9 @@ const double ANIMATION_TIME[ Enemy::STATUS_MAX ] = {
 	100, // MOTION_SMASH,
 };
 
-const Vector START_POS = Vector( 5, 5, 0 );
 const int MAX_HP = 200;
 
-Enemy::Enemy( ) {
+Enemy::Enemy( Vector START_POS ) {
 	_pos = START_POS;
 	_height = 2.0;
 	_speed = 0.03;

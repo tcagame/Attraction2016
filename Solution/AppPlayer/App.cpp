@@ -1,8 +1,9 @@
 #include "App.h"
-#include "Ground.h"
-#include "GroundModel.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "GroundModel.h"
+#include "CharacterPlacement.h"
+#include "Ground.h"
 #include "Weapon.h"
 #include "Camera.h"
 #include "Keyboard.h"
@@ -21,6 +22,24 @@ App::App( ) {
 App::~App( ) {
 }
 
+void App::initialize( ) {
+	_ground = GroundPtr( new Ground( "../Resource/map.csv" ) );
+	_ground_model = GroundModelPtr( new GroundModel( ) );
+	_ground_model->loadModelData( );
+	_camera = CameraPtr( new Camera( ) );
+	_player = PlayerPtr( new Player( _camera ) );
+	_charcter_placement =  CharacterPlacementPtr( new CharacterPlacement( "../Resource/character.csv" ) );
+	int idx = _charcter_placement->getEnemyPlacement( 0 );
+	int x = idx % _ground->getWidth( ) * Ground::CHIP_WIDTH;
+	int y = idx / _ground->getWidth( ) * Ground::CHIP_HEIGHT;
+	_enemy = EnemyPtr( new Enemy( Vector( x, y, 0) ) );
+	_weapon = WeaponPtr( new Weapon( ) );
+}
+
+void App::finalize( ) {
+
+}
+
 void App::update( ) {
 	_player->update( );
 	_enemy->update( );
@@ -30,23 +49,14 @@ void App::update( ) {
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
-		_player->create( Vector( 1, 1, 0 ) );
+		int idx = _charcter_placement->getPlayerPlacement( );
+		int x = idx % _ground->getWidth( ) * Ground::CHIP_WIDTH;
+		int y = idx / _ground->getWidth( ) * Ground::CHIP_HEIGHT;
+
+		_player->create( Vector( x, y, 0 ) );
 	}
 }
 
-void App::initialize( ) {
-	_ground = GroundPtr( new Ground( "map.csv" ) );
-	_ground_model = GroundModelPtr( new GroundModel( ) );
-	_ground_model->loadModelData( );
-	_camera = CameraPtr( new Camera( ) );
-	_player = PlayerPtr( new Player( _camera ) );
-	_enemy = EnemyPtr( new Enemy( ) );
-	_weapon = WeaponPtr( new Weapon( ) );
-}
-
-void App::finalize( ) {
-
-}
 
 GroundPtr App::getGround( ) const {
 	return _ground;

@@ -1,10 +1,12 @@
 #include "Character.h"
 #include "Behavior.h"
 
+Vector START_DIR = Vector( 0, 1, 0 );
+
 Character::Character( TYPE type, BehaviorPtr behavior ) :
 CHARACTER_TYPE( type ) {
 	_behavior = behavior;
-	init( );
+	_behavior->setParent( CharacterPtr( this ) );
 }
 
 Character::~Character( ) {
@@ -20,8 +22,10 @@ void Character::move( Vector vec ) {
 	_pos += vec;
 }
 
-void Character::create( Vector pos ) {
+void Character::create( Vector pos, Character::STATUS status ) {
+	_status = status;
 	_pos = pos;
+	_dir = START_DIR;
 	_expired = true;
 }
 
@@ -51,20 +55,4 @@ Character::TYPE Character::getType( ) const {
 
 bool Character::isExpired( ) const {
 	return _expired;
-}
-
-void Character::setPos( Vector pos ) {
-	_pos = pos;
-}
-
-void Character::setDir( Vector dir ) {
-	_dir = dir;
-}
-
-void Character::setStatus( Character::STATUS status ) {
-	_status = status;
-}
-
-void Character::setExpired( bool expired ) {
-	_expired = expired;
 }

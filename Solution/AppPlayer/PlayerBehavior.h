@@ -1,21 +1,19 @@
 #pragma once
 #include "Behavior.h"
 #include "smart_ptr.h"
-#include "mathmatics.h"
 
 PTR( PlayerBehavior );
 PTR( Camera );
 
+//コントローラーで動くもの
 class PlayerBehavior : public Behavior {
 public:
 	PlayerBehavior( CameraConstPtr camera );
 	virtual ~PlayerBehavior( );
+public:
+	void update( );
 protected:
-	virtual void attack( ) = 0;
-	virtual void animationUpdate( ) = 0;
-private:
-	void moveUpdate( );
-	void deviceControll( );
+	virtual void otherAction( ) = 0;//攻撃などの外の行動
 protected:
 	CameraConstPtr _camera;
 };

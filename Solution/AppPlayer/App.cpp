@@ -2,6 +2,7 @@
 #include "Ground.h"
 #include "GroundModel.h"
 #include "Player.h"
+#include "PlayerKnightBehavior.h"
 #include "Enemy.h"
 #include "Weapon.h"
 #include "Camera.h"
@@ -17,7 +18,6 @@ App::App( ) {
 
 }
 
-
 App::~App( ) {
 }
 
@@ -30,7 +30,7 @@ void App::update( ) {
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
-		_player->create( Vector( 1, 1, 0 ) );
+		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 200, 1, 1 ) );
 	}
 }
 
@@ -39,7 +39,7 @@ void App::initialize( ) {
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
-	_player = PlayerPtr( new Player( _camera ) );
+	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
 	_enemy = EnemyPtr( new Enemy( ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 }

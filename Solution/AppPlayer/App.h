@@ -10,6 +10,8 @@ PTR( Enemy );
 PTR( Camera );
 PTR( Weapon );
 PTR( CharacterPlacement );
+PTR( DeedBox );
+PTR( DeedBoxPlacement );
 
 class App : public Task {
 public:
@@ -28,6 +30,8 @@ public:
 	CameraPtr getCamera( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;
+	DeedBoxPtr getDeedBox( ) const;
+
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;
@@ -35,5 +39,8 @@ private:
 	EnemyPtr _enemy;
 	CameraPtr _camera;
 	WeaponPtr _weapon;
+	DeedBoxPtr _deed_box;
 	CharacterPlacementPtr _charcter_placement;
+	DeedBoxPlacementPtr _deed_box_placement;
+
 };

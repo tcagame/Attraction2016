@@ -20,6 +20,7 @@ public:
 private:
 	void drawPlayer( );
 	void drawEnemy( );
+	void drawDeedBox( );
 	void drawGroundModel( );
 	void updateCamera( );
 	Vector getCameraDir( );

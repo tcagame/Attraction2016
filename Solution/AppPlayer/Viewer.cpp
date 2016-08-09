@@ -4,6 +4,7 @@
 #include "Ground.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "DeedBox.h"
 #include "Drawer.h"
 #include "Framework.h"
 #include "Device.h"
@@ -30,6 +31,7 @@ enum MOTION {
 	MOTION_MINOTAUR_DEAD,
 	MOTION_MINOTAUR_SMASH,
 	MOTION_MINOTAUR_DASH,
+	MOTION_DEEDBOX,
 	MOTION_MAX
 };
 
@@ -63,6 +65,7 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
 	drawer->loadMV1Model( MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
 	drawer->loadMV1Model( MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
+	drawer->loadMV1Model( MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";
@@ -77,6 +80,7 @@ void Viewer::initialize( ) {
 void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
+	drawDeedBox( );
 	drawGroundModel( );
 	updateCamera( );
 }
@@ -161,6 +165,22 @@ void Viewer::drawEnemy( ) {
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
 	drawer->drawString( 0, 100, "Enemy_HP: %d", enemy->getHP( ) );
+}
+
+void Viewer::drawDeedBox( ) {
+	AppPtr app = App::getTask( );
+	DeedBoxPtr deed_box = app->getDeedBox( );
+	if ( !deed_box ) {
+		return;
+	}
+
+	int motion = MOTION_DEEDBOX;
+	int time = 0;
+	Vector pos = deed_box->getPos( );
+	Vector dir = deed_box->getDir( );
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
+	drawer->setModel( model );
 }
 
 void Viewer::drawGroundModel( ) {

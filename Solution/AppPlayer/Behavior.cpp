@@ -3,11 +3,21 @@
 #include <assert.h>
 
 Behavior::Behavior( ) {
+	_animation = AnimationPtr( new Animation( ) );
+}
+
+Behavior::~Behavior( ) {
+}
+
+void Behavior::init( ) {
 	_common_state = COMMON_STATE_WAIT;
 	_befor_state = _common_state;
 }
 
-Behavior::~Behavior( ) {
+void Behavior::mainLoop( ) {
+	update( );
+	animationUpdate( );
+	_animation->update( );
 }
 
 AnimationPtr Behavior::getAnimation( ) const {

@@ -1,58 +1,11 @@
 #pragma once
+#include "Character.h"
 #include "smart_ptr.h"
-#include "mathmatics.h"
 
 PTR( Enemy );
-PTR( Player );
 
-class Enemy {
+class Enemy : public Character {
 public:
-	enum STATUS {
-		STATUS_WAIT,
-		STATUS_WALK,
-		STATUS_CLEAVE,
-		STATUS_DAMAGE,
-		STATUS_DEAD,
-		STATUS_SMASH,
-		STATUS_MAX
-	};
-public:
-	Enemy( );
+	Enemy( BehaviorPtr behavior );
 	virtual ~Enemy( );
-public:
-	void update( );
-	Vector getPos( ) const;
-	Vector getDir( ) const;
-	double getAnimTime( ) const;
-	STATUS getStatus( ) const;
-	double getHeight( ) const;
-	int getHP( ) const;
-	bool isExistance( ) const;
-	void damage( int pow );
-private:
-	void movePosToTarget( );
-	void switchStatus( );
-	void setStatus( STATUS status );
-	void managementAnimationTimeOnStatus( );
-	void onAttack( );
-private:
-	double _height;
-	Vector _pos;
-	Vector _dir;
-	int _power;
-	int _hp;
-	double _speed;
-	
-	STATUS _status;
-	STATUS _before;
-
-	PlayerWeakPtr _target;
-	double _attack_range;
-	double _move_range;
-	
-	bool _is_existance;
-	bool _is_attack;
-	bool _on_damege;
-	double _anim_time;
 };
-

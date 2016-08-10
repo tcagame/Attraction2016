@@ -22,13 +22,14 @@ enum MOTION {
 	MOTION_MAX
 };
 public:
-	Animation( MOTION motion, double anim_speed = 1.0 );
+	Animation( MOTION motion = MOTION_MAX, double anim_speed = 1.0 );
 	virtual ~Animation( );
 public:
 	void update( );
 	bool isEndAnimation( ) const;
 	int getMotion( ) const;
 	double getAnimTime( ) const;
+	void setAnimationTime( double anim_time );
 private:
 	double _anim_time;
 	double _max_anim_time;

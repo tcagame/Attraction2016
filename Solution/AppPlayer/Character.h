@@ -17,7 +17,7 @@ public:
 			power = 0;
 			speed = 0;
 		}
-		STATUS( int hp_, int power_, int speed_ ) {
+		STATUS( int hp_, unsigned int power_, double speed_ ) {
 			hp = hp_;
 			power = power_;
 			speed = speed_;
@@ -35,6 +35,7 @@ public:
 	void create( Vector pos, STATUS status );
 	void damage( unsigned int power );
 	void move( Vector vec );
+	void dead( );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	STATUS getStatus( ) const;

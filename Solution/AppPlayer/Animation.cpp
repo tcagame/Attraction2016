@@ -31,3 +31,7 @@ int Animation::getMotion( ) const {
 double Animation::getAnimTime( ) const {
 	return _anim_time;
 }
+
+void Animation::setAnimationTime( double anim_time ) {
+	_anim_time = anim_time;
+}

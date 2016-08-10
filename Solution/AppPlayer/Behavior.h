@@ -17,10 +17,12 @@ public:
 	Behavior( );
 	virtual ~Behavior( );
 public:
-	virtual void update( ) = 0;
+	void init( );
+	void mainLoop( );
 	AnimationPtr getAnimation( ) const;
 	void setParent( CharacterPtr parent );
 protected:
+	virtual void update( ) = 0;
 	virtual void animationUpdate( ) = 0;
 protected:
 	CharacterPtr _parent;

@@ -40,7 +40,7 @@ Vector Camera::getConvertDeviceVec( ) const {
 	device_dir.z = 0;
 	//·Šp•ª‰ñ“]‚³‚¹‚é
 	device_dir = mat.multiply( device_dir );
-	return device_dir;
+	return device_dir.normalize( );
 }
 
 void Camera::update( ) {

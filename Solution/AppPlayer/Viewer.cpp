@@ -100,38 +100,22 @@ void Viewer::drawPlayer( ) {
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
 	EnemyPtr enemy = app->getEnemy( );
-	if ( !enemy->isExistance( ) ) {
+	if ( !enemy->isExpired( ) ) {
 		return;
 	}
 
-	int motion = Animation::MOTION_MINOTAUR_WAIT;
-	switch( enemy->getStatus( ) ) {
-	case Enemy::STATUS_WAIT:
-		motion = Animation::MOTION_MINOTAUR_WAIT;
-		break;
-	case Enemy::STATUS_WALK:
-		motion = Animation::MOTION_MINOTAUR_WALK;
-		break;
-	case Enemy::STATUS_CLEAVE:
-		motion = Animation::MOTION_MINOTAUR_CLEAVE;
-		break;
-	case Enemy::STATUS_DAMAGE:
-		motion = Animation::MOTION_MINOTAUR_DAMAGE;
-		break;
-	case Enemy::STATUS_DEAD:
-		motion = Animation::MOTION_MINOTAUR_DEAD;
-		break;
-	default:
-		break;
-	}
-	
-	double time = enemy->getAnimTime( );
+	AnimationPtr animation = enemy->getAnimation( );
+	int motion = animation->getMotion( );
+	double time = animation->getAnimTime( );
 	Vector pos = enemy->getPos( );
 	Vector dir = enemy->getDir( );
+
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
-	drawer->drawString( 0, 100, "Enemy_HP: %d", enemy->getHP( ) );
+	
+	Player::STATUS status = enemy->getStatus( );
+	drawer->drawString( 0, 100, "Enemy_HP: %d", status.hp );
 }
 
 void Viewer::drawGroundModel( ) {

@@ -14,12 +14,15 @@ Character::~Character( ) {
 
 void Character::update( ) {
 	if ( _expired ) {
-		_behavior->update( );
+		_behavior->mainLoop( );
 	}
 }
 
 void Character::move( Vector vec ) {
 	_pos += vec;
+	if ( vec.getLength( ) > 0 ) {
+		_dir = vec.normalize( );
+	}
 }
 
 void Character::create( Vector pos, Character::STATUS status ) {
@@ -27,6 +30,7 @@ void Character::create( Vector pos, Character::STATUS status ) {
 	_pos = pos;
 	_dir = START_DIR;
 	_expired = true;
+	_behavior->init( );
 }
 
 void Character::damage( unsigned int power ) {
@@ -55,4 +59,8 @@ Character::TYPE Character::getType( ) const {
 
 bool Character::isExpired( ) const {
 	return _expired;
+}
+
+void Character::dead( ) {
+	_expired = false;
 }

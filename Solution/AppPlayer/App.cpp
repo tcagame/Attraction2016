@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "PlayerKnightBehavior.h"
 #include "Enemy.h"
+#include "EnemyMinotaurBehavior.h"
 #include "Weapon.h"
 #include "Camera.h"
 #include "Keyboard.h"
@@ -30,7 +31,7 @@ void App::update( ) {
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	if ( keyboad->isPushKey( "A" ) ) {
-		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 200, 1, 1 ) );
+		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 200, 1, 0.1 ) );
 	}
 }
 
@@ -40,7 +41,8 @@ void App::initialize( ) {
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
-	_enemy = EnemyPtr( new Enemy( ) );
+	_enemy = EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ) ) );
+	_enemy->create( Vector( 1, 5, 0 ), Character::STATUS( 200, 1, 0.005 ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 }
 

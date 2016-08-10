@@ -33,10 +33,11 @@ void App::update( ) {
 	if ( keyboad->isPushKey( "A" ) ) {
 		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 200, 1, 0.1 ) );
 	}
+	_camera->setTarget( _player->getPos( ) );
 }
 
 void App::initialize( ) {
-	_ground = GroundPtr( new Ground( "map.csv" ) );
+	_ground = GroundPtr( new Ground( "../Resource/map.csv" ) );
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );

@@ -81,8 +81,10 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 }
 
 void EnemyMinotaurBehavior::animationUpdate( ) {
-	if ( _common_state == COMMON_STATE_DEAD && _animation->isEndAnimation( ) ) {
-		_parent->dead( );
+	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DEAD ) {
+		if ( _animation->isEndAnimation( ) ) {
+			_parent->dead( );
+		}
 		return;
 	}
 	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DAMAGE && !_animation->isEndAnimation( ) ) {

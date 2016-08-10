@@ -12,9 +12,9 @@ public:
 
 	Vector getPos( ) const;
 	Vector getTarget( ) const;
+	void setTarget( Vector target );
 	Vector getConvertDeviceVec( ) const;
 	void update( );
-
 private:
 	Vector _pos;
 	Vector _target;

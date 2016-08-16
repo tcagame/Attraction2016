@@ -7,6 +7,7 @@ PTR( Ground );
 PTR( Player );
 PTR( GroundModel );
 PTR( Enemy );
+PTR( Cohort);
 PTR( Camera );
 PTR( Weapon );
 PTR( CharacterPlacement );
@@ -26,7 +27,7 @@ public:
 	void finalize( );
 	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
-	EnemyPtr  getEnemy( ) const;
+	EnemyPtr  getEnemy( int idx ) const;
 	CameraPtr getCamera( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;
@@ -36,7 +37,7 @@ private:
 	GroundPtr _ground;
 	PlayerPtr _player;
 	GroundModelPtr _ground_model;
-	EnemyPtr _enemy;
+	CohortPtr _cohort;
 	CameraPtr _camera;
 	WeaponPtr _weapon;
 	DeedBoxPtr _deed_box;

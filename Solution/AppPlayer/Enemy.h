@@ -6,6 +6,6 @@ PTR( Enemy );
 
 class Enemy : public Character {
 public:
-	Enemy( BehaviorPtr behavior );
+	Enemy( BehaviorPtr behavior, Character::TYPE type );
 	virtual ~Enemy( );
 };

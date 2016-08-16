@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Ground.h"
 #include "GroundModel.h"
+#include "Cohort.h"
 #include "Player.h"
 #include "PlayerKnightBehavior.h"
 #include "Enemy.h"
@@ -24,7 +25,8 @@ App::~App( ) {
 
 void App::update( ) {
 	_player->update( );
-	_enemy->update( );
+	_cohort->update( );
+
 	_camera->update( );
 	if ( _weapon ) {
 		_weapon->update( );
@@ -42,8 +44,8 @@ void App::initialize( ) {
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
-	_enemy = EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ) ) );
-	_enemy->create( Vector( 1, 5, 0 ), Character::STATUS( 200, 1, 0.005 ) );
+	_cohort = CohortPtr( new Cohort( ) );
+
 	_weapon = WeaponPtr( new Weapon( ) );
 }
 
@@ -59,8 +61,8 @@ PlayerPtr App::getPlayer( ) const {
 	return _player;
 }
 
-EnemyPtr App::getEnemy( ) const {
-	return _enemy;
+EnemyPtr App::getEnemy( int idx ) const {
+	return _cohort->getEnemy( idx );
 }
 
 CameraPtr App::getCamera( ) const {

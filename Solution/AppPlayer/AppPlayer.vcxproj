@@ -99,6 +99,7 @@
     <ClCompile Include="BulletSword.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Cohort.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyMinotaurBehavior.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="BulletSword.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Cohort.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyMinotaurBehavior.h" />
     <ClInclude Include="Ground.h" />

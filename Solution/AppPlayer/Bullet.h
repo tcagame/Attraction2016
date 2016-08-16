@@ -18,7 +18,7 @@ public:
 public:
 	TYPE getType( ) const;
 protected:
-	bool attackEnemy( const Vector& pos, int power );
+	void attackEnemy( const Vector& pos, int power );
 private:
 	const TYPE _type;
 };

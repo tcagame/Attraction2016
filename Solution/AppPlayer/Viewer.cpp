@@ -99,23 +99,25 @@ void Viewer::drawPlayer( ) {
 
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
-	EnemyPtr enemy = app->getEnemy( );
-	if ( !enemy->isExpired( ) ) {
-		return;
+	for( int i = 0; i < 2; i++ ) {
+		EnemyPtr enemy = app->getEnemy( i );
+		if ( !enemy->isExpired( ) ) {
+			return;
+		}
+
+		AnimationPtr animation = enemy->getAnimation( );
+		int motion = animation->getMotion( );
+		double time = animation->getAnimTime( );
+		Vector pos = enemy->getPos( );
+		Vector dir = enemy->getDir( );
+
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::Model model = Drawer::Model( pos, dir, motion, time );
+		drawer->setModel( model );
+		
+		Player::STATUS status = enemy->getStatus( );
+		drawer->drawString( 0, i * 100 + 100, "Enemy_HP: %d", status.hp );
 	}
-
-	AnimationPtr animation = enemy->getAnimation( );
-	int motion = animation->getMotion( );
-	double time = animation->getAnimTime( );
-	Vector pos = enemy->getPos( );
-	Vector dir = enemy->getDir( );
-
-	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
-	drawer->setModel( model );
-	
-	Player::STATUS status = enemy->getStatus( );
-	drawer->drawString( 0, 100, "Enemy_HP: %d", status.hp );
 }
 
 void Viewer::drawGroundModel( ) {

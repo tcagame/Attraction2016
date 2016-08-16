@@ -2,6 +2,7 @@
 #include "App.h"
 #include "Model.h"
 #include "Ground.h"
+#include "Cohort.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Drawer.h"
@@ -49,6 +50,8 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DEAD, "minotaur/enemy_minotaur_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_SMASH, "minotaur/enemy_minotaur_smash.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_WAIT, "ghost/enemy_ghost_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK, "ghost/enemy_ghost_walk.mv1" );
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";
@@ -99,8 +102,9 @@ void Viewer::drawPlayer( ) {
 
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
-	for( int i = 0; i < 2; i++ ) {
-		EnemyPtr enemy = app->getEnemy( i );
+	CohortPtr cohort = app->getCohort( );
+	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
+		EnemyPtr enemy = cohort->getEnemy( i );
 		if ( !enemy->isExpired( ) ) {
 			return;
 		}

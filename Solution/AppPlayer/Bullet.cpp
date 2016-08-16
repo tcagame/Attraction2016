@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "App.h"
+#include "Cohort.h"
 #include "Enemy.h"
 #include "mathmatics.h"
 #include "Framework.h"
@@ -18,8 +19,9 @@ Bullet::TYPE Bullet::getType( ) const {
 
 void Bullet::attackEnemy( const Vector& pos, int power ) {
 	AppPtr app = App::getTask( );
-	for( int i = 0; i < 2; i++ ) {
-		EnemyPtr enemy = app->getEnemy( i );
+	CohortPtr cohort = app->getCohort( );
+	for( int i = 0; i < cohort->getMaxNum( ); i++ ) {
+		EnemyPtr enemy = cohort->getEnemy( i );
 		double bottom = enemy->getPos( ).z;
 		double top = bottom + 2;
 		if ( pos.z > bottom && pos.z < top ) {

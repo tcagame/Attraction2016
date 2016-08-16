@@ -2,13 +2,13 @@
 #include "Behavior.h"
 #include "smart_ptr.h"
 
-PTR( EnemyMinotaurBehavior );
+PTR( EnemyGhostBehavior );
 PTR( Player );
 
-class EnemyMinotaurBehavior : public Behavior {
+class EnemyGhostBehavior : public Behavior {
 public:
-	EnemyMinotaurBehavior( );
-	virtual ~EnemyMinotaurBehavior( );
+	EnemyGhostBehavior( );
+	virtual ~EnemyGhostBehavior( );
 public:
 	void update( );
 private:
@@ -16,11 +16,9 @@ private:
 	
 	void movePosToTarget( );
 	void switchStatus( );
-	void onAttack( );
 private:
 	PlayerWeakPtr _target;
-	double _attack_range;
 	double _move_range;
-	int _befor_hp;
-	bool _on_damage;
+	int _before_hp;
 };
+

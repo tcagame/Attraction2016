@@ -101,6 +101,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Cohort.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyGhostBehavior.cpp" />
     <ClCompile Include="EnemyMinotaurBehavior.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GroundModel.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Cohort.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyGhostBehavior.h" />
     <ClInclude Include="EnemyMinotaurBehavior.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundModel.h" />

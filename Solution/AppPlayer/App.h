@@ -6,7 +6,6 @@ PTR( App );
 PTR( Ground );
 PTR( Player );
 PTR( GroundModel );
-PTR( Enemy );
 PTR( Cohort);
 PTR( Camera );
 PTR( Weapon );
@@ -27,7 +26,7 @@ public:
 	void finalize( );
 	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
-	EnemyPtr  getEnemy( int idx ) const;
+	CohortPtr  getCohort( ) const;
 	CameraPtr getCamera( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;

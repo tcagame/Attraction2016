@@ -26,6 +26,7 @@ public:
 	enum TYPE {
 		TYPE_PLAYER,
 		TYPE_ENEMY_MINOTAUR,
+		TYPE_ENEMY_GHOST,
 	};
 public:
 	Character( TYPE type, BehaviorPtr behavior );

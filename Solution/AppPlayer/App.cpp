@@ -6,6 +6,7 @@
 #include "PlayerKnightBehavior.h"
 #include "Enemy.h"
 #include "EnemyMinotaurBehavior.h"
+#include "EnemyGhostBehavior.h"
 #include "Weapon.h"
 #include "Camera.h"
 #include "Keyboard.h"
@@ -21,6 +22,7 @@ App::App( ) {
 }
 
 App::~App( ) {
+
 }
 
 void App::update( ) {
@@ -45,7 +47,6 @@ void App::initialize( ) {
 	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
 	_cohort = CohortPtr( new Cohort( ) );
-
 	_weapon = WeaponPtr( new Weapon( ) );
 }
 
@@ -61,8 +62,8 @@ PlayerPtr App::getPlayer( ) const {
 	return _player;
 }
 
-EnemyPtr App::getEnemy( int idx ) const {
-	return _cohort->getEnemy( idx );
+CohortPtr App::getCohort( ) const {
+	return _cohort;
 }
 
 CameraPtr App::getCamera( ) const {

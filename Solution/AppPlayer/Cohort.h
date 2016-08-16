@@ -19,9 +19,11 @@ public:
 	EnemyConstPtr getEnemy( int index ) const;
 	EnemyPtr getEnemy( int index );
 	void add( EnemyPtr enemy, Vector pos );
+	int getMaxNum( );
 private:
 	void init( );
 private:
 	EnemyPtr _enemy[ MAX_NUM ];
+	int _enemy_max;
 };
 

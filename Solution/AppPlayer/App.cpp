@@ -5,6 +5,7 @@
 #include "PlayerKnightBehavior.h"
 #include "Enemy.h"
 #include "EnemyMinotaurBehavior.h"
+#include "EnemyGhostBehavior.h"
 #include "Weapon.h"
 #include "Camera.h"
 #include "Keyboard.h"
@@ -20,6 +21,7 @@ App::App( ) {
 }
 
 App::~App( ) {
+
 }
 
 void App::update( ) {
@@ -42,7 +44,7 @@ void App::initialize( ) {
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
-	_enemy = EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ) ) );
+	_enemy = EnemyPtr( new Enemy( EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) ) ) );
 	_enemy->create( Vector( 1, 5, 0 ), Character::STATUS( 200, 1, 0.005 ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 }

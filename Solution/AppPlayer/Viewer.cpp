@@ -13,9 +13,6 @@
 #include "Camera.h"
 #include "Animation.h"
 
-const double CHIP_WIDTH_SIZE = 7;
-const double CHIP_HEIGHT_SIZE = 4;
-
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
@@ -152,7 +149,7 @@ void Viewer::drawGroundModel( ) {
 				tex_handle = _path_tex_handle;
 			}
 			if ( _model ) {
-				_model->translate( Vector( i * CHIP_WIDTH_SIZE, j * CHIP_HEIGHT_SIZE, 0 ) );
+				_model->translate( Vector( i * ground->CHIP_WIDTH, j * ground->CHIP_HEIGHT, 0 ) );
 				_model->draw( tex_handle );
 				_model->reset( );
 			}

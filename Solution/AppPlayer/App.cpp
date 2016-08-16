@@ -42,11 +42,11 @@ void App::update( ) {
 
 void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "../Resource/map.csv" ) );
+	_cohort = CohortPtr( new Cohort( "../Resource/enemy.csv" ) );
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
 	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
-	_cohort = CohortPtr( new Cohort( ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 }
 

@@ -1,13 +1,14 @@
 #include "Cohort.h"
+#include "App.h"
 #include "EnemyMinotaurBehavior.h"
 #include "EnemyGhostBehavior.h"
 #include "Enemy.h"
+#include "Ground.h"
 #include "Character.h"
 #include "Framework.h"
 
-const int MINOTAUR_MAX_NUM = 2;
-
-Cohort::Cohort( ) {
+Cohort::Cohort( const char* file_name ) {
+	loadEnemyCSV( file_name );
 	init( );
 }
 
@@ -15,13 +16,23 @@ Cohort::~Cohort( ) {
 }
 
 void Cohort::init( ) {
+	AppPtr app = App::getTask( );
+	GroundPtr ground = app->getGround( );
+
+	
 	_enemy_max = 0;
-	for ( int i = 0; i < MINOTAUR_MAX_NUM; i++ ) {
-		add(  EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ), Character::TYPE_ENEMY_MINOTAUR ) ), Vector( ( i + 1 ) * 5, 5, 0 ) );
+	int enemy_placement_max = _enemy_placement.size( );
+	for ( int i = 0; i < enemy_placement_max; i++ ) {
+		Vector pos = Vector( ( i % ground->getWidth( ) ) * ground->CHIP_WIDTH,
+						     ( i / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
+						       0 );
+		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_MINOTAUR ) {
+			add(  EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ), Character::TYPE_ENEMY_MINOTAUR ) ), pos );
+		}
+		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_GHOST  ) {
+			add( EnemyPtr( new Enemy( EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) ), Character::TYPE_ENEMY_GHOST ) ), pos );
+		}
 	}
-	add( EnemyPtr( new Enemy( EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) ), Character::TYPE_ENEMY_GHOST ) ), Vector( 5, 5, 0 ) );
-
-
 }
 
 void Cohort::update( ) {
@@ -67,4 +78,31 @@ EnemyPtr Cohort::getEnemy( int index ) {
 }
 int Cohort::getMaxNum( ) {
 	return _enemy_max;
+}
+
+bool Cohort::loadEnemyCSV( const char* file_name ) {
+	//ÉtÉ@ÉCÉãÇÃì«Ç›çûÇ›
+	FILE* fp;
+	errno_t err = fopen_s( &fp, file_name, "r" );
+	if ( err != 0 ) {
+		return false;
+	}
+	
+	char buf[ 2048 ];
+
+	while ( fgets( buf, 2048, fp ) != NULL ) {
+		std::string str = buf;
+		while ( true ) {
+			std::string::size_type index = str.find( "," );
+
+			if ( index == std::string::npos ) {
+				_enemy_placement.push_back( atoi( str.c_str( ) ) );
+				break;
+			}
+			std::string substr = str.substr( 0, index );
+			_enemy_placement.push_back( atoi( substr.c_str( ) ) );
+			str = str.substr( index + 1 );
+		}
+	}
+	return true;
 }

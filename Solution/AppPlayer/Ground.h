@@ -2,6 +2,8 @@
 #include "smart_ptr.h"
 #include <vector>
 
+PTR( Ground );
+
 class Ground {
 public:
 	Ground( const char* file_name );

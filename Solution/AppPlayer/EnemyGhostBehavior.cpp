@@ -1,7 +1,6 @@
 #include "EnemyGhostBehavior.h"
 #include "Character.h"
 #include "Animation.h"
-#include "BulletMissile.h"
 #include "Weapon.h"
 #include "App.h"
 #include "Player.h"
@@ -108,6 +107,6 @@ void EnemyGhostBehavior::onAttack( ) {
 
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
-	BulletMissilePtr bullet = BulletMissilePtr ( new BulletMissile( pos, dir ) );
-	weapon->add( bullet );
+	/*BulletMissilePtr bullet = BulletMissilePtr ( new BulletMissile( pos, dir ) );
+	weapon->add( bullet );*/
 }

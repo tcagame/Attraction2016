@@ -96,7 +96,6 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletMissile.cpp" />
     <ClCompile Include="BulletSword.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -120,7 +119,6 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletMissile.h" />
     <ClInclude Include="BulletSword.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />

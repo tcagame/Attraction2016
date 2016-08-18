@@ -22,7 +22,6 @@ private:
 	void drawEnemy( );
 	void drawDeedBox( );
 	void drawGroundModel( );
-	void drawBulletMissile( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );

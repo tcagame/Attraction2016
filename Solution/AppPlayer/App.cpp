@@ -1,13 +1,14 @@
 #include "App.h"
-#include "Ground.h"
-#include "GroundModel.h"
+#include "DeedBoxes.h"
 #include "Cohort.h"
 #include "Player.h"
-#include "PlayerKnightBehavior.h"
 #include "Enemy.h"
+#include "PlayerKnightBehavior.h"
 #include "EnemyMinotaurBehavior.h"
 #include "EnemyGhostBehavior.h"
+#include "GroundModel.h"
 #include "Weapon.h"
+#include "Ground.h"
 #include "Camera.h"
 #include "Keyboard.h"
 #include "Framework.h"
@@ -28,7 +29,7 @@ App::~App( ) {
 void App::update( ) {
 	_player->update( );
 	_cohort->update( );
-
+	_deed_boxes->updata( );
 	_camera->update( );
 	if ( _weapon ) {
 		_weapon->update( );
@@ -43,6 +44,7 @@ void App::update( ) {
 void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "../Resource/map.csv" ) );
 	_cohort = CohortPtr( new Cohort( "../Resource/enemy.csv" ) );
+	_deed_boxes = DeedBoxesPtr( new DeedBoxes( "../Resource/deedbox.csv" ) );
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
@@ -76,4 +78,8 @@ GroundModelPtr App::getGroundModel( ) const {
 
 WeaponPtr App::getWeapon( ) const {
 	return _weapon;
+}
+
+DeedBoxesPtr App::getDeedBoxes( ) const{
+	return _deed_boxes;
 }

@@ -3,6 +3,7 @@
 #include "smart_ptr.h"
 #include "mathmatics.h"
 #include <string>
+#include <array>
 #include <vector>
 
 PTR( Cohort );
@@ -25,7 +26,7 @@ private:
 	void init( );
 	bool loadEnemyCSV( const char* file_name );
 private:
-	EnemyPtr _enemy[ MAX_NUM ];
+	std::array< EnemyPtr, MAX_NUM > _enemy;
 	int _enemy_max;
 	std::vector< int > _enemy_placement;
 };

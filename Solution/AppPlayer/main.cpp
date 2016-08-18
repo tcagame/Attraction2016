@@ -18,7 +18,8 @@ void main( ) {
 	fw->addTask( Device::getTag( ), device );
 	fw->addTask( Keyboard::getTag( ), keyboad );
 	fw->addTask( Mouse::getTag( ), mouse );
-	fw->addTask( App::getTag( ), app );
 	fw->addTask( Viewer::getTag( ), viewer );
 	fw->addTask( Drawer::getTag( ), drawer );
+	fw->addTask( App::getTag( ), app );
+	
 }

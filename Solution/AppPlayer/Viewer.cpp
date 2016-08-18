@@ -1,18 +1,22 @@
 #include "Viewer.h"
 #include "App.h"
-#include "Model.h"
-#include "Ground.h"
 #include "Cohort.h"
+#include "DeedBoxes.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "DeedBox.h"
+#include "Ground.h"
 #include "Drawer.h"
-#include "Framework.h"
-#include "Device.h"
-#include "mathmatics.h"
-#include "Mouse.h"
 #include "Camera.h"
+#include "Model.h"
 #include "Animation.h"
+#include "Device.h"
+#include "Mouse.h"
+#include "Framework.h"
+#include "mathmatics.h"
+
+
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
@@ -50,7 +54,11 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_WAIT, "ghost/enemy_ghost_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK, "ghost/enemy_ghost_walk.mv1" );
+<<<<<<< HEAD
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK, "ghost/enemy_ghost_attack.mv1" );
+=======
+	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
+>>>>>>> origin/master
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";
@@ -66,7 +74,11 @@ void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
 	drawGroundModel( );
+<<<<<<< HEAD
 	drawBulletMissile( );
+=======
+	drawDeedBox( );
+>>>>>>> origin/master
 	updateCamera( );
 }
 
@@ -103,10 +115,11 @@ void Viewer::drawPlayer( ) {
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
-	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
+	int max_num = cohort->getMaxNum( );
+	for ( int i = 0; i < max_num; i++ ) {
 		EnemyPtr enemy = cohort->getEnemy( i );
 		if ( !enemy->isExpired( ) ) {
-			return;
+			continue;
 		}
 
 		AnimationPtr animation = enemy->getAnimation( );
@@ -160,7 +173,24 @@ void Viewer::drawGroundModel( ) {
 	}
 }
 
+<<<<<<< HEAD
 void Viewer::drawBulletMissile( ) {
 	AppPtr app = App::getTask( );
 	
+=======
+void Viewer::drawDeedBox( ) {
+	AppPtr app = App::getTask( );
+	DeedBoxesPtr deed_boxes = app->getDeedBoxes( );
+	DrawerPtr drawer = Drawer::getTask( );
+	for ( int i = 0; i < deed_boxes->getMaxNum( ); i++ ) {
+		DeedBoxPtr deed_box = deed_boxes->getDeedBox( i );
+		AnimationPtr animation = deed_box->getAnimation( );
+		int motion = animation->getMotion( );
+		double time = animation->getAnimTime( );
+		Vector pos = deed_box->getPos( );
+		Vector dir = deed_box->getDir( );
+		Drawer::Model model = Drawer::Model( pos, dir, motion, time );
+		drawer->setModel( model );
+	}
+>>>>>>> origin/master
 }

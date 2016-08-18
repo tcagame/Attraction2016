@@ -10,8 +10,7 @@ PTR( Cohort);
 PTR( Camera );
 PTR( Weapon );
 PTR( CharacterPlacement );
-PTR( DeedBox );
-PTR( DeedBoxPlacement );
+PTR( DeedBoxes );
 
 class App : public Task {
 public:
@@ -30,7 +29,7 @@ public:
 	CameraPtr getCamera( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;
-	DeedBoxPtr getDeedBox( ) const;
+	DeedBoxesPtr getDeedBoxes( ) const;
 
 private:
 	GroundPtr _ground;
@@ -39,8 +38,6 @@ private:
 	CohortPtr _cohort;
 	CameraPtr _camera;
 	WeaponPtr _weapon;
-	DeedBoxPtr _deed_box;
+	DeedBoxesPtr _deed_boxes;
 	CharacterPlacementPtr _charcter_placement;
-	DeedBoxPlacementPtr _deed_box_placement;
-
 };

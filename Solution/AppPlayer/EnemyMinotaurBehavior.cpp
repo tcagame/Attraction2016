@@ -63,7 +63,6 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 	}
 
 	if ( range <= _attack_range && _befor_state != COMMON_STATE_ATTACK ) {
-
 		_common_state = COMMON_STATE_ATTACK;
 	}
 	//UŒ‚’†

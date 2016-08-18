@@ -62,6 +62,7 @@ public:
 private:
 	void drawModel( );
 	void drawSprite( );
+	void drawSphere( Vector pos, double r );
 	void flip( );
 private:
 	const char* _directory;
@@ -83,4 +84,3 @@ private:
 	int _refresh_count;
 	int _start_time;
 };
-

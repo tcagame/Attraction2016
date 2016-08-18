@@ -209,3 +209,8 @@ void Drawer::drawString( int x, int y, const char* string, ... ) {
 	DrawString( x, y, buf, 0xFFFFFF );
 	va_end(ap);
 }
+
+void Drawer::drawSphere( Vector pos, double r ) {
+	DrawSphere3D( VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z ),
+				  ( float )r, 32, GetColor( 255, 0, 0 ), GetColor( 255, 0, 0 ), TRUE );
+}

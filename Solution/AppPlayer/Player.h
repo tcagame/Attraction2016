@@ -9,4 +9,3 @@ public:
 	Player( BehaviorPtr behavior );
 	virtual ~Player( );
 };
-

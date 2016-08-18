@@ -16,9 +16,11 @@ private:
 	
 	void movePosToTarget( );
 	void switchStatus( );
+	void onAttack( );
 private:
 	PlayerWeakPtr _target;
 	double _move_range;
+	double _attack_range;
 	int _before_hp;
 };
 

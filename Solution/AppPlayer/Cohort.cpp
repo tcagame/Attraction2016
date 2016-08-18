@@ -26,6 +26,7 @@ void Cohort::init( ) {
 		Vector pos = Vector( ( i % ground->getWidth( ) ) * ground->CHIP_WIDTH,
 						     ( i / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
 						       0 );
+
 		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_MINOTAUR ) {
 			add(  EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ), Character::TYPE_ENEMY_MINOTAUR ) ), pos );
 		}

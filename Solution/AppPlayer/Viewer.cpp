@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
+#include "BulletMissile.h"
+#include "Weapon.h"
 #include "DeedBox.h"
 #include "Ground.h"
 #include "Drawer.h"
@@ -56,6 +58,7 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK, "ghost/enemy_ghost_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK, "ghost/enemy_ghost_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
+	drawer->loadBillboard( "ghost/missile.png" );
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";
@@ -72,6 +75,7 @@ void Viewer::update( ) {
 	drawEnemy( );
 	drawGroundModel( );
 	drawDeedBox( );
+	drawBulletMissile( );
 	updateCamera( );
 }
 
@@ -166,7 +170,6 @@ void Viewer::drawGroundModel( ) {
 	}
 }
 
-
 void Viewer::drawDeedBox( ) {
 	AppPtr app = App::getTask( );
 	DeedBoxesPtr deed_boxes = app->getDeedBoxes( );
@@ -180,5 +183,22 @@ void Viewer::drawDeedBox( ) {
 		Vector dir = deed_box->getDir( );
 		Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 		drawer->setModel( model );
+	}
+}
+
+void Viewer::drawBulletMissile( ) {
+	AppPtr app = App::getTask( );
+	WeaponPtr weapon = app->getWeapon( );
+	DrawerPtr drawer = Drawer::getTask( );
+	for ( int i = 0; i < weapon->getWeaponMaxNum( ); i++ ) {
+		BulletPtr bullet = weapon->getBullet( i );
+		if ( !bullet ) {
+			continue;
+		}
+		if ( bullet->getType( ) == Bullet::MISSILE ) {
+			Vector pos = bullet->getPos( );
+			Drawer::Billboard billboard = Drawer::Billboard( pos, 5.0, Drawer::BLEND_NONE, 0.0f );
+			drawer->setBillboard( billboard );
+		}
 	}
 }

@@ -50,6 +50,21 @@ ratio( ratio_ ) {
 
 }
 
+Drawer::Billboard::Billboard( ) :
+size( 0 ),
+blend( BLEND_NONE ),
+ratio( 0.0f ) {
+
+}
+
+Drawer::Billboard::Billboard( Vector pos_, double size_, BLEND blend_, double ratio_ ) :
+pos( pos_ ),
+size( size_ ),
+blend( blend_ ),
+ratio( ratio_ ){
+
+}
+
 DrawerPtr Drawer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< Drawer >( fw->getTask( getTag( ) ) );
@@ -68,6 +83,7 @@ void Drawer::initialize( ) {
 	}
 	_sprite_idx = 0;
 	_model_idx = 0;
+	_billboard_idx = 0;
 
 	_refresh_count = REFRESH_COUNT;
 	_start_time = 0;
@@ -77,6 +93,7 @@ void Drawer::update( ) {
 	flip( );
 	drawModel( );
 	drawSprite( );
+	drawBillboard( );
 }
 
 void Drawer::drawModel( ) {
@@ -138,6 +155,28 @@ void Drawer::drawSprite( ) {
 	_sprite_idx = 0;
 }
 
+void Drawer::drawBillboard( ) {
+	for ( int i = 0; i < _billboard_idx; i++ ) {
+		const Billboard& billboard = _billboard[ i ];
+		switch( billboard.blend ) {
+		case BLEND_ALPHA:
+			SetDrawBlendMode( DX_BLENDMODE_ALPHA, ( int )( 255 * billboard.ratio ) );
+			break;
+		case BLEND_ADD:
+			SetDrawBlendMode( DX_BLENDMODE_ADD, ( int )( 255 * billboard.ratio ) );
+			break;
+		}
+
+		int cheak = DrawBillboard3D( VGet( ( float )billboard.pos.x, ( float )billboard.pos.y, ( float )billboard.pos.z ), 0.5f, 0.5f, ( float )billboard.size, 0.0f, _billboard_id[ i ], TRUE );
+		
+		if ( billboard.blend != BLEND_NONE ) {
+			SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
+		}
+	}
+	_sprite_idx = 0;
+}
+
+
 void Drawer::loadMV1Model( int motion, const char* filename ) {
 	std::string path = _directory;
 	path += "/";
@@ -167,6 +206,15 @@ void Drawer::loadGraph( int res, const char * filename ) {
 	}
 }
 
+void Drawer::loadBillboard( const char * filename ) {
+	std::string path = _directory;
+	path += "/";
+	path +=  filename;
+	assert( _billboard_idx < GRAPHIC_ID_NUM );
+	_billboard_id[ _billboard_idx ] = LoadGraph( path.c_str( ) );
+	
+}
+
 void Drawer::setSprite( const Sprite& sprite ) {
 	assert( _sprite_idx < SPRITE_NUM );
 	_sprite[ _sprite_idx ] = sprite;
@@ -178,6 +226,13 @@ void Drawer::setModel( const Model& model ) {
 	_model[ _model_idx ] = model;
 	_model_idx++;
 }
+
+void Drawer::setBillboard( const Billboard& billboard ) {
+	assert( _billboard_idx < MODEL_NUM );
+	_billboard[ _billboard_idx ] = billboard;
+	_billboard_idx++;
+}
+
 
 void Drawer::flip( ) {
 	if ( _refresh_count == REFRESH_COUNT ){ //60ƒtƒŒ[ƒ€–Ú‚È‚ç•½‹Ï‚ðŒvŽZ‚·‚é
@@ -208,9 +263,4 @@ void Drawer::drawString( int x, int y, const char* string, ... ) {
 	vsprintf_s( buf, 1024, string, ap );
 	DrawString( x, y, buf, 0xFFFFFF );
 	va_end(ap);
-}
-
-void Drawer::drawSphere( Vector pos, double r ) {
-	DrawSphere3D( VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z ),
-				  ( float )r, 32, GetColor( 255, 0, 0 ), GetColor( 255, 0, 0 ), TRUE );
 }

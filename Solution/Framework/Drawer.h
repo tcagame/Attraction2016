@@ -36,7 +36,7 @@ public:
 		BLEND blend;
 		double ratio;
 		Sprite( );
-		Sprite( Transform trans_, int res_, BLEND blend_ = BLEND_NONE, double ratio_ = 1.0 );
+		Sprite( Transform trans_, int res_, BLEND blend_, double ratio_ );
 	};
 	struct Model {
 		Vector pos;
@@ -50,6 +50,14 @@ public:
 		int body;
 		int body_anim;
 	};
+	struct Billboard {
+		Vector pos;
+		int size;
+		BLEND blend;
+		double ratio;
+		Billboard( );
+		Billboard( Vector pos_, double size_, BLEND blend_, double ratio_ );
+	};
 public:
 	void initialize( );
 	void update( );
@@ -58,11 +66,13 @@ public:
 	double getEndAnimTime( int res );
 	void setSprite( const Sprite& sprite );
 	void setModel( const Model& model );
+	void setBillboard( const Billboard& billboard );
+	void loadBillboard( const char* fliename );
 	void drawString( int x, int y, const char* string, ... );
 private:
 	void drawModel( );
 	void drawSprite( );
-	void drawSphere( Vector pos, double r );
+	void drawBillboard( );
 	void flip( );
 private:
 	const char* _directory;
@@ -80,6 +90,11 @@ private:
 
 	static const int GRAPHIC_ID_NUM = 1000;
 	std::array< int, GRAPHIC_ID_NUM > _graphic_id;
+
+	static const int BILLBOARD_NUM = 1000;
+	std::array< Billboard, BILLBOARD_NUM > _billboard;
+	std::array< int, BILLBOARD_NUM >_billboard_id;
+	int _billboard_idx;
 
 	int _refresh_count;
 	int _start_time;

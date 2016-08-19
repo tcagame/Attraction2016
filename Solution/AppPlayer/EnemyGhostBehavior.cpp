@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "Animation.h"
 #include "Weapon.h"
+#include "BulletMissile.h"
 #include "App.h"
 #include "Player.h"
 
@@ -10,7 +11,7 @@ const int ATTACK_TIME = 40;
 
 EnemyGhostBehavior::EnemyGhostBehavior( ) {
 	_move_range = 5.5;
-	_attack_range = 2.0;
+	_attack_range = 100.0;
 }
 
 EnemyGhostBehavior::~EnemyGhostBehavior( ) {
@@ -107,6 +108,6 @@ void EnemyGhostBehavior::onAttack( ) {
 
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
-	/*BulletMissilePtr bullet = BulletMissilePtr ( new BulletMissile( pos, dir ) );
-	weapon->add( bullet );*/
+	BulletMissilePtr bullet = BulletMissilePtr ( new BulletMissile( pos, dir ) );
+	weapon->add( bullet );
 }

@@ -62,7 +62,7 @@ bool BulletSword::update( ) {
 			if ( center_angle < angle  ) {
 				if ( ( pos - p ).getLength( ) < getLength( ) ) {
 					count++;
-					attackEnemy( p, SWORD_POWER );
+					//attackEnemy( p, SWORD_POWER );
 					_is_attack = true;
 				}
 			}

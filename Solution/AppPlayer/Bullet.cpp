@@ -17,7 +17,12 @@ Bullet::TYPE Bullet::getType( ) const {
 	return _type;
 }
 
-void Bullet::attackEnemy( const Vector& pos, int power ) {
+Vector Bullet::getPos( ) const {
+	return _pos;
+}
+
+
+/*void Bullet::attackEnemy( const Vector& pos, int power ) {
 	AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
 	for( int i = 0; i < cohort->getMaxNum( ); i++ ) {
@@ -32,4 +37,4 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 			}
 		}
 	}
-}
+}*/

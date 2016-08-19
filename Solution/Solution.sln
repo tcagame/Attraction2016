@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppPlaneMaker", "AppPlaneMa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppPlayer", "AppPlayer\AppPlayer.vcxproj", "{3F3DDB20-D457-44C1-8ABA-9C6B12B571FB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppServer", "AppServer\AppServer.vcxproj", "{52EC3234-76D2-43CC-949C-AACAE3A3E248}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -39,6 +41,10 @@ Global
 		{3F3DDB20-D457-44C1-8ABA-9C6B12B571FB}.Debug|Win32.Build.0 = Debug|Win32
 		{3F3DDB20-D457-44C1-8ABA-9C6B12B571FB}.Release|Win32.ActiveCfg = Release|Win32
 		{3F3DDB20-D457-44C1-8ABA-9C6B12B571FB}.Release|Win32.Build.0 = Release|Win32
+		{52EC3234-76D2-43CC-949C-AACAE3A3E248}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52EC3234-76D2-43CC-949C-AACAE3A3E248}.Debug|Win32.Build.0 = Debug|Win32
+		{52EC3234-76D2-43CC-949C-AACAE3A3E248}.Release|Win32.ActiveCfg = Release|Win32
+		{52EC3234-76D2-43CC-949C-AACAE3A3E248}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -50,7 +50,7 @@ void PlayerBehavior::pickupDeedBox( ) {
 	if ( !keyboard->isPushKey( "B" ) ) {
 		return;
 	}
-	if ( !device->isHoldButton( Device::BUTTON_LIST_2 ) ) {
+	if ( device->getButton( 0 ) != BUTTON_B ) {
 		return;
 	}
 

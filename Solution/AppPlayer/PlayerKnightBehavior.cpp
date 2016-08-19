@@ -5,6 +5,7 @@
 #include "App.h"
 #include "BulletSword.h"
 #include "Weapon.h"
+#include "Network.h"
 
 PlayerKnightBehavior::PlayerKnightBehavior( CameraConstPtr camera ) :
 PlayerBehavior( camera ) {
@@ -16,7 +17,7 @@ PlayerKnightBehavior::~PlayerKnightBehavior( ) {
 void PlayerKnightBehavior::otherAction( ) {
 	DevicePtr device = Device::getTask( );
 	//UŒ‚‚É“ü‚éuŠÔ
-	if ( device->isHoldButton( Device::BUTTON_LIST_1 ) && _befor_state != COMMON_STATE_ATTACK ) {
+	if ( device->getButton( 0 ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
 		AppPtr app = App::getTask( );
 		WeaponPtr weapon = app->getWeapon( );
 		BulletPtr bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );

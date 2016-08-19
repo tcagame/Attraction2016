@@ -23,7 +23,8 @@ void DeedBoxes::init( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
 
-	for ( int i = 0; i < _deed_box_placement.size( ) ;i++ ) {
+	int num = ( int )_deed_box_placement.size( );
+	for ( int i = 0; i < num ;i++ ) {
 		Vector pos = Vector( ( i % ground->getWidth( ) ) * ground->CHIP_WIDTH,
 						     ( i / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
 						       0 );

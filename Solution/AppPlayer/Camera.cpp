@@ -31,20 +31,24 @@ Vector Camera::getConvertDeviceVec( ) const {
 	//ƒJƒƒ‰‚ÌŒü‚«‚ğ‹‚ß‚Ä‚¢‚é
 	Vector camera_dir = _target - _pos;
 	camera_dir.z = 0;
-	//ƒJƒƒ‰‚ÌŒü‚«‚Æ‚Ü‚Á‚·‚®i‚ŞŒü‚«‚Æ‚Ì·Šp‚ğ‹‚ß‚é
-	double angle = camera_dir.angle( Vector( 0, 1, 0 ) );
-	Vector axis = camera_dir.cross( Vector( 0, 1, 0 ) );
-	//·Šp•ª‰ñ“]‚·‚é‰ñ“]s—ñ‚ğ‚Â‚­‚é
-	Matrix mat = Matrix::makeTransformRotation( axis, angle );
 
+	//“ü—Í•ûŒü‚ğæ“¾
 	DevicePtr device = Device::getTask( );
 	Vector device_dir;
 	device_dir.x = device->getDirX( 0 );
 	device_dir.y = device->getDirY( 0 );
 	device_dir.z = 0;
+
+
+	//ƒfƒoƒCƒX‚Ì•ûŠp‚Æ‚Ü‚Á‚·‚®i‚ŞŒü‚«‚Æ‚Ì·Šp‚ğ‹‚ß‚é
+	//·Šp•ª‰ñ“]‚·‚é‰ñ“]s—ñ‚ğ‚Â‚­‚é
+	double angle = device_dir.angle( Vector( 0, -1, 0 ) );
+	Vector axis = device_dir.cross( Vector( 0, -1, 0 ) );
+	Matrix mat = Matrix::makeTransformRotation( axis, angle );
+
 	//·Šp•ª‰ñ“]‚³‚¹‚é
-	device_dir = mat.multiply( device_dir );
-	return device_dir.normalize( );
+	Vector move_dir = mat.multiply( camera_dir );
+	return move_dir.normalize( );
 }
 
 void Camera::update( ) {

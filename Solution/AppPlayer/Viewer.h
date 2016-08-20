@@ -18,6 +18,11 @@ public:
 	void update( );
 	void initialize( );
 private:
+	enum GRAPHIC {
+		GRAPHIC_BULLET_MISSILE,
+		GRAPHIC_MAX
+	};
+private:
 	void drawPlayer( );
 	void drawEnemy( );
 	void drawDeedBox( );

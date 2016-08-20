@@ -67,7 +67,6 @@ public:
 	void setSprite( const Sprite& sprite );
 	void setModel( const Model& model );
 	void setBillboard( const Billboard& billboard );
-	void loadBillboard( const char* fliename );
 	void drawString( int x, int y, const char* string, ... );
 private:
 	void drawModel( );
@@ -93,7 +92,6 @@ private:
 
 	static const int BILLBOARD_NUM = 1000;
 	std::array< Billboard, BILLBOARD_NUM > _billboard;
-	std::array< int, BILLBOARD_NUM >_billboard_id;
 	int _billboard_idx;
 
 	int _refresh_count;

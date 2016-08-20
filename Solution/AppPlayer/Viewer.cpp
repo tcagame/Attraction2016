@@ -58,7 +58,7 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK, "ghost/enemy_ghost_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK, "ghost/enemy_ghost_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
-	drawer->loadBillboard( "ghost/missile.png" );
+	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,"ghost/missile.png" );
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";

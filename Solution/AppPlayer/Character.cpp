@@ -6,7 +6,6 @@ Vector START_DIR = Vector( 0, 1, 0 );
 Character::Character( TYPE type, BehaviorPtr behavior ) :
 CHARACTER_TYPE( type ) {
 	_behavior = behavior;
-	_behavior->setParent( CharacterPtr( this ) );
 }
 
 Character::~Character( ) {

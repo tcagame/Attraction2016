@@ -5,7 +5,7 @@
 
 void BulletMissile::initialize( ) {
 	FrameworkPtr fw = Framework::getInstance( );
-	_power = 1.0;
+	_power = 1;
 	_speed = 1.0;
 }
 

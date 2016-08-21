@@ -52,7 +52,7 @@ public:
 	};
 	struct Billboard {
 		Vector pos;
-		int size;
+		double size;
 		BLEND blend;
 		double ratio;
 		Billboard( );

@@ -53,7 +53,7 @@ ratio( ratio_ ) {
 Drawer::Billboard::Billboard( ) :
 size( 0 ),
 blend( BLEND_NONE ),
-ratio( 0.0f ) {
+ratio( 0.0 ) {
 
 }
 

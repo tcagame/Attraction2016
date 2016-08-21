@@ -48,7 +48,9 @@ void App::initialize( ) {
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
-	_player = PlayerPtr( new Player( PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) ) ) );
+	PlayerKnightBehaviorPtr behavior = PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) );
+	_player = PlayerPtr( new Player( behavior ) );
+	behavior->setParent( _player );
 	_weapon = WeaponPtr( new Weapon( ) );
 }
 

@@ -28,10 +28,16 @@ void Cohort::init( ) {
 						       0 );
 
 		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_MINOTAUR ) {
-			add( EnemyPtr( new Enemy( EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) ), Character::TYPE_ENEMY_MINOTAUR ) ), pos );
+			EnemyMinotaurBehaviorPtr behavior = EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) );
+			EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_MINOTAUR ) );
+			behavior->setParent( enemy );
+			add( enemy, pos );
 		}
 		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_GHOST  ) {
-			add( EnemyPtr( new Enemy( EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) ), Character::TYPE_ENEMY_GHOST ) ), pos );
+			EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
+			EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GHOST ) );
+			behavior->setParent( enemy );
+			add( enemy, pos );
 		}
 	}
 }

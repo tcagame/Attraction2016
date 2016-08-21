@@ -173,7 +173,7 @@ void Drawer::drawBillboard( ) {
 			SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );
 		}
 	}
-	_sprite_idx = 0;
+	_billboard_idx = 0;
 }
 
 
@@ -221,7 +221,7 @@ void Drawer::setModel( const Model& model ) {
 }
 
 void Drawer::setBillboard( const Billboard& billboard ) {
-	assert( _billboard_idx < MODEL_NUM );
+	assert( _billboard_idx < GRAPHIC_ID_NUM );
 	_billboard[ _billboard_idx ] = billboard;
 	_billboard_idx++;
 }

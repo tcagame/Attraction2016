@@ -197,7 +197,8 @@ void Viewer::drawBulletMissile( ) {
 		}
 		if ( bullet->getType( ) == Bullet::MISSILE ) {
 			Vector pos = bullet->getPos( );
-			Drawer::Billboard billboard = Drawer::Billboard( pos, 5.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
+			pos.z += 1.5;	//‚‚³’²®
+			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
 		}
 	}

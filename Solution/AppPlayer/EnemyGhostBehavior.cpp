@@ -10,8 +10,8 @@ const double MOTION_SPEED = 0.5;
 const int ATTACK_TIME = 40;
 
 EnemyGhostBehavior::EnemyGhostBehavior( ) {
-	_move_range = 5.5;
-	_attack_range = 3.5;
+	_move_range = 6.0;
+	_attack_range = 40.5;
 }
 
 EnemyGhostBehavior::~EnemyGhostBehavior( ) {

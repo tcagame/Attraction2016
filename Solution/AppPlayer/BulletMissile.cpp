@@ -1,11 +1,12 @@
 #include "BulletMissile.h"
-#include "Framework.h"
 #include "Player.h"
+#include "App.h"
+#include "Framework.h"
 
 
 void BulletMissile::initialize( ) {
 	FrameworkPtr fw = Framework::getInstance( );
-	_power = 1;
+	_power = 30;
 	_speed = 1.0;
 }
 
@@ -24,5 +25,13 @@ bool BulletMissile::update( ) {
 	// ˆÚ“®
 	_pos += _dir * _speed;
 
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayer( );
+	Vector player_pos = player->getPos( );
+	Vector distance = _pos - player_pos;
+	double length = distance.getLength( );
+	if ( length <= 1.0 ) {
+		player->damage( _power );
+	}
 	return true;
 }

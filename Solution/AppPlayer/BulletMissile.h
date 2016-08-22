@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Bullet.h"
 #include "mathmatics.h"
 

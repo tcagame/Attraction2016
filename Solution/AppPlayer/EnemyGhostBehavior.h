@@ -22,5 +22,6 @@ private:
 	double _move_range;
 	double _attack_range;
 	int _before_hp;
+	bool _on_damage;
 };
 

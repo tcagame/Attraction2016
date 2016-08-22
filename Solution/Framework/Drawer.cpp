@@ -52,16 +52,18 @@ ratio( ratio_ ) {
 
 Drawer::Billboard::Billboard( ) :
 size( 0 ),
+res( 0 ),
 blend( BLEND_NONE ),
 ratio( 0.0 ) {
 
 }
 
-Drawer::Billboard::Billboard( Vector pos_, double size_, BLEND blend_, double ratio_ ) :
+Drawer::Billboard::Billboard( Vector pos_, double size_, int res_, BLEND blend_, double ratio_ ) :
 pos( pos_ ),
 size( size_ ),
+res( res_ ),
 blend( blend_ ),
-ratio( ratio_ ){
+ratio( ratio_ ) {
 
 }
 
@@ -167,7 +169,7 @@ void Drawer::drawBillboard( ) {
 			break;
 		}
 
-		int cheak = DrawBillboard3D( VGet( ( float )billboard.pos.x, ( float )billboard.pos.y, ( float )billboard.pos.z ), 0.5f, 0.5f, ( float )billboard.size, 0.0f, _graphic_id[ i ], TRUE );
+		int cheak = DrawBillboard3D( VGet( ( float )billboard.pos.x, ( float )billboard.pos.y, ( float )billboard.pos.z ), 0.5f, 0.5f, ( float )billboard.size, 0.0f, _graphic_id[ billboard.res ], TRUE );
 		
 		if ( billboard.blend != BLEND_NONE ) {
 			SetDrawBlendMode( DX_BLENDMODE_NOBLEND, 0 );

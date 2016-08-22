@@ -11,7 +11,7 @@ const int ATTACK_TIME = 40;
 
 EnemyGhostBehavior::EnemyGhostBehavior( ) {
 	_move_range = 5.5;
-	_attack_range = 100.0;
+	_attack_range = 3.5;
 }
 
 EnemyGhostBehavior::~EnemyGhostBehavior( ) {

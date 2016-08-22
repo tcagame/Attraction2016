@@ -53,10 +53,11 @@ public:
 	struct Billboard {
 		Vector pos;
 		double size;
+		int res;
 		BLEND blend;
 		double ratio;
 		Billboard( );
-		Billboard( Vector pos_, double size_, BLEND blend_, double ratio_ );
+		Billboard( Vector pos_, double size_, int res, BLEND blend_, double ratio_ );
 	};
 public:
 	void initialize( );

@@ -13,6 +13,7 @@ BulletMissile::BulletMissile( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::MISSILE )
 , _dir( dir.normalize( ) ) {
 	_pos = pos;
+	initialize( );
 }
 
 BulletMissile::~BulletMissile( ) {

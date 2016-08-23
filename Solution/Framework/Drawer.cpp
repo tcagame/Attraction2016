@@ -1,6 +1,7 @@
 #include "Drawer.h"
 #include "Framework.h"
 #include "DxLib.h"
+#include "EffekseerForDXLib.h"
 #include <assert.h>
 
 static const int REFRESH_COUNT = 60;	//平均を取るサンプル数
@@ -67,6 +68,18 @@ ratio( ratio_ ) {
 
 }
 
+Drawer::Effect::Effect(  ) :
+res( -1 ) {
+
+}
+
+Drawer::Effect::Effect ( Vector pos_, Vector dir_, int res_ ) :
+pos( pos_ ),
+dir( dir_ ),
+res( res_ ) {
+
+}
+
 DrawerPtr Drawer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< Drawer >( fw->getTask( getTag( ) ) );
@@ -86,7 +99,8 @@ void Drawer::initialize( ) {
 	_sprite_idx = 0;
 	_model_idx = 0;
 	_billboard_idx = 0;
-
+	_effect_idx = 0;
+	
 	_refresh_count = REFRESH_COUNT;
 	_start_time = 0;
 }
@@ -96,6 +110,7 @@ void Drawer::update( ) {
 	drawModel( );
 	drawSprite( );
 	drawBillboard( );
+	drawEffect( );
 }
 
 void Drawer::drawModel( ) {
@@ -178,6 +193,20 @@ void Drawer::drawBillboard( ) {
 	_billboard_idx = 0;
 }
 
+void Drawer::drawEffect( ) {
+	for ( int i = 0; i < _effect_idx; i++ ) {
+		const Effect& effect = _effect[ i ];
+
+		int playingEffectHandle = PlayEffekseer3DEffect( _effect_id[ effect.res ] );
+		SetScalePlayingEffekseer3DEffect( playingEffectHandle, 0.2f, 0.2f, 0.2f );
+		//回転
+		Vector dir = effect.dir;
+		SetRotationPlayingEffekseer3DEffect( playingEffectHandle, ( float )-dir.x, 1.5f, ( float )dir.y );
+		int check = SetPosPlayingEffekseer3DEffect( playingEffectHandle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
+	}
+	_effect_idx = 0;
+
+}
 
 void Drawer::loadMV1Model( int motion, const char* filename ) {
 	std::string path = _directory;
@@ -208,6 +237,19 @@ void Drawer::loadGraph( int res, const char * filename ) {
 	}
 }
 
+void Drawer::loadEffect( int res, const char * filename ) {
+	std::string path = _directory;
+	path += "/";
+	path +=  filename;
+	assert( res < EFFECT_ID_NUM );
+	_effect_id[ res ] = LoadEffekseerEffect( path.c_str( ) );
+	if ( _effect_id[ res ] < 0 ) {
+		path = "../" + path;
+		_effect_id[ res ] = LoadEffekseerEffect( path.c_str( ) );
+		assert( _effect_id[ res ] >= 0 );
+	}
+}
+
 
 
 void Drawer::setSprite( const Sprite& sprite ) {
@@ -228,6 +270,12 @@ void Drawer::setBillboard( const Billboard& billboard ) {
 	_billboard_idx++;
 }
 
+void Drawer::setEffect( const Effect& effect ) {
+	assert( _effect_idx < EFFECT_ID_NUM );
+	_effect[ _effect_idx ] = effect;
+	_effect_idx++;
+}
+
 
 void Drawer::flip( ) {
 	if ( _refresh_count == REFRESH_COUNT ){ //60フレーム目なら平均を計算する
@@ -241,7 +289,10 @@ void Drawer::flip( ) {
 	if ( wait_time > 0 ) {
 		Sleep( wait_time );	//待機
 	}
-
+	// Effekseerにより再生中のエフェクトを更新する。
+	UpdateEffekseer3D();
+	// Effekseerにより再生中のエフェクトを描画する。
+	DrawEffekseer3D();
 	ScreenFlip( );
 	ClearDrawScreen( );
 }

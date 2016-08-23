@@ -1,7 +1,8 @@
 #include "GroundModel.h"
+#include "App.h"
 #include "Ground.h"
 #include "Model.h"
-#include "App.h"
+#include "MapType.h"
 
 
 GroundModel::GroundModel() {
@@ -29,19 +30,19 @@ void GroundModel::loadModelData( ) {
 			int type = ground->getGroundData( idx );
 			
 			switch( type ) {
-			case Ground::GROUND_TYPE_FLOOR_01:
+			case GROUND_TYPE_FLOOR_01:
 				model->load( _map_floor01_filepath );
 				loadModelPos( i, j, model );
 				break;
-			case Ground::GROUND_TYPE_PATH_01:
+			case GROUND_TYPE_PATH_01:
 				model->load( _map_path01_filepath );
 				loadModelPos( i, j, model );
 				break;
-			case Ground::GROUND_TYPE_PATH_02:
+			case GROUND_TYPE_PATH_02:
 				model->load( _map_path02_filepath );
 				loadModelPos( i, j, model );
 				break;
-			case Ground::GROUND_TYPE_PATH_03:
+			case GROUND_TYPE_PATH_03:
 				model->load( _map_path03_filepath );
 				loadModelPos( i, j, model );
 				break;

@@ -5,7 +5,6 @@
 
 
 Weapon::Weapon( ) {
-	_weapon_max_num = 0;
 }
 
 
@@ -21,12 +20,13 @@ void Weapon::update( ) {
 		if ( !_bullet[ i ]->update( ) ) {
 			_bullet[ i ].reset( );
 			_bullet[ i ] = NULL;
+
 		}
 	}
 }
 
 int Weapon::getWeaponMaxNum( ) const {
-	return _weapon_max_num;
+	return MAX_BULLET_NUM;
 }
 
 BulletPtr Weapon::getBullet( int idx ) {
@@ -38,7 +38,6 @@ void Weapon::add( BulletPtr bullet ) {
 		BulletPtr check = _bullet[ i ];
 		if ( !check ) {
 			_bullet[ i ] = bullet;
-			_weapon_max_num++;
 			break;
 		}
 	}

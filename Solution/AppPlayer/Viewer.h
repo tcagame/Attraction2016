@@ -1,7 +1,9 @@
 #pragma once
 #include "Task.h"
+#include "MapType.h"
 #include "mathmatics.h"
 #include <string>
+#include <array>
 
 PTR( Viewer );
 PTR( Model );
@@ -35,8 +37,8 @@ private:
 	//Vector _camera_pos;
 	//Vector _target_pos;
 	//Vector _store_mouse_pos;
-
-	ModelPtr _model;
+	
+	std::array< ModelPtr, GROUND_TYPE_MAX > _model;
 	int _floor_tex_handle;
 	int _path_tex_handle;
 

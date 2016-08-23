@@ -8,7 +8,7 @@ PTR( Bullet );
 
 class Weapon {
 public:
-	static const int MAX_BULLET_NUM = 500;
+	static const int MAX_BULLET_NUM = 10000;
 public:
 	Weapon( );
 	virtual ~Weapon( );
@@ -21,6 +21,5 @@ public:
 	void add( BulletPtr bullet );
 private:
 	std::array< BulletPtr, MAX_BULLET_NUM > _bullet;
-	int _weapon_max_num;
 };
 

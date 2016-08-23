@@ -67,9 +67,24 @@ void Viewer::initialize( ) {
 	_map_path03_filepath = "../Resource/map_model/path03.mdl";
 	_map_floor_texture_filepath = "../Resource/map_model/floor01_DM.jpg";
 	_map_path_texture_filepath = "../Resource/map_model/path01_DM.jpg";
-	_model = ModelPtr( new Model( ) );
-	_floor_tex_handle = _model->getTextureHandle( _map_floor_texture_filepath );
-	_path_tex_handle = _model->getTextureHandle( _map_path_texture_filepath );
+	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
+		_model[ i ] = ModelPtr( new Model( ) );
+		if( i == GROUND_TYPE_FLOOR_01 ) {
+			_model[ i ]->load( _map_floor01_filepath );
+		}
+		if( i == GROUND_TYPE_PATH_01 ) {
+			_model[ i ]->load( _map_path01_filepath );
+		}
+		if( i == GROUND_TYPE_PATH_02 ) {
+			_model[ i ]->load( _map_path02_filepath );
+		}
+		if( i == GROUND_TYPE_PATH_03 ) {
+			_model[ i ]->load( _map_path03_filepath );
+		}
+	}
+	
+	_floor_tex_handle = _model[ 1 ]->getTextureHandle( _map_floor_texture_filepath );
+	_path_tex_handle = _model[ 1 ]->getTextureHandle( _map_path_texture_filepath );
 }
 
 void Viewer::update( ) {
@@ -147,26 +162,23 @@ void Viewer::drawGroundModel( ) {
 		for ( int j = 0; j < height; j++ ) {
 			int idx = ground->getIdx( i, j );
 			int type = ground->getGroundData( idx );
-			if( type == Ground::GROUND_TYPE_FLOOR_01 ) {
-				_model->load( _map_floor01_filepath );
+			if( type == GROUND_TYPE_FLOOR_01 ) {
 				tex_handle = _floor_tex_handle;
 			}
-			if( type == Ground::GROUND_TYPE_PATH_01 ) {
-				_model->load( _map_path01_filepath );
+			if( type == GROUND_TYPE_PATH_01 ) {
 				tex_handle = _path_tex_handle;
 			}
-			if( type == Ground::GROUND_TYPE_PATH_02 ) {
-				_model->load( _map_path02_filepath );
+			if( type == GROUND_TYPE_PATH_02 ) {
 				tex_handle = _path_tex_handle;
 			}
-			if( type == Ground::GROUND_TYPE_PATH_03 ) {
-				_model->load( _map_path03_filepath );
+			if( type == GROUND_TYPE_PATH_03 ) {
 				tex_handle = _path_tex_handle;
 			}
-			if ( _model ) {
-				_model->translate( Vector( i * ground->CHIP_WIDTH, j * ground->CHIP_HEIGHT, 0 ) );
-				_model->draw( tex_handle );
-				_model->reset( );
+			if ( _model[ type ] ) {
+				
+				_model[ type ]->translate( Vector( i * ground->CHIP_WIDTH, j * ground->CHIP_HEIGHT, 0 ) );
+				_model[ type ]->draw( tex_handle );
+				_model[ type ]->translate( Vector( -( i * ground->CHIP_WIDTH ), -( j * ground->CHIP_HEIGHT ), 0 ) );
 			}
 		}
 	}

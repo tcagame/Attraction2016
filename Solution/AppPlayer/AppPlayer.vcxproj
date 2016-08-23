@@ -132,6 +132,7 @@
     <ClInclude Include="EnemyMinotaurBehavior.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundModel.h" />
+    <ClInclude Include="MapType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBehavior.h" />
     <ClInclude Include="PlayerKnightBehavior.h" />

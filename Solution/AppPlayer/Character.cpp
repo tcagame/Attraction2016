@@ -34,6 +34,9 @@ void Character::create( Vector pos, Character::STATUS status ) {
 
 void Character::damage( unsigned int power ) {
 	_status.hp -= power;
+	if ( _status.hp <= 594900 ) {
+		int i = 0;
+	}
 }
 
 Vector Character::getPos( ) const {

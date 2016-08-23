@@ -7,7 +7,7 @@ const int VANISH_TIME = 300;
 
 void BulletMissile::initialize( ) {
 	FrameworkPtr fw = Framework::getInstance( );
-	_power = 30;
+	_power = 1;
 	_speed = 0.3;
 	_exist_time = 0;
 }

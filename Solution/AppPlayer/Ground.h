@@ -9,14 +9,7 @@ public:
 	Ground( const char* file_name );
 	virtual ~Ground( );
 public:
-	enum GROUND_TYPE {
-		GROUND_TYPE_NONE,
-		GROUND_TYPE_FLOOR_01,
-		GROUND_TYPE_PATH_01,
-		GROUND_TYPE_PATH_02,
-		GROUND_TYPE_PATH_03,
-		GROUND_TYPE_MAX
-	};
+
 public:
 	int getWidth( ) const;
 	int getHeight( ) const;

@@ -88,6 +88,7 @@ void Drawer::initialize( ) {
 	_billboard_idx = 0;
 
 	_refresh_count = REFRESH_COUNT;
+	_fps = FPS;
 	_start_time = 0;
 }
 
@@ -231,6 +232,11 @@ void Drawer::setBillboard( const Billboard& billboard ) {
 
 void Drawer::flip( ) {
 	if ( _refresh_count == REFRESH_COUNT ){ //60フレーム目なら平均を計算する
+		int frame_time_sum = GetNowCount( ) - _start_time;//かかった時間
+		double frame_time_avg = frame_time_sum / REFRESH_COUNT;//平均
+		if ( frame_time_avg != 0.0 ) {
+			_fps = 1000.0 / frame_time_avg;
+		}
 		_refresh_count = 0;
 		_start_time = GetNowCount( );
 	}
@@ -242,6 +248,7 @@ void Drawer::flip( ) {
 		Sleep( wait_time );	//待機
 	}
 
+	drawString( 600, 0, "FPS :  %lf", _fps );//現状のFPSの表示//デバッグコマンド
 	ScreenFlip( );
 	ClearDrawScreen( );
 }

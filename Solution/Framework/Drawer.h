@@ -97,4 +97,5 @@ private:
 
 	int _refresh_count;
 	int _start_time;
+	double _fps;
 };

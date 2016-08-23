@@ -16,10 +16,9 @@ public:
 public:
 	virtual void update( );
 public:
-	char getDirX( int index ) const;
-	char getDirY( int index ) const;
-	unsigned char getButton( int index ) const;
-	int getDeviceNum( );//デバイスの個数を渡す
+	char getDirX( ) const;
+	char getDirY( ) const;
+	unsigned char getButton( ) const;
 public:
 	void resetup( );
 private:
@@ -29,6 +28,5 @@ private:
 		unsigned char button;
 	};
 private:
-	DATA _data[ STATUS_NUM ];
-	int _device_num;
+	DATA _data;
 };

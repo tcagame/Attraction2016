@@ -2,7 +2,6 @@
 #include "Framework.h"
 #include "Console.h"
 #include "Network.h"
-#include "Device.h"
 #include "DxLib.h"
 #include "Bgm.h"
 
@@ -326,6 +325,7 @@ void Server::updateStatus( ) {
 }
 
 void Server::updateDevice( ) {
+	/*
 	DevicePtr device = Device::getTask( );
 	for ( int i = 0; i < STATUS_NUM; i++ ) {
 		int device_data =_data.user[ i ].device;
@@ -344,9 +344,11 @@ void Server::updateDevice( ) {
 			updateDeviceRedist( i );
 		}
 	}
+	*/
 }
 
 void Server::updateDeviceRedist( int user_idx ) {
+	/*
 	DevicePtr device = Device::getTask( );
 	for ( int i = 0; i < STATUS_NUM; i++ ) {
 		int button = device->getButton( i );
@@ -363,6 +365,7 @@ void Server::updateDeviceRedist( int user_idx ) {
 			}
 		}
 	}
+	*/
 }
 
 void Server::setDevice( int user_idx, int device_idx ) {
@@ -535,6 +538,7 @@ bool Server::setLevelStage( int index, int level ) {
 }
 
 void Server::resetState( ) {
+	/*
 	DevicePtr device = Device::getTask( );
 	FrameworkPtr fw = Framework::getInstance( );
 	for ( int i = 0; i < STATUS_NUM; i++ ) {
@@ -556,6 +560,7 @@ void Server::resetState( ) {
 		}
 
 	}
+	*/
 }
 
 //‰¹

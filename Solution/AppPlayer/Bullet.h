@@ -20,7 +20,7 @@ public:
 	TYPE getType( ) const;
 	Vector getPos( ) const;
 protected:
-	//void attackEnemy( const Vector& pos, int power );
+	void attackEnemy( const Vector& pos, int power );
 protected:
 	Vector _pos;
 private:

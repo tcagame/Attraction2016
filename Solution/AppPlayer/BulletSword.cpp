@@ -54,15 +54,14 @@ bool BulletSword::update( ) {
 	int range = ( int )getLength( );
 	for ( int i = 0; i < range * 2; i++ ) {
 		for ( int j = 0; j < range * 2; j++ ) {
-			Vector p(
-				( int )pos.x + 0.5 + i - range,
-				( int )pos.y + 0.5 + j - range,
+			Vector p( ( int )pos.x + 0.5 + i - range,
+					  ( int )pos.y + 0.5 + j - range,
 					   pos.z );
 			double center_angle = center_dir.angle( p - pos );
 			if ( center_angle < angle  ) {
 				if ( ( pos - p ).getLength( ) < getLength( ) ) {
 					count++;
-					//attackEnemy( p, SWORD_POWER );
+					attackEnemy( p, SWORD_POWER );
 					_is_attack = true;
 				}
 			}

@@ -17,4 +17,5 @@ private:
 private:
 	int _power;
 	double _speed;
+	int _exist_time;
 };

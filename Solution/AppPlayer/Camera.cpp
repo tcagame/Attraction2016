@@ -35,8 +35,8 @@ Vector Camera::getConvertDeviceVec( ) const {
 	//“ü—Í•ûŒü‚ðŽæ“¾
 	DevicePtr device = Device::getTask( );
 	Vector device_dir;
-	device_dir.x = device->getDirX( 0 );
-	device_dir.y = device->getDirY( 0 );
+	device_dir.x = device->getDirX( );
+	device_dir.y = device->getDirY( );
 	device_dir.z = 0;
 
 

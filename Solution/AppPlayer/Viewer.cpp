@@ -56,6 +56,8 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DASH, "minotaur/enemy_minotaur_dash.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_WAIT, "ghost/enemy_ghost_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK, "ghost/enemy_ghost_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_DAMAGE, "ghost/enemy_ghost_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_DEAD, "ghost/enemy_ghost_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK, "ghost/enemy_ghost_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,"ghost/missile.png" );

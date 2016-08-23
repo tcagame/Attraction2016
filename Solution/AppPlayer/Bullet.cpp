@@ -22,7 +22,7 @@ Vector Bullet::getPos( ) const {
 }
 
 
-/*void Bullet::attackEnemy( const Vector& pos, int power ) {
+void Bullet::attackEnemy( const Vector& pos, int power ) {
 	AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
 	for( int i = 0; i < cohort->getMaxNum( ); i++ ) {
@@ -37,4 +37,4 @@ Vector Bullet::getPos( ) const {
 			}
 		}
 	}
-}*/
+}

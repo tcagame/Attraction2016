@@ -457,12 +457,6 @@ void Console::drawStatusDevice( ) {
 		int y = FRAME_DEVICE_Y + BOX_DIR_STRING_Y;
 		drawString( x, y, "Device" );
 	}
-		//デバイスの数
-	{
-		int x = FRAME_DIR_X + FRAME_DIR_W + ( FRAME_DIR_W / 4 );
-		int y = FRAME_DEVICE_Y + BOX_DIR_STRING_Y;
-		drawString( x, y, "%d", device->getDeviceNum( ) );
-	}
 }
 
 void Console::drawBgm( ) {

@@ -30,11 +30,9 @@ DevicePtr Device::getTask( ) {
 
 
 Device::Device( ) {
-	for ( int i = 0; i < STATUS_NUM; i++ ) {
-		_data[ i ].x = 0;
-		_data[ i ].y = 0;
-		_data[ i ].button = 0;
-	}
+	_data.x = 0;
+	_data.y = 0;
+	_data.button = 0;
 }
 
 Device::~Device( ) {
@@ -44,53 +42,45 @@ void Device::resetup( ) {
 	ReSetupJoypad( );
 }
 
-char Device::getDirX( int index ) const {
-	return _data[ index ].x;
+char Device::getDirX( ) const {
+	return _data.x;
 }
 
-char Device::getDirY( int index ) const {
-	return _data[ index ].y;
+char Device::getDirY( ) const {
+	return _data.y;
 }
 
-unsigned char Device::getButton( int index ) const {
-	return _data[ index ].button;
+unsigned char Device::getButton( ) const {
+	return _data.button;
 }
 
 void Device::update( ) {
-	_device_num = GetJoypadNum( );
-	for ( int i = 0; i < MAX_JOYPAD_USE_NUM; i++ ) {
-		
-		int key = GetJoypadInputState( JOYPADKEY[ i ] );
-		Vector vec;
-		int x = 0, y = 0;
-		GetJoypadAnalogInput( &x, &y, JOYPADKEY[ i ] );
-		vec.x = x;
-		vec.y = y;
-		vec.x += +( ( key & PAD_INPUT_RIGHT ) != 0 );
-		vec.x += -( ( key & PAD_INPUT_LEFT  ) != 0 );
-		vec.y += +( ( key & PAD_INPUT_DOWN  ) != 0 );
-		vec.y += -( ( key & PAD_INPUT_UP    ) != 0 );
-		vec = vec.normalize( ) * 100;
+	int key = GetJoypadInputState( DX_INPUT_KEY_PAD1 );
+	Vector vec;
+	int x = 0, y = 0;
+	GetJoypadAnalogInput( &x, &y, DX_INPUT_KEY_PAD1 );
+	vec.x = x;
+	vec.y = y;
+	vec.x += +( ( key & PAD_INPUT_RIGHT ) != 0 );
+	vec.x += -( ( key & PAD_INPUT_LEFT  ) != 0 );
+	vec.y += +( ( key & PAD_INPUT_DOWN  ) != 0 );
+	vec.y += -( ( key & PAD_INPUT_UP    ) != 0 );
+	vec = vec.normalize( ) * 100;
 
-		_data[ i ].x = ( char )vec.x;
-		_data[ i ].y = ( char )vec.y;
+	_data.x = ( char )vec.x;
+	_data.y = ( char )vec.y;
 
-		_data[ i ].button = 0;
-		if ( ( key & PAD_INPUT_A ) != 0 ) { 
-			_data[ i ].button |= BUTTON_A;
-		}
-		if ( ( key & PAD_INPUT_B ) != 0 ) { 
-			_data[ i ].button |= BUTTON_B;
-		}
-		if ( ( key & PAD_INPUT_C ) != 0 ) { 
-			_data[ i ].button |= BUTTON_C;
-		}
-		if ( ( key & PAD_INPUT_X ) != 0 ) { 
-			_data[ i ].button |= BUTTON_D;
-		}
+	_data.button = 0;
+	if ( ( key & PAD_INPUT_A ) != 0 ) { 
+		_data.button |= BUTTON_A;
 	}
-}
-
-int Device::getDeviceNum( ) {
-	return _device_num;
+	if ( ( key & PAD_INPUT_B ) != 0 ) { 
+		_data.button |= BUTTON_B;
+	}
+	if ( ( key & PAD_INPUT_C ) != 0 ) { 
+		_data.button |= BUTTON_C;
+	}
+	if ( ( key & PAD_INPUT_X ) != 0 ) { 
+		_data.button |= BUTTON_D;
+	}
 }

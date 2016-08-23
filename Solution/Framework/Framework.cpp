@@ -1,7 +1,11 @@
 #include "Framework.h"
 #include "Binary.h"
 #include "DxLib.h"
+// EffekseerForDXLib.hをインクルードします。
+#include "EffekseerForDXLib.h"
 
+
+const int PARTICLE = 2000; //Effekseerの最大パーティクル数
 const int COLOR_BIT = 32;
 const int COLOR_BIT_DEPTH = 32;
 const int FPS = 60;
@@ -21,6 +25,8 @@ Framework::Framework( ) {
 	sx = sx * 3 / 4;
 	sy = sy * 3 / 4;
 	ChangeWindowMode( TRUE );
+	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
+	SetUseDirect3DVersion( DX_DIRECT3D_9 ); 
 	SetGraphMode( sx, sy, COLOR_BIT_DEPTH, FPS );
 	_screen_width = sx;
 	_screen_height = sy;
@@ -29,6 +35,18 @@ Framework::Framework( ) {
 	if ( DxLib_Init( ) == -1 ) {
 		return;
 	}
+	// Effekseerを初期化する。
+	// 引数には画面に表示する最大パーティクル数を設定する。
+	if ( Effkseer_Init( PARTICLE ) == -1 ) {
+		DxLib_End( );
+		return;
+	}
+	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
+	// Effekseerを使用する場合は必ず設定する。
+	SetChangeScreenModeGraphicsSystemResetFlag( FALSE );
+	// DXライブラリのデバイスロストした時のコールバックを設定する。
+	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions( );
 	//SetUseSetDrawScreenSettingReset(FALSE);
 	SetUseLighting( FALSE );
 	SetLightEnable( FALSE );
@@ -189,4 +207,7 @@ void Framework::setCamera( const Vector& pos, const Vector& target ) {
 	DxLib::VECTOR dx_target = VGet( float( target.x ), float( target.y ), float( target.z ) );
 	DxLib::VECTOR dx_up = VGet( float( _camera_up.x ), float( _camera_up.y ), float( _camera_up.z ) );
 	SetCameraPositionAndTargetAndUpVec( dx_pos, dx_target, dx_up );
+
+	// DXライブラリのカメラとEffekseerのカメラを同期する。
+	Effekseer_Sync3DSetting();
 }

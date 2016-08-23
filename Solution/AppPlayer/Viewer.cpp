@@ -61,6 +61,7 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK, "ghost/enemy_ghost_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,"ghost/missile.png" );
+	drawer->loadEffect( EFFECT_DUMMY, "effect/laser.efk" );
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
 	_map_path01_filepath = "../Resource/map_model/path01.mdl";
 	_map_path02_filepath = "../Resource/map_model/path02.mdl";
@@ -124,6 +125,12 @@ void Viewer::drawPlayer( ) {
 	
 	Player::STATUS status = player->getStatus( );
 	drawer->drawString( 0, 50, "Palyer_HP: %d", status.hp );
+	if ( motion == Animation::MOTION_PLAYER_ATTACK ) {
+		Vector effect_pos = pos;
+		effect_pos.z += 1;
+		Drawer::Effect effect = Drawer::Effect( effect_pos, dir, EFFECT_DUMMY );
+		drawer->setEffect( effect );
+	}
 }
 
 void Viewer::drawEnemy( ) {
@@ -214,6 +221,8 @@ void Viewer::drawBulletMissile( ) {
 			pos.z += 1.5;	//‚‚³’²®
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
+
 		}
 	}
 }
+

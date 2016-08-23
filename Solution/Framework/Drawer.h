@@ -59,20 +59,32 @@ public:
 		Billboard( );
 		Billboard( Vector pos_, double size_, int res, BLEND blend_, double ratio_ );
 	};
+	
+	struct Effect {
+		Vector pos;
+		Vector dir;
+		int res;
+		Effect( );
+		Effect( Vector pos_, Vector dir,int res );
+	};
+
 public:
 	void initialize( );
 	void update( );
 	void loadMV1Model( int motion, const char* filename );
 	void loadGraph( int res, const char* filename );
+	void loadEffect( int res,  const char* filename );
 	double getEndAnimTime( int res );
 	void setSprite( const Sprite& sprite );
 	void setModel( const Model& model );
 	void setBillboard( const Billboard& billboard );
+	void setEffect( const Effect& effect );
 	void drawString( int x, int y, const char* string, ... );
 private:
 	void drawModel( );
 	void drawSprite( );
 	void drawBillboard( );
+	void drawEffect( );
 	void flip( );
 private:
 	const char* _directory;
@@ -91,9 +103,16 @@ private:
 	static const int GRAPHIC_ID_NUM = 1000;
 	std::array< int, GRAPHIC_ID_NUM > _graphic_id;
 
+	static const int EFFECT_ID_NUM = 100;
+	std::array< int, EFFECT_ID_NUM > _effect_id;
+
 	static const int BILLBOARD_NUM = 1000;
 	std::array< Billboard, BILLBOARD_NUM > _billboard;
 	int _billboard_idx;
+
+	std::array< Effect, EFFECT_ID_NUM > _effect;
+	int _effect_idx;
+
 
 	int _refresh_count;
 	int _start_time;

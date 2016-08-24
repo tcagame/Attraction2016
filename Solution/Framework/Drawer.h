@@ -80,6 +80,7 @@ public:
 	void setBillboard( const Billboard& billboard );
 	void setEffect( const Effect& effect );
 	void drawString( int x, int y, const char* string, ... );
+	void drawLine( int x1, int y1, int x2, int y2 );
 private:
 	void drawModel( );
 	void drawSprite( );

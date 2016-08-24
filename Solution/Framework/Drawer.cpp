@@ -309,6 +309,11 @@ double Drawer::getEndAnimTime( int motion ) {
 	return MV1GetAnimTotalTime( _model_id[ motion ].body, _model_id[ motion ].body_anim );
 }
 
+void Drawer::drawLine( int x1, int y1, int x2, int y2 ) {
+	DrawLine( x1, y1, x2, y2, 0xFFFFFF ) ;
+}
+
+
 //デバック機能
 void Drawer::drawString( int x, int y, const char* string, ... ) {
 	char buf[ 1024 ];

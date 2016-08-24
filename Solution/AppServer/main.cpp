@@ -1,21 +1,19 @@
+#include "AppServer.h"
+#include "Viewer.h"
+#include "Drawer.h"
 #include "Framework.h"
-#include "Console.h"
-#include "Task.h"
-#include "Network.h"
-#include "Device.h"
-#include "Server.h"
+
 
 bool main( ) {
-	FrameworkPtr fw = Framework::getInstance( );
+	FrameworkPtr fw = Framework::getInstance ( );
+	AppServerPtr app_server = AppServerPtr( new AppServer );
+	ViewerPtr viewer = ViewerPtr( new Viewer );
+	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
 
-	TaskPtr console = ConsolePtr( new Console );
-	fw->addTask( Console::getTag( ), console );
-
-	TaskPtr device = DevicePtr( new Device );
-	fw->addTask( Device::getTag( ), device );
-
-	TaskPtr server = ServerPtr( new Server );
-	fw->addTask( Server::getTag( ), server );
+	fw->addTask( Viewer::getTag( ), viewer );
+	fw->addTask( Drawer::getTag( ), drawer );
+	fw->addTask( AppServer::getTag( ), app_server );
+	
 
 	return true;
 }

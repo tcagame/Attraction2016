@@ -5,7 +5,7 @@
 #include <assert.h>
 
 static const int REFRESH_COUNT = 60;	//平均を取るサンプル数
-static const int FPS = 60;
+static const int FPS = 30;
 
 Drawer::Transform::Transform( ) :
 sx( 0 ),
@@ -101,7 +101,7 @@ void Drawer::initialize( ) {
 	_billboard_idx = 0;
 	_effect_idx = 0;
 	
-	_refresh_count = REFRESH_COUNT;
+	_refresh_count = 0;
 	_fps = FPS;
 	_start_time = 0;
 }
@@ -279,6 +279,9 @@ void Drawer::setEffect( const Effect& effect ) {
 
 
 void Drawer::flip( ) {
+	if ( _refresh_count == 0 ) {
+		_start_time = GetNowCount( );
+	}
 	if ( _refresh_count == REFRESH_COUNT ){ //60フレーム目なら平均を計算する
 		int frame_time_sum = GetNowCount( ) - _start_time;//かかった時間
 		double frame_time_avg = frame_time_sum / REFRESH_COUNT;//平均
@@ -295,12 +298,12 @@ void Drawer::flip( ) {
 	if ( wait_time > 0 ) {
 		Sleep( wait_time );	//待機
 	}
+	drawString( 600, 0, "FPS :  %lf", _fps );//現状のFPSの表示//デバッグコマンド
+
 	// Effekseerにより再生中のエフェクトを更新する。
 	UpdateEffekseer3D();
 	// Effekseerにより再生中のエフェクトを描画する。
 	DrawEffekseer3D();
-
-	drawString( 600, 0, "FPS :  %lf", _fps );//現状のFPSの表示//デバッグコマンド
 	ScreenFlip( );
 	ClearDrawScreen( );
 }

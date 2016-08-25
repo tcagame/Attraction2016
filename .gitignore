@@ -12,3 +12,14 @@ Solution/AppPlayerKnight/Debug/
 *.log
 Solution/Client/Debug/
 Solution/Common/Debug/
+Solution/AppEtudeBlue/Debug/
+Solution/AppEtudeGreen/Debug/
+Solution/AppEtudeRed/Debug/
+Solution/AppLiveMonitor/Debug/
+Solution/AppModelMaker/Debug/
+Solution/AppPlaneMaker/Debug/
+Solution/AppPlayerHunter/Debug/
+Solution/AppPlayerMonk/Debug/
+Solution/AppPlayerWitch/Debug/
+Solution/AppServer/Debug/
+Solution/AppModelMaker/Log.txt

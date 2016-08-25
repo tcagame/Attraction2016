@@ -8,6 +8,7 @@
 #include "EnemyGhostBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
+#include "Item.h"
 #include "Ground.h"
 #include "Camera.h"
 #include "Keyboard.h"
@@ -52,6 +53,7 @@ void App::initialize( ) {
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
 	_weapon = WeaponPtr( new Weapon( ) );
+	_item = ItemPtr( new Item( ) );
 }
 
 void App::finalize( ) {
@@ -84,4 +86,8 @@ WeaponPtr App::getWeapon( ) const {
 
 DeedBoxesPtr App::getDeedBoxes( ) const{
 	return _deed_boxes;
+}
+
+ItemPtr App::getItem( ) const {
+	return _item;
 }

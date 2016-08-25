@@ -9,8 +9,8 @@ PTR( GroundModel );
 PTR( Cohort);
 PTR( Camera );
 PTR( Weapon );
-PTR( CharacterPlacement );
 PTR( DeedBoxes );
+PTR( Item );
 
 class App : public Task {
 public:
@@ -30,6 +30,7 @@ public:
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;
 	DeedBoxesPtr getDeedBoxes( ) const;
+	ItemPtr getItem( ) const;
 
 private:
 	GroundPtr _ground;
@@ -39,5 +40,5 @@ private:
 	CameraPtr _camera;
 	WeaponPtr _weapon;
 	DeedBoxesPtr _deed_boxes;
-	CharacterPlacementPtr _charcter_placement;
+	ItemPtr _item;
 };

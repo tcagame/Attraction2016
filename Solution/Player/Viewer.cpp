@@ -8,6 +8,7 @@
 #include "BulletMissile.h"
 #include "Weapon.h"
 #include "DeedBox.h"
+#include "Item.h"
 #include "Ground.h"
 #include "Drawer.h"
 #include "Camera.h"
@@ -73,6 +74,10 @@ void Viewer::initialize( ) {
 	_map_path03_filepath = "../Resource/map_model/path03.mdl";
 	_map_floor_texture_filepath = "../Resource/map_model/floor01_DM.jpg";
 	_map_path_texture_filepath = "../Resource/map_model/path01_DM.jpg";
+
+	_item_model = ModelPtr( new Model );
+	_item_model->load( "../Resource/object/item/item_potion.mdl" );
+	_item_tex_handle = _item_model->getTextureHandle( "../Resource/object/item/item01_DM.jpg" );
 	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
 		_model[ i ] = ModelPtr( new Model( ) );
 		if( i == GROUND_TYPE_FLOOR_01 ) {
@@ -88,7 +93,6 @@ void Viewer::initialize( ) {
 			_model[ i ]->load( _map_path03_filepath );
 		}
 	}
-	
 	_floor_tex_handle = _model[ 1 ]->getTextureHandle( _map_floor_texture_filepath );
 	_path_tex_handle = _model[ 1 ]->getTextureHandle( _map_path_texture_filepath );
 }
@@ -99,6 +103,7 @@ void Viewer::update( ) {
 	drawGroundModel( );
 	drawDeedBox( );
 	drawBulletMissile( );
+	drawItem( );
 	updateCamera( );
 }
 
@@ -229,5 +234,12 @@ void Viewer::drawBulletMissile( ) {
 
 		}
 	}
+}
+
+void Viewer::drawItem( ) {
+	AppPtr app = App::getTask( );
+	ItemPtr item = app->getItem( );
+	_item_model->translate( item->getPos( ) );
+	_item_model->draw( _item_tex_handle );
 }
 

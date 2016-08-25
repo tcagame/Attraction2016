@@ -35,6 +35,7 @@ private:
 	void drawGroundModel( );
 	void drawBulletMissile( );
 	void drawEffect( );
+	void drawItem( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
@@ -44,8 +45,10 @@ private:
 	//Vector _store_mouse_pos;
 	
 	std::array< ModelPtr, GROUND_TYPE_MAX > _model;
+	ModelPtr _item_model;
 	int _floor_tex_handle;
 	int _path_tex_handle;
+	int _item_tex_handle;
 
 	char* _map_floor01_filepath;
 	char* _map_path01_filepath;

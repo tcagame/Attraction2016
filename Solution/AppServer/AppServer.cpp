@@ -8,12 +8,9 @@ AppServerPtr AppServer::getTask( ) {
 }
 
 AppServer::AppServer( ) {
-
 }
 
-
 AppServer::~AppServer( ) {
-
 }
 
 void AppServer::update( ) {

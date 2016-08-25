@@ -94,17 +94,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppServer.cpp" />
     <ClCompile Include="Bgm.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="TableDrawer.cpp" />
+    <ClCompile Include="Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppServer.h" />
     <ClInclude Include="Bgm.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="TableDrawer.h" />
+    <ClInclude Include="Viewer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

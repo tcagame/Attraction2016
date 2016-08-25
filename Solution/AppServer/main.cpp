@@ -13,7 +13,5 @@ bool main( ) {
 	fw->addTask( Viewer::getTag( ), viewer );
 	fw->addTask( Drawer::getTag( ), drawer );
 	fw->addTask( AppServer::getTag( ), app_server );
-	
-
 	return true;
 }

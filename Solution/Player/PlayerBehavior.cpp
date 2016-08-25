@@ -10,6 +10,9 @@
 #include "Keyboard.h"
 #include "Device.h"
 
+const int DEED_BOX_RANGE = 1;
+const int DEED_BOX_LENGTH = 2;
+
 PlayerBehavior::PlayerBehavior( CameraConstPtr camera ) {
 	_camera = camera;
 }
@@ -37,7 +40,7 @@ void PlayerBehavior::update( ) {
 				DeedBoxPtr deedbox = deedboxes->getDeedBox( i );
 				Vector vec = deedbox->getPos( ) - move_pos;
 				double length = vec.getLength( );
-				if ( length < 1 ) {
+				if ( length < DEED_BOX_RANGE ) {
 					is_deedbox = true;
 					break;
 				}
@@ -60,20 +63,16 @@ void PlayerBehavior::update( ) {
 void PlayerBehavior::pickupDeedBox( ) {
 	KeyboardPtr keyboard = Keyboard::getTask( );
 	DevicePtr device = Device::getTask( );
-	if ( !keyboard->isPushKey( "B" ) ) {
-		return;
-	}
-	if ( device->getButton( ) != BUTTON_B ) {
-		return;
-	}
 
-	AppPtr app = App::getTask( );
-	DeedBoxesPtr deed_boxes = app->getDeedBoxes( );
-	for ( int i = 0; i < deed_boxes->getMaxNum( ); i++ ) {
-		DeedBoxPtr deed_box = deed_boxes->getDeedBox( i );
-		int lenght = ( int )( _parent->getPos( ) - deed_box->getPos( ) ).getLength( );
-		if ( lenght < LENGHT ) {
-			deed_box->pickup( );
+	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
+		AppPtr app = App::getTask( );
+		DeedBoxesPtr deed_boxes = app->getDeedBoxes( );
+		for ( int i = 0; i < deed_boxes->getMaxNum( ); i++ ) {
+			DeedBoxPtr deed_box = deed_boxes->getDeedBox( i );
+			int lenght = ( int )( _parent->getPos( ) - deed_box->getPos( ) ).getLength( );
+			if ( lenght < DEED_BOX_LENGTH ) {
+				deed_box->pickup( );
+			}
 		}
 	}
 }

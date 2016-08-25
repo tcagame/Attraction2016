@@ -9,8 +9,6 @@ PTR( Camera );
 //コントローラーで動くもの
 class PlayerBehavior : public Behavior {
 public:
-	static const int LENGHT = 2;
-public:
 	PlayerBehavior( CameraConstPtr camera );
 	virtual ~PlayerBehavior( );
 public:

@@ -8,3 +8,7 @@ Solution/AppPlayerKnight/Log.txt
 work/
 *.user
 *.opensdf
+Solution/AppPlayerKnight/Debug/
+*.log
+Solution/Client/Debug/
+Solution/Common/Debug/

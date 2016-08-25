@@ -2,6 +2,8 @@
 #include "App.h"
 #include "DeedBoxes.h"
 #include "DeedBox.h"
+#include "Items.h"
+#include "Item.h"
 #include "Character.h"
 #include "Camera.h"
 #include "Animation.h"
@@ -12,6 +14,7 @@
 
 const int DEED_BOX_RANGE = 1;
 const int DEED_BOX_LENGTH = 2;
+const int ITEM_LENGTH = 2;
 
 PlayerBehavior::PlayerBehavior( CameraConstPtr camera ) {
 	_camera = camera;
@@ -58,6 +61,7 @@ void PlayerBehavior::update( ) {
 	}
 	_befor_state = _common_state;
 	pickupDeedBox( );
+	pickupItem( );
 }	
 
 void PlayerBehavior::pickupDeedBox( ) {
@@ -72,6 +76,26 @@ void PlayerBehavior::pickupDeedBox( ) {
 			int lenght = ( int )( _parent->getPos( ) - deed_box->getPos( ) ).getLength( );
 			if ( lenght < DEED_BOX_LENGTH ) {
 				deed_box->pickup( );
+			}
+		}
+	}
+}
+
+void PlayerBehavior::pickupItem( ) {
+	KeyboardPtr keyboard = Keyboard::getTask( );
+	DevicePtr device = Device::getTask( );
+
+	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
+		AppPtr app = App::getTask( );
+		ItemsPtr items = app->getItems( );
+		for ( int i = 0; i < Items::MAX_ITEM_NUM; i++ ) {
+			ItemPtr item = items->getItem( i );
+			if ( !item ) {
+				return;
+			}
+			int lenght = ( int )( _parent->getPos( ) - item->getPos( ) ).getLength( );
+			if ( lenght < ITEM_LENGTH ) {
+				item->pickup( );
 			}
 		}
 	}

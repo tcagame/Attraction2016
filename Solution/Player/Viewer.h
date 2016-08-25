@@ -40,10 +40,6 @@ private:
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
 private:
-	//Vector _camera_pos;
-	//Vector _target_pos;
-	//Vector _store_mouse_pos;
-	
 	std::array< ModelPtr, GROUND_TYPE_MAX > _model;
 	ModelPtr _item_model;
 	int _floor_tex_handle;

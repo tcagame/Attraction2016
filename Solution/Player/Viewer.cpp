@@ -8,6 +8,7 @@
 #include "BulletMissile.h"
 #include "Weapon.h"
 #include "DeedBox.h"
+#include "Items.h"
 #include "Item.h"
 #include "Ground.h"
 #include "Drawer.h"
@@ -238,8 +239,15 @@ void Viewer::drawBulletMissile( ) {
 
 void Viewer::drawItem( ) {
 	AppPtr app = App::getTask( );
-	ItemPtr item = app->getItem( );
-	_item_model->translate( item->getPos( ) );
-	_item_model->draw( _item_tex_handle );
+	ItemsPtr items = app->getItems( );
+	for ( int i = 0; i < Items::MAX_ITEM_NUM; i++ ) {
+		ItemPtr item = items->getItem( i );
+		if ( !item ) {
+			continue;
+		}
+		_item_model->translate( item->getPos( ) );
+		_item_model->draw( _item_tex_handle );
+		_item_model->translate( item->getPos( ) * -1 );
+	}
 }
 

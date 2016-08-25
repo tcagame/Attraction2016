@@ -9,7 +9,10 @@ public:
 	virtual ~Item( );
 public:
 	Vector getPos( );
+	void pickup( );
+	bool isExpired( );
 private:
 	Vector _pos;
+	bool _expired;
 };
 

@@ -8,7 +8,7 @@
 #include "EnemyGhostBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
-#include "Item.h"
+#include "Items.h"
 #include "Ground.h"
 #include "Camera.h"
 #include "Keyboard.h"
@@ -32,6 +32,7 @@ void App::update( ) {
 	_cohort->update( );
 	_deed_boxes->updata( );
 	_camera->update( );
+	_items->update( );
 	if ( _weapon ) {
 		_weapon->update( );
 	}
@@ -53,7 +54,7 @@ void App::initialize( ) {
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
 	_weapon = WeaponPtr( new Weapon( ) );
-	_item = ItemPtr( new Item( ) );
+	_items = ItemsPtr( new Items( ) );
 }
 
 void App::finalize( ) {
@@ -88,6 +89,6 @@ DeedBoxesPtr App::getDeedBoxes( ) const{
 	return _deed_boxes;
 }
 
-ItemPtr App::getItem( ) const {
-	return _item;
+ItemsPtr App::getItems( ) const {
+	return _items;
 }

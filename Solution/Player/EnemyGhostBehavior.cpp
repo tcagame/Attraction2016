@@ -6,7 +6,7 @@
 #include "App.h"
 #include "Player.h"
 
-const double MOTION_SPEED = 0.5;
+const double MOTION_SPEED = 1;
 const int ATTACK_TIME = 40;
 
 EnemyGhostBehavior::EnemyGhostBehavior( ) {

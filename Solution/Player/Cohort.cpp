@@ -2,6 +2,7 @@
 #include "App.h"
 #include "EnemyMinotaurBehavior.h"
 #include "EnemyGhostBehavior.h"
+#include "EnemyArmorBehavior.h"
 #include "Enemy.h"
 #include "Ground.h"
 #include "Character.h"
@@ -39,6 +40,12 @@ void Cohort::init( ) {
 			behavior->setParent( enemy );
 			add( enemy, pos );
 		}
+		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_ARMOR  ) {
+			EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
+			EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
+			behavior->setParent( enemy );
+			add( enemy, pos );
+		}
 	}
 }
 
@@ -68,6 +75,9 @@ void Cohort::add( EnemyPtr enemy, Vector pos ) {
 			}
 			if ( enemy->getType( ) == Character::TYPE_ENEMY_GHOST ) {
 				status = Character::STATUS( 200, 1, 0.005 );
+			}
+			if ( enemy->getType( ) == Character::TYPE_ENEMY_ARMOR ) {
+				status = Character::STATUS( 200, 100, 0.005 );
 			}
 			_enemy[ i ] ->create( pos, status );
 			_enemy_max++;

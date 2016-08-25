@@ -1,24 +1,26 @@
-#include "EnemyMinotaurBehavior.h"
+#include "EnemyArmorBehavior.h"
 #include "Character.h"
 #include "Animation.h"
 #include "App.h"
 #include "Player.h"
 
 const double MOTION_SPEED = 1;
-const double ATTACK_TIME = 27.0;
+const double ATTACK_TIME = 40.0;
 
-EnemyMinotaurBehavior::EnemyMinotaurBehavior( ) {
+EnemyArmorBehavior::EnemyArmorBehavior( ) {
 	_attack_range = 2.0;
-	_move_range =7.5;
+	_move_range = 10.5;
 	_on_damage = false;
 
 	_befor_hp = -1;
 }
 
-EnemyMinotaurBehavior::~EnemyMinotaurBehavior( ) {
+
+EnemyArmorBehavior::~EnemyArmorBehavior( ) {
 }
 
-void EnemyMinotaurBehavior::update( ) {
+
+void EnemyArmorBehavior::update( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
 	if ( player->isExpired( ) ) {
@@ -33,7 +35,7 @@ void EnemyMinotaurBehavior::update( ) {
 	_befor_hp = _parent->getStatus( ).hp;
 }
 
-void EnemyMinotaurBehavior::movePosToTarget( ) {
+void EnemyArmorBehavior::movePosToTarget( ) {
 	if ( _target.expired( ) ) {
 		return;
 	}
@@ -47,7 +49,7 @@ void EnemyMinotaurBehavior::movePosToTarget( ) {
 	}
 }
 
-void EnemyMinotaurBehavior::switchStatus( ) {
+void EnemyArmorBehavior::switchStatus( ) {
 	_common_state = COMMON_STATE_WAIT;
 	_on_damage = false;
 
@@ -67,7 +69,7 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 		_common_state = COMMON_STATE_ATTACK;
 	}
 	//UŒ‚’†
-	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_CLEAVE && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_ARMOR_ATTACK && !_animation->isEndAnimation( ) ) {
 		_common_state = COMMON_STATE_ATTACK;
 	}
 
@@ -80,20 +82,20 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 	}
 }
 
-void EnemyMinotaurBehavior::animationUpdate( ) {
-	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DEAD ) {
+void EnemyArmorBehavior::animationUpdate( ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_ARMOR_DEAD ) {
 		if ( _animation->isEndAnimation( ) ) {
 			_parent->dead( );
 		}
 		return;
 	}
-	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DAMAGE && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_ARMOR_DAMAGE && !_animation->isEndAnimation( ) ) {
 		_common_state = COMMON_STATE_WAIT;
 		return;
 	}
 	if ( _common_state == COMMON_STATE_WAIT ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_WAIT ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_WAIT, MOTION_SPEED ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_WAIT ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_WAIT, MOTION_SPEED ) );
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
@@ -101,8 +103,8 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _common_state == COMMON_STATE_WALK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_WALK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_WALK, MOTION_SPEED ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_WALK ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_WALK, MOTION_SPEED ) );
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
@@ -110,30 +112,31 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _common_state == COMMON_STATE_ATTACK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_CLEAVE ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_CLEAVE, MOTION_SPEED ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_ATTACK ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_ATTACK, MOTION_SPEED ) );
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
 			}
-			if ( _animation->getAnimTime( ) == ATTACK_TIME ) {
+			if ( _animation->getAnimTime( ) == 50.0 ) {
 				onAttack( );
 			}
 		}
 	}
 	if ( _on_damage ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_DAMAGE ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_DAMAGE, MOTION_SPEED ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_DAMAGE ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_DAMAGE, MOTION_SPEED ) );
 		}
 	}
 	if ( _common_state == COMMON_STATE_DEAD ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_DEAD ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_DEAD, MOTION_SPEED ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_DEAD ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_DEAD, MOTION_SPEED ) );
 		}
 	}
 }
 
-void EnemyMinotaurBehavior::onAttack( ) {
+
+void EnemyArmorBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
 	player->damage( _parent->getStatus( ).power );

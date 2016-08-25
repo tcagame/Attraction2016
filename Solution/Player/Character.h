@@ -27,6 +27,7 @@ public:
 		TYPE_PLAYER,
 		TYPE_ENEMY_MINOTAUR,
 		TYPE_ENEMY_GHOST,
+		TYPE_ENEMY_ARMOR,
 	};
 public:
 	Character( TYPE type, BehaviorPtr behavior );

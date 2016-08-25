@@ -1,0 +1,9 @@
+Solution/Debug/
+Solution/Etude/Debug/
+Solution/Framework/Debug/
+Solution/Player/Debug/
+Solution/AppPlayerKnight/Log.txt
+*.sdf
+*.suo
+work/
+*.user

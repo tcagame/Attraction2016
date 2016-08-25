@@ -59,6 +59,11 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_GHOST_DAMAGE, "ghost/enemy_ghost_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_DEAD, "ghost/enemy_ghost_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK, "ghost/enemy_ghost_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT, "armor/enemy_armor_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK, "armor/enemy_armor_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK, "armor/enemy_armor_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE, "armor/enemy_armor_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD, "armor/enemy_armor_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,"ghost/missile.png" );
 	drawer->loadEffect( EFFECT_DUMMY, "effect/laser.efk" );

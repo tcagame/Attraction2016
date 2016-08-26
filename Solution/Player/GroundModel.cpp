@@ -3,6 +3,7 @@
 #include "Ground.h"
 #include "Model.h"
 #include "MapType.h"
+#include "Cohort.h"
 
 GroundModel::ModelData::ModelData( ) :
 polygon_num( 0 ) {
@@ -24,6 +25,7 @@ GroundModel::~GroundModel()
 void GroundModel::loadModelData( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
+	CohortPtr Cohort = app->getCohort( );
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
 
@@ -32,21 +34,31 @@ void GroundModel::loadModelData( ) {
 			ModelPtr model = ModelPtr( new Model( ) ); 
 			int idx = ground->getIdx( i, j );
 			int type = ground->getGroundData( idx );
+			std::string enemy_filepath;
 			
 			switch( type ) {
 			case GROUND_TYPE_FLOOR_01:
+				//ここでエネミーデータ読み込みをする
+				enemy_filepath = "../Resource/enemy/floor01.ene";
+				Cohort->loadBlockEnemyData( enemy_filepath );
 				model->load( _map_floor01_filepath );
 				loadModelPos( idx, i, j, model );
 				break;
 			case GROUND_TYPE_PATH_01:
+				enemy_filepath = "../Resource/enemy/path01.ene";
+				Cohort->loadBlockEnemyData( enemy_filepath );
 				model->load( _map_path01_filepath );
 				loadModelPos( idx, i, j, model );
 				break;
 			case GROUND_TYPE_PATH_02:
+				enemy_filepath = "../Resource/enemy/path02.ene";
+				Cohort->loadBlockEnemyData( enemy_filepath );
 				model->load( _map_path02_filepath );
 				loadModelPos( idx, i, j, model );
 				break;
 			case GROUND_TYPE_PATH_03:
+				enemy_filepath = "../Resource/enemy/path03.ene";
+				Cohort->loadBlockEnemyData( enemy_filepath );
 				model->load( _map_path03_filepath );
 				loadModelPos( idx, i, j, model );
 				break;

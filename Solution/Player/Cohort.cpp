@@ -8,9 +8,7 @@
 #include "Character.h"
 #include "Framework.h"
 
-Cohort::Cohort( const char* file_name ) {
-	loadEnemyCSV( file_name );
-	init( );
+Cohort::Cohort( ) {
 }
 
 Cohort::~Cohort( ) {
@@ -22,35 +20,46 @@ void Cohort::init( ) {
 
 	
 	_enemy_max = 0;
-	int enemy_placement_max = _enemy_placement.size( );
-	for ( int i = 0; i < enemy_placement_max; i++ ) {
+	int _enemy_data_max = _enemy_data.size( );
+	for ( int i = 0; i < _enemy_data_max; i++ ) {
 		Vector pos = Vector( ( i % ground->getWidth( ) ) * ground->CHIP_WIDTH,
 						     ( i / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
 						       0 );
+		BLOCK_ENEMY_DATA block_enemy_data = _enemy_data[ i ];
+		for ( int j = 0; j < block_enemy_data.size( ); j++ ) {
+			ENEMY_DATA enemy_data = block_enemy_data[ j ];
+			Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y, 0 );
 
-		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_MINOTAUR ) {
-			EnemyMinotaurBehaviorPtr behavior = EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) );
-			EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_MINOTAUR ) );
-			behavior->setParent( enemy );
-			add( enemy, pos );
-		}
-		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_GHOST  ) {
-			EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
-			EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GHOST ) );
-			behavior->setParent( enemy );
-			add( enemy, pos );
-		}
-		if ( _enemy_placement[ i ] == Character::TYPE_ENEMY_ARMOR  ) {
-			EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
-			EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
-			behavior->setParent( enemy );
-			add( enemy, pos );
+			if ( enemy_data.name == "ミノタウロス" ) {
+				EnemyMinotaurBehaviorPtr behavior = EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) );
+				EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_MINOTAUR ) );
+				behavior->setParent( enemy );
+				add( enemy, put_pos );
+			}
+			if ( enemy_data.name == "ゴースト"  ) {
+				EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
+				EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GHOST ) );
+				behavior->setParent( enemy );
+				add( enemy, put_pos );
+			}
+			if ( enemy_data.name == "アーマー"  ) {
+				EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
+				EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
+				behavior->setParent( enemy );
+				add( enemy, put_pos );
+			}
 		}
 	}
 }
 
 void Cohort::update( ) {
 	FrameworkPtr fw = Framework::getInstance( );
+	static int time = 0;
+	if ( time == 0 ) {
+		init( );
+	}
+	time++;
+
 	for ( int i = 0; i < MAX_NUM; i++ ) {
 		EnemyPtr enemy = _enemy[ i ];
 		if ( !enemy ) {
@@ -97,29 +106,28 @@ int Cohort::getMaxNum( ) {
 	return _enemy_max;
 }
 
-bool Cohort::loadEnemyCSV( const char* file_name ) {
+void Cohort::loadBlockEnemyData( std::string filepath ) {
+	BLOCK_ENEMY_DATA data;
 	//ファイルの読み込み
 	FILE* fp;
-	errno_t err = fopen_s( &fp, file_name, "r" );
+	errno_t err = fopen_s( &fp, filepath.c_str( ), "r" );
 	if ( err != 0 ) {
-		return false;
+		_enemy_data.push_back( data );
+		return;
 	}
 	
-	char buf[ 2048 ];
+	ENEMY_DATA enemy_data;
+	double x;
+	double y;
+	char buf[ 1024 ];
 
-	while ( fgets( buf, 2048, fp ) != NULL ) {
+	while ( fscanf_s( fp,"%lf,%lf,%s", &x, &y, buf, 1024 ) != EOF ) {
 		std::string str = buf;
-		while ( true ) {
-			std::string::size_type index = str.find( "," );
-
-			if ( index == std::string::npos ) {
-				_enemy_placement.push_back( atoi( str.c_str( ) ) );
-				break;
-			}
-			std::string substr = str.substr( 0, index );
-			_enemy_placement.push_back( atoi( substr.c_str( ) ) );
-			str = str.substr( index + 1 );
-		}
+		enemy_data.x = x;
+		enemy_data.y = y;
+		enemy_data.name = buf;
+		data.push_back( enemy_data );
 	}
-	return true;
+	_enemy_data.push_back( data );
+	fclose( fp );
 }

@@ -12,9 +12,16 @@ PTR( Character );
 
 class Cohort {
 public:
+	struct ENEMY_DATA {
+		double x;
+		double y;
+		std::string name;
+	};
+	typedef std::vector< ENEMY_DATA > BLOCK_ENEMY_DATA;//ブロックごとのエネミー配置データ
+public:
 	static const int MAX_NUM = 500;
 public:
-	Cohort( const char* file_name );
+	Cohort( );
 	virtual ~Cohort();
 public:
 	virtual void update( );
@@ -22,12 +29,12 @@ public:
 	EnemyPtr getEnemy( int index );
 	void add( EnemyPtr enemy, Vector pos );
 	int getMaxNum( );
+	void loadBlockEnemyData( std::string filepath );
 private:
 	void init( );
-	bool loadEnemyCSV( const char* file_name );
 private:
 	std::array< EnemyPtr, MAX_NUM > _enemy;
+	std::vector< BLOCK_ENEMY_DATA > _enemy_data;
 	int _enemy_max;
-	std::vector< int > _enemy_placement;
 };
 

@@ -45,7 +45,7 @@ void App::update( ) {
 
 void App::initialize( ) {
 	_ground = GroundPtr( new Ground( "../Resource/map.csv" ) );
-	_cohort = CohortPtr( new Cohort( "../Resource/enemy.csv" ) );
+	_cohort = CohortPtr( new Cohort( ) );
 	_deed_boxes = DeedBoxesPtr( new DeedBoxes( "../Resource/deedbox.csv" ) );
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_ground_model->loadModelData( );

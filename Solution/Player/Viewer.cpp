@@ -136,6 +136,8 @@ void Viewer::drawPlayer( ) {
 	
 	Player::STATUS status = player->getStatus( );
 	drawer->drawString( 0, 50, "Palyer_HP: %d", status.hp );
+	drawer->drawString( 0, 75, "X %lf, Y %lf", pos.x, pos.y );
+
 	if ( motion == Animation::MOTION_PLAYER_ATTACK ) {
 		Vector effect_pos = pos;
 		effect_pos.z += 1;

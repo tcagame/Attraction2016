@@ -4,6 +4,10 @@
 #include "Model.h"
 #include "MapType.h"
 
+GroundModel::ModelData::ModelData( ) :
+polygon_num( 0 ) {
+
+}
 
 GroundModel::GroundModel() {
 	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
@@ -32,19 +36,19 @@ void GroundModel::loadModelData( ) {
 			switch( type ) {
 			case GROUND_TYPE_FLOOR_01:
 				model->load( _map_floor01_filepath );
-				loadModelPos( i, j, model );
+				loadModelPos( idx, i, j, model );
 				break;
 			case GROUND_TYPE_PATH_01:
 				model->load( _map_path01_filepath );
-				loadModelPos( i, j, model );
+				loadModelPos( idx, i, j, model );
 				break;
 			case GROUND_TYPE_PATH_02:
 				model->load( _map_path02_filepath );
-				loadModelPos( i, j, model );
+				loadModelPos( idx, i, j, model );
 				break;
 			case GROUND_TYPE_PATH_03:
 				model->load( _map_path03_filepath );
-				loadModelPos( i, j, model );
+				loadModelPos( idx, i, j, model );
 				break;
 			default:
 				break;
@@ -53,26 +57,82 @@ void GroundModel::loadModelData( ) {
 	}
 }
 
-void GroundModel::loadModelPos( int x, int y, ModelPtr model ) {
+void GroundModel::loadModelPos( int idx, int x, int y, ModelPtr model ) {
 	int polygon_num = model->getPolygonNum( );
-	_polygon_num += polygon_num;
+	_model_data[ idx ].polygon_num = polygon_num;
 	model->translate( Vector( x * Ground::CHIP_WIDTH, y * Ground::CHIP_HEIGHT ) );
+	int num = 0;
 	for ( int i = 0; i < polygon_num * 3; i++ ) {
 		Vector pos = model->getPoint( i );
-		_pos.push_back( pos );
+		_model_data[ idx ].pos[ num ] = pos;
+		num++;
 	}
 }
 
 bool GroundModel::isCollisionGround( Vector pos ) {
-	int idx = 0;
+	AppPtr app = App::getTask( );
+	GroundPtr ground = app->getGround( );
+
+	
+	double size = ( ( Ground::CHIP_WIDTH + 5) / 2.0f );
+	int x = abs( pos.x ) / size;
+	int y = abs( pos.y ) / size;
+	if ( x < 0 ) {
+		x = 0;
+	}
+	if ( y < 0 ) {
+		y = 0;
+	}
+	double chip_pos_x = pos.x - ( size * x );
+	double chip_pos_y = pos.y - ( size * y );
+
+
+	int model_idx = ground->getIdx( x, y );
+	
 	Vector pos_a = Vector( pos.x, pos.y, 100 );
 	Vector pos_b = Vector( pos.x, pos.y, -100 );
+	bool ret = false;
+	for ( int i = 0; i < 2; i++ ) {
+		
+		int add_y = 0;
+		if ( chip_pos_y > 0 ) {
+			add_y = 1;
+		} else if ( chip_pos_y < 0 ) {
+			add_y = -1;
+		}
+		if ( chip_pos_x > 2.5 ) {
+			x += 1;
+		}
+		if ( chip_pos_x < 2.5 && chip_pos_x > -2.5 ) {
+			add_y *= i;
+		}
+		if ( chip_pos_x < -2.5 ) {
+			x -= 1;
+		}
+		y += add_y;
+		if ( x < 0 ) {
+			x = 0;
+		}
+		if ( y < 0 ) {
+			y = 0;
+		}
+		ret = isCollisionModel( model_idx, pos_a, pos_b );
+		model_idx = ground->getIdx( x, y );
+		if ( ret ) {
+			return ret;
+		}
+	}
+	return ret;
+}
 
-	for ( int i = 0; i < _polygon_num; i++ ) {
-		idx = i * 3;
-		Vector plane_point_a = _pos[ idx ];
-		Vector plane_point_b = _pos[ idx + 1 ];
-		Vector plane_point_c = _pos[ idx + 2 ];
+
+bool GroundModel::isCollisionModel( int model_idx, Vector pos_a, Vector pos_b ) {
+	int polygon_idx = 0;
+	for ( int i = 0; i < _model_data[ model_idx ].polygon_num; i++ ) {
+		polygon_idx = i * 3;
+		Vector plane_point_a = _model_data[ model_idx ].pos[ polygon_idx ];
+		Vector plane_point_b = _model_data[ model_idx ].pos[ polygon_idx + 1 ];
+		Vector plane_point_c = _model_data[ model_idx ].pos[ polygon_idx + 2 ];
 
 		Vector normal_plane = ( plane_point_b - plane_point_a ).cross( plane_point_c - plane_point_b );
 		normal_plane = normal_plane.normalize( );
@@ -90,6 +150,7 @@ bool GroundModel::isCollisionGround( Vector pos ) {
 		if ( ( dot_a <= 0 || dot_b >= 0 ) &&
 			 ( dot_a >= 0 || dot_b <= 0 ) ) {
 			continue;
+
 		} 
 
 		Vector pos_a_to_b = pos_b - pos_a;
@@ -110,5 +171,3 @@ bool GroundModel::isCollisionGround( Vector pos ) {
 	}
 	return false;
 }
-
-

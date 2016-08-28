@@ -87,8 +87,8 @@ bool GroundModel::isCollisionGround( Vector pos ) {
 
 	
 	double size = ( ( Ground::CHIP_WIDTH + 5) / 2.0f );
-	int x = abs( pos.x ) / size;
-	int y = abs( pos.y ) / size;
+	int x = (int)( abs( pos.x ) / size );
+	int y = (int)( abs( pos.y ) / size );
 	if ( x < 0 ) {
 		x = 0;
 	}

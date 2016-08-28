@@ -32,6 +32,8 @@ public:
 	void loadBlockEnemyData( std::string filepath );
 private:
 	void init( );
+	void putBlockEnemy( int idx );
+	void putEnemy( const Vector& pos, std::string enemy_name );
 private:
 	std::array< EnemyPtr, MAX_NUM > _enemy;
 	std::vector< BLOCK_ENEMY_DATA > _enemy_data;

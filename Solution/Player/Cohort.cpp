@@ -15,40 +15,10 @@ Cohort::~Cohort( ) {
 }
 
 void Cohort::init( ) {
-	AppPtr app = App::getTask( );
-	GroundPtr ground = app->getGround( );
-
-	
 	_enemy_max = 0;
 	int _enemy_data_max = _enemy_data.size( );
 	for ( int i = 0; i < _enemy_data_max; i++ ) {
-		Vector pos = Vector( ( i % ground->getWidth( ) ) * ground->CHIP_WIDTH,
-						     ( i / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
-						       0 );
-		BLOCK_ENEMY_DATA block_enemy_data = _enemy_data[ i ];
-		for ( int j = 0; j < block_enemy_data.size( ); j++ ) {
-			ENEMY_DATA enemy_data = block_enemy_data[ j ];
-			Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y, 0 );
-
-			if ( enemy_data.name == "ミノタウロス" ) {
-				EnemyMinotaurBehaviorPtr behavior = EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) );
-				EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_MINOTAUR ) );
-				behavior->setParent( enemy );
-				add( enemy, put_pos );
-			}
-			if ( enemy_data.name == "ゴースト"  ) {
-				EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
-				EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GHOST ) );
-				behavior->setParent( enemy );
-				add( enemy, put_pos );
-			}
-			if ( enemy_data.name == "アーマー"  ) {
-				EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
-				EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
-				behavior->setParent( enemy );
-				add( enemy, put_pos );
-			}
-		}
+		putBlockEnemy( i );
 	}
 }
 
@@ -130,4 +100,41 @@ void Cohort::loadBlockEnemyData( std::string filepath ) {
 	}
 	_enemy_data.push_back( data );
 	fclose( fp );
+}
+
+void Cohort::putBlockEnemy( int idx ) {
+	AppPtr app = App::getTask( );
+	GroundPtr ground = app->getGround( );
+
+	Vector pos = Vector( ( idx % ground->getWidth( ) ) * ground->CHIP_WIDTH,
+					     ( idx / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
+						       0 );
+	BLOCK_ENEMY_DATA block_enemy_data = _enemy_data[ idx ];
+	int max_block_data = block_enemy_data.size( );
+	for ( int i = 0; i < max_block_data; i++ ) {
+		ENEMY_DATA enemy_data = block_enemy_data[ i ];
+		Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y, 0 );
+		putEnemy( put_pos, enemy_data.name );
+	}
+}
+
+void Cohort::putEnemy( const Vector& pos, std::string enemy_name ) {
+	if ( enemy_name == "ミノタウロス" ) {
+		EnemyMinotaurBehaviorPtr behavior = EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_MINOTAUR ) );
+		behavior->setParent( enemy );
+		add( enemy, pos );
+	}
+	if ( enemy_name == "ゴースト"  ) {
+		EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GHOST ) );
+		behavior->setParent( enemy );
+		add( enemy, pos );
+	}
+	if ( enemy_name == "アーマー"  ) {
+		EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
+		behavior->setParent( enemy );
+		add( enemy, pos );
+	}
 }

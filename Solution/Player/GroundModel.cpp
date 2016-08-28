@@ -98,6 +98,7 @@ void GroundModel::loadModelPos( int x, int y, ModelPtr model ) {
 bool GroundModel::isCollisionGround( Vector pos ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
+
 	bool ret = false;
 	for ( int i = 0; i < _model_max_idx; i++ ) {
 		if ( _model_data[ i ].max_x < pos.x ) {

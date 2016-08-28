@@ -6,7 +6,7 @@ PTR( Ground );
 
 class Ground {
 public:
-	Ground( const char* file_name );
+	Ground( std::string file_name );
 	virtual ~Ground( );
 public:
 

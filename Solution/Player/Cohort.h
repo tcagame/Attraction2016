@@ -24,6 +24,7 @@ public:
 	Cohort( );
 	virtual ~Cohort();
 public:
+	void init( );
 	virtual void update( );
 	EnemyConstPtr getEnemy( int index ) const;
 	EnemyPtr getEnemy( int index );
@@ -31,7 +32,6 @@ public:
 	int getMaxNum( );
 	void loadBlockEnemyData( std::string filepath );
 private:
-	void init( );
 	void putBlockEnemy( int idx );
 	void putEnemy( const Vector& pos, std::string enemy_name );
 private:

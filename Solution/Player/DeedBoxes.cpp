@@ -6,8 +6,8 @@
 
 const int TYPE_DEED_BOX = 1;
 
-DeedBoxes::DeedBoxes( const char* file_name ) {
-	loadDeedBoxCSV( file_name );
+DeedBoxes::DeedBoxes( std::string file_name ) {
+	loadDeedBoxCSV( file_name.c_str( ) );
 	init( );
 }
 

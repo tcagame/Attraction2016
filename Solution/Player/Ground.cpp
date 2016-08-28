@@ -3,8 +3,8 @@
 
 
 
-Ground::Ground( const char* file_name ) {
-	loadMapCSV( file_name );
+Ground::Ground( std::string file_name ) {
+	loadMapCSV( file_name.c_str( ) );
 }
 
 

@@ -11,7 +11,7 @@ class DeedBoxes {
 public:
 	static const int MAX_NUM = 50;
 public:
-	DeedBoxes( const char* file_name );
+	DeedBoxes( std::string file_name );
 	virtual ~DeedBoxes( );
 public:
 	void updata( );

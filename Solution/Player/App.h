@@ -31,7 +31,8 @@ public:
 	WeaponPtr getWeapon( ) const;
 	DeedBoxesPtr getDeedBoxes( ) const;
 	ItemsPtr getItems( ) const;
-
+private:
+	void loadToGround( );
 private:
 	GroundPtr _ground;
 	PlayerPtr _player;

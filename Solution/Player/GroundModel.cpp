@@ -12,53 +12,16 @@ polygon_num( 0 ) {
 
 GroundModel::GroundModel() {
 	_model_max_idx  = 0;
-	_map_floor01_filepath = "../Resource/map_model/floor01.mdl";
-	_map_path01_filepath = "../Resource/map_model/path01.mdl";
-	_map_path02_filepath = "../Resource/map_model/path02.mdl";
-	_map_path03_filepath = "../Resource/map_model/path03.mdl";
 }
-
 
 GroundModel::~GroundModel()
 {
 }
 
-void GroundModel::loadModelData( ) {
-	AppPtr app = App::getTask( );
-	GroundPtr ground = app->getGround( );
-	CohortPtr Cohort = app->getCohort( );
-	int width = ground->getWidth( );
-	int height = ground->getHeight( );
-
-	for ( int i = 0; i < width; i++ ) {
-		for ( int j = 0; j < height; j++ ) {
-			ModelPtr model = ModelPtr( new Model( ) ); 
-			int idx = ground->getIdx( i, j );
-			int type = ground->getGroundData( idx );
-			std::string enemy_filepath;
-			
-			switch( type ) {
-			case GROUND_TYPE_FLOOR_01:
-				model->load( _map_floor01_filepath );
-				loadModelPos( i, j, model );
-				break;
-			case GROUND_TYPE_PATH_01:
-				model->load( _map_path01_filepath );
-				loadModelPos( i, j, model );
-				break;
-			case GROUND_TYPE_PATH_02:
-				model->load( _map_path02_filepath );
-				loadModelPos( i, j, model );
-				break;
-			case GROUND_TYPE_PATH_03:
-				model->load( _map_path03_filepath );
-				loadModelPos( i, j, model );
-				break;
-			default:
-				break;
-			}
-		}
-	}
+void GroundModel::loadModelData( int x, int y, std::string filename ) {
+	ModelPtr model = ModelPtr( new Model( ) );
+	model->load( filename );
+	loadModelPos( x, y, model );
 }
 
 void GroundModel::loadModelPos( int x, int y, ModelPtr model ) {

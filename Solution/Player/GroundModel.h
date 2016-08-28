@@ -11,7 +11,7 @@ public:
 	GroundModel();
 	virtual ~GroundModel();
 public:
-	void loadModelData( );
+	void loadModelData( int x, int y, std::string filename );
 	void update( );
 	bool isCollisionGround( Vector pos );
 private:
@@ -33,9 +33,5 @@ private:
 private:
 	std::array< ModelData, MAX_MODEL_NUM > _model_data;
 	int _model_max_idx;
-	char* _map_floor01_filepath;
-	char* _map_path01_filepath;
-	char* _map_path02_filepath;
-	char* _map_path03_filepath;
 };
 

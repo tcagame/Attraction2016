@@ -14,6 +14,15 @@
 #include "Keyboard.h"
 #include "Framework.h"
 
+const std::string DIRECTORY = "../Resource/";
+const std::string MODEL_NAME_LIST [] {
+	"none",
+	"floor01",
+	"path01",
+	"path02",
+	"path03"
+};
+
 AppPtr App::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< App >( fw->getTask( App::getTag( ) ) );
@@ -37,6 +46,8 @@ void App::update( ) {
 		_weapon->update( );
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
+	
+	//プレイヤーリセットコマンド
 	if ( keyboad->isPushKey( "A" ) ) {
 		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 60000, 1, 0.3 ) );
 	}
@@ -44,17 +55,21 @@ void App::update( ) {
 }
 
 void App::initialize( ) {
-	_ground = GroundPtr( new Ground( "../Resource/map.csv" ) );
-	_cohort = CohortPtr( new Cohort( ) );
-	_deed_boxes = DeedBoxesPtr( new DeedBoxes( "../Resource/deedbox.csv" ) );
-	_ground_model = GroundModelPtr( new GroundModel( ) );
-	_ground_model->loadModelData( );
 	_camera = CameraPtr( new Camera( ) );
+	_ground = GroundPtr( new Ground( DIRECTORY + "map.csv" ) );//マップデータ
+	_ground_model = GroundModelPtr( new GroundModel( ) );
+	_cohort = CohortPtr( new Cohort( ) );
+	_weapon = WeaponPtr( new Weapon( ) );
+	_items = ItemsPtr( new Items( ) );
+	_deed_boxes = DeedBoxesPtr( new DeedBoxes( DIRECTORY + "deedbox.csv" ) );
+	
+	loadToGround( );//GroundModelとCohortのデータ読み込み
+	_cohort->init( );
+
+	//プレイヤーの設定
 	PlayerKnightBehaviorPtr behavior = PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) );
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
-	_weapon = WeaponPtr( new Weapon( ) );
-	_items = ItemsPtr( new Items( ) );
 }
 
 void App::finalize( ) {
@@ -91,4 +106,24 @@ DeedBoxesPtr App::getDeedBoxes( ) const{
 
 ItemsPtr App::getItems( ) const {
 	return _items;
+}
+
+void App::loadToGround( ) {
+	int width = _ground->getWidth( );
+	int height = _ground->getHeight( );
+
+	for ( int i = 0; i < width; i++ ) {
+		for ( int j = 0; j < height; j++ ) {
+			int idx = _ground->getIdx( i, j );
+			int type = _ground->getGroundData( idx );
+			if ( type == 0 ) {
+				continue;
+			}
+			std::string model_file_path = DIRECTORY + "map_model/" + MODEL_NAME_LIST[ type ] + ".mdl";
+			std::string enemy_file_path = DIRECTORY + "enemy/" + MODEL_NAME_LIST[ type ] + ".ene";
+
+			_ground_model->loadModelData( i, j, model_file_path );
+			_cohort->loadBlockEnemyData( enemy_file_path );
+		}
+	}
 }

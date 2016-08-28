@@ -6,7 +6,6 @@
 #include "Enemy.h"
 #include "Ground.h"
 #include "Character.h"
-#include "Framework.h"
 
 Cohort::Cohort( ) {
 }
@@ -23,13 +22,6 @@ void Cohort::init( ) {
 }
 
 void Cohort::update( ) {
-	FrameworkPtr fw = Framework::getInstance( );
-	static int time = 0;
-	if ( time == 0 ) {
-		init( );
-	}
-	time++;
-
 	for ( int i = 0; i < MAX_NUM; i++ ) {
 		EnemyPtr enemy = _enemy[ i ];
 		if ( !enemy ) {
@@ -38,7 +30,6 @@ void Cohort::update( ) {
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
-		
 		enemy->update( );
 	}
 }
@@ -72,6 +63,7 @@ EnemyConstPtr Cohort::getEnemy( int index ) const {
 EnemyPtr Cohort::getEnemy( int index ) {
 	return _enemy[ index ];
 }
+
 int Cohort::getMaxNum( ) {
 	return _enemy_max;
 }
@@ -106,11 +98,13 @@ void Cohort::putBlockEnemy( int idx ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
 
-	Vector pos = Vector( ( idx % ground->getWidth( ) ) * ground->CHIP_WIDTH,
-					     ( idx / ground->getWidth( ) ) * ground->CHIP_HEIGHT,
-						       0 );
+	double block_pos_x = ( idx % ground->getWidth( ) ) * ground->CHIP_WIDTH - ( ground->CHIP_WIDTH / 2 );
+	double block_pos_y = ( idx / ground->getWidth( ) ) * ground->CHIP_HEIGHT - ( ground->CHIP_HEIGHT / 2 );
+	Vector pos = Vector( block_pos_x, block_pos_y );//ブロックの左上を示す。
+	
 	BLOCK_ENEMY_DATA block_enemy_data = _enemy_data[ idx ];
 	int max_block_data = block_enemy_data.size( );
+
 	for ( int i = 0; i < max_block_data; i++ ) {
 		ENEMY_DATA enemy_data = block_enemy_data[ i ];
 		Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y, 0 );

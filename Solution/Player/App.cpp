@@ -13,6 +13,7 @@
 #include "Ground.h"
 #include "Camera.h"
 #include "Keyboard.h"
+#include "Device.h"
 #include "Framework.h"
 
 const std::string DIRECTORY = "../Resource/";
@@ -48,9 +49,11 @@ void App::update( ) {
 		_weapon->update( );
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
-	
+	DevicePtr device = Device::getTask( );
 	//プレイヤーリセットコマンド
-	if ( keyboad->isPushKey( "A" ) ) {
+	bool pop_player = device->getButton( ) > 0;
+	pop_player = pop_player & !_player->isExpired( );
+	if ( pop_player ) {
 		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 60000, 1, 0.3 ) );
 	}
 	_camera->setTarget( _player->getPos( ) );
@@ -126,7 +129,7 @@ void App::loadToGround( ) {
 				continue;
 			}
 			std::string model_file_path = DIRECTORY + "map_model/" + MODEL_NAME_LIST[ type ] + ".mdl";
-			std::string enemy_file_path = DIRECTORY + "enemy/" + MODEL_NAME_LIST[ type ] + ".ene";
+			std::string enemy_file_path = DIRECTORY + "enemy_data/" + MODEL_NAME_LIST[ type ] + ".ene";
 
 			_ground_model->loadModelData( i, j, model_file_path );
 			_cohort->loadBlockEnemyData( enemy_file_path );

@@ -27,7 +27,9 @@
     <ClCompile Include="DeedBoxPlacement.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArmorBehavior.cpp" />
+    <ClCompile Include="EnemyCyclopsBehavior.cpp" />
     <ClCompile Include="EnemyGhostBehavior.cpp" />
+    <ClCompile Include="EnemyGoblinBehavior.cpp" />
     <ClCompile Include="EnemyMinotaurBehavior.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GroundModel.cpp" />
@@ -56,7 +58,9 @@
     <ClInclude Include="DeedBoxPlacement.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArmorBehavior.h" />
+    <ClInclude Include="EnemyCyclopsBehavior.h" />
     <ClInclude Include="EnemyGhostBehavior.h" />
+    <ClInclude Include="EnemyGoblinBehavior.h" />
     <ClInclude Include="EnemyMinotaurBehavior.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundModel.h" />

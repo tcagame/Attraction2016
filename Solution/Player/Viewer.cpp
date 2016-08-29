@@ -66,6 +66,16 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK, "armor/enemy_armor_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE, "armor/enemy_armor_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD, "armor/enemy_armor_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WAIT, "goblin/enemy0_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WALK, "goblin/enemy0_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_ATTACK, "goblin/enemy0_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_DAMAGE, "goblin/enemy0_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_DEAD, "goblin/enemy0_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_WAIT, "cyclops/Cyclops_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_WALK, "cyclops/Cyclops_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK, "cyclops/Cyclops_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE, "cyclops/Cyclops_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD, "cyclops/Cyclops_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX, "object/deedbox/deedbox.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,"ghost/missile.png" );
 	drawer->loadEffect( EFFECT_DUMMY, "effect/laser.efk" );

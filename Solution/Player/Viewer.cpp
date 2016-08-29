@@ -57,7 +57,6 @@ void Viewer::initialize( ) {
 	fw->setCameraUp( UP_VEC );
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
-<<<<<<< HEAD
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WAIT,		"CaracterModel/knight/player_knight_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WALK,		"CaracterModel/knight/player_knight_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_ATTACK,		"CaracterModel/knight/player_knight_attack.mv1" );
@@ -94,12 +93,6 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_DEEDBOX,			"Object/deedbox/deedbox.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	drawer->loadEffect( EFFECT_DUMMY,			"Effect/laser.efk" );
-	_map_floor01_filepath = "../Resource/MapModel/floor01.mdl";
-	_map_path01_filepath =	"../Resource/MapModel/path01.mdl";
-	_map_path02_filepath =	"../Resource/MapModel/path02.mdl";
-	_map_path03_filepath =	"../Resource/MapModel/path03.mdl";
-	_map_floor_texture_filepath =	"../Resource/MapModel/floor01_DM.jpg";
-	_map_path_texture_filepath =	"../Resource/MapModel/path01_DM.jpg";
 	_item_model = ModelPtr( new Model );
 	_item_model->load( ITEM_POTION_MODEL_PATH );
 	_item_tex_handle = _item_model->getTextureHandle( ITEM_POTION_TEXTRUE_PATH );
@@ -108,7 +101,7 @@ void Viewer::initialize( ) {
 	_crystal_tex_handle = _crystal_model->getTextureHandle( CRYSTAL_TEXTRUE_PATH );
 
 	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
-		std::string _map_filepath = "../Resource/map_model/";
+		std::string _map_filepath = "../Resource/MapModel/";
 		_map_model[ i ] = ModelPtr( new Model( ) );
 		_map_filepath +=  MAP_NAME_LIST[ i ];
 		_map_filepath += ".mdl";

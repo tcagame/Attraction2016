@@ -20,6 +20,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Cohort.cpp" />
+    <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="Crystals.cpp" />
     <ClCompile Include="DeedBox.cpp" />
     <ClCompile Include="DeedBoxes.cpp" />
     <ClCompile Include="DeedBoxPlacement.cpp" />
@@ -47,6 +49,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Cohort.h" />
+    <ClInclude Include="Crystal.h" />
+    <ClInclude Include="Crystals.h" />
     <ClInclude Include="DeedBox.h" />
     <ClInclude Include="DeedBoxes.h" />
     <ClInclude Include="DeedBoxPlacement.h" />

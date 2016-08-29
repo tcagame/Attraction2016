@@ -11,6 +11,7 @@ PTR( Camera );
 PTR( Weapon );
 PTR( DeedBoxes );
 PTR( Items );
+PTR( Crystals );
 
 class App : public Task {
 public:
@@ -31,6 +32,7 @@ public:
 	WeaponPtr getWeapon( ) const;
 	DeedBoxesPtr getDeedBoxes( ) const;
 	ItemsPtr getItems( ) const;
+	CrystalsPtr getCrystals( ) const;
 private:
 	void loadToGround( );
 private:
@@ -42,4 +44,5 @@ private:
 	WeaponPtr _weapon;
 	DeedBoxesPtr _deed_boxes;
 	ItemsPtr _items;
+	CrystalsPtr _crystals;
 };

@@ -8,6 +8,7 @@
 #include "EnemyGhostBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
+#include "Crystals.h"
 #include "Items.h"
 #include "Ground.h"
 #include "Camera.h"
@@ -42,6 +43,7 @@ void App::update( ) {
 	_deed_boxes->updata( );
 	_camera->update( );
 	_items->update( );
+	_crystals->updata( );
 	if ( _weapon ) {
 		_weapon->update( );
 	}
@@ -62,7 +64,7 @@ void App::initialize( ) {
 	_weapon = WeaponPtr( new Weapon( ) );
 	_items = ItemsPtr( new Items( ) );
 	_deed_boxes = DeedBoxesPtr( new DeedBoxes( DIRECTORY + "deedbox.csv" ) );
-	
+	_crystals = CrystalsPtr( new Crystals( ) );
 	loadToGround( );//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	_cohort->init( );
 
@@ -106,6 +108,10 @@ DeedBoxesPtr App::getDeedBoxes( ) const{
 
 ItemsPtr App::getItems( ) const {
 	return _items;
+}
+
+CrystalsPtr App::getCrystals( ) const {
+	return _crystals;
 }
 
 void App::loadToGround( ) {

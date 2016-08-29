@@ -36,23 +36,17 @@ private:
 	void drawBulletMissile( );
 	void drawEffect( );
 	void drawItem( );
+	void drawCrystal( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
 private:
-	std::array< ModelPtr, GROUND_TYPE_MAX > _model;
+	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
 	ModelPtr _item_model;
+	ModelPtr _crystal_model;
 	int _floor_tex_handle;
 	int _path_tex_handle;
 	int _item_tex_handle;
-
-	char* _map_floor01_filepath;
-	char* _map_path01_filepath;
-	char* _map_path02_filepath;
-	char* _map_path03_filepath;
-
-	char* _map_floor_texture_filepath;
-	char* _map_path_texture_filepath;
-
+	int _crystal_tex_handle;
 };
 

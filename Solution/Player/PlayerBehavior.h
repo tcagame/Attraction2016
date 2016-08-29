@@ -15,6 +15,7 @@ public:
 	void update( );
 	void pickupDeedBox( );
 	void pickupItem( );
+	void pickupCrystal( );
 protected:
 	virtual void otherAction( ) = 0;//UŒ‚‚È‚Ç‚ÌŠO‚Ìs“®
 protected:

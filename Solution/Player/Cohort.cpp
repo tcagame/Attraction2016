@@ -3,6 +3,8 @@
 #include "EnemyMinotaurBehavior.h"
 #include "EnemyGhostBehavior.h"
 #include "EnemyArmorBehavior.h"
+#include "EnemyGoblinBehavior.h"
+#include "EnemyCyclopsBehavior.h"
 #include "Enemy.h"
 #include "Ground.h"
 #include "Character.h"
@@ -47,6 +49,12 @@ void Cohort::add( EnemyPtr enemy, Vector pos ) {
 				status = Character::STATUS( 200, 1, 0.005 );
 			}
 			if ( enemy->getType( ) == Character::TYPE_ENEMY_ARMOR ) {
+				status = Character::STATUS( 200, 100, 0.005 );
+			}
+			if ( enemy->getType( ) == Character::TYPE_ENEMY_GOBLIN ) {
+				status = Character::STATUS( 200, 100, 0.005 );
+			}
+			if ( enemy->getType( ) == Character::TYPE_ENEMY_CYCLOPS ) {
 				status = Character::STATUS( 200, 100, 0.005 );
 			}
 			_enemy[ i ] ->create( pos, status );
@@ -128,6 +136,18 @@ void Cohort::putEnemy( const Vector& pos, std::string enemy_name ) {
 	if ( enemy_name == "アーマー"  ) {
 		EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
 		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
+		behavior->setParent( enemy );
+		add( enemy, pos );
+	}
+	if ( enemy_name == "ゴブリン"  ) {
+		EnemyGoblinBehaviorPtr behavior = EnemyGoblinBehaviorPtr( new EnemyGoblinBehavior( ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GOBLIN ) );
+		behavior->setParent( enemy );
+		add( enemy, pos );
+	}
+	if ( enemy_name == "サイクロプス"  ) {
+		EnemyCyclopsBehaviorPtr behavior = EnemyCyclopsBehaviorPtr( new EnemyCyclopsBehavior( ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_CYCLOPS ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}

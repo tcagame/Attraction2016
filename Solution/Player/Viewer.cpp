@@ -8,6 +8,8 @@
 #include "BulletMissile.h"
 #include "Weapon.h"
 #include "DeedBox.h"
+#include "Crystals.h"
+#include "Crystal.h"
 #include "Items.h"
 #include "Item.h"
 #include "Ground.h"
@@ -20,7 +22,19 @@
 #include "Framework.h"
 #include "mathmatics.h"
 
-
+const char* ITEM_POTION_TEXTRUE_PATH = "../Resource/Object/item/item01_DM.jpg";
+const char* ITEM_POTION_MODEL_PATH = "../Resource/Object/item/item_potion.mdl";
+const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
+const char* CRYSTAL_TEXTRUE_PATH = "../Resource/Object/item/crystal.jpg";
+const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01_DM.jpg";
+const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
+std::string MAP_NAME_LIST[ ] {
+	"none",
+	"floor01",
+	"path01",
+	"path02",
+	"path03"
+};
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
@@ -43,6 +57,7 @@ void Viewer::initialize( ) {
 	fw->setCameraUp( UP_VEC );
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
+<<<<<<< HEAD
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WAIT,		"CaracterModel/knight/player_knight_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WALK,		"CaracterModel/knight/player_knight_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_ATTACK,		"CaracterModel/knight/player_knight_attack.mv1" );
@@ -85,27 +100,22 @@ void Viewer::initialize( ) {
 	_map_path03_filepath =	"../Resource/MapModel/path03.mdl";
 	_map_floor_texture_filepath =	"../Resource/MapModel/floor01_DM.jpg";
 	_map_path_texture_filepath =	"../Resource/MapModel/path01_DM.jpg";
-
 	_item_model = ModelPtr( new Model );
-	_item_model->load( "../Resource/Object/item/item_potion.mdl" );
-	_item_tex_handle = _item_model->getTextureHandle( "../Resource/Object/item/item01_DM.jpg" );
+	_item_model->load( ITEM_POTION_MODEL_PATH );
+	_item_tex_handle = _item_model->getTextureHandle( ITEM_POTION_TEXTRUE_PATH );
+	_crystal_model = ModelPtr( new Model );
+	_crystal_model->load( CRYSTAL_MODEL_PATH );  
+	_crystal_tex_handle = _crystal_model->getTextureHandle( CRYSTAL_TEXTRUE_PATH );
+
 	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
-		_model[ i ] = ModelPtr( new Model( ) );
-		if( i == GROUND_TYPE_FLOOR_01 ) {
-			_model[ i ]->load( _map_floor01_filepath );
-		}
-		if( i == GROUND_TYPE_PATH_01 ) {
-			_model[ i ]->load( _map_path01_filepath );
-		}
-		if( i == GROUND_TYPE_PATH_02 ) {
-			_model[ i ]->load( _map_path02_filepath );
-		}
-		if( i == GROUND_TYPE_PATH_03 ) {
-			_model[ i ]->load( _map_path03_filepath );
-		}
+		std::string _map_filepath = "../Resource/map_model/";
+		_map_model[ i ] = ModelPtr( new Model( ) );
+		_map_filepath +=  MAP_NAME_LIST[ i ];
+		_map_filepath += ".mdl";
+		_map_model[ i ]->load( _map_filepath );
 	}
-	_floor_tex_handle = _model[ 1 ]->getTextureHandle( _map_floor_texture_filepath );
-	_path_tex_handle = _model[ 1 ]->getTextureHandle( _map_path_texture_filepath );
+	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
+	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
 }
 
 void Viewer::update( ) {
@@ -115,6 +125,7 @@ void Viewer::update( ) {
 	drawDeedBox( );
 	drawBulletMissile( );
 	drawItem( );
+	drawCrystal( );
 	updateCamera( );
 }
 
@@ -204,11 +215,11 @@ void Viewer::drawGroundModel( ) {
 			if( type == GROUND_TYPE_PATH_03 ) {
 				tex_handle = _path_tex_handle;
 			}
-			if ( _model[ type ] ) {
+			if ( _map_model[ type ] ) {
 				
-				_model[ type ]->translate( Vector( i * ground->CHIP_WIDTH, j * ground->CHIP_HEIGHT, 0 ) );
-				_model[ type ]->draw( tex_handle );
-				_model[ type ]->translate( Vector( -( i * ground->CHIP_WIDTH ), -( j * ground->CHIP_HEIGHT ), 0 ) );
+				_map_model[ type ]->translate( Vector( i * ground->CHIP_WIDTH, j * ground->CHIP_HEIGHT, 0 ) );
+				_map_model[ type ]->draw( tex_handle );
+				_map_model[ type ]->translate( Vector( -( i * ground->CHIP_WIDTH ), -( j * ground->CHIP_HEIGHT ), 0 ) );
 			}
 		}
 	}
@@ -263,3 +274,16 @@ void Viewer::drawItem( ) {
 	}
 }
 
+void Viewer::drawCrystal( ) {
+	AppPtr app = App::getTask( );
+	CrystalsPtr crystals = app->getCrystals( );
+	for ( int i = 0; i < Crystals::MAX_CRYSTAL_NUM; i++ ) {
+		CrystalPtr crystal = crystals->getCrystal( i );
+		if ( !crystal ) {
+			continue;
+		}
+		_crystal_model->translate( crystal->getPos( ) );
+		_crystal_model->draw( _crystal_tex_handle );
+		_crystal_model->translate( crystal->getPos( ) * -1 );
+	}
+}

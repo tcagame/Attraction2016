@@ -2,6 +2,8 @@
 #include "App.h"
 #include "DeedBoxes.h"
 #include "DeedBox.h"
+#include "Crystals.h"
+#include "Crystal.h"
 #include "Items.h"
 #include "Item.h"
 #include "Character.h"
@@ -15,6 +17,7 @@
 const int DEED_BOX_RANGE = 1;
 const int DEED_BOX_LENGTH = 2;
 const int ITEM_LENGTH = 2;
+const int CRYSTAL_LENGTH = 2;
 
 PlayerBehavior::PlayerBehavior( CameraConstPtr camera ) {
 	_camera = camera;
@@ -62,6 +65,7 @@ void PlayerBehavior::update( ) {
 	_befor_state = _common_state;
 	pickupDeedBox( );
 	pickupItem( );
+	pickupCrystal( );
 }	
 
 void PlayerBehavior::pickupDeedBox( ) {
@@ -96,6 +100,26 @@ void PlayerBehavior::pickupItem( ) {
 			int lenght = ( int )( _parent->getPos( ) - item->getPos( ) ).getLength( );
 			if ( lenght < ITEM_LENGTH ) {
 				item->pickup( );
+			}
+		}
+	}
+}
+
+void PlayerBehavior::pickupCrystal( ) {
+	KeyboardPtr keyboard = Keyboard::getTask( );
+	DevicePtr device = Device::getTask( );
+
+	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
+		AppPtr app = App::getTask( );
+		CrystalsPtr crystals = app->getCrystals( );
+		for ( int i = 0; i < Crystals::MAX_CRYSTAL_NUM; i++ ) {
+			CrystalPtr crystal = crystals->getCrystal( i );
+			if ( !crystal ) {
+				continue;
+			}
+			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
+			if ( lenght < CRYSTAL_LENGTH ) {
+				crystal->pickup( );
 			}
 		}
 	}

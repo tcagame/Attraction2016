@@ -59,7 +59,7 @@ bool Model::load( std::string filename ) {
 		return false;
 	}
 
-	unsigned int polygon_num;
+	unsigned int polygon_num = 0;
 	FileRead_read( &polygon_num, sizeof( unsigned int ), fh );
 	
 	alloc( polygon_num );

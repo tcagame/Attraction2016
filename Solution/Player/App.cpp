@@ -59,12 +59,13 @@ void App::update( ) {
 
 void App::initialize( ) {
 	_camera = CameraPtr( new Camera( ) );
-	_ground = GroundPtr( new Ground( DIRECTORY + "map.csv" ) );//マップデータ
+	std::string filepath = DIRECTORY + "CSV/";
+	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
 	_ground_model = GroundModelPtr( new GroundModel( ) );
 	_cohort = CohortPtr( new Cohort( ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 	_items = ItemsPtr( new Items( ) );
-	_deed_boxes = DeedBoxesPtr( new DeedBoxes( DIRECTORY + "deedbox.csv" ) );
+	_deed_boxes = DeedBoxesPtr( new DeedBoxes( filepath + "deedbox.csv" ) );
 	
 	loadToGround( );//GroundModelとCohortのデータ読み込み
 	_cohort->init( );
@@ -122,8 +123,8 @@ void App::loadToGround( ) {
 			if ( type == 0 ) {
 				continue;
 			}
-			std::string model_file_path = DIRECTORY + "map_model/" + MODEL_NAME_LIST[ type ] + ".mdl";
-			std::string enemy_file_path = DIRECTORY + "enemy_data/" + MODEL_NAME_LIST[ type ] + ".ene";
+			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ type ] + ".mdl";
+			std::string enemy_file_path = DIRECTORY + "EnemyData/" + MODEL_NAME_LIST[ type ] + ".ene";
 
 			_ground_model->loadModelData( i, j, model_file_path );
 			_cohort->loadBlockEnemyData( enemy_file_path );

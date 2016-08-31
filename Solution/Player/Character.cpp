@@ -1,5 +1,7 @@
 #include "Character.h"
 #include "Behavior.h"
+#include "App.h"
+#include "GroundModel.h"
 
 Vector START_DIR = Vector( 0, 1, 0 );
 
@@ -18,7 +20,13 @@ void Character::update( ) {
 }
 
 void Character::move( Vector vec ) {
-	_pos += vec;
+	AppPtr app = App::getTask( );
+	GroundModelPtr ground_model = app->getGroundModel( );
+	Vector move_pos = getPos( ) + vec;
+	bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
+	if ( is_ground ) {
+		_pos += vec;
+	}
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}

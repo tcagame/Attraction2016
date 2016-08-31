@@ -39,7 +39,7 @@ void Cohort::update( ) {
 	}
 }
 
-void Cohort::add( EnemyPtr enemy, Vector pos ) {
+void Cohort::add( EnemyPtr enemy, const Vector& pos ) {
 	for ( int i = 0; i < MAX_NUM; i++ ) {
 		EnemyPtr check = _enemy[ i ];
 		if ( !check ) {
@@ -109,16 +109,15 @@ void Cohort::putBlockEnemy( int idx ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
 
-	double block_pos_x = ( idx % ground->getWidth( ) ) * ground->CHIP_WIDTH - ( ground->CHIP_WIDTH / 2 );
-	double block_pos_y = ( idx / ground->getWidth( ) ) * ground->CHIP_HEIGHT - ( ground->CHIP_HEIGHT / 2 );
+	double block_pos_x = ( idx % ground->getWidth( ) ) * ground->CHIP_WIDTH;
+	double block_pos_y = ( idx / ground->getWidth( ) ) * ground->CHIP_HEIGHT;
 	Vector pos = Vector( block_pos_x, block_pos_y );//ブロックの左上を示す。
 	
 	BLOCK_ENEMY_DATA block_enemy_data = _enemy_data[ idx ];
 	int max_block_data = block_enemy_data.size( );
-
 	for ( int i = 0; i < max_block_data; i++ ) {
 		ENEMY_DATA enemy_data = block_enemy_data[ i ];
-		Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y, 0 );
+		Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y);
 		putEnemy( put_pos, enemy_data.name );
 	}
 }

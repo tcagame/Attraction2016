@@ -26,6 +26,7 @@ public:
 	void addCalLines( int lines );
 	void setCell( Cell cell );
 	void setInnerLine( bool flag );
+	void resetCell( );
 	void draw( );
 private:
 	double getTotalRow( int size );

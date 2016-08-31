@@ -74,6 +74,7 @@ Keyboard::Keyboard( ) {
 	_convert[ "-" ] = KEY_INPUT_SUBTRACT;
 	_convert[ "ENTER" ] = KEY_INPUT_RETURN;
 	_convert[ "ESC" ] = KEY_INPUT_ESCAPE;
+	_convert[ "BACK_SPACE" ] = KEY_INPUT_BACK;
 
 }
 
@@ -82,6 +83,9 @@ Keyboard::~Keyboard( ) {
 
 void Keyboard::update( ) {
 	_before_keys = _now_keys;
+	if ( _before_keys.buffer[ 28 ] == 1 ) {
+		int x = 0;
+	}
 	GetHitKeyStateAll( _now_keys.buffer );
 }
 
@@ -93,4 +97,8 @@ bool Keyboard::isHoldKey( std::string key ) {
 bool Keyboard::isPushKey( std::string key ) {
 	int dxkey = _convert[ key ];
 	return ( _now_keys.buffer[ dxkey ] == 1 ) && ( _before_keys.buffer[ dxkey ] == 0 );
+}
+
+char Keyboard::getInputChar( ) {
+	return GetInputChar( TRUE );
 }

@@ -18,7 +18,5 @@ public:
 	Viewer( );
 	virtual ~Viewer( );
 private:
-	TableDrawerPtr _td_status;
-	TableDrawerPtr _td_command;
-	TableDrawerPtr _td_log;
+
 };

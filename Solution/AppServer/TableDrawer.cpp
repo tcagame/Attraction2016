@@ -9,7 +9,7 @@ const int OFFSET_CAL = COL_PITCH / 4;
 TableDrawer::Cell::Cell( ) :
 row( 0 ),
 cal( 0 ),
-cell( "\0" ) {
+cell( "" ) {
 
 }
 
@@ -59,8 +59,8 @@ void TableDrawer::draw( ) {
 		if( i < _cell_max_idx ) {
 			int row = _cell[ i ].row;
 			int cal = _cell[ i ].cal;
-			int cell_x = OFFSET_ROW;
-			int cell_y = COL_PITCH + OFFSET_CAL;
+			int cell_x = OFFSET_ROW + ( int )_origin_pos.x;
+			int cell_y = COL_PITCH + OFFSET_CAL + ( int )_origin_pos.y;
 			cell_x += ( int )getTotalRow( row );
 			cell_y += ( int )getTotalCal( cal );
 	
@@ -113,4 +113,11 @@ double TableDrawer::getTotalRow( int size ) {
 
 double TableDrawer::getTotalCal( int size ) {
 	return COL_PITCH * size;
+}
+
+void TableDrawer::resetCell ( ) {
+	for ( int i = 0; i < _cell_max_idx; i++ ) {
+		_cell[ i ] = Cell( 0, 0, "" );
+	}
+	_cell_max_idx = 0;
 }

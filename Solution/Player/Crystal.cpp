@@ -1,4 +1,6 @@
 #include "Crystal.h"
+#include "App.h"
+#include "Cohort.h"
 
 
 Crystal::Crystal( ) {
@@ -22,5 +24,8 @@ bool Crystal::isExpired( ) {
 }
 
 void Crystal::pickup( ) {
+	AppPtr App = App::getTask( );
+	CohortPtr cohort = App->getCohort( );
+	cohort->init( );
 	_expired = false;
 }

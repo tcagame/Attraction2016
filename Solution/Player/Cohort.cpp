@@ -18,6 +18,9 @@ Cohort::~Cohort( ) {
 void Cohort::init( ) {
 	_enemy_max = 0;
 	int _enemy_data_max = _enemy_data.size( );
+	for ( int i = 0; i < MAX_NUM; i++ ) {
+		_enemy[ i ].reset( );
+	}
 	for ( int i = 0; i < _enemy_data_max; i++ ) {
 		putBlockEnemy( i );
 	}

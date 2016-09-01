@@ -1,7 +1,5 @@
 #include "PlayerBehavior.h"
 #include "App.h"
-#include "DeedBoxes.h"
-#include "DeedBox.h"
 #include "Crystals.h"
 #include "Crystal.h"
 #include "Items.h"
@@ -36,22 +34,8 @@ void PlayerBehavior::update( ) {
 	Vector move_pos = _parent->getPos( ) + move_vec;
 	if ( _befor_state != COMMON_STATE_ATTACK && _befor_state != COMMON_STATE_DEAD ) {
 		if ( move_vec.getLength( ) > 0.0 ) {
-			//•ó” ‚Æ‚Ì”»’è
-			DeedBoxesPtr deedboxes = app->getDeedBoxes( );
-			bool is_deedbox = false;
-			for ( int i = 0; i < deedboxes->getMaxNum( ); i++ ) {
-				DeedBoxPtr deedbox = deedboxes->getDeedBox( i );
-				Vector vec = deedbox->getPos( ) - move_pos;
-				double length = vec.getLength( );
-				if ( length < DEED_BOX_RANGE ) {
-					is_deedbox = true;
-					break;
-				}
-			}
 			//i‚ß‚éê‡ˆÚ“®
-			if( !is_deedbox ) {
-				_parent->move( move_vec );
-			}
+			_parent->move( move_vec );
 			_common_state = COMMON_STATE_WALK;
 		}
 	}
@@ -60,26 +44,8 @@ void PlayerBehavior::update( ) {
 		_common_state = COMMON_STATE_DEAD;
 	}
 	_befor_state = _common_state;
-	pickupDeedBox( );
 	pickupItem( );
 	pickupCrystal( );
-}	
-
-void PlayerBehavior::pickupDeedBox( ) {
-	KeyboardPtr keyboard = Keyboard::getTask( );
-	DevicePtr device = Device::getTask( );
-
-	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
-		AppPtr app = App::getTask( );
-		DeedBoxesPtr deed_boxes = app->getDeedBoxes( );
-		for ( int i = 0; i < deed_boxes->getMaxNum( ); i++ ) {
-			DeedBoxPtr deed_box = deed_boxes->getDeedBox( i );
-			int lenght = ( int )( _parent->getPos( ) - deed_box->getPos( ) ).getLength( );
-			if ( lenght < DEED_BOX_LENGTH ) {
-				deed_box->pickup( );
-			}
-		}
-	}
 }
 
 void PlayerBehavior::pickupItem( ) {

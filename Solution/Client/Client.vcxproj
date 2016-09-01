@@ -45,6 +45,7 @@
     <ClCompile Include="GroundModel.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Items.cpp" />
+    <ClCompile Include="LiveCamera.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
     <ClCompile Include="PlayerKnightBehavior.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="GroundModel.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Items.h" />
+    <ClInclude Include="LiveCamera.h" />
     <ClInclude Include="MapType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBehavior.h" />

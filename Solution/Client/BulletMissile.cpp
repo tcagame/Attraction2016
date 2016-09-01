@@ -1,14 +1,15 @@
 #include "BulletMissile.h"
-#include "Player.h"
+#include "Cohort.h"
+#include "Enemy.h"
 #include "App.h"
 #include "Framework.h"
 
-const int VANISH_TIME = 300;
+const int VANISH_TIME = 50;
 
 void BulletMissile::initialize( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	_power = 1;
-	_speed = 0.3;
+	_speed = 1;
 	_exist_time = 0;
 }
 
@@ -35,13 +36,16 @@ bool BulletMissile::update( ) {
 
 	//UŒ‚
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
-	Vector player_pos = player->getPos( );
-	Vector distance = _pos - player_pos;
-	double length = distance.getLength( );
-	if ( length <= 1.0 ) {
-		player->damage( _power );
-		return false;
+	CohortPtr cohort = app->getCohort( );
+	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
+		EnemyPtr enemy = cohort->getEnemy( i );
+		Vector enemy_pos = enemy->getPos( );
+		Vector distance = _pos - enemy_pos;
+		double length = distance.getLength( );
+		if ( length <= 1.0 ) {
+			enemy->damage( _power );
+			return false;
+		}
 	}
 	return true;
 }

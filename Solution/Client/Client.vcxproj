@@ -24,6 +24,7 @@
     <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="BigCrystal.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletFireBall.cpp" />
     <ClCompile Include="BulletImpact.cpp" />
     <ClCompile Include="BulletMissile.cpp" />
     <ClCompile Include="BulletSword.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
+    <ClCompile Include="PlayerHunterBehavior.cpp" />
     <ClCompile Include="PlayerKnightBehavior.cpp" />
     <ClCompile Include="PlayerMonkBehavior.cpp" />
     <ClCompile Include="Viewer.cpp" />
@@ -58,6 +60,7 @@
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="BigCrystal.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletFireBall.h" />
     <ClInclude Include="BulletImpact.h" />
     <ClInclude Include="BulletMissile.h" />
     <ClInclude Include="BulletSword.h" />
@@ -82,6 +85,7 @@
     <ClInclude Include="MapType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBehavior.h" />
+    <ClInclude Include="PlayerHunterBehavior.h" />
     <ClInclude Include="PlayerKnightBehavior.h" />
     <ClInclude Include="PlayerMonkBehavior.h" />
     <ClInclude Include="Viewer.h" />

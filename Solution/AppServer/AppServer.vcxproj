@@ -95,14 +95,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppServer.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TableDrawer.cpp" />
-    <ClCompile Include="Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppServer.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="TableDrawer.h" />
-    <ClInclude Include="Viewer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

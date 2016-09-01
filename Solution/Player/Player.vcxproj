@@ -14,6 +14,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Behavior.cpp" />
+    <ClCompile Include="BigCrystal.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletImpact.cpp" />
     <ClCompile Include="BulletMissile.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Behavior.h" />
+    <ClInclude Include="BigCrystal.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletImpact.h" />
     <ClInclude Include="BulletMissile.h" />

@@ -96,9 +96,6 @@
     <ProjectReference Include="..\Framework\Framework.vcxproj">
       <Project>{8f046e7a-ce27-43a0-bb98-50fe657ca528}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Player\Player.vcxproj">
-      <Project>{ca71b1e3-7966-4608-9169-eccda72e5305}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

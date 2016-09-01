@@ -19,7 +19,73 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mian.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="App.cpp" />
+    <ClCompile Include="Behavior.cpp" />
+    <ClCompile Include="BigCrystal.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletImpact.cpp" />
+    <ClCompile Include="BulletMissile.cpp" />
+    <ClCompile Include="BulletSword.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Cohort.cpp" />
+    <ClCompile Include="Crystal.cpp" />
+    <ClCompile Include="Crystals.cpp" />
+    <ClCompile Include="DeedBox.cpp" />
+    <ClCompile Include="DeedBoxes.cpp" />
+    <ClCompile Include="DeedBoxPlacement.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyArmorBehavior.cpp" />
+    <ClCompile Include="EnemyCyclopsBehavior.cpp" />
+    <ClCompile Include="EnemyGhostBehavior.cpp" />
+    <ClCompile Include="EnemyGoblinBehavior.cpp" />
+    <ClCompile Include="EnemyMinotaurBehavior.cpp" />
+    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="GroundModel.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Items.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBehavior.cpp" />
+    <ClCompile Include="PlayerKnightBehavior.cpp" />
+    <ClCompile Include="PlayerMonkBehavior.cpp" />
+    <ClCompile Include="Viewer.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Behavior.h" />
+    <ClInclude Include="BigCrystal.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletImpact.h" />
+    <ClInclude Include="BulletMissile.h" />
+    <ClInclude Include="BulletSword.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Cohort.h" />
+    <ClInclude Include="Crystal.h" />
+    <ClInclude Include="Crystals.h" />
+    <ClInclude Include="DeedBox.h" />
+    <ClInclude Include="DeedBoxes.h" />
+    <ClInclude Include="DeedBoxPlacement.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyArmorBehavior.h" />
+    <ClInclude Include="EnemyCyclopsBehavior.h" />
+    <ClInclude Include="EnemyGhostBehavior.h" />
+    <ClInclude Include="EnemyGoblinBehavior.h" />
+    <ClInclude Include="EnemyMinotaurBehavior.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="GroundModel.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Items.h" />
+    <ClInclude Include="MapType.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBehavior.h" />
+    <ClInclude Include="PlayerKnightBehavior.h" />
+    <ClInclude Include="PlayerMonkBehavior.h" />
+    <ClInclude Include="Viewer.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7FD66B9D-8A92-4703-92D8-B7CD89651A92}</ProjectGuid>

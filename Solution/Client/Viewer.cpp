@@ -29,6 +29,8 @@ const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
 const char* CRYSTAL_TEXTRUE_PATH = "../Resource/Object/item/crystal.jpg";
 const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01_DM.jpg";
 const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
+const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
+const double CRYSTAL_ROT_SPEED = 0.05;
 std::string MAP_NAME_LIST[ ] {
 	"none",
 	"floor01",
@@ -278,9 +280,13 @@ void Viewer::drawCrystal( ) {
 		if ( !crystal ) {
 			continue;
 		}
-		_crystal_model->translate( crystal->getPos( ) );
+		Vector pos = crystal->getPos( );
+		Matrix matrix;
+		matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
+		_crystal_model->multiply( matrix );
+		_crystal_model->translate( pos );
 		_crystal_model->draw( _crystal_tex_handle );
-		_crystal_model->translate( crystal->getPos( ) * -1 );
+		_crystal_model->translate( pos * -1 );
 	}
 }
 
@@ -291,6 +297,9 @@ void Viewer::drawBigCrystal( ) {
 	if ( !crystal->isExpired( ) ) {
 		return;
 	}
+	Matrix matrix;
+	matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
+	_big_crystal_model->multiply( matrix );
 	_big_crystal_model->translate( crystal->getPos( ) );
 	_big_crystal_model->draw( _crystal_tex_handle );
 	_big_crystal_model->translate( crystal->getPos( ) * -1 );

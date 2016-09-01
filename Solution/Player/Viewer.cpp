@@ -9,6 +9,7 @@
 #include "Weapon.h"
 #include "DeedBox.h"
 #include "Crystals.h"
+#include "BigCrystal.h"
 #include "Crystal.h"
 #include "Items.h"
 #include "Item.h"
@@ -99,7 +100,11 @@ void Viewer::initialize( ) {
 	_crystal_model = ModelPtr( new Model );
 	_crystal_model->load( CRYSTAL_MODEL_PATH );  
 	_crystal_tex_handle = _crystal_model->getTextureHandle( CRYSTAL_TEXTRUE_PATH );
-
+	_big_crystal_model = ModelPtr( new Model );
+	_big_crystal_model->load( CRYSTAL_MODEL_PATH );
+	Matrix matrix = Matrix::makeTransformScaling( Vector( 3, 3, 3 ) );
+	_big_crystal_model->multiply( matrix );
+	
 	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
 		std::string _map_filepath = "../Resource/MapModel/";
 		_map_model[ i ] = ModelPtr( new Model( ) );
@@ -118,6 +123,7 @@ void Viewer::update( ) {
 	drawDeedBox( );
 	drawBulletMissile( );
 	drawItem( );
+	drawBigCrystal( );
 	drawCrystal( );
 	updateCamera( );
 }
@@ -279,4 +285,16 @@ void Viewer::drawCrystal( ) {
 		_crystal_model->draw( _crystal_tex_handle );
 		_crystal_model->translate( crystal->getPos( ) * -1 );
 	}
+}
+
+void Viewer::drawBigCrystal( ) {
+	AppPtr app = App::getTask( );
+	CrystalsPtr crystals = app->getCrystals( );
+	BigCrystalPtr crystal = crystals->getBigCrystal( );
+	if ( !crystal->isExpired( ) ) {
+		return;
+	}
+	_big_crystal_model->translate( crystal->getPos( ) );
+	_big_crystal_model->draw( _crystal_tex_handle );
+	_big_crystal_model->translate( crystal->getPos( ) * -1 );
 }

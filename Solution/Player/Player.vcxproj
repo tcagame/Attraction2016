@@ -15,6 +15,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Behavior.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletImpact.cpp" />
     <ClCompile Include="BulletMissile.cpp" />
     <ClCompile Include="BulletSword.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
     <ClCompile Include="PlayerKnightBehavior.cpp" />
+    <ClCompile Include="PlayerMonkBehavior.cpp" />
     <ClCompile Include="Viewer.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
@@ -46,6 +48,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Behavior.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletImpact.h" />
     <ClInclude Include="BulletMissile.h" />
     <ClInclude Include="BulletSword.h" />
     <ClInclude Include="Camera.h" />
@@ -70,6 +73,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBehavior.h" />
     <ClInclude Include="PlayerKnightBehavior.h" />
+    <ClInclude Include="PlayerMonkBehavior.h" />
     <ClInclude Include="Viewer.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>

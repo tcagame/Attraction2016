@@ -8,6 +8,7 @@ class Bullet {
 public:
 	enum TYPE {
 		SWORD,
+		IMPACT,
 		MISSILE,
 		TYPE_MAX,
 	};

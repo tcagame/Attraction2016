@@ -4,8 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "PlayerKnightBehavior.h"
-#include "EnemyMinotaurBehavior.h"
-#include "EnemyGhostBehavior.h"
+#include "PlayerMonkBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -73,7 +72,7 @@ void App::initialize( ) {
 	_cohort->init( );
 
 	//ƒvƒŒƒCƒ„[‚Ìİ’è
-	PlayerKnightBehaviorPtr behavior = PlayerKnightBehaviorPtr( new PlayerKnightBehavior( _camera ) );
+	PlayerBehaviorPtr behavior = PlayerMonkBehaviorPtr( new PlayerMonkBehavior( _camera ) );
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
 }

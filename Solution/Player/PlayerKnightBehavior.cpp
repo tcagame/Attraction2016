@@ -25,7 +25,7 @@ void PlayerKnightBehavior::otherAction( ) {
 		_common_state = COMMON_STATE_ATTACK;
 	}
 	//UŒ‚’†
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_ATTACK && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK && !_animation->isEndAnimation( ) ) {
 		_common_state = COMMON_STATE_ATTACK;
 	}
 }
@@ -37,8 +37,8 @@ void PlayerKnightBehavior::animationUpdate( ) {
 	}
 
 	if ( _common_state == COMMON_STATE_WAIT ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WAIT ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WAIT ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_WAIT ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_WAIT ) );
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
@@ -46,8 +46,8 @@ void PlayerKnightBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _common_state == COMMON_STATE_WALK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WALK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WALK ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_WALK ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_WALK ) );
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
@@ -55,8 +55,8 @@ void PlayerKnightBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _common_state == COMMON_STATE_ATTACK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_ATTACK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_ATTACK ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_ATTACK ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
@@ -64,8 +64,8 @@ void PlayerKnightBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _common_state == COMMON_STATE_DEAD ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_DEAD ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_DEAD ) );
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_DEAD ) {
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_DEAD ) );
 		}
 	}
 }

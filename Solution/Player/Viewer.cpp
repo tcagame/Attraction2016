@@ -57,12 +57,16 @@ void Viewer::initialize( ) {
 	fw->setCameraUp( UP_VEC );
 	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_WAIT,		"CaracterModel/knight/player_knight_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_WALK,		"CaracterModel/knight/player_knight_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_ATTACK,		"CaracterModel/knight/player_knight_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_DAMAGE,		"CaracterModel/knight/player_knight_damege.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_DEAD,		"CaracterModel/knight/player_knight_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_USE,			"CaracterModel/knight/player_knight_use.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_WAIT,		"CaracterModel/knight/player_knight_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_WALK,		"CaracterModel/knight/player_knight_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_ATTACK,	"CaracterModel/knight/player_knight_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_DAMAGE,	"CaracterModel/knight/player_knight_damege.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_DEAD,		"CaracterModel/knight/player_knight_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_WAIT,		"CaracterModel/monk/player_monk_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_WALK,		"CaracterModel/monk/player_monk_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_ATTACK,		"CaracterModel/monk/player_monk_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_DAMAGE,		"CaracterModel/monk/player_monk_damege.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_DEAD,		"CaracterModel/monk/player_monk_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WAIT,		"EnemyModel/minotaur/enemy_minotaur_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WALK,		"EnemyModel/minotaur/enemy_minotaur_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_CLEAVE,	"EnemyModel/minotaur/enemy_minotaur_cleave.mv1" );
@@ -151,13 +155,6 @@ void Viewer::drawPlayer( ) {
 	Player::STATUS status = player->getStatus( );
 	drawer->drawString( 0, 50, "Palyer_HP: %d", status.hp );
 	drawer->drawString( 0, 75, "X %lf, Y %lf", pos.x, pos.y );
-
-	if ( motion == Animation::MOTION_PLAYER_ATTACK ) {
-		Vector effect_pos = pos;
-		effect_pos.z += 1;
-		Drawer::Effect effect = Drawer::Effect( effect_pos, dir, EFFECT_DUMMY );
-		drawer->setEffect( effect );
-	}
 }
 
 void Viewer::drawEnemy( ) {

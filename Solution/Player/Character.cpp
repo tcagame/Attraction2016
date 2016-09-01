@@ -2,6 +2,8 @@
 #include "Behavior.h"
 #include "App.h"
 #include "GroundModel.h"
+#include "Cohort.h"
+#include "Enemy.h"
 
 Vector START_DIR = Vector( 0, 1, 0 );
 
@@ -22,9 +24,26 @@ void Character::update( ) {
 void Character::move( Vector vec ) {
 	AppPtr app = App::getTask( );
 	GroundModelPtr ground_model = app->getGroundModel( );
+	CohortPtr cohort = app->getCohort( );
 	Vector move_pos = getPos( ) + vec;
+
+	bool is_character = false;
+	int max_enemy = cohort->getMaxNum( );
+	for ( int i = 0; i < max_enemy; i++ ) {
+		EnemyPtr enemy = cohort->getEnemy( i );
+		if ( !enemy->isExpired( ) ) {
+			continue;
+		}
+		Vector enemy_pos = enemy->getPos( );
+		STATUS status = enemy->getStatus( );
+		double length = ( move_pos - enemy_pos ).getLength( );
+		if ( length < status.width ) {
+			is_character = true;
+			break;
+		}
+	}
 	bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
-	if ( is_ground ) {
+	if ( is_ground && !is_character ) {
 		_pos += vec;
 	}
 	if ( vec.getLength( ) > 0 ) {

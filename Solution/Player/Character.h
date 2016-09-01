@@ -12,15 +12,18 @@ public:
 		int hp;
 		unsigned int power;
 		double speed;
+		double width;
 		STATUS( ) {
 			hp = 0;
 			power = 0;
 			speed = 0;
+			width = 0.5;
 		}
-		STATUS( int hp_, unsigned int power_, double speed_ ) {
+		STATUS( int hp_, unsigned int power_, double speed_, double width_ = 0.5 ) {
 			hp = hp_;
 			power = power_;
 			speed = speed_;
+			width = width_;
 		}
 	};
 	enum TYPE {

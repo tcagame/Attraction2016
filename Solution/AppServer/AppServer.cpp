@@ -2,6 +2,7 @@
 #include "TableDrawer.h"
 #include "Framework.h"
 #include "Keyboard.h"
+#include "Log.h"
 
 const int OFFSET_COMMAND_LINE_X = 10;
 const int OFFSET_COMMAND_LINE_Y = -100;
@@ -15,53 +16,42 @@ AppServerPtr AppServer::getTask( ) {
 
 void AppServer::initialize( ) {
 	//status
-	_td_status = TableDrawerPtr( new TableDrawer );
-	_td_status->setPos( Vector( 10, 10, 0 ) );
-	_td_status->setTitle( "status" );
-	
-	_td_status->addCalLines( 3 );
-
-	//_td_status->addCal( 30 );
-	//_td_status->addCal( 30 );
-	//_td_status->addCal( 30 );
-
-	_td_status->addRow( 50 );
-	_td_status->addRow( 50 );
-	_td_status->addRow( 50 );
-	_td_status->addRow( 50 );
-	_td_status->addRow( 50 );
-	_td_status->addRow( 50 );
-	_td_status->setCell( TableDrawer::Cell( 3, 3, "加瀬" ) );
-
-	// Calはライン数を指定して、縦の幅はFIXとする
-	// Stringを左詰め、縦はセンタリングする
-	// 0 orijinに変更
+	{
+		TableDrawer::FORM form;
+		form.title = "status";
+		form.x = 10;
+		form.y = 10;
+		form.rows = 3;
+		form.cols = 6;
+		form.col[ 0 ] = 50;
+		form.col[ 1 ] = 50;
+		form.col[ 2 ] = 50;
+		form.col[ 3 ] = 50;
+		form.col[ 4 ] = 50;
+		form.col[ 5 ] = 50;
+		_td_status = TableDrawerPtr( new TableDrawer( form ) );
+	}
 
 	//command
-	FrameworkPtr fw = Framework::getInstance( );
-	int window_width = fw->getWindowWidth( );
-	int window_height = fw->getWindowHeight( );
-	int command_line_pos_x = window_width / 2 + OFFSET_COMMAND_LINE_X;
-	int command_line_pos_y = window_height + OFFSET_COMMAND_LINE_Y;
+	{
+		// caution 定数定義にするべき
+		FrameworkPtr fw = Framework::getInstance( );
+		int window_width = fw->getWindowWidth( );
+		int window_height = fw->getWindowHeight( );
+		int command_line_pos_x = window_width / 2 + OFFSET_COMMAND_LINE_X;
+		int command_line_pos_y = window_height + OFFSET_COMMAND_LINE_Y;
 
-	_td_command = TableDrawerPtr( new TableDrawer );
-	_td_command->setPos( Vector( command_line_pos_x, command_line_pos_y, 0 ) );
-	_td_command->setTitle( "command" );
-	
-	_td_command->addCalLines( 1 );
-	_td_command->addRow( 450 );
+		TableDrawer::FORM form;
+		form.title = "command";
+		form.x = command_line_pos_x;
+		form.y = command_line_pos_y;
+		form.rows = 1;
+		form.cols = 1;
+		form.col[ 0 ] = 450;
+		_td_command = TableDrawerPtr( new TableDrawer( form ) );
+	}
 
-	//log
-	int log_line_pos_x = command_line_pos_x;
-	int log_line_pos_y = command_line_pos_y - window_height / 2;
-
-	_td_log = TableDrawerPtr( new TableDrawer );
-	_td_log->setPos( Vector( log_line_pos_x, log_line_pos_y, 0 ) );
-	_td_log->setTitle( "log" );
-	
-	_td_log->addCalLines( 12 );
-	_td_log->addRow( 450 );
-	_td_log->setInnerLine( false );
+	_log = LogPtr( new Log );
 }
 
 AppServer::AppServer( ) {
@@ -77,14 +67,18 @@ AppServer::~AppServer( ) {
 void AppServer::update( ) {
 	_td_status->draw( );
 	_td_command->draw( );
-	_td_log->draw( );
 	updateCommand( );
+
+	_log->draw( );
 }
 
 void AppServer::updateCommand( ) {
 	KeyboardPtr keyboard = Keyboard::getTask( );
 	char single_ch = keyboard->getInputChar( );
 	if ( keyboard->isPushKey( "ENTER" ) ) {
+		// サンプル　LOGの動作チェック
+		_log->add( _command );
+
 		_command.clear( );
 	}
 	if ( single_ch == 0 ) {
@@ -95,6 +89,5 @@ void AppServer::updateCommand( ) {
 	} else {
 		_command += single_ch;
 	}
-	_td_command->resetCell( );
-	_td_command->setCell( TableDrawer::Cell( 0, 0, _command.c_str( ) ) );
+	_td_command->setCell( 0, 0, _command );
 }

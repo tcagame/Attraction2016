@@ -1,30 +1,13 @@
 #include "TableDrawer.h"
 #include "drawer.h" 
 
-const int PICTH = 20;
 const int COL_PITCH = 30;
 const int OFFSET_ROW = 12;
-const int OFFSET_CAL = COL_PITCH / 4;
+const int OFFSET_CAL = 0;
 
-TableDrawer::Cell::Cell( ) :
-row( 0 ),
-cal( 0 ),
-cell( "" ) {
-
-}
-
-TableDrawer::Cell::Cell( int row_, int cal_, const char * cell_ ) :
-row( row_ ),
-cal( cal_ ),
-cell( cell_ ) {
-}
-
-TableDrawer::TableDrawer( ) {
-	_row_max_idx = 0;
-	_cal_max_idx = 0;
-	_cell_max_idx = 0;
-	_max_row = 0;
-	_inner_lines = true;
+TableDrawer::TableDrawer( const FORM& form ) :
+_form( form ),
+_cell( form.rows * form.cols ) {
 }
 
 
@@ -34,90 +17,50 @@ TableDrawer::~TableDrawer( ) {
 
 void TableDrawer::draw( ) {
 	DrawerPtr drawer = Drawer::getTask( );
-	int x = ( int )_origin_pos.x;
-	int y = ( int )_origin_pos.y;
 
-	drawer->drawString( x, y, _title.c_str( ) );
-	y += PICTH;
-	int origin_x = x; 
-	int origin_y = y;
-	int max_cal = COL_PITCH * _cal_max_idx;
-	drawer->drawLine( x, y, _max_row + x, y );
-	drawer->drawLine( x, y, x, max_cal + y );
+	// タイトル描画
+	drawer->drawString( _form.x, _form.y, _form.title.c_str( ) );
+
+	// テーブル基準位置
+	int origin_x = _form.x; 
+	int origin_y = _form.y + COL_PITCH;
+
+	int max_cal = COL_PITCH * _form.rows;
 	
-	for ( int i = 0; i < MAX_BOX_NUM; i++ ) {
-		if( i < _row_max_idx ) {
-			x += ( int )_row[ i ];
-			drawer->drawLine( x, origin_y, x, max_cal + origin_y );
+	int x = origin_x;
+	int y = origin_y;
+
+	// 縦線
+	int height = _form.rows * COL_PITCH;
+	int col_x = origin_x;
+	drawer->drawLine( origin_x, origin_y, origin_x, origin_y + height );
+	for ( int i = 0; i < _form.cols; i++ ) {
+		col_x += _form.col[ i ];
+		drawer->drawLine( col_x, origin_y, col_x, origin_y + height );
+	}
+
+	// 横線
+	int col_y = origin_y;
+	for ( int i = 0; i < _form.rows + 1; i++ ) {
+		if ( _form.inner_line || ( i == 0 || i == _form.rows ) ) {
+			drawer->drawLine( origin_x, col_y, col_x, col_y );
 		}
-		if( i < _cal_max_idx ) {
-			y += COL_PITCH;
-			if ( _inner_lines || i == _cal_max_idx - 1 ) {
-				drawer->drawLine( origin_x, y, ( int )_max_row + origin_x, y );
-			}
+		col_y += COL_PITCH;
+	}
+
+	// セル描画
+	int sx = origin_x;
+	for ( int i = 0; i < _form.cols; i++ ) {
+		for ( int j = 0; j < _form.rows; j++ ) {
+			std::string str = _cell[ i + j * _form.cols ];
+			int sy = j * COL_PITCH;
+			drawer->drawString( sx, sy, str.c_str( ) );
 		}
-		if( i < _cell_max_idx ) {
-			int row = _cell[ i ].row;
-			int cal = _cell[ i ].cal;
-			int cell_x = OFFSET_ROW + ( int )_origin_pos.x;
-			int cell_y = COL_PITCH + OFFSET_CAL + ( int )_origin_pos.y;
-			cell_x += ( int )getTotalRow( row );
-			cell_y += ( int )getTotalCal( cal );
-	
-			drawer->drawString( cell_x, cell_y, _cell[ i ].cell );
-		}
+		sx += _form.col[ i ];
 	}
 }
 
-void TableDrawer::setInnerLine( bool flag ) {
-	_inner_lines = flag;
+void TableDrawer::setCell( int x, int y, std::string str ) {
+	_cell[ x + y * _form.cols ] = str;
 }
 
-void TableDrawer::setPos( Vector pos ) {
-	_origin_pos = pos;
-}
-
-void TableDrawer::setTitle( const char* title ) {
-	_title = title;
-}
-
-void TableDrawer::addRow( int breadth_width ) {
-	_row[ _row_max_idx ] = breadth_width;
-	_row_max_idx++;
-	_max_row += breadth_width;
-}
-/*
-void TableDrawer::addCal( int vertical_width ) {
-	_cal[ _cal_max_idx ] = vertical_width;
-	_cal_max_idx++;
-	_max_cal += vertical_width;
-}
-*/
-
-void TableDrawer::addCalLines( int lines ) {
-	_cal_max_idx += lines;
-}
-
-void TableDrawer::setCell( Cell cell ) {
-	_cell[ _cell_max_idx ] = cell;
-	_cell_max_idx++;
-}
-
-double TableDrawer::getTotalRow( int size ) {
-	double max_row = 0;
-	for ( int i = 0; i < size; i++ ) {
-		max_row += _row[ i ];
-	}
-	return max_row;
-}
-
-double TableDrawer::getTotalCal( int size ) {
-	return COL_PITCH * size;
-}
-
-void TableDrawer::resetCell ( ) {
-	for ( int i = 0; i < _cell_max_idx; i++ ) {
-		_cell[ i ] = Cell( 0, 0, "" );
-	}
-	_cell_max_idx = 0;
-}

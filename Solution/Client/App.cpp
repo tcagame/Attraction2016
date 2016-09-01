@@ -1,5 +1,4 @@
 #include "App.h"
-#include "DeedBoxes.h"
 #include "Cohort.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -41,7 +40,6 @@ App::~App( ) {
 void App::update( ) {
 	_player->update( );
 	_cohort->update( );
-	_deed_boxes->updata( );
 	_camera->update( );
 	_items->update( );
 	_crystals->updata( );
@@ -67,7 +65,6 @@ void App::initialize( ) {
 	_cohort = CohortPtr( new Cohort( ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 	_items = ItemsPtr( new Items( ) );
-	_deed_boxes = DeedBoxesPtr( new DeedBoxes( filepath + "deedbox.csv" ) );
 	_crystals = CrystalsPtr( new Crystals( ) );
 	loadToGround( );//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚İ‚İ
 	_cohort->init( );

@@ -97,7 +97,6 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK,		"EnemyModel/cyclops/enemy_cyclops_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE,		"EnemyModel/cyclops/enemy_cyclops_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD,		"EnemyModel/cyclops/enemy_cyclops_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_DEEDBOX,			"Object/deedbox/deedbox.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	drawer->loadEffect( EFFECT_DUMMY,			"Effect/laser.efk" );
 	_item_model = ModelPtr( new Model );
@@ -126,7 +125,6 @@ void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
 	drawGroundModel( );
-	drawDeedBox( );
 	drawBulletMissile( );
 	drawItem( );
 	drawBigCrystal( );
@@ -220,22 +218,6 @@ void Viewer::drawGroundModel( ) {
 				_map_model[ type ]->translate( Vector( -( i * ground->CHIP_WIDTH ), -( j * ground->CHIP_HEIGHT ), 0 ) );
 			}
 		}
-	}
-}
-
-void Viewer::drawDeedBox( ) {
-	AppPtr app = App::getTask( );
-	DeedBoxesPtr deed_boxes = app->getDeedBoxes( );
-	DrawerPtr drawer = Drawer::getTask( );
-	for ( int i = 0; i < deed_boxes->getMaxNum( ); i++ ) {
-		DeedBoxPtr deed_box = deed_boxes->getDeedBox( i );
-		AnimationPtr animation = deed_box->getAnimation( );
-		int motion = animation->getMotion( );
-		double time = animation->getAnimTime( );
-		Vector pos = deed_box->getPos( );
-		Vector dir = deed_box->getDir( );
-		Drawer::Model model = Drawer::Model( pos, dir, motion, time );
-		drawer->setModel( model );
 	}
 }
 

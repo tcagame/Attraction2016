@@ -6,6 +6,7 @@
 
 PTR( AppServer );
 PTR( TableDrawer );
+PTR( Log );
 
 class AppServer : public Task {
 public:
@@ -23,6 +24,6 @@ private:
 	std::string _command;
 	TableDrawerPtr _td_status;
 	TableDrawerPtr _td_command;
-	TableDrawerPtr _td_log;
+	LogPtr _log;
 };
 

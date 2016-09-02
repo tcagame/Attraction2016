@@ -7,8 +7,7 @@
 #include "Weapon.h"
 #include "Network.h"
 
-PlayerMonkBehavior::PlayerMonkBehavior( CameraConstPtr camera ) :
-PlayerBehavior( camera ){
+PlayerMonkBehavior::PlayerMonkBehavior( ) {
 }
 
 

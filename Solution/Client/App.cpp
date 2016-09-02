@@ -10,7 +10,7 @@
 #include "Crystals.h"
 #include "Items.h"
 #include "Ground.h"
-#include "Camera.h"
+#include "PlayerCamera.h"
 #include "Keyboard.h"
 #include "Device.h"
 #include "Framework.h"
@@ -40,7 +40,6 @@ App::~App( ) {
 void App::update( ) {
 	_player->update( );
 	_cohort->update( );
-	_camera->update( );
 	_items->update( );
 	_crystals->updata( );
 	if ( _weapon ) {
@@ -54,11 +53,11 @@ void App::update( ) {
 	if ( pop_player ) {
 		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 60000, 1, 0.3 ) );
 	}
-	_camera->setTarget( _player->getPos( ) );
+	CameraPtr camera = Camera::getTask( );
+	camera->setTarget( _player->getPos( ) );
 }
 
 void App::initialize( ) {
-	_camera = CameraPtr( new Camera( ) );
 	std::string filepath = DIRECTORY + "CSV/";
 	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
 	_ground_model = GroundModelPtr( new GroundModel( ) );
@@ -70,7 +69,8 @@ void App::initialize( ) {
 	_cohort->init( );
 
 	//プレイヤーの設定
-	PlayerBehaviorPtr behavior = PlayerHunterBehaviorPtr( new PlayerHunterBehavior( _camera ) );
+	CameraPtr camera = Camera::getTask( );
+	PlayerBehaviorPtr behavior = PlayerHunterBehaviorPtr( new PlayerHunterBehavior( ) );
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
 }
@@ -89,10 +89,6 @@ PlayerPtr App::getPlayer( ) const {
 
 CohortPtr App::getCohort( ) const {
 	return _cohort;
-}
-
-CameraPtr App::getCamera( ) const {
-	return _camera;
 }
 
 GroundModelPtr App::getGroundModel( ) const {

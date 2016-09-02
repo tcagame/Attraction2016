@@ -3,6 +3,7 @@
 #include "Device.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "PlayerCamera.h"
 #include "Viewer.h"
 #include "App.h"
 
@@ -14,6 +15,7 @@ void main( ) {
 	AppPtr app = AppPtr( new App );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
+	PlayerCameraPtr camera = PlayerCameraPtr( new PlayerCamera(  ) );
 
 	fw->addTask( Device::getTag( ), device );
 	fw->addTask( Keyboard::getTag( ), keyboad );
@@ -21,5 +23,6 @@ void main( ) {
 	fw->addTask( Viewer::getTag( ), viewer );
 	fw->addTask( Drawer::getTag( ), drawer );
 	fw->addTask( App::getTag( ), app );
+	fw->addTask( PlayerCamera::getTag( ), camera );
 	
 }

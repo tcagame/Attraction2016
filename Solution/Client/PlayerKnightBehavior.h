@@ -6,7 +6,7 @@ PTR( PlayerKnightBehavior );
 
 class PlayerKnightBehavior : public PlayerBehavior {
 public:
-	PlayerKnightBehavior( CameraConstPtr camera );
+	PlayerKnightBehavior( );
 	virtual ~PlayerKnightBehavior( );
 private:
 	void otherAction( );

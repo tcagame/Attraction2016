@@ -7,7 +7,6 @@ PTR( Ground );
 PTR( Player );
 PTR( GroundModel );
 PTR( Cohort);
-PTR( Camera );
 PTR( Weapon );
 PTR( DeedBoxes );
 PTR( Items );
@@ -27,7 +26,6 @@ public:
 	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( ) const;
 	CohortPtr  getCohort( ) const;
-	CameraPtr getCamera( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;
 	DeedBoxesPtr getDeedBoxes( ) const;
@@ -40,7 +38,6 @@ private:
 	PlayerPtr _player;
 	GroundModelPtr _ground_model;
 	CohortPtr _cohort;
-	CameraPtr _camera;
 	WeaponPtr _weapon;
 	DeedBoxesPtr _deed_boxes;
 	ItemsPtr _items;

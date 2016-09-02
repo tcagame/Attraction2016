@@ -6,7 +6,7 @@ PTR( PlayerHunterBehavior );
 
 class PlayerHunterBehavior : public PlayerBehavior {
 public:
-	PlayerHunterBehavior( CameraConstPtr camera );
+	PlayerHunterBehavior( );
 	virtual ~PlayerHunterBehavior( );
 private:
 	void otherAction( );

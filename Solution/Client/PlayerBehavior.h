@@ -9,7 +9,7 @@ PTR( Camera );
 //コントローラーで動くもの
 class PlayerBehavior : public Behavior {
 public:
-	PlayerBehavior( CameraConstPtr camera );
+	PlayerBehavior( );
 	virtual ~PlayerBehavior( );
 public:
 	void update( );
@@ -19,5 +19,5 @@ public:
 protected:
 	virtual void otherAction( ) = 0;//攻撃などの外の行動
 protected:
-	CameraConstPtr _camera;
+	CameraPtr _camera;
 };

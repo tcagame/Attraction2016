@@ -7,13 +7,11 @@
 #include "Weapon.h"
 #include "Network.h"
 
-PlayerHunterBehavior::PlayerHunterBehavior( CameraConstPtr camera ) :
-PlayerBehavior( camera ){
+PlayerHunterBehavior::PlayerHunterBehavior( ) {
 }
 
 
-PlayerHunterBehavior::~PlayerHunterBehavior()
-{
+PlayerHunterBehavior::~PlayerHunterBehavior( ) {
 }
 
 void PlayerHunterBehavior::otherAction( ) {

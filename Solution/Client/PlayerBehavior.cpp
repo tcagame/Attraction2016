@@ -11,14 +11,14 @@
 #include "GroundModel.h"
 #include "Keyboard.h"
 #include "Device.h"
+#include "PlayerCamera.h"
 
 const int DEED_BOX_RANGE = 1;
 const int DEED_BOX_LENGTH = 2;
 const int ITEM_LENGTH = 2;
 const int CRYSTAL_LENGTH = 2;
 
-PlayerBehavior::PlayerBehavior( CameraConstPtr camera ) {
-	_camera = camera;
+PlayerBehavior::PlayerBehavior( ) {
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
@@ -26,7 +26,10 @@ PlayerBehavior::~PlayerBehavior( ) {
 
 void PlayerBehavior::update( ) {
 	_common_state = COMMON_STATE_WAIT;
-	Vector move_vec = _camera->getConvertDeviceVec( );
+
+	CameraPtr camera = Camera::getTask( );
+	PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
+	Vector move_vec = p_camera->getConvertDeviceVec( );
 	Character::STATUS status = _parent->getStatus( );
 	move_vec *= status.speed;//プレイヤーの進行ベクトル
 

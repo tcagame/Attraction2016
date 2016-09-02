@@ -135,11 +135,10 @@ void Viewer::update( ) {
 }
 
 void Viewer::updateCamera( ) {
-	FrameworkPtr fw = Framework::getInstance( );
-	AppPtr app = App::getTask( );
-	CameraPtr camera = app->getCamera( );
+	CameraPtr camera = Camera::getTask( );
 	Vector camera_pos = camera->getPos( );
 	Vector camera_target = camera->getTarget( );
+	FrameworkPtr fw = Framework::getInstance( );
 	fw->setCamera( camera_pos, camera_target );
 }
 

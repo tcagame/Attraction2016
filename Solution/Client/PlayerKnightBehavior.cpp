@@ -7,8 +7,7 @@
 #include "Weapon.h"
 #include "Network.h"
 
-PlayerKnightBehavior::PlayerKnightBehavior( CameraConstPtr camera ) :
-PlayerBehavior( camera ) {
+PlayerKnightBehavior::PlayerKnightBehavior( ) {
 }
 
 PlayerKnightBehavior::~PlayerKnightBehavior( ) {

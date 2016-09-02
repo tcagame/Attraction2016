@@ -10,5 +10,5 @@ public:
 	LiveCamera( );
 	virtual ~LiveCamera( );
 public:
-	void update( );
+	virtual void update( );
 };

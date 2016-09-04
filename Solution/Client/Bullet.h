@@ -10,6 +10,7 @@ public:
 		SWORD,
 		IMPACT,
 		MISSILE,
+		LAY,
 		FIRE_BALL,
 		TYPE_MAX,
 	};

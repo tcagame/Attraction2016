@@ -11,6 +11,7 @@ public:
 public:
 	Vector getConvertDeviceVec( ) const;
 	void update( );
+	void setPos( Vector pos );
 private:
 	Vector _store_mouse_pos;
 };

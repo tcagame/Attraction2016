@@ -29,6 +29,8 @@ const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
 const char* CRYSTAL_TEXTRUE_PATH = "../Resource/Object/item/crystal.jpg";
 const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01_DM.jpg";
 const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
+const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
+const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor01.mdl";
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
 std::string MAP_NAME_LIST[ ] {
@@ -72,6 +74,10 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_WALK,		"CaracterModel/hunter/player_hunter_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_ATTACK,	"CaracterModel/hunter/player_hunter_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_DEAD,		"CaracterModel/hunter/player_hunter_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_WAIT,		"CaracterModel/witch/player_witch_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_WALK,		"CaracterModel/witch/player_witch_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_ATTACK,	"CaracterModel/witch/player_witch_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_DEAD,		"CaracterModel/witch/player_witch_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WAIT,		"EnemyModel/minotaur/enemy_minotaur_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WALK,		"EnemyModel/minotaur/enemy_minotaur_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_CLEAVE,	"EnemyModel/minotaur/enemy_minotaur_cleave.mv1" );
@@ -111,6 +117,7 @@ void Viewer::initialize( ) {
 	_big_crystal_model->load( CRYSTAL_MODEL_PATH );
 	Matrix matrix = Matrix::makeTransformScaling( Vector( 3, 3, 3 ) );
 	_big_crystal_model->multiply( matrix );
+
 	
 	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
 		std::string _map_filepath = "../Resource/MapModel/";
@@ -119,6 +126,9 @@ void Viewer::initialize( ) {
 		_map_filepath += ".mdl";
 		_map_model[ i ]->load( _map_filepath );
 	}
+	_boss_map_model = ModelPtr( new Model( ) );
+	_boss_map_model->load( MAP_BOSS_MODEL_PATH );
+	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
 	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
 	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
 }
@@ -127,6 +137,7 @@ void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
 	drawGroundModel( );
+	drawBossMapModel( );
 	drawBulletMissile( );
 	drawItem( );
 	drawBigCrystal( );
@@ -192,7 +203,7 @@ void Viewer::drawEnemy( ) {
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
-	
+
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
 	int tex_handle = 0;
@@ -214,12 +225,26 @@ void Viewer::drawGroundModel( ) {
 			}
 			if ( _map_model[ type ] ) {
 				
-				_map_model[ type ]->translate( Vector( i * ground->CHIP_WIDTH, j * ground->CHIP_HEIGHT, 0 ) );
+				_map_model[ type ]->translate( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) );
 				_map_model[ type ]->draw( tex_handle );
-				_map_model[ type ]->translate( Vector( -( i * ground->CHIP_WIDTH ), -( j * ground->CHIP_HEIGHT ), 0 ) );
+				_map_model[ type ]->translate( Vector( -( i *  Ground::CHIP_WIDTH ), -( j *  Ground::CHIP_HEIGHT ), 0 ) );
 			}
 		}
 	}
+
+
+}
+
+void Viewer::drawBossMapModel( ) {
+	AppPtr app = App::getTask( );
+	GroundPtr ground = app->getGround( );
+
+	int x = Ground::BOSS_X;
+	int y = Ground::BOSS_Y;
+
+	_boss_map_model->translate( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ) );
+	_boss_map_model->draw( _boss_map_tex_hadle );
+	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
 }
 
 void Viewer::drawBulletMissile( ) {
@@ -283,7 +308,10 @@ void Viewer::drawCrystal( ) {
 void Viewer::drawBigCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
-	BigCrystalPtr crystal = crystals->getBigCrystal( );
+	CrystalPtr crystal = crystals->getBigCrystal( );
+	if ( !crystal ) {
+		return;
+	}
 	if ( !crystal->isExpired( ) ) {
 		return;
 	}

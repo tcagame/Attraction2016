@@ -5,6 +5,7 @@
 #include "PlayerKnightBehavior.h"
 #include "PlayerMonkBehavior.h"
 #include "PlayerHunterBehavior.h"
+#include "PlayerWitchBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -51,7 +52,8 @@ void App::update( ) {
 	bool pop_player = device->getButton( ) > 0;
 	pop_player = pop_player & !_player->isExpired( );
 	if ( pop_player ) {
-		_player->create( Vector( 1, 1, 0 ), Character::STATUS( 60000, 1, 0.3 ) );
+		Vector player_pos = Vector( 1, 1, 0 );
+		_player->create( player_pos, Character::STATUS( 60000, 1, 0.3 ) );
 	}
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player->getPos( ) );
@@ -69,8 +71,7 @@ void App::initialize( ) {
 	_cohort->init( );
 
 	//ƒvƒŒƒCƒ„[‚Ìİ’è
-	CameraPtr camera = Camera::getTask( );
-	PlayerBehaviorPtr behavior = PlayerHunterBehaviorPtr( new PlayerHunterBehavior( ) );
+	PlayerBehaviorPtr behavior = PlayerWitchBehaviorPtr( new PlayerWitchBehavior( ) );
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
 }

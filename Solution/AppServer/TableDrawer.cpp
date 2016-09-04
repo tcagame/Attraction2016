@@ -4,6 +4,8 @@
 const int COL_PITCH = 30;
 const int OFFSET_ROW = 12;
 const int OFFSET_CAL = 0;
+const int OFFSET_X = 5;
+const int OFFSET_Y = 10;
 
 TableDrawer::TableDrawer( const FORM& form ) :
 _form( form ),
@@ -49,11 +51,11 @@ void TableDrawer::draw( ) {
 	}
 
 	// ƒZƒ‹•`‰æ
-	int sx = origin_x;
+	int sx = origin_x + OFFSET_X;
 	for ( int i = 0; i < _form.cols; i++ ) {
 		for ( int j = 0; j < _form.rows; j++ ) {
 			std::string str = _cell[ i + j * _form.cols ];
-			int sy = j * COL_PITCH;
+			int sy = j * COL_PITCH + origin_y + OFFSET_Y;
 			drawer->drawString( sx, sy, str.c_str( ) );
 		}
 		sx += _form.col[ i ];
@@ -64,3 +66,6 @@ void TableDrawer::setCell( int x, int y, std::string str ) {
 	_cell[ x + y * _form.cols ] = str;
 }
 
+std::string TableDrawer::getCell( int x, int y ) const {
+	return _cell[ x + y * _form.cols ];
+}

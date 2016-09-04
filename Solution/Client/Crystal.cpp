@@ -10,7 +10,7 @@ Crystal::Crystal( ) {
 Crystal::~Crystal( ) {
 }
 
-void Crystal::creat( Vector pos ) {
+void Crystal::create( Vector pos ) {
 	_pos = pos;
 	_expired = true;
 }

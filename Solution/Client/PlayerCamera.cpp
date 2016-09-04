@@ -56,11 +56,15 @@ void PlayerCamera::update( ) {
 	Vector axis = Vector( 0, 0, 1 ).cross( vec );
 	Matrix mat_pitch = Matrix::makeTransformRotation( axis, rad_pitch );
 	vec = mat_pitch.multiply( vec );
-
+	
 	// _camera_posを変更
 	_pos = _target + vec;
 	
 	// マウスの位置を記憶
 	_store_mouse_pos = mouse_pos;
 
+}
+
+void PlayerCamera::setPos( Vector pos ) {
+	_pos = pos;
 }

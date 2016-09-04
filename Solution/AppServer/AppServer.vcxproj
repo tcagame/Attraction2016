@@ -95,12 +95,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppServer.cpp" />
+    <ClCompile Include="Command.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TableDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppServer.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="TableDrawer.h" />
   </ItemGroup>

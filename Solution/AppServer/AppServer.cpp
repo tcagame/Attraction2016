@@ -2,10 +2,10 @@
 #include "TableDrawer.h"
 #include "Framework.h"
 #include "Keyboard.h"
+#include "Command.h"
 #include "Log.h"
 
-const int OFFSET_COMMAND_LINE_X = 10;
-const int OFFSET_COMMAND_LINE_Y = -100;
+
 
 AppServerPtr AppServer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -32,62 +32,28 @@ void AppServer::initialize( ) {
 		_td_status = TableDrawerPtr( new TableDrawer( form ) );
 	}
 
-	//command
-	{
-		// caution 定数定義にするべき
-		FrameworkPtr fw = Framework::getInstance( );
-		int window_width = fw->getWindowWidth( );
-		int window_height = fw->getWindowHeight( );
-		int command_line_pos_x = window_width / 2 + OFFSET_COMMAND_LINE_X;
-		int command_line_pos_y = window_height + OFFSET_COMMAND_LINE_Y;
-
-		TableDrawer::FORM form;
-		form.title = "command";
-		form.x = command_line_pos_x;
-		form.y = command_line_pos_y;
-		form.rows = 1;
-		form.cols = 1;
-		form.col[ 0 ] = 450;
-		_td_command = TableDrawerPtr( new TableDrawer( form ) );
-	}
-
+	_command = CommandPtr( new Command );
 	_log = LogPtr( new Log );
 }
 
 AppServer::AppServer( ) {
 
-	_command.clear( );
 }
 
 AppServer::~AppServer( ) {
 }
 
-
-
 void AppServer::update( ) {
+	_command->update( );
+
+	// ログとコマンドのサンプル
+	std::string str = _command->get( );
+	if ( !str.empty( ) ) {
+		_log->add( str );
+	}
+
+
 	_td_status->draw( );
-	_td_command->draw( );
-	updateCommand( );
-
+	_command->draw( );
 	_log->draw( );
-}
-
-void AppServer::updateCommand( ) {
-	KeyboardPtr keyboard = Keyboard::getTask( );
-	char single_ch = keyboard->getInputChar( );
-	if ( keyboard->isPushKey( "ENTER" ) ) {
-		// サンプル　LOGの動作チェック
-		_log->add( _command );
-
-		_command.clear( );
-	}
-	if ( single_ch == 0 ) {
-		return;
-	}
-	if ( keyboard->isHoldKey( "BACK_SPACE" ) && !_command.empty( ) ) {
-		_command.pop_back( );
-	} else {
-		_command += single_ch;
-	}
-	_td_command->setCell( 0, 0, _command );
 }

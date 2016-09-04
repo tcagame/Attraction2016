@@ -13,9 +13,9 @@ const Vector BIG_CRYSTAL_POS = Vector( 0, 0, 0 );
 Crystals::Crystals( ) {
 	for( int i = 0; i < MAX_CRYSTAL_NUM; i++ ){
 		_crystal[ i ] = CrystalPtr( new Crystal );
-		_crystal[ i ]->creat( CRYSTAL_POS[ i ] );
+		_crystal[ i ]->create( CRYSTAL_POS[ i ] );
 	}
-	_big_crystal =  BigCrystalPtr( new BigCrystal );
+	
 }
 
 
@@ -27,7 +27,7 @@ CrystalPtr Crystals::getCrystal( int idx ) {
 	return _crystal[ idx ];
 }
 
-BigCrystalPtr Crystals::getBigCrystal( ) {
+CrystalPtr Crystals::getBigCrystal( ) {
 	return _big_crystal;
 }
 
@@ -43,7 +43,8 @@ void Crystals::updata( ) {
 			_crystal[ i ].reset( );
 		}
 	}
-	if( count >= MAX_CRYSTAL_NUM ) {
+	if( count >= MAX_CRYSTAL_NUM && !_big_crystal ) {
+		_big_crystal =  CrystalPtr( new Crystal );
 		_big_crystal->create( BIG_CRYSTAL_POS );
 	}
 }

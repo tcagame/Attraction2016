@@ -25,8 +25,8 @@ public:
 public:
 	void draw( );
 	void setCell( int x, int y, std::string str );
+	std::string getCell( int x, int y ) const;
 private:
 	const FORM _form;
 	std::vector< std::string > _cell;
 };
-

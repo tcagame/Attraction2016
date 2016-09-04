@@ -26,8 +26,14 @@ Log::~Log( ) {
 }
 
 void Log::add( std::string str ) {
+	// すべてのログを一行ずらす
+	for ( int i = 0; i < LOG_ROW_NUM - 1; i++ ) {
+		std::string str = _td->getCell( 0, i + 1 );
+		_td->setCell( 0, i, str );
+	}
 
-	_td->setCell( 0, 0, str );
+	// ログを一行追加する
+	_td->setCell( 0, LOG_ROW_NUM - 1, str );
 }
 
 void Log::draw( ) {

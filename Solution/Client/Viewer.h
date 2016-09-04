@@ -31,6 +31,7 @@ private:
 private:
 	void drawPlayer( );
 	void drawEnemy( );
+	void drawBoss( );
 	void drawGroundModel( );
 	void drawBossMapModel( );
 	void drawBulletMissile( );

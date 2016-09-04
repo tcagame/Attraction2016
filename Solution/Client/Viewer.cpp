@@ -78,33 +78,42 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_WALK,		"CaracterModel/witch/player_witch_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_ATTACK,	"CaracterModel/witch/player_witch_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_DEAD,		"CaracterModel/witch/player_witch_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WAIT,		"EnemyModel/minotaur/enemy_minotaur_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WALK,		"EnemyModel/minotaur/enemy_minotaur_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_CLEAVE,	"EnemyModel/minotaur/enemy_minotaur_cleave.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DAMAGE,	"EnemyModel/minotaur/enemy_minotaur_damege.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DEAD,		"EnemyModel/minotaur/enemy_minotaur_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_SMASH,		"EnemyModel/minotaur/enemy_minotaur_smash.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DASH,		"EnemyModel/minotaur/enemy_minotaur_dash.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GHOST_WAIT,			"EnemyModel/ghost/enemy_ghost_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK,			"EnemyModel/ghost/enemy_ghost_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GHOST_DAMAGE,		"EnemyModel/ghost/enemy_ghost_damage.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GHOST_DEAD,			"EnemyModel/ghost/enemy_ghost_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK,		"EnemyModel/ghost/enemy_ghost_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT,			"EnemyModel/armor/enemy_armor_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK,			"EnemyModel/armor/enemy_armor_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK,		"EnemyModel/armor/enemy_armor_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE,		"EnemyModel/armor/enemy_armor_damage.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD,			"EnemyModel/armor/enemy_armor_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WAIT,		"EnemyModel/goblin/enemy_goblin_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WALK,		"EnemyModel/goblin/enemy_goblin_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GOBLIN_ATTACK,		"EnemyModel/goblin/enemy_goblin_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GOBLIN_DAMAGE,		"EnemyModel/goblin/enemy_goblin_damage.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_GOBLIN_DEAD,		"EnemyModel/goblin/enemy_goblin_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_WAIT,		"EnemyModel/cyclops/enemy_cyclops_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_WALK,		"EnemyModel/cyclops/enemy_cyclops_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK,		"EnemyModel/cyclops/enemy_cyclops_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE,		"EnemyModel/cyclops/enemy_cyclops_damage.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD,		"EnemyModel/cyclops/enemy_cyclops_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WAIT,		    "EnemyModel/minotaur/enemy_minotaur_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WALK,		    "EnemyModel/minotaur/enemy_minotaur_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_CLEAVE,	    "EnemyModel/minotaur/enemy_minotaur_cleave.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DAMAGE,	    "EnemyModel/minotaur/enemy_minotaur_damege.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DEAD,		    "EnemyModel/minotaur/enemy_minotaur_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_SMASH,		    "EnemyModel/minotaur/enemy_minotaur_smash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_DASH,		    "EnemyModel/minotaur/enemy_minotaur_dash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_WAIT,			    "EnemyModel/ghost/enemy_ghost_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_WALK,			    "EnemyModel/ghost/enemy_ghost_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_DAMAGE,		    "EnemyModel/ghost/enemy_ghost_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_DEAD,			    "EnemyModel/ghost/enemy_ghost_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK,		    "EnemyModel/ghost/enemy_ghost_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT,			    "EnemyModel/armor/enemy_armor_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK,			    "EnemyModel/armor/enemy_armor_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK,		    "EnemyModel/armor/enemy_armor_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE,		    "EnemyModel/armor/enemy_armor_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD,			    "EnemyModel/armor/enemy_armor_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WAIT,		    "EnemyModel/goblin/enemy_goblin_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WALK,		    "EnemyModel/goblin/enemy_goblin_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_ATTACK,		    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_GOBLIN_DEAD,		    "EnemyModel/goblin/enemy_goblin_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_WAIT,		    "EnemyModel/cyclops/enemy_cyclops_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_WALK,		    "EnemyModel/cyclops/enemy_cyclops_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK,		    "EnemyModel/cyclops/enemy_cyclops_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE,		    "EnemyModel/cyclops/enemy_cyclops_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD,		    "EnemyModel/cyclops/enemy_cyclops_dead.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/goblin/enemy_goblin_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ENTRY,			    "EnemyModel/goblin/enemy_goblin_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	drawer->loadEffect( EFFECT_DUMMY,			"Effect/laser.efk" );
 	_item_model = ModelPtr( new Model );
@@ -136,6 +145,7 @@ void Viewer::initialize( ) {
 void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
+	drawBoss( );
 	drawGroundModel( );
 	drawBossMapModel( );
 	drawBulletMissile( );
@@ -199,6 +209,32 @@ void Viewer::drawEnemy( ) {
 		drawer->drawString( 0, i * 100 + 100, "Enemy_HP: %d", status.hp );
 	}
 }
+
+
+void Viewer::drawBoss( ) {
+	AppPtr app = App::getTask( );
+	CohortPtr cohort = app->getCohort( );
+	
+	EnemyPtr enemy = cohort->getBoss( );
+	if ( !enemy->isExpired( ) ) {
+		return;
+	}
+
+	AnimationPtr animation = enemy->getAnimation( );
+	int motion = animation->getMotion( );
+	double time = animation->getAnimTime( );
+	Vector pos = enemy->getPos( );
+	Vector dir = enemy->getDir( );
+
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
+	drawer->setModel( model );
+	
+	Player::STATUS status = enemy->getStatus( );
+	drawer->drawString( 100, 0 + 100, "BOSS_HP: %d", status.hp );
+	
+}
+
 
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );

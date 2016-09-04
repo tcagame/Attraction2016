@@ -5,11 +5,16 @@
 #include "EnemyArmorBehavior.h"
 #include "EnemyGoblinBehavior.h"
 #include "EnemyCyclopsBehavior.h"
+#include "EnemyBossBehavior.h"
 #include "Enemy.h"
 #include "Ground.h"
 #include "Character.h"
 
 Cohort::Cohort( ) {
+	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
+	EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_BOSS ) );
+	behavior->setParent( enemy );
+	add( enemy, Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y, 0 ) );
 }
 
 Cohort::~Cohort( ) {
@@ -24,6 +29,7 @@ void Cohort::init( ) {
 	for ( int i = 0; i < _enemy_data_max; i++ ) {
 		putBlockEnemy( i );
 	}
+	
 }
 
 void Cohort::update( ) {
@@ -37,9 +43,15 @@ void Cohort::update( ) {
 		}
 		enemy->update( );
 	}
+	_boss->update( );
 }
 
 void Cohort::add( EnemyPtr enemy, const Vector& pos ) {
+	if ( enemy->getType ( ) == Character::TYPE_ENEMY_BOSS && !_boss ) {
+		_boss = enemy;
+		_boss->create( pos, Character::STATUS( 200, 500000, 0.005 ) );
+		return;
+	}
 	for ( int i = 0; i < MAX_NUM; i++ ) {
 		EnemyPtr check = _enemy[ i ];
 		if ( !check ) {
@@ -71,9 +83,18 @@ EnemyConstPtr Cohort::getEnemy( int index ) const {
 	return _enemy[ index ];
 }
 
+EnemyConstPtr Cohort::getBoss( ) const {
+	return _boss;
+}
+
 EnemyPtr Cohort::getEnemy( int index ) {
 	return _enemy[ index ];
 }
+
+EnemyPtr Cohort::getBoss(  ) {
+	return _boss;
+}
+
 
 int Cohort::getMaxNum( ) {
 	return _enemy_max;
@@ -120,6 +141,7 @@ void Cohort::putBlockEnemy( int idx ) {
 		Vector put_pos = pos + Vector( enemy_data.x, enemy_data.y);
 		putEnemy( put_pos, enemy_data.name );
 	}
+
 }
 
 void Cohort::putEnemy( const Vector& pos, std::string enemy_name ) {

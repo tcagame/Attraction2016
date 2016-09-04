@@ -33,6 +33,7 @@ public:
 		TYPE_ENEMY_ARMOR,
 		TYPE_ENEMY_GOBLIN,
 		TYPE_ENEMY_CYCLOPS,
+		TYPE_ENEMY_BOSS,
 	};
 public:
 	Character( TYPE type, BehaviorPtr behavior );

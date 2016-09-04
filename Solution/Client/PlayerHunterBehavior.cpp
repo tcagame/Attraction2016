@@ -5,7 +5,6 @@
 #include "App.h"
 #include "BulletMissile.h"
 #include "Weapon.h"
-#include "Network.h"
 
 PlayerHunterBehavior::PlayerHunterBehavior( ) {
 }

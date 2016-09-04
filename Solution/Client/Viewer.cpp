@@ -145,7 +145,7 @@ void Viewer::initialize( ) {
 void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
-	drawBoss( );
+	//drawBoss( );
 	drawGroundModel( );
 	drawBossMapModel( );
 	drawBulletMissile( );

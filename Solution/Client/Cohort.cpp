@@ -5,16 +5,17 @@
 #include "EnemyArmorBehavior.h"
 #include "EnemyGoblinBehavior.h"
 #include "EnemyCyclopsBehavior.h"
-#include "EnemyBossBehavior.h"
+//#include "EnemyBossBehavior.h"
 #include "Enemy.h"
 #include "Ground.h"
 #include "Character.h"
 
 Cohort::Cohort( ) {
-	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
-	EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_BOSS ) );
-	behavior->setParent( enemy );
-	add( enemy, Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y, 0 ) );
+	//ボスが追加されてないです。
+	//EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
+	//EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_BOSS ) );
+	//behavior->setParent( enemy );
+	//add( enemy, Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y, 0 ) );
 }
 
 Cohort::~Cohort( ) {
@@ -43,36 +44,22 @@ void Cohort::update( ) {
 		}
 		enemy->update( );
 	}
-	_boss->update( );
+	//_boss->update( );
 }
 
 void Cohort::add( EnemyPtr enemy, const Vector& pos ) {
-	if ( enemy->getType ( ) == Character::TYPE_ENEMY_BOSS && !_boss ) {
+	/*ボスが追加されてないです。
+	if ( enemy->getCharacterName( ) == "Enemy_Boss" && !_boss ) {
 		_boss = enemy;
 		_boss->create( pos, Character::STATUS( 200, 500000, 0.005 ) );
 		return;
-	}
+	}*/
+
 	for ( int i = 0; i < MAX_NUM; i++ ) {
 		EnemyPtr check = _enemy[ i ];
 		if ( !check ) {
 			_enemy[ i ] = enemy;
-			Character::STATUS status;
-			if ( enemy->getType( ) == Character::TYPE_ENEMY_MINOTAUR ) { 
-				status = Character::STATUS( 200, 1, 0.005 );
-			}
-			if ( enemy->getType( ) == Character::TYPE_ENEMY_GHOST ) {
-				status = Character::STATUS( 200, 1, 0.005 );
-			}
-			if ( enemy->getType( ) == Character::TYPE_ENEMY_ARMOR ) {
-				status = Character::STATUS( 200, 100, 0.005 );
-			}
-			if ( enemy->getType( ) == Character::TYPE_ENEMY_GOBLIN ) {
-				status = Character::STATUS( 200, 100, 0.005 );
-			}
-			if ( enemy->getType( ) == Character::TYPE_ENEMY_CYCLOPS ) {
-				status = Character::STATUS( 200, 100, 0.005 );
-			}
-			_enemy[ i ] ->create( pos, status );
+			_enemy[ i ] ->create( pos );
 			_enemy_max++;
 			break;
 		}
@@ -145,33 +132,39 @@ void Cohort::putBlockEnemy( int idx ) {
 }
 
 void Cohort::putEnemy( const Vector& pos, std::string enemy_name ) {
+	Character::STATUS status;
 	if ( enemy_name == "ミノタウロス" ) {
+		status = Character::STATUS( 200, 1, 0.005 );
 		EnemyMinotaurBehaviorPtr behavior = EnemyMinotaurBehaviorPtr( new EnemyMinotaurBehavior( ) );
-		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_MINOTAUR ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_MINOTAUR ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "ゴースト"  ) {
+		status = Character::STATUS( 200, 1, 0.005 );
 		EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
-		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GHOST ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_GHOST ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "アーマー"  ) {
+		status = Character::STATUS( 200, 100, 0.005 );
 		EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
-		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_ARMOR ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_ARMOR ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "ゴブリン"  ) {
+		status = Character::STATUS( 200, 100, 0.005 );
 		EnemyGoblinBehaviorPtr behavior = EnemyGoblinBehaviorPtr( new EnemyGoblinBehavior( ) );
-		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_GOBLIN ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_GOBLIN ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "サイクロプス"  ) {
+		status = Character::STATUS( 200, 100, 0.005 );
 		EnemyCyclopsBehaviorPtr behavior = EnemyCyclopsBehaviorPtr( new EnemyCyclopsBehavior( ) );
-		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_CYCLOPS ) );
+		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_MINOTAUR ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}

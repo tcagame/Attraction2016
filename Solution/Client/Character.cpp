@@ -7,9 +7,12 @@
 
 Vector START_DIR = Vector( 0, 1, 0 );
 
-Character::Character( TYPE type, BehaviorPtr behavior ) :
+Character::Character( TYPE type, BehaviorPtr behavior, Character::STATUS status, std::string character_name ) :
 CHARACTER_TYPE( type ) {
 	_behavior = behavior;
+	_status = status;
+	_character_name = character_name;
+	_expired = false;
 }
 
 Character::~Character( ) {
@@ -21,7 +24,7 @@ void Character::update( ) {
 	}
 }
 
-void Character::move( Vector vec ) {
+void Character::move( const Vector& vec ) {
 	AppPtr app = App::getTask( );
 	GroundModelPtr ground_model = app->getGroundModel( );
 	CohortPtr cohort = app->getCohort( );
@@ -51,8 +54,7 @@ void Character::move( Vector vec ) {
 	}
 }
 
-void Character::create( Vector pos, Character::STATUS status ) {
-	_status = status;
+void Character::create( const Vector& pos ) {
 	_pos = pos;
 	_dir = START_DIR;
 	_expired = true;
@@ -61,9 +63,6 @@ void Character::create( Vector pos, Character::STATUS status ) {
 
 void Character::damage( unsigned int power ) {
 	_status.hp -= power;
-	if ( _status.hp <= 594900 ) {
-		int i = 0;
-	}
 }
 
 Vector Character::getPos( ) const {
@@ -78,12 +77,16 @@ Character::STATUS Character::getStatus( ) const {
 	return _status;
 }
 
-AnimationPtr Character::getAnimation( ) {
+AnimationPtr Character::getAnimation( ) const {
 	return _behavior->getAnimation( );
 }
 
 Character::TYPE Character::getType( ) const {
 	return CHARACTER_TYPE;
+}
+
+std::string Character::getCharacterName( ) const {
+	return _character_name;
 }
 
 bool Character::isExpired( ) const {

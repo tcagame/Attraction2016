@@ -1,6 +1,7 @@
 #pragma once
 #include "smart_ptr.h"
 #include "mathmatics.h"
+#include <string>
 
 PTR( Character );
 PTR( Behavior );
@@ -10,17 +11,20 @@ class Character {
 public:
 	struct STATUS {
 		int hp;
+		int sp;
 		unsigned int power;
 		double speed;
 		double width;
 		STATUS( ) {
 			hp = 0;
+			sp = 0;
 			power = 0;
 			speed = 0;
 			width = 0.5;
 		}
 		STATUS( int hp_, unsigned int power_, double speed_, double width_ = 0.5 ) {
 			hp = hp_;
+			sp = 0;
 			power = power_;
 			speed = speed_;
 			width = width_;
@@ -28,35 +32,39 @@ public:
 	};
 	enum TYPE {
 		TYPE_PLAYER,
-		TYPE_ENEMY_MINOTAUR,
-		TYPE_ENEMY_GHOST,
-		TYPE_ENEMY_ARMOR,
-		TYPE_ENEMY_GOBLIN,
-		TYPE_ENEMY_CYCLOPS,
-		TYPE_ENEMY_BOSS,
+		TYPE_ENEMY
 	};
 public:
-	Character( TYPE type, BehaviorPtr behavior );
+	Character( TYPE type, BehaviorPtr behavior, STATUS status, std::string character_name );
 	virtual ~Character( );
 public:
 	void update( );
-	void create( Vector pos, STATUS status );
-	void damage( unsigned int power );
-	void move( Vector vec );
+
+	void create( const Vector& pos );
 	void dead( );
+	void damage( unsigned int power );
+
+	void move( const Vector& vec );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
-	STATUS getStatus( ) const;
 	TYPE getType( ) const;
-	AnimationPtr getAnimation( );
+	std::string getCharacterName( ) const;
 	bool isExpired( ) const;
+	
+	STATUS getStatus( ) const;
+	
+	AnimationPtr getAnimation( ) const;
 private:
 	const TYPE CHARACTER_TYPE;
 private:
 	Vector _pos;
 	Vector _dir;
-	STATUS _status;
-	BehaviorPtr _behavior;
+	std::string _character_name;
 	bool _expired;
+	
+
+	STATUS _status;
+	
+	BehaviorPtr _behavior;
 };
 

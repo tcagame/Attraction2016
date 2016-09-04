@@ -53,7 +53,7 @@ void App::update( ) {
 	pop_player = pop_player & !_player->isExpired( );
 	if ( pop_player ) {
 		Vector player_pos = Vector( 1, 1, 0 );
-		_player->create( player_pos, Character::STATUS( 60000, 1, 0.3 ) );
+		_player->create( player_pos );
 	}
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player->getPos( ) );
@@ -72,7 +72,7 @@ void App::initialize( ) {
 
 	//ƒvƒŒƒCƒ„[‚Ìİ’è
 	PlayerBehaviorPtr behavior = PlayerWitchBehaviorPtr( new PlayerWitchBehavior( ) );
-	_player = PlayerPtr( new Player( behavior ) );
+	_player = PlayerPtr( new Player( behavior, Character::STATUS( 60000, 1, 0.3 ), Player::PLAYER_TYPE_KNIGHT ) );
 	behavior->setParent( _player );
 }
 

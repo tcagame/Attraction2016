@@ -32,6 +32,7 @@ private:
 	void drawPlayer( );
 	void drawEnemy( );
 	void drawGroundModel( );
+	void drawBossMapModel( );
 	void drawBulletMissile( );
 	void drawEffect( );
 	void drawItem( );
@@ -42,9 +43,11 @@ private:
 	Vector covertInputDirXZ( );
 private:
 	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
+	ModelPtr _boss_map_model;
 	ModelPtr _item_model;
 	ModelPtr _crystal_model;
 	ModelPtr _big_crystal_model;
+	int _boss_map_tex_hadle;
 	int _floor_tex_handle;
 	int _path_tex_handle;
 	int _item_tex_handle;

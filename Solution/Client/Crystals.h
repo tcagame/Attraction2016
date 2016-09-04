@@ -14,10 +14,10 @@ public:
 	static const int MAX_CRYSTAL_NUM = 3;
 public:
 	CrystalPtr getCrystal( int idx );
-	BigCrystalPtr getBigCrystal( );
+	CrystalPtr getBigCrystal( );
 	void updata( );
 private:
 	std::array< CrystalPtr, MAX_CRYSTAL_NUM > _crystal;
-	BigCrystalPtr _big_crystal;
+	CrystalPtr _big_crystal;
 };
 

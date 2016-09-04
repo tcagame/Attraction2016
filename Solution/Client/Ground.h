@@ -1,6 +1,7 @@
 #pragma once
 #include "smart_ptr.h"
 #include <vector>
+#include "mathmatics.h"
 
 PTR( Ground );
 
@@ -18,6 +19,10 @@ public:
 public:
 	const static int CHIP_WIDTH = 7;
 	const static int CHIP_HEIGHT = 4 ;
+	const static int BOSS_CHIP_WIDTH = 10;
+	const static int BOSS_CHIP_HEIGHT = 10;
+	const static int BOSS_X = 100;
+	const static int BOSS_Y = 100;
 private:
 	bool loadMapCSV( const char* file_name );
 private:

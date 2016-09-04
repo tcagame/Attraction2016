@@ -9,7 +9,7 @@ public:
 	Crystal( );
 	virtual ~Crystal( );
 public:
-	void creat( Vector pos );
+	void create( Vector pos );
 	Vector getPos( );
 	bool isExpired( );
 	void pickup( );

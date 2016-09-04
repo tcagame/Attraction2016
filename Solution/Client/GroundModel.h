@@ -29,9 +29,11 @@ private:
 	};
 private:
 	void loadModelPos( int x, int y, ModelPtr model );
-	bool isCollisionModel( int model_idx, Vector pos_a, Vector pos_b );
+	bool isCollisionModel( ModelData model, Vector pos_a, Vector pos_b );
+	void loadBossModel( );
 private:
-	std::array< ModelData, MAX_MODEL_NUM > _model_data;
+	std::array< ModelData, MAX_MODEL_NUM > _model_data_ground;
+	ModelData _model_data_boss;
 	int _model_max_idx;
 };
 

@@ -9,6 +9,7 @@
 #include "Animation.h"
 #include "mathmatics.h"
 #include "GroundModel.h"
+#include "Ground.h"
 #include "Keyboard.h"
 #include "Device.h"
 #include "PlayerCamera.h"
@@ -78,14 +79,28 @@ void PlayerBehavior::pickupCrystal( ) {
 	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
 		AppPtr app = App::getTask( );
 		CrystalsPtr crystals = app->getCrystals( );
+		int has_crystal_num = 0;
 		for ( int i = 0; i < Crystals::MAX_CRYSTAL_NUM; i++ ) {
 			CrystalPtr crystal = crystals->getCrystal( i );
 			if ( !crystal ) {
+				has_crystal_num++;
 				continue;
 			}
 			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
 			if ( lenght < CRYSTAL_LENGTH ) {
 				crystal->pickup( );
+			}
+		}
+		if ( has_crystal_num >= Crystals::MAX_CRYSTAL_NUM ) {
+			CrystalPtr crystal = crystals->getBigCrystal( );
+			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
+			if ( lenght < CRYSTAL_LENGTH ) {
+				CameraPtr camera = Camera::getTask( );
+				PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
+				Vector boss_map_pos = Vector( Ground::BOSS_X * Ground::CHIP_WIDTH, Ground::BOSS_Y * Ground::CHIP_HEIGHT, 0 );
+				p_camera->setPos( Vector( boss_map_pos.x + 100, boss_map_pos.y + 100, 0) );
+				crystal->pickup( );
+				_parent->move( boss_map_pos );
 			}
 		}
 	}

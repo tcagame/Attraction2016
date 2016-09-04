@@ -15,7 +15,7 @@ void main( ) {
 	AppPtr app = AppPtr( new App );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
-	PlayerCameraPtr camera = PlayerCameraPtr( new PlayerCamera(  ) );
+	PlayerCameraPtr camera = PlayerCameraPtr( new PlayerCamera( ) );
 
 	fw->addTask( Device::getTag( ), device );
 	fw->addTask( Keyboard::getTag( ), keyboad );

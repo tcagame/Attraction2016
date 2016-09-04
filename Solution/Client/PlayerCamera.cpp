@@ -9,6 +9,7 @@ PlayerCamera::PlayerCamera( ) {
 
 
 PlayerCamera::~PlayerCamera( ) {
+
 }
 
 Vector PlayerCamera::getConvertDeviceVec( ) const {

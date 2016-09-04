@@ -5,7 +5,8 @@
 #include "App.h"
 #include "BulletSword.h"
 #include "Weapon.h"
-#include "Network.h"
+
+#include "Drawer.h"
 
 PlayerKnightBehavior::PlayerKnightBehavior( ) {
 }
@@ -22,6 +23,13 @@ void PlayerKnightBehavior::otherAction( ) {
 		BulletPtr bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 		weapon->add( bullet );
 		_common_state = COMMON_STATE_ATTACK;
+
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::Effect effect;
+		effect.pos = _parent->getPos( ) + Vector( 0, 0, 5 );
+		effect.dir = _parent->getDir( );
+		effect.res = 0;
+		drawer->setEffect( effect );
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK && !_animation->isEndAnimation( ) ) {

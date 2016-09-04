@@ -5,6 +5,7 @@
 #include "PlayerKnightBehavior.h"
 #include "PlayerMonkBehavior.h"
 #include "PlayerHunterBehavior.h"
+#include "PlayerWitchBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -70,7 +71,7 @@ void App::initialize( ) {
 
 	//ƒvƒŒƒCƒ„[‚Ìİ’è
 	CameraPtr camera = Camera::getTask( );
-	PlayerBehaviorPtr behavior = PlayerHunterBehaviorPtr( new PlayerHunterBehavior( ) );
+	PlayerBehaviorPtr behavior = PlayerWitchBehaviorPtr( new PlayerWitchBehavior( ) );
 	_player = PlayerPtr( new Player( behavior ) );
 	behavior->setParent( _player );
 }

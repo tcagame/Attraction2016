@@ -41,6 +41,10 @@ void PlayerBehavior::update( ) {
 			_parent->move( move_vec );
 			_common_state = COMMON_STATE_WALK;
 		}
+		bool long_wait = ( _common_state == COMMON_STATE_WAIT && _animation->getAnimTime( ) > 10 );
+		if ( _common_state == COMMON_STATE_WALK || long_wait ) {
+			_attack_pattern = 0;
+		}
 	}
 	attack( );
 	if ( _parent->getStatus( ).hp <= 0 ) {

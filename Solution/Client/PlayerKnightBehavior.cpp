@@ -18,10 +18,21 @@ void PlayerKnightBehavior::attack( ) {
 	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
 		AppPtr app = App::getTask( );
 		WeaponPtr weapon = app->getWeapon( );
-		BulletPtr bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+		BulletPtr bullet;
+		switch ( _attack_pattern ) {
+			case 0:
+				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				break;
+			case 1:
+				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				break;
+			case 2:
+				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				break;
+		}
 		weapon->add( bullet );
+		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;
 		_common_state = COMMON_STATE_ATTACK;
-		_attack_pattern = ( _attack_pattern + 2 ) % MAX_ATTACK_PATTERN;
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK && !_animation->isEndAnimation( ) ) {

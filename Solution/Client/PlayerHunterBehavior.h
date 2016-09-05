@@ -9,7 +9,7 @@ public:
 	PlayerHunterBehavior( );
 	virtual ~PlayerHunterBehavior( );
 private:
-	void otherAction( );
+	void attack( );
 	void animationUpdate( );
 };
 

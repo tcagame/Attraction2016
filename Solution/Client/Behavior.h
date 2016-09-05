@@ -27,6 +27,7 @@ protected:
 protected:
 	CharacterPtr _parent;
 	AnimationPtr _animation;
+	int _attack_pattern;
 	COMMON_STATE _common_state;
 	COMMON_STATE _befor_state;
 };

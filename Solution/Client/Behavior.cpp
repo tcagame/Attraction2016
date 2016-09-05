@@ -4,6 +4,7 @@
 
 Behavior::Behavior( ) {
 	_animation = AnimationPtr( new Animation( ) );
+	_attack_pattern = 0;
 }
 
 Behavior::~Behavior( ) {

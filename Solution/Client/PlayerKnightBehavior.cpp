@@ -6,15 +6,13 @@
 #include "BulletSword.h"
 #include "Weapon.h"
 
-#include "Drawer.h"
-
 PlayerKnightBehavior::PlayerKnightBehavior( ) {
 }
 
 PlayerKnightBehavior::~PlayerKnightBehavior( ) {
 }
 
-void PlayerKnightBehavior::otherAction( ) {
+void PlayerKnightBehavior::attack( ) {
 	DevicePtr device = Device::getTask( );
 	//UŒ‚‚É“ü‚éuŠÔ
 	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
@@ -23,13 +21,7 @@ void PlayerKnightBehavior::otherAction( ) {
 		BulletPtr bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 		weapon->add( bullet );
 		_common_state = COMMON_STATE_ATTACK;
-
-		DrawerPtr drawer = Drawer::getTask( );
-		Drawer::Effect effect;
-		effect.pos = _parent->getPos( ) + Vector( 0, 0, 5 );
-		effect.dir = _parent->getDir( );
-		effect.res = 0;
-		drawer->setEffect( effect );
+		_attack_pattern = ( _attack_pattern + 2 ) % MAX_ATTACK_PATTERN;
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK && !_animation->isEndAnimation( ) ) {
@@ -63,7 +55,17 @@ void PlayerKnightBehavior::animationUpdate( ) {
 	}
 	if ( _common_state == COMMON_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_ATTACK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+			switch ( _attack_pattern ) {
+				case 0:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+					break;
+				case 1:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+					break;
+				case 2:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+					break;
+			}
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );

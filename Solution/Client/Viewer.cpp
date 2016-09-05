@@ -181,7 +181,7 @@ void Viewer::drawPlayer( ) {
 	drawer->setModel( model );
 	
 	Player::STATUS status = player->getStatus( );
-	drawer->drawString( 0, 50, "Palyer_HP: %d", status.hp );
+	drawer->drawString( 0, 50, "Palyer_HP: %d Player_SP: %d", status.hp, player->getSP( ) );
 	drawer->drawString( 0, 75, "X %lf, Y %lf", pos.x, pos.y );
 }
 

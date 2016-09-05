@@ -2,7 +2,7 @@
 #include "Framework.h"
 #include "Enemy.h"
 
-const int LAY_POWER = 1;
+const int LAY_POWER = 100;
 
 const double SPEED = 0.05;
 const double RADIUS = 0.1;

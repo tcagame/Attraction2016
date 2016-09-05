@@ -8,7 +8,7 @@ public:
 	PlayerWitchBehavior( );
 	virtual ~PlayerWitchBehavior( );
 private:
-	void otherAction( );
+	void attack( );
 	void animationUpdate( );
 };
 

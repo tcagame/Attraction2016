@@ -9,7 +9,7 @@ public:
 	PlayerMonkBehavior( );
 	virtual ~PlayerMonkBehavior( );
 private:
-	void otherAction( );
+	void attack( );
 	void animationUpdate( );
 };
 

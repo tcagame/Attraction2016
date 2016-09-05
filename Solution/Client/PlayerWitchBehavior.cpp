@@ -12,7 +12,7 @@ PlayerWitchBehavior::PlayerWitchBehavior( ) {
 PlayerWitchBehavior::~PlayerWitchBehavior( ) {
 }
 
-void PlayerWitchBehavior::otherAction( ) {
+void PlayerWitchBehavior::attack( ) {
 	DevicePtr device = Device::getTask( );
 	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
 		_common_state = COMMON_STATE_ATTACK;

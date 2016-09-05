@@ -3,6 +3,7 @@
 #include "Cohort.h"
 #include "Enemy.h"
 #include "mathmatics.h"
+#include "Player.h"
 #include "Framework.h"
 
 Bullet::Bullet( TYPE type )
@@ -27,13 +28,22 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 	CohortPtr cohort = app->getCohort( );
 	for( int i = 0; i < cohort->getMaxNum( ); i++ ) {
 		EnemyPtr enemy = cohort->getEnemy( i );
+		if ( !enemy->isExpired( ) ) {
+			continue;
+		}
 		double bottom = enemy->getPos( ).z;
 		double top = bottom + 2;
 		if ( pos.z > bottom && pos.z < top ) {
 			Vector distance = pos - enemy->getPos( );
 			double length = distance.getLength( );
-			if ( length <= 1 ) {
+			Character::STATUS status = enemy->getStatus( );
+			if ( length <= 1 && status.hp > 0 ) {
 				enemy->damage( power );
+				status  = enemy->getStatus( );
+				if ( status.hp <= 0 ) {
+					PlayerPtr player = app->getPlayer( );
+					player->addSP( 10 );
+				}
 			}
 		}
 	}

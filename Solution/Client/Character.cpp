@@ -37,6 +37,10 @@ void Character::move( const Vector& vec ) {
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
+		//Ž©g‚Æ‚Í”»’è‚µ‚È‚¢
+		if ( enemy.get( ) == this ) {
+			continue;
+		}
 		Vector enemy_pos = enemy->getPos( );
 		STATUS status = enemy->getStatus( );
 		double length = ( move_pos - enemy_pos ).getLength( );

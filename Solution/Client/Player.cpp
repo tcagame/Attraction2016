@@ -13,3 +13,21 @@ Character( TYPE_PLAYER, behavior, status, PLAYER_NAME_LIST[ player_type ] ) {
 
 Player::~Player( ) {
 }
+
+void Player::addSP( unsigned int value ) {
+	_sp += value;
+	if ( _sp > 100 ) {
+		_sp = 100;
+	}
+}
+
+void Player::sabSP( unsigned int value ) {
+	_sp -= value;
+	if ( _sp < 0 ) {
+		_sp = 0;
+	}
+}
+
+int Player::getSP( ) const {
+	return _sp;
+}

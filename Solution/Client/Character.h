@@ -17,14 +17,12 @@ public:
 		double width;
 		STATUS( ) {
 			hp = 0;
-			sp = 0;
 			power = 0;
 			speed = 0;
 			width = 0.5;
 		}
 		STATUS( int hp_, unsigned int power_, double speed_, double width_ = 0.5 ) {
 			hp = hp_;
-			sp = 0;
 			power = power_;
 			speed = speed_;
 			width = width_;

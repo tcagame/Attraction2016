@@ -14,7 +14,7 @@ PlayerMonkBehavior::PlayerMonkBehavior( ) {
 PlayerMonkBehavior::~PlayerMonkBehavior( ) {
 }
 
-void PlayerMonkBehavior::otherAction( ) {
+void PlayerMonkBehavior::attack( ) {
 	DevicePtr device = Device::getTask( );
 	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
 		_common_state = COMMON_STATE_ATTACK;

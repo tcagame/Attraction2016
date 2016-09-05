@@ -14,12 +14,11 @@
 #include "Device.h"
 #include "PlayerCamera.h"
 
-const int DEED_BOX_RANGE = 1;
-const int DEED_BOX_LENGTH = 2;
 const int ITEM_LENGTH = 2;
 const int CRYSTAL_LENGTH = 2;
 
-PlayerBehavior::PlayerBehavior( ) {
+PlayerBehavior::PlayerBehavior( ) :
+MAX_ATTACK_PATTERN( 3 ){
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
@@ -43,7 +42,7 @@ void PlayerBehavior::update( ) {
 			_common_state = COMMON_STATE_WALK;
 		}
 	}
-	otherAction( );
+	attack( );
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_common_state = COMMON_STATE_DEAD;
 	}

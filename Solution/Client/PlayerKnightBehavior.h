@@ -9,7 +9,7 @@ public:
 	PlayerKnightBehavior( );
 	virtual ~PlayerKnightBehavior( );
 private:
-	void otherAction( );
+	void attack( );
 	void animationUpdate( );
 };
 

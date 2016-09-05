@@ -17,7 +17,7 @@ public:
 	void pickupItem( );
 	void pickupCrystal( );
 protected:
-	virtual void otherAction( ) = 0;//攻撃などの外の行動
+	virtual void attack( ) = 0;//攻撃などの外の行動
 protected:
-	CameraPtr _camera;
+	const int MAX_ATTACK_PATTERN;
 };

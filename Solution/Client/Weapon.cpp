@@ -20,7 +20,6 @@ void Weapon::update( ) {
 		if ( !_bullet[ i ]->update( ) ) {
 			_bullet[ i ].reset( );
 			_bullet[ i ] = NULL;
-
 		}
 	}
 }

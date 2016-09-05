@@ -5,17 +5,17 @@
 #include "EnemyArmorBehavior.h"
 #include "EnemyGoblinBehavior.h"
 #include "EnemyCyclopsBehavior.h"
-//#include "EnemyBossBehavior.h"
+#include "EnemyBossBehavior.h"
 #include "Enemy.h"
 #include "Ground.h"
 #include "Character.h"
 
 Cohort::Cohort( ) {
-	//ボスが追加されてないです。
-	//EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
-	//EnemyPtr enemy = EnemyPtr( new Enemy( behavior, Character::TYPE_ENEMY_BOSS ) );
-	//behavior->setParent( enemy );
-	//add( enemy, Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y, 0 ) );
+	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
+	Character::STATUS status = Character::STATUS( 100, 1, 50, 2 );
+	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
+	behavior->setParent( _boss );
+	_boss->create( Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y, 0 ) );
 }
 
 Cohort::~Cohort( ) {
@@ -44,17 +44,10 @@ void Cohort::update( ) {
 		}
 		enemy->update( );
 	}
-	//_boss->update( );
+	_boss->update( );
 }
 
 void Cohort::add( EnemyPtr enemy, const Vector& pos ) {
-	/*ボスが追加されてないです。
-	if ( enemy->getCharacterName( ) == "Enemy_Boss" && !_boss ) {
-		_boss = enemy;
-		_boss->create( pos, Character::STATUS( 200, 500000, 0.005 ) );
-		return;
-	}*/
-
 	for ( int i = 0; i < MAX_NUM; i++ ) {
 		EnemyPtr check = _enemy[ i ];
 		if ( !check ) {

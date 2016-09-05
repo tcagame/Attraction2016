@@ -108,9 +108,9 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/goblin/enemy_goblin_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ENTRY,			    "EnemyModel/goblin/enemy_goblin_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/ghost/enemy_ghost_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/minotaur/enemy_minotaur_smash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/armor/enemy_armor_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/goblin/enemy_goblin_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
@@ -145,10 +145,10 @@ void Viewer::initialize( ) {
 void Viewer::update( ) {
 	drawPlayer( );
 	drawEnemy( );
-	//drawBoss( );
+	drawBoss( );
 	drawGroundModel( );
 	drawBossMapModel( );
-	drawBulletMissile( );
+	drawBullet( );
 	drawItem( );
 	drawBigCrystal( );
 	drawCrystal( );
@@ -267,8 +267,6 @@ void Viewer::drawGroundModel( ) {
 			}
 		}
 	}
-
-
 }
 
 void Viewer::drawBossMapModel( ) {
@@ -283,7 +281,7 @@ void Viewer::drawBossMapModel( ) {
 	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
 }
 
-void Viewer::drawBulletMissile( ) {
+void Viewer::drawBullet( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	DrawerPtr drawer = Drawer::getTask( );
@@ -304,7 +302,6 @@ void Viewer::drawBulletMissile( ) {
 			pos.z += 1.5;	//‚‚³’²®
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
-
 		}
 	}
 }

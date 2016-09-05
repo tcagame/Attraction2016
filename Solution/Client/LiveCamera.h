@@ -16,9 +16,11 @@ public:
 	virtual ~LiveCamera( );
 public:
 	virtual void update( );
+	virtual void initialize( );
 private:
 	void updateLiveCameraOnScene( );
 	void roundStage( );
 private:
 	LIVE_SCENE _scene;
+	double _up_speed;
 };

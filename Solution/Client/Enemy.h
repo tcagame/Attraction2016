@@ -12,6 +12,7 @@ public:
 		ENEMY_TYPE_GHOST,
 		ENEMY_TYPE_ARMOR,
 		ENEMY_TYPE_MINOTAUR,
+		ENEMY_TYPE_BOSS,
 	};
 public:
 	Enemy( BehaviorPtr behavior, Character::STATUS status, Enemy::ENEMY_TYPE enemy_type );

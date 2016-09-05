@@ -18,9 +18,8 @@ private:
 
 private:
 	const Vector _pos;
-	const Vector _dir;
-
 private:
+	Vector _dir;
 	double _ratio;
 	bool _is_attack;
 };

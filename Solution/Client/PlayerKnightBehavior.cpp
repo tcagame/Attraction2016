@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "App.h"
 #include "BulletSword.h"
+#include "BulletSlash.h"
 #include "Weapon.h"
 
 PlayerKnightBehavior::PlayerKnightBehavior( ) {
@@ -24,7 +25,7 @@ void PlayerKnightBehavior::attack( ) {
 				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 				break;
 			case 1:
-				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 				break;
 			case 2:
 				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );

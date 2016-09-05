@@ -9,7 +9,7 @@ void BulletImpact::initialize( ) {
 }
 
 BulletImpact::BulletImpact( const Vector& pos, const Vector& dir )
-: Bullet( Bullet::IMPACT )
+: Bullet( Bullet::TYPE_IMPACT )
 , _pos( pos )
 , _dir( dir )
 , _count( 0 ) {

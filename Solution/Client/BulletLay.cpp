@@ -17,7 +17,7 @@ void BulletLay::initialize( ) {
 }
 
 BulletLay::BulletLay( const Vector& pos, const Vector& dir )
-: Bullet( Bullet::LAY )
+: Bullet( Bullet::TYPE_LAY )
 , _pos( pos )
 , _dir( dir.normalize( ) ) {
 	_cooltime++;

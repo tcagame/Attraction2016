@@ -292,14 +292,14 @@ void Viewer::drawBulletMissile( ) {
 		if ( !bullet ) {
 			continue;
 		}
-		if ( bullet->getType( ) == Bullet::MISSILE ) {
+		if ( bullet->getType( ) == Bullet::TYPE_MISSILE ) {
 			Vector pos = bullet->getPos( );
 			pos.z += 1.0;	//çÇÇ≥í≤êÆ
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 0.5, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
 
 		}
-		if ( bullet->getType( ) == Bullet::FIRE_BALL ) {
+		if ( bullet->getType( ) == Bullet::TYPE_FIRE_BALL ) {
 			Vector pos = bullet->getPos( );
 			pos.z += 1.5;	//çÇÇ≥í≤êÆ
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );

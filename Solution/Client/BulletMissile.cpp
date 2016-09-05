@@ -14,7 +14,7 @@ void BulletMissile::initialize( ) {
 }
 
 BulletMissile::BulletMissile( const Vector& pos, const Vector& dir )
-: Bullet( Bullet::MISSILE )
+: Bullet( Bullet::TYPE_MISSILE )
 , _dir( dir.normalize( ) ) {
 	_pos = pos;
 	initialize( );

@@ -1,12 +1,10 @@
 #include "BulletFireBall.h"
 #include "Player.h"
 #include "App.h"
-#include "Framework.h"
 
 const int VANISH_TIME = 50;
 
 void BulletFireBall::initialize( ) {
-	FrameworkPtr fw = Framework::getInstance( );
 	_power = 1;
 	_speed = 1;
 	_exist_time = 0;
@@ -14,7 +12,7 @@ void BulletFireBall::initialize( ) {
 
 
 BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir ) 
-: Bullet( Bullet::FIRE_BALL )
+: Bullet( Bullet::TYPE_FIRE_BALL )
 , _dir( dir.normalize( ) ) {
 	_pos = pos;
 	initialize( );

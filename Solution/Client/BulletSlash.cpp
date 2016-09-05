@@ -1,4 +1,4 @@
-#include "BulletSword.h"
+#include "BulletSlash.h"
 
 const double SLASH_RADIUS = PI * 0.8;
 
@@ -6,8 +6,8 @@ const int SWORD_POWER = 25;
 const double SWORD_SPEED = 0.5;
 const int SWORD_LENGTH = 3;
 
-BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y ) 
-: Bullet( Bullet::TYPE_SWORD )
+BulletSlash::BulletSlash( const Vector& pos, double dir_x, double dir_y ) 
+: Bullet( Bullet::TYPE_SLASH )
 , _pos( pos )
 , _dir( dir_x, dir_y, 0 ) {
 	_ratio = 0;
@@ -15,29 +15,29 @@ BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y )
 
 }
 
-
-BulletSword::~BulletSword( ) {
+BulletSlash::~BulletSlash() {
 }
 
-Vector BulletSword::getPos( ) const {
+
+Vector BulletSlash::getPos( ) const {
 	return _pos;
 }
 
-Vector BulletSword::getBeginDir( ) const {
+Vector BulletSlash::getBeginDir( ) const {
 	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, -1 ), - SLASH_RADIUS / 2 );
 	return mat.multiply( _dir );
 }
 
-Vector BulletSword::getEndDir( ) const {
+Vector BulletSlash::getEndDir( ) const {
 	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, -1 ), _ratio * SLASH_RADIUS - SLASH_RADIUS / 2 );
 	return mat.multiply( _dir );
 }
 
-double BulletSword::getLength( ) const {
+double BulletSlash::getLength( ) const {
 	return SWORD_LENGTH;
 }
 
-bool BulletSword::update( ) {
+bool BulletSlash::update( ) {
 
 	_ratio += SWORD_SPEED;
 

@@ -7,11 +7,12 @@ PTR( Bullet );
 class Bullet {
 public:
 	enum TYPE {
-		SWORD,
-		IMPACT,
-		MISSILE,
-		LAY,
-		FIRE_BALL,
+		TYPE_SLASH,
+		TYPE_SWORD,
+		TYPE_IMPACT,
+		TYPE_MISSILE,
+		TYPE_LAY,
+		TYPE_FIRE_BALL,
 		TYPE_MAX,
 	};
 public:

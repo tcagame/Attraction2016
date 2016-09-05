@@ -34,7 +34,7 @@ private:
 	void drawBoss( );
 	void drawGroundModel( );
 	void drawBossMapModel( );
-	void drawBulletMissile( );
+	void drawBullet( );
 	void drawEffect( );
 	void drawItem( );
 	void drawCrystal( );

@@ -18,7 +18,8 @@ public:
 	Vector getPos( ) const;
 	Vector getTarget( ) const;
 	void setTarget( Vector target );
-	void update( ) = 0;
+	virtual void update( ) = 0;
+	virtual void initialize( ) { };
 protected:
 	Vector _pos;
 	Vector _target;

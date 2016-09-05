@@ -148,7 +148,7 @@ void Viewer::update( ) {
 	//drawBoss( );
 	drawGroundModel( );
 	drawBossMapModel( );
-	drawBulletMissile( );
+	drawBullet( );
 	drawItem( );
 	drawBigCrystal( );
 	drawCrystal( );
@@ -267,8 +267,6 @@ void Viewer::drawGroundModel( ) {
 			}
 		}
 	}
-
-
 }
 
 void Viewer::drawBossMapModel( ) {
@@ -283,7 +281,7 @@ void Viewer::drawBossMapModel( ) {
 	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
 }
 
-void Viewer::drawBulletMissile( ) {
+void Viewer::drawBullet( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	DrawerPtr drawer = Drawer::getTask( );
@@ -304,7 +302,6 @@ void Viewer::drawBulletMissile( ) {
 			pos.z += 1.5;	//‚‚³’²®
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
-
 		}
 	}
 }

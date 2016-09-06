@@ -15,7 +15,6 @@ private:
 	Vector getBeginDir( ) const;
 	Vector getEndDir( ) const;
 	double getLength( ) const;
-
 private:
 	const Vector _pos;
 private:

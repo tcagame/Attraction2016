@@ -25,8 +25,6 @@ BulletFireBall::~BulletFireBall( ) {
 bool BulletFireBall::update( ) {
 	// ˆÚ“®
 	_pos += _dir * _speed;
-
-
 	_exist_time++;
 	if ( _exist_time >= VANISH_TIME  ) {
 		return false;

@@ -70,14 +70,14 @@ ratio( ratio_ ) {
 
 Drawer::Effect::Effect(  ) :
 res( -1 ) {
-
+	scale = 0.2;
 }
 
-Drawer::Effect::Effect ( Vector pos_, Vector dir_, int res_ ) :
+Drawer::Effect::Effect ( Vector pos_, Vector dir_, int res_, double scale_ ) :
 pos( pos_ ),
 dir( dir_ ),
 res( res_ ) {
-
+	scale = scale_;
 }
 
 DrawerPtr Drawer::getTask( ) {
@@ -197,16 +197,14 @@ void Drawer::drawBillboard( ) {
 void Drawer::drawEffect( ) {
 	for ( int i = 0; i < _effect_idx; i++ ) {
 		const Effect& effect = _effect[ i ];
-
 		int playingEffectHandle = PlayEffekseer3DEffect( _effect_id[ effect.res ] );
-		SetScalePlayingEffekseer3DEffect( playingEffectHandle, 0.2f, 0.2f, 0.2f );
+		SetScalePlayingEffekseer3DEffect( playingEffectHandle, effect.scale, effect.scale, effect.scale );
 		//‰ñ“]
 		Vector dir = effect.dir;
 		SetRotationPlayingEffekseer3DEffect( playingEffectHandle, ( float )-dir.x, 1.5f, ( float )dir.y );
 		int check = SetPosPlayingEffekseer3DEffect( playingEffectHandle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
 	}
 	_effect_idx = 0;
-
 }
 
 void Drawer::loadMV1Model( int motion, const char* filename ) {

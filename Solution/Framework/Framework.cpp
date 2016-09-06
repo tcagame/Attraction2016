@@ -9,7 +9,7 @@ const int PARTICLE = 2000; //Effekseerの最大パーティクル数
 const int COLOR_BIT = 32;
 const int COLOR_BIT_DEPTH = 32;
 const int FPS = 60;
-const char* WINDOW_NAME = "ゲーム大賞";
+const char* WINDOW_NAME = "Attraction2016";
 
 FrameworkPtr Framework::_instance;
 

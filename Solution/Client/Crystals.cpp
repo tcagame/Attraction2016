@@ -15,7 +15,7 @@ Crystals::Crystals( ) {
 		_crystal[ i ] = CrystalPtr( new Crystal );
 		_crystal[ i ]->create( CRYSTAL_POS[ i ] );
 	}
-	
+	_get_big_crystal = false;
 }
 
 
@@ -47,4 +47,11 @@ void Crystals::updata( ) {
 		_big_crystal =  CrystalPtr( new Crystal );
 		_big_crystal->create( BIG_CRYSTAL_POS );
 	}
+	if ( _big_crystal && !_big_crystal->isExpired( ) ) {
+		_get_big_crystal = true;
+	}
+}
+
+bool Crystals::isGetBigCrystal( ) {
+	return _get_big_crystal;
 }

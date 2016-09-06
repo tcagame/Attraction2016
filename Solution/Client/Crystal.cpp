@@ -4,6 +4,7 @@
 
 
 Crystal::Crystal( ) {
+	_expired = false;
 }
 
 

@@ -15,7 +15,14 @@ public:
 		BOSS_ATTACK_PATTERN_FIRE,	
 		BOSS_ATTACK_PATTERN_BOMBING,
 		BOSS_ATTACK_PATTERN_MAX,
-	};							
+	};	
+	enum BOSS_STATE {
+		BOSS_STATE_ENTRY,
+		BOSS_STATE_WAIT,
+		BOSS_STATE_WALK,
+		BOSS_STATE_ATTACK,
+		BOSS_STATE_DEAD,
+	};
 public:						
 	void update( );			
 private:
@@ -25,7 +32,10 @@ private:
 	void onAttack( );
 private:
 	PlayerWeakPtr _target;
+	BOSS_STATE _boss_state;
+	BOSS_STATE _before_boss_state;
 	double _attack_range[ BOSS_ATTACK_PATTERN_MAX ];
 	int _befor_hp;
 	bool _on_damage;
+	bool _is_entry;
 };

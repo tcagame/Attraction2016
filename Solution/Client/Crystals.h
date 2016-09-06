@@ -15,9 +15,11 @@ public:
 public:
 	CrystalPtr getCrystal( int idx );
 	CrystalPtr getBigCrystal( );
+	bool isGetBigCrystal( );
 	void updata( );
 private:
 	std::array< CrystalPtr, MAX_CRYSTAL_NUM > _crystal;
 	CrystalPtr _big_crystal;
+	bool _get_big_crystal;
 };
 

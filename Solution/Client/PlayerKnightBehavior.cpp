@@ -23,10 +23,10 @@ void PlayerKnightBehavior::attack( ) {
 		BulletPtr bullet;
 		switch ( _attack_pattern ) {
 			case 0:
-				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 				break;
 			case 1:
-				bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 				break;
 			case 2:
 				bullet = BulletStabPtr( new BulletStab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );

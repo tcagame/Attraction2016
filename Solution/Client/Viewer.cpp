@@ -110,10 +110,12 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/ghost/enemy_ghost_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/minotaur/enemy_minotaur_smash.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/armor/enemy_armor_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/goblin/enemy_goblin_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "CaracterModel/hunter/player_hunter_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/ghost/enemy_ghost_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DESCENT,		    "EnemyModel/armor/enemy_armor_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/minotaur/enemy_minotaur_damege.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
+
 	//ミサイルのテクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -357,9 +359,9 @@ void Viewer::drawCrystal( ) {
 			continue;
 		}
 		Vector pos = crystal->getPos( );
-		Matrix matrix;
-		matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
-		_crystal_model->multiply( matrix );
+		//Matrix matrix;
+		//matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
+		//_crystal_model->multiply( matrix );
 		_crystal_model->translate( pos );
 		_crystal_model->draw( _crystal_tex_handle );
 		_crystal_model->translate( pos * -1 );

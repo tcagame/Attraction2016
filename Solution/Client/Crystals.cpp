@@ -3,10 +3,12 @@
 #include "BigCrystal.h"
 
 Vector CRYSTAL_POS[ Crystals::MAX_CRYSTAL_NUM ] {
-	Vector( 10, 10, 0 ),
-	Vector( 27.5, 0, 0 ),
-	Vector( 5, 5, 0 ),
+	Vector( 10, 10, 0.05 ),
+	Vector( 27.5, 0, 0.15 ),
+	Vector( 5, 5, 0.20 ),
 };
+
+
 
 const Vector BIG_CRYSTAL_POS = Vector( 0, 0, 0 ); 
 
@@ -41,7 +43,9 @@ void Crystals::updata( ) {
 		}
 		if ( !_crystal[ i ]->isExpired( ) ) {
 			_crystal[ i ].reset( );
+			continue;
 		}
+		_crystal[ i ]->update( );
 	}
 	if( count >= MAX_CRYSTAL_NUM && !_big_crystal ) {
 		_big_crystal =  CrystalPtr( new Crystal );

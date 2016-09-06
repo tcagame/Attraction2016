@@ -14,10 +14,18 @@ Crystal::~Crystal( ) {
 void Crystal::create( Vector pos ) {
 	_pos = pos;
 	_expired = true;
+	_float_speed = 0.008;
 }
 
 Vector Crystal::getPos( ) {
 	return _pos;
+}
+
+void Crystal::update( ) {
+	_pos.z += _float_speed;
+	if ( _pos.z >= 0.3 || _pos.z <= 0.0 ) {
+		_float_speed *= -1; 
+	}
 }
 
 bool Crystal::isExpired( ) {

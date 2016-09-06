@@ -12,10 +12,10 @@
 
 Cohort::Cohort( ) {
 	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
-	Character::STATUS status = Character::STATUS( 100, 1, 50, 2 );
+	Character::STATUS status = Character::STATUS( 200, 1, 50, 2 );
 	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
 	behavior->setParent( _boss );
-	_boss->create( Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y, 0 ) );
+	_boss->create( Vector( Ground::CHIP_WIDTH * Ground::BOSS_X + 1, Ground::CHIP_HEIGHT * Ground::BOSS_Y + 1, 0 ) );
 }
 
 Cohort::~Cohort( ) {

@@ -13,8 +13,10 @@ public:
 	Vector getPos( );
 	bool isExpired( );
 	void pickup( );
+	void update( );
 private:
 	Vector _pos;
 	bool _expired;
+	double _float_speed;
 };
 

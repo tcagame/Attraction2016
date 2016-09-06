@@ -29,7 +29,6 @@ void Character::move( const Vector& vec ) {
 	GroundModelPtr ground_model = app->getGroundModel( );
 	CohortPtr cohort = app->getCohort( );
 	Vector move_pos = getPos( ) + vec;
-
 	bool is_character = false;
 	int max_enemy = cohort->getMaxNum( );
 	for ( int i = 0; i < max_enemy; i++ ) {

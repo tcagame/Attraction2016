@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "BulletMissile.h"
 #include "Weapon.h"
 #include "DeedBox.h"
 #include "Crystals.h"
@@ -307,12 +306,6 @@ void Viewer::drawBullet( ) {
 		if ( !bullet ) {
 			continue;
 		}
-
-		//ナイトのスラッシュ
-		if ( bullet->getType( ) == Bullet::TYPE_SLASH ) {
-			
-		}
-
 		//ハンターの単発攻撃
 		if ( bullet->getType( ) == Bullet::TYPE_MISSILE ) {
 			Vector pos = bullet->getPos( );
@@ -325,8 +318,23 @@ void Viewer::drawBullet( ) {
 		if ( bullet->getType( ) == Bullet::TYPE_FIRE_BALL ) {
 			Vector pos = bullet->getPos( );
 			pos.z += 1.5;	//高さ調整
+			Drawer::Effect effect;
+			effect.pos = pos;
+			effect.dir = Vector( 1, 0, 0 );
+			effect.scale = 1.0;
+			effect.res = EFFECT_ENEMY_ATTACK_FIRE_BALL;
+			drawer->setEffect( effect );
+			/*
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
+			*/
+		}
+		if ( bullet->getType( ) == Bullet::TYPE_STAB ) {
+			Drawer::Effect effect;
+			effect.dir = Vector( 0, 1, 0 );
+			effect.pos = bullet->getHitPos( );
+			effect.res = EFFECT_PLAYER_ATTACK_JAB;
+			drawer->setEffect( effect );
 		}
 	}
 }

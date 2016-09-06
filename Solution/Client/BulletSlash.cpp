@@ -68,6 +68,7 @@ bool BulletSlash::update( ) {
 					_is_attack = true;
 				}
 			}
+			_hit_pos = p;
 		}
 	}
 	return false;

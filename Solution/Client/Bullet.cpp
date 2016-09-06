@@ -8,6 +8,7 @@
 
 Bullet::Bullet( TYPE type )
 : _type( type ) {
+	_hit_pos = Vector( 0, 0, 0 );
 }
 
 
@@ -22,6 +23,9 @@ Vector Bullet::getPos( ) const {
 	return _pos;
 }
 
+Vector Bullet::getHitPos( ) const {
+	return _hit_pos;
+}
 
 void Bullet::attackEnemy( const Vector& pos, int power ) {
 	AppPtr app = App::getTask( );

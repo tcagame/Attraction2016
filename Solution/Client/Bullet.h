@@ -25,12 +25,14 @@ public:
 public:
 	TYPE getType( ) const;
 	Vector getPos( ) const;
+	Vector getHitPos( ) const;
 private:
 	void enemyReceiveDamage( EnemyPtr enemy, const Vector& pos, int power );
 protected:
 	void attackEnemy( const Vector& pos, int power );
 protected:
 	Vector _pos;
+	Vector _hit_pos;
 private:
 	const TYPE _type;
 };

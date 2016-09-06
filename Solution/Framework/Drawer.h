@@ -63,9 +63,10 @@ public:
 	struct Effect {
 		Vector pos;
 		Vector dir;
+		double scale;
 		int res;
 		Effect( );
-		Effect( Vector pos_, Vector dir,int res );
+		Effect( Vector pos_, Vector dir_, int res_, double scale_ = 0.2 );
 	};
 
 public:

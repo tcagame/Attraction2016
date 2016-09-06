@@ -6,13 +6,25 @@
 #include "Player.h"
 
 const double MOTION_SPEED = 1;
-const double ATTACK_TIME = 27.0;
+const double ATTACK_TIME[ ] = {
+	27.0,
+	10.0,
+	25.0,
+	23.0
+};
 
 const Animation::MOTION BOSS_ATTACK_MOTION[ ] = {
 	Animation::MOTION::MOTION_BOSS_ATTACK_CLEAVE,	
 	Animation::MOTION::MOTION_BOSS_ATTACK_BITE,	
 	Animation::MOTION::MOTION_BOSS_ATTACK_FIRE,	
 	Animation::MOTION::MOTION_BOSS_ATTACK_BOMBING
+};
+
+const int BOSS_ATTACK_POWER[ ] = {
+	40,
+	30,
+	20,
+	10,
 };
 
 EnemyBossBehavior::EnemyBossBehavior() {
@@ -53,9 +65,6 @@ void EnemyBossBehavior::movePosToTarget( ) {
 	
 	Vector distance = target_pos - _parent->getPos( );
 	double length = distance.getLength( );
-	if ( _boss_state == BOSS_STATE_WALK ) {
-		_parent->move( distance * _parent->getStatus( ).speed );
-	}
 }
 
 void EnemyBossBehavior::switchStatus( ) {
@@ -134,8 +143,8 @@ void EnemyBossBehavior::animationUpdate( ) {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
 			}
-			if ( _animation->getAnimTime( ) == ATTACK_TIME ) {
-				onAttack( );
+			if ( _animation->getAnimTime( ) == ATTACK_TIME[ _attack_pattern ] ) {
+				onAttack( _attack_pattern );
 			}
 		}
 	}
@@ -151,8 +160,10 @@ void EnemyBossBehavior::animationUpdate( ) {
 	}
 }
 
-void EnemyBossBehavior::onAttack( ) {
+void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayer( );
-	player->damage( _parent->getStatus( ).power );
+	int power = _parent->getStatus( ).power;
+	power += BOSS_ATTACK_POWER[ attack_pattern ];
+	player->damage( power );
 }

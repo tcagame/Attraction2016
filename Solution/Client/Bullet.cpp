@@ -31,19 +31,26 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
-		double bottom = enemy->getPos( ).z;
-		double top = bottom + 2;
-		if ( pos.z > bottom && pos.z < top ) {
-			Vector distance = pos - enemy->getPos( );
-			double length = distance.getLength( );
-			Character::STATUS status = enemy->getStatus( );
-			if ( length <= 1 && status.hp > 0 ) {
-				enemy->damage( power );
-				status  = enemy->getStatus( );
-				if ( status.hp <= 0 ) {
-					PlayerPtr player = app->getPlayer( );
-					player->addSP( 10 );
-				}
+		enemyReceiveDamage( enemy, pos, power );
+	}
+	EnemyPtr enemy = cohort->getBoss( );
+	enemyReceiveDamage( enemy, pos, power );
+}
+
+void Bullet::enemyReceiveDamage( EnemyPtr enemy, const Vector& pos, int power ) {
+	AppPtr app = App::getTask( );
+	double bottom = enemy->getPos( ).z;
+	double top = bottom + 2;
+	if ( pos.z > bottom && pos.z < top ) {
+		Vector distance = pos - enemy->getPos( );
+		double length = distance.getLength( );
+		Character::STATUS status = enemy->getStatus( );
+		if ( length <= 1 && status.hp > 0 ) {
+			enemy->damage( power );
+			status  = enemy->getStatus( );
+			if ( status.hp <= 0 ) {
+				PlayerPtr player = app->getPlayer( );
+				player->addSP( 10 );
 			}
 		}
 	}

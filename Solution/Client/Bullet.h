@@ -3,6 +3,7 @@
 #include "smart_ptr.h"
 
 PTR( Bullet );
+PTR( Enemy );
 
 class Bullet {
 public:
@@ -23,6 +24,8 @@ public:
 public:
 	TYPE getType( ) const;
 	Vector getPos( ) const;
+private:
+	void enemyReceiveDamage( EnemyPtr enemy, const Vector& pos, int power );
 protected:
 	void attackEnemy( const Vector& pos, int power );
 protected:

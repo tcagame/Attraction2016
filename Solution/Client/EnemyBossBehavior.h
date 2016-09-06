@@ -19,8 +19,8 @@ public:
 	enum BOSS_STATE {
 		BOSS_STATE_ENTRY,
 		BOSS_STATE_WAIT,
-		BOSS_STATE_WALK,
 		BOSS_STATE_ATTACK,
+		BOSS_STATE_DAMAGE,
 		BOSS_STATE_DEAD,
 	};
 public:						
@@ -29,7 +29,7 @@ private:
 	void animationUpdate( );	
 	void movePosToTarget( );
 	void switchStatus( );
-	void onAttack( );
+	void onAttack( int attack_pattern );
 private:
 	PlayerWeakPtr _target;
 	BOSS_STATE _boss_state;

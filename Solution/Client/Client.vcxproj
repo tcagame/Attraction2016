@@ -28,6 +28,7 @@
     <ClCompile Include="BulletLay.cpp" />
     <ClCompile Include="BulletMissile.cpp" />
     <ClCompile Include="BulletSlash.cpp" />
+    <ClCompile Include="BulletStab.cpp" />
     <ClCompile Include="BulletSword.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="BulletLay.h" />
     <ClInclude Include="BulletMissile.h" />
     <ClInclude Include="BulletSlash.h" />
+    <ClInclude Include="BulletStab.h" />
     <ClInclude Include="BulletSword.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />

@@ -10,6 +10,7 @@ public:
 	enum TYPE {
 		TYPE_SLASH,
 		TYPE_SWORD,
+		TYPE_STAB,
 		TYPE_IMPACT,
 		TYPE_MISSILE,
 		TYPE_LAY,

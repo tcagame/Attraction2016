@@ -68,8 +68,8 @@ const int STATUS_BOSS_WINDOW_Y = 70;
 
 const int STATUS_BOSS_NAME_WIDTH = 200;
 const int STATUS_BOSS_NAME_HEIGHT = 50;
-const int STATUS_BOSS_NAME_X = STATUS_WINDOW_X;
-const int STATUS_BOSS_NAME_Y = STATUS_WINDOW_Y - STATUS_POS_OFFSET * 3;
+const int STATUS_BOSS_NAME_X = STATUS_BOSS_WINDOW_X;
+const int STATUS_BOSS_NAME_Y = STATUS_BOSS_WINDOW_Y - STATUS_POS_OFFSET * 3;
 
 const int STATUS_BOSS_HP_GAUGE_WIDTH = 256;
 const int STATUS_BOSS_HP_GAUGE_HEIGHT = 37;
@@ -418,9 +418,9 @@ void Viewer::drawCrystal( ) {
 			continue;
 		}
 		Vector pos = crystal->getPos( );
-		Matrix matrix;
-		matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
-		_crystal_model->multiply( matrix );
+		//Matrix matrix;
+		//matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
+		//_crystal_model->multiply( matrix );
 		_crystal_model->translate( pos );
 		_crystal_model->draw( _crystal_tex_handle );
 		_crystal_model->translate( pos * -1 );

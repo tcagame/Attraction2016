@@ -47,11 +47,11 @@ void Crystals::updata( ) {
 		}
 		_crystal[ i ]->update( );
 	}
-	if( count >= MAX_CRYSTAL_NUM && !_big_crystal ) {
+	if ( count >= MAX_CRYSTAL_NUM && !_big_crystal ) {
 		_big_crystal =  CrystalPtr( new Crystal );
 		_big_crystal->create( BIG_CRYSTAL_POS );
 	}
-	if ( _big_crystal && !_big_crystal->isExpired( ) ) {
+	if( _big_crystal && !_big_crystal->isExpired( ) ) {
 		_get_big_crystal = true;
 	}
 }

@@ -92,10 +92,15 @@ void PlayerBehavior::pickupCrystal( ) {
 			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
 			if ( lenght < CRYSTAL_LENGTH ) {
 				crystal->pickup( );
+				return;
 			}
 		}
+
 		if ( has_crystal_num >= Crystals::MAX_CRYSTAL_NUM ) {
 			CrystalPtr crystal = crystals->getBigCrystal( );
+			if ( !crystal ) {
+				return;
+			}
 			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
 			if ( lenght < CRYSTAL_LENGTH ) {
 				CameraPtr camera = Camera::getTask( );

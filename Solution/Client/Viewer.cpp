@@ -60,8 +60,8 @@ void Viewer::initialize( ) {
 	//カメラの設定
 	FrameworkPtr fw = Framework::getInstance( );
 	fw->setCameraUp( UP_VEC );
-	//モーションのロード
 	DrawerPtr drawer = Drawer::getTask( );
+	//モーションのロード
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_WAIT,		"CaracterModel/knight/player_knight_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_WALK,		"CaracterModel/knight/player_knight_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_ATTACK,	"CaracterModel/knight/player_knight_attack.mv1" );
@@ -114,8 +114,28 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/goblin/enemy_goblin_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
+	//ミサイルのテクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
-	drawer->loadEffect( EFFECT_DUMMY,			"Effect/laser.efk" );
+	//エフェクトのロード
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect001.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect105.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect106.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect107.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect108.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect109.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect110.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect111.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect112.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect204.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect301.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect305.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect306.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect307.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect401.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect402.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect403.efk" );
+	drawer->loadEffect( EFFECT_SLASH, "Effect/effect404.efk" );
+
 	_item_model = ModelPtr( new Model );
 	_item_model->load( ITEM_POTION_MODEL_PATH );
 	_item_tex_handle = _item_model->getTextureHandle( ITEM_POTION_TEXTRUE_PATH );
@@ -290,13 +310,21 @@ void Viewer::drawBullet( ) {
 		if ( !bullet ) {
 			continue;
 		}
+
+		//ナイトのスラッシュ
+		if ( bullet->getType( ) == Bullet::TYPE_SLASH ) {
+			Vector pos = bullet->getPos( );
+
+		}
+		//ハンターの単発攻撃
 		if ( bullet->getType( ) == Bullet::TYPE_MISSILE ) {
 			Vector pos = bullet->getPos( );
 			pos.z += 1.0;	//高さ調整
 			Drawer::Billboard billboard = Drawer::Billboard( pos, 0.5, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
 			drawer->setBillboard( billboard );
-
 		}
+
+		//ゴーストの攻撃
 		if ( bullet->getType( ) == Bullet::TYPE_FIRE_BALL ) {
 			Vector pos = bullet->getPos( );
 			pos.z += 1.5;	//高さ調整

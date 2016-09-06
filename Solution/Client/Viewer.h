@@ -25,7 +25,7 @@ private:
 		GRAPHIC_MAX
 	};
 	enum EFFECT {
-		EFFECT_DUMMY,
+		EFFECT_SLASH,
 		EFFECT_MAX,
 	};
 private:

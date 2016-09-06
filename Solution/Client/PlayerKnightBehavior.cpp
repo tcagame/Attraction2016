@@ -5,6 +5,7 @@
 #include "App.h"
 #include "BulletSword.h"
 #include "BulletSlash.h"
+#include "BulletStab.h"
 #include "Weapon.h"
 
 PlayerKnightBehavior::PlayerKnightBehavior( ) {
@@ -28,11 +29,11 @@ void PlayerKnightBehavior::attack( ) {
 				bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 				break;
 			case 2:
-				bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				bullet = BulletStabPtr( new BulletStab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 				break;
 		}
 		weapon->add( bullet );
-		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;
+		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		_common_state = COMMON_STATE_ATTACK;
 	}
 	//攻撃中

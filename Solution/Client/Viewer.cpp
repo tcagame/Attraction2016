@@ -33,6 +33,49 @@ const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
 const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor01.mdl";
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
+
+//UI描画
+const int STATUS_POS_OFFSET = 10;
+
+const int STATUS_WINDOW_WIDTH = 400;
+const int STATUS_WINDOW_HEIGHT = 100;
+const int STATUS_WINDOW_X = 200;
+const int STATUS_WINDOW_Y = 550;
+
+const int STATUS_NAME_WIDTH = 200;
+const int STATUS_NAME_HEIGHT = 50;
+const int STATUS_NAME_X = STATUS_WINDOW_X;
+const int STATUS_NAME_Y = STATUS_WINDOW_Y - STATUS_POS_OFFSET * 3;
+
+const int STATUS_HP_GAUGE_WIDTH = 256;
+const int STATUS_HP_GAUGE_HEIGHT = 37;
+const int STATUS_HP_GAUGE_X = STATUS_NAME_X + STATUS_POS_OFFSET;
+const int STATUS_HP_GAUGE_Y = STATUS_NAME_Y + STATUS_NAME_HEIGHT - STATUS_POS_OFFSET;
+const int STATUS_HP_NUMBETR_WIDTH = 64;
+const int STATUS_HP_NUMBETR_HEIGHT = 64;
+const int STATUS_HP_NUMBER_X = STATUS_HP_GAUGE_X + STATUS_HP_GAUGE_WIDTH + STATUS_POS_OFFSET;
+const int STATUS_HP_NUMBER_Y = STATUS_HP_GAUGE_Y;
+
+const int STATUS_SP_GAUGE_WIDTH = STATUS_HP_GAUGE_WIDTH;
+const int STATUS_SP_GAUGE_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
+const int STATUS_SP_GAUGE_X = STATUS_HP_GAUGE_X;
+const int STATUS_SP_GAUGE_Y = STATUS_HP_GAUGE_Y + STATUS_HP_GAUGE_HEIGHT;
+
+const int STATUS_BOSS_WINDOW_WIDTH = 400;
+const int STATUS_BOSS_WINDOW_HEIGHT = 100;
+const int STATUS_BOSS_WINDOW_X = 270;
+const int STATUS_BOSS_WINDOW_Y = 70;
+
+const int STATUS_BOSS_NAME_WIDTH = 200;
+const int STATUS_BOSS_NAME_HEIGHT = 50;
+const int STATUS_BOSS_NAME_X = STATUS_WINDOW_X;
+const int STATUS_BOSS_NAME_Y = STATUS_WINDOW_Y - STATUS_POS_OFFSET * 3;
+
+const int STATUS_BOSS_HP_GAUGE_WIDTH = 256;
+const int STATUS_BOSS_HP_GAUGE_HEIGHT = 37;
+const int STATUS_BOSS_HP_GAUGE_X = STATUS_BOSS_NAME_X + STATUS_POS_OFFSET;
+const int STATUS_BOSS_HP_GAUGE_Y = STATUS_BOSS_NAME_Y + STATUS_BOSS_NAME_Y - STATUS_POS_OFFSET;
+
 std::string MAP_NAME_LIST[ ] {
 	"none",
 	"floor01",
@@ -114,8 +157,25 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/goblin/enemy_goblin_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
-	//ミサイルのテクスチャ
+	//テクスチャ
+	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT, "UI/knight_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_NAME_BOSS, "UI/boss_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_WINDOW, "UI/window_dammy.png" ); 
+	drawer->loadGraph( GRAPHIC_UI_PLAYER_HP, "UI/hp_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_SP, "UI/sp_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_0, "UI/hpnumber0_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_1, "UI/hpnumber1_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_2, "UI/hpnumber2_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_3, "UI/hpnumber3_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_4, "UI/hpnumber4_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_5, "UI/hpnumber5_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_6, "UI/hpnumber6_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_7, "UI/hpnumber7_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_8, "UI/hpnumber8_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9, "UI/hpnumber9_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_BOSS_HP, "UI/boss_hp_dammy.png" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
+	
 	//エフェクトのロード
 	drawer->loadEffect( EFFECT_SLASH, "Effect/effect001.efk" );
 	drawer->loadEffect( EFFECT_SLASH, "Effect/effect105.efk" );
@@ -172,6 +232,7 @@ void Viewer::update( ) {
 	drawItem( );
 	drawBigCrystal( );
 	drawCrystal( );
+	drawUI( );
 	updateCamera( );
 }
 
@@ -382,4 +443,102 @@ void Viewer::drawBigCrystal( ) {
 	_big_crystal_model->translate( crystal->getPos( ) );
 	_big_crystal_model->draw( _crystal_tex_handle );
 	_big_crystal_model->translate( crystal->getPos( ) * -1 );
+}
+
+void Viewer::drawUI( ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayer( );
+	if ( !player->isExpired( ) ) {
+		return;
+	}
+	{
+		//HP計算
+		Player::STATUS status = player->getStatus( );
+		double hp = ( double )status.hp;
+		double max_hp = ( double )player->getMaxHp( );
+		double percentage = hp / max_hp;
+		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
+		//HP描画
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::Transform transform = Drawer::Transform( STATUS_HP_GAUGE_X, STATUS_HP_GAUGE_Y, 0, 0, tx, STATUS_HP_GAUGE_HEIGHT );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_PLAYER_HP, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+		
+		int digit = ( int )log10( ( double )hp ) + 1;
+		if ( hp > 0 ) {
+			for ( int i = 0; i < digit; i++ ) {
+				int num = ( int )hp % 10;
+				hp /= 10;
+				Drawer::Transform transform = Drawer::Transform( STATUS_HP_NUMBER_X - STATUS_HP_NUMBETR_WIDTH * i, STATUS_HP_NUMBER_Y );
+				Drawer::Sprite( transform, ( GRAPHIC )num + GRAPHIC_UI_SP, Drawer::BLEND_NONE, 0 );
+				drawer->setSprite( sprite );
+			}
+		} else {
+			Drawer::Transform transform = Drawer::Transform( STATUS_HP_NUMBER_X, STATUS_HP_NUMBER_Y );
+			Drawer::Sprite( transform, GRAPHIC_UI_HP_NUMBER_0, Drawer::BLEND_NONE, 0 );
+			drawer->setSprite( sprite );
+		}
+	}
+	{
+		//SP計算
+		double sp = ( double )player->getSP( );
+		double percentage = sp / 100;
+		double tx = STATUS_SP_GAUGE_WIDTH * percentage;
+		//SP描画
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::Transform transform = Drawer::Transform( STATUS_SP_GAUGE_X, STATUS_SP_GAUGE_Y, 0, 0, tx, STATUS_SP_GAUGE_HEIGHT );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_SP, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
+	{
+		//ウィンドウ
+		Drawer::Transform transform = Drawer::Transform( STATUS_WINDOW_X, STATUS_WINDOW_Y );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_WINDOW, Drawer::BLEND_NONE, 0 );
+		DrawerPtr drawer = Drawer::getTask( );
+		drawer->setSprite( sprite );
+	}
+	{
+		//ネームタグ
+		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
+			if ( i == GRAPHIC_UI_NAME_KNIGHT ) {
+				DrawerPtr drawer = Drawer::getTask( );
+				Drawer::Transform transform = Drawer::Transform( STATUS_NAME_X, STATUS_NAME_Y );
+				Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
+				drawer->setSprite( sprite );
+			}
+		}
+	}
+
+	CrystalsPtr crystals = app->getCrystals( );
+	if ( !crystals->isGetBigCrystal( ) ) {
+		return;
+	}
+	{
+		//HP計算
+		CohortPtr cohort = app->getCohort( );
+		EnemyPtr boss = cohort->getBoss( );
+		double hp = boss->getStatus( ).hp;
+		double max_hp = ( double )boss->getMaxHp( );
+		double percentage = hp / max_hp;
+		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
+		//HP描画
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_HP_GAUGE_X, STATUS_BOSS_HP_GAUGE_Y, 0, 0, tx, STATUS_BOSS_HP_GAUGE_HEIGHT );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_BOSS_HP, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
+	{
+		//ウィンドウ
+		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_WINDOW_X, STATUS_BOSS_WINDOW_Y );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_WINDOW, Drawer::BLEND_NONE, 0 );
+		DrawerPtr drawer = Drawer::getTask( );
+		drawer->setSprite( sprite );
+	}
+	{
+		//ネームタグ
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_NAME_X, STATUS_BOSS_NAME_Y );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_NAME_BOSS, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
 }

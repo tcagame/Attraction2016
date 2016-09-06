@@ -21,6 +21,22 @@ public:
 	void initialize( );
 private:
 	enum GRAPHIC {
+		GRAPHIC_UI_NAME_KNIGHT,
+		GRAPHIC_UI_NAME_BOSS,
+		GRAPHIC_UI_WINDOW,
+		GRAPHIC_UI_PLAYER_HP,
+		GRAPHIC_UI_BOSS_HP,
+		GRAPHIC_UI_SP,
+		GRAPHIC_UI_HP_NUMBER_0,
+		GRAPHIC_UI_HP_NUMBER_1,
+		GRAPHIC_UI_HP_NUMBER_2,
+		GRAPHIC_UI_HP_NUMBER_3,
+		GRAPHIC_UI_HP_NUMBER_4,
+		GRAPHIC_UI_HP_NUMBER_5,
+		GRAPHIC_UI_HP_NUMBER_6,
+		GRAPHIC_UI_HP_NUMBER_7,
+		GRAPHIC_UI_HP_NUMBER_8,
+		GRAPHIC_UI_HP_NUMBER_9,
 		GRAPHIC_BULLET_MISSILE,
 		GRAPHIC_MAX
 	};
@@ -39,6 +55,7 @@ private:
 	void drawItem( );
 	void drawCrystal( );
 	void drawBigCrystal( );
+	void drawUI( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );

@@ -5,7 +5,7 @@
 const int VANISH_TIME = 50;
 
 void BulletFireBall::initialize( ) {
-	_power = 1;
+	_power = 100;
 	_speed = 1;
 	_exist_time = 0;
 }

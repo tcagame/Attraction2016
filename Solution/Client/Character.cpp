@@ -13,6 +13,7 @@ CHARACTER_TYPE( type ) {
 	_status = status;
 	_character_name = character_name;
 	_expired = false;
+	_max_hp = status.hp;
 }
 
 Character::~Character( ) {
@@ -79,6 +80,10 @@ Vector Character::getDir( ) const {
 
 Character::STATUS Character::getStatus( ) const {
 	return _status;
+}
+
+int Character::getMaxHp( ) const {
+	return _max_hp;
 }
 
 AnimationPtr Character::getAnimation( ) const {

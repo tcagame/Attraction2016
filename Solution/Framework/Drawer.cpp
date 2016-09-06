@@ -108,8 +108,8 @@ void Drawer::initialize( ) {
 
 void Drawer::update( ) {
 	flip( );
-	drawModel( );
 	drawSprite( );
+	drawModel( );
 	drawBillboard( );
 	drawEffect( );
 }

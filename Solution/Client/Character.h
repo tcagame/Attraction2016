@@ -50,6 +50,7 @@ public:
 	bool isExpired( ) const;
 	
 	STATUS getStatus( ) const;
+	int getMaxHp( ) const;
 	
 	AnimationPtr getAnimation( ) const;
 private:
@@ -59,10 +60,10 @@ private:
 	Vector _dir;
 	std::string _character_name;
 	bool _expired;
-	
 
 	STATUS _status;
-	
+	int _max_hp;
+
 	BehaviorPtr _behavior;
 };
 

@@ -6,8 +6,6 @@ PTR( BulletMissile );
 
 class BulletMissile : public Bullet {
 public:
-	void initialize( );
-public:
 	BulletMissile( const Vector& pos, const Vector& dir );
 	virtual ~BulletMissile( );
 public:

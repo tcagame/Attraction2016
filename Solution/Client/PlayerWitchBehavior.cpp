@@ -17,7 +17,6 @@ PlayerWitchBehavior::~PlayerWitchBehavior( ) {
 void PlayerWitchBehavior::attack( ) {
 	DevicePtr device = Device::getTask( );
 	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
-		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		_common_state = COMMON_STATE_ATTACK;
 	}
 	//攻撃中
@@ -38,6 +37,7 @@ void PlayerWitchBehavior::attack( ) {
 					break;
 			}
 			weapon->add( bullet );
+			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		}
 		_common_state = COMMON_STATE_ATTACK;
 	}

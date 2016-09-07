@@ -1,4 +1,4 @@
-#include "BulletMissile.h"
+#include "BulletFire.h"
 #include "Cohort.h"
 #include "Enemy.h"
 #include "App.h"
@@ -6,7 +6,7 @@
 
 const int VANISH_TIME = 50;
 
-BulletMissile::BulletMissile( const Vector& pos, const Vector& dir )
+BulletFire::BulletFire( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_FIRE ) {
 	_pos = pos + Vector( 0, 0, 0.5 );
 	_dir = dir.normalize( );
@@ -18,11 +18,11 @@ BulletMissile::BulletMissile( const Vector& pos, const Vector& dir )
 	effect.drawEffect( _effect_handle, Vector( 0.3, 0.3, 0.3 ), pos, dir );
 }
 
-BulletMissile::~BulletMissile( ) {
+BulletFire::~BulletFire( ) {
 }
 
 
-bool BulletMissile::update( ) {
+bool BulletFire::update( ) {
 	// ˆÚ“®
 	_pos += _dir * _speed;
 	_exist_time++;

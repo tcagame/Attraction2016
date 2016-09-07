@@ -16,9 +16,8 @@ BulletBeam::BulletBeam( const Vector& pos, const Vector& dir )
 	_radius = RADIUS;
 	_power = BEAM_POWER;
 	_length = 0;
-	Effect effect;
-	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM );
-	effect.drawEffect( _effect_handle, Vector(1, 1, 1), pos, dir );
+	
+
 	while ( _length < LENGTH ) {
 		double length = _length + 1.0;
 		Vector p = pos + _dir * length;
@@ -32,6 +31,10 @@ BulletBeam::BulletBeam( const Vector& pos, const Vector& dir )
 			attackEnemy( lay_pos, _power );
 		}
 	}
+
+	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM );
+	effect.drawEffect( _effect_handle, Vector(1, 1, 1), pos, dir );
 }
 
 BulletBeam::~BulletBeam( ) {

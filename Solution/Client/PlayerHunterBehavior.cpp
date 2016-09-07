@@ -4,6 +4,8 @@
 #include "Device.h"
 #include "App.h"
 #include "BulletMissile.h"
+#include "BulletMissile.h"
+#include "BulletMissile.h"
 #include "Weapon.h"
 
 PlayerHunterBehavior::PlayerHunterBehavior( ) {
@@ -23,8 +25,20 @@ void PlayerHunterBehavior::attack( ) {
 		if ( _animation->getAnimTime( ) == 20.0 ) {
 			AppPtr app = App::getTask( );
 			WeaponPtr weapon = app->getWeapon( );
-			BulletPtr bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+			BulletPtr bullet;
+			switch ( _attack_pattern ) {
+				case 0:
+					bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+					break;
+				case 1:
+					bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+					break;
+				case 2:
+					bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+					break;
+			}
 			weapon->add( bullet );
+			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		}
 		_common_state = COMMON_STATE_ATTACK;
 	}
@@ -56,7 +70,17 @@ void PlayerHunterBehavior::animationUpdate( ) {
 	}
 	if ( _common_state == COMMON_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_ATTACK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK ) );
+			switch ( _attack_pattern ) {
+				case 0:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK ) );
+					break;
+				case 1:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK ) );
+					break;
+				case 2:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK ) );
+					break;
+			}
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );

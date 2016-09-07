@@ -153,9 +153,10 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/ghost/enemy_ghost_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/minotaur/enemy_minotaur_smash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DESCENT,           "EnemyModel/ghost/enemy_ghost_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/armor/enemy_armor_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/goblin/enemy_goblin_attack.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/goblin/enemy_goblin_damage.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/ghost/enemy_ghost_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/minotaur/enemy_minotaur_damege.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT, "UI/knight_dammy.png" );

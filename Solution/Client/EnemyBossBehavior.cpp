@@ -35,7 +35,7 @@ EnemyBossBehavior::EnemyBossBehavior() {
 	_attack_pattern = BOSS_ATTACK_PATTERN_MAX;
 	_on_damage = false;
 	_has_entry = false;
-	_has_damage_motion = false;
+	_boss_state = BOSS_STATE_WAIT;
 	_boss_damage_hp = BOSS_DAMAGE_HP;
 }
 
@@ -68,67 +68,71 @@ void EnemyBossBehavior::update( ) {
 
 
 void EnemyBossBehavior::switchStatus( ) {
-	_boss_state = BOSS_STATE_WAIT;
-	
-	_on_damage = false;
-
 	if ( _target.expired( ) ) {
 		return;
 	}
 	PlayerPtr player = _target.lock( );
 	Vector target_pos = player->getPos( );
 	Vector stance = target_pos - _parent->getPos( );
-	double range = stance.getLength( );
-	for( int i = 0; i < BOSS_ATTACK_PATTERN_MAX; i++ ) {  
-		if ( range <= _attack_range[ i ] && _befor_state != BOSS_STATE_ATTACK ) {
-			_boss_state = BOSS_STATE_ATTACK;
-			_attack_pattern = i;
-			break;
-		}
-		//UŒ‚’†
-		if ( _animation->getMotion( ) == BOSS_ATTACK_MOTION[ i ] &&  !_animation->isEndAnimation( ) ) {
-			_boss_state = BOSS_STATE_ATTACK;
-		}
-	}
-
-
-
 	Vector pos = _parent->getPos( );
-	if ( pos.z >= MAX_BOSS_FLIGHT_ALTITUDE && _befor_state != BOSS_STATE_BOMBING ) {
-		_boss_state = BOSS_STATE_BOMBING;
-		_has_damage_motion = false;
+	double range = stance.getLength();
+	AppPtr app = App::getTask();
+	CrystalsPtr crystals = app->getCrystals();
+	switch ( _boss_state ) {
+	case BOSS_STATE_WAIT:
+		for ( int i = 0; i < BOSS_ATTACK_PATTERN_MAX; i++ ) {
+			if ( range <= _attack_range[i] && _befor_state != BOSS_STATE_ATTACK ) {
+				_boss_state = BOSS_STATE_ATTACK;
+				_attack_pattern = i;
+				break;
+			}
+		}
+		if ( _boss_damage_hp >= _parent->getStatus( ).hp ) {
+			_boss_damage_hp -= BOSS_DAMAGE_HP;
+			_boss_state = BOSS_STATE_DAMAGE;
+		}
+		if ( crystals->isGetBigCrystal( ) && !_has_entry ) {
+			_boss_state = BOSS_STATE_ENTRY;
+		}
+		break;
+	case BOSS_STATE_ENTRY:
+		if (  _animation->isEndAnimation( ) ) {
+			_boss_state = BOSS_STATE_WAIT;
+			_has_entry = true;
+		}
+		break;
+	case BOSS_STATE_ATTACK:
+		if ( _animation->isEndAnimation( ) ) {
+			_boss_state = BOSS_STATE_WAIT;
+		}
+		break;
+	case BOSS_STATE_DAMAGE:
+		if ( _animation->isEndAnimation( ) ) {
+			_boss_state = BOSS_STATE_FLY;
+		}
+		break;
+	case BOSS_STATE_FLY:
+		if ( pos.z >= MAX_BOSS_FLIGHT_ALTITUDE ) {
+			_boss_state = BOSS_STATE_BOMBING;
+		}
+		break;
+	case BOSS_STATE_BOMBING:
+		if ( _animation->isEndAnimation( ) ) {
+			_boss_state = BOSS_STATE_DESCENT;
+		}
+		break;
+	case BOSS_STATE_DESCENT:
+		if ( pos.z <= 0 ) {
+			_boss_state = BOSS_STATE_WAIT;
+		}
+		break;
+	default:
+		break;
 	}
-	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_ATTACK_BOMBING &&  !_animation->isEndAnimation( ) ) {
-		_boss_state = BOSS_STATE_BOMBING;
-	}
-	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_ATTACK_BOMBING && _animation->isEndAnimation( ) ) {
-		_boss_state = BOSS_STATE_DESCENT;
-	}
-	if ( pos.z >= 0 && _animation->getMotion( ) == Animation::MOTION_BOSS_DESCENT ) {
-		_boss_state = BOSS_STATE_DESCENT;
-	}
-	if ( _has_damage_motion && _befor_state != BOSS_STATE_FLY ) {
-		_boss_state = BOSS_STATE_FLY;
-	}
-	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_FLY &&  !_animation->isEndAnimation( ) ) {
-		_boss_state = BOSS_STATE_FLY;
-	}
-	
-
-	if ( _boss_damage_hp >= _parent->getStatus( ).hp && !_has_damage_motion ) {
-		_on_damage = true;
-		_boss_damage_hp -= BOSS_DAMAGE_HP;
-	}
-	
-
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_boss_state = BOSS_STATE_DEAD;
 	}
-	AppPtr app = App::getTask( );
-	CrystalsPtr crystals = app->getCrystals( );
-	if ( crystals->isGetBigCrystal( ) && !_has_entry ) {
-		_boss_state = BOSS_STATE_ENTRY;
-	}
+	
 }
 
 void EnemyBossBehavior::animationUpdate( ) {
@@ -137,14 +141,6 @@ void EnemyBossBehavior::animationUpdate( ) {
 		if ( _animation->isEndAnimation( ) ) {
 			_parent->dead( );
 		}
-		return;
-	}
-	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_DAMAGE && !_animation->isEndAnimation( ) ) {
-		_boss_state = BOSS_STATE_WAIT;
-		return;
-	}
-	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_DAMAGE && _animation->isEndAnimation( ) && !_has_damage_motion ) {
-		_has_damage_motion = true;
 		return;
 	}
 	if ( _boss_state == BOSS_STATE_FLY ) {
@@ -180,7 +176,6 @@ void EnemyBossBehavior::animationUpdate( ) {
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );
-				_has_entry = true;
 			}
 		}
 	}
@@ -205,9 +200,14 @@ void EnemyBossBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _on_damage  ) {
+	if ( _boss_state == BOSS_STATE_DAMAGE ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_BOSS_DAMAGE ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_BOSS_DAMAGE, MOTION_SPEED ) );
+		}
+		else {
+			if ( _animation->isEndAnimation( ) ) {
+				_animation->setAnimationTime( 0 );
+			}
 		}
 	}
 	if ( _boss_state == BOSS_STATE_DEAD ) {

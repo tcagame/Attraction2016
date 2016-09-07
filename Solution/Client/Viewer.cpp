@@ -380,17 +380,17 @@ void Viewer::drawBullet( ) {
 			effect.res = EFFECT_PLAYER_ATTACK_BEAM;
 			drawer->setEffect( effect );
 		}
-
+		
 		if ( bullet->getType( ) == Bullet::TYPE_BUBBLE ) {
-			effect.pos = bullet->getPos( );
+			effect.pos = bullet->getPos( ) + Vector( 0, 0, 1 );
 			effect.dir = bullet->getDir( );
-			effect.scale = 1.0;
+			effect.scale = 0.5;
 			effect.res = EFFECT_PLAYER_ATTACK_BUBBLE;
 			drawer->setEffect( effect );
 		}
-
+		
 		if ( bullet->getType( ) == Bullet::TYPE_LAY ) {
-			effect.pos = bullet->getPos( );
+			effect.pos = bullet->getPos( ) + Vector( 0, 0, 1 );
 			effect.dir = bullet->getDir( );
 			effect.scale = 1.0;
 			effect.res = EFFECT_PLAYER_ATTACK_LAY;
@@ -479,7 +479,7 @@ void Viewer::drawUI( ) {
 		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
 		//HP•`‰æ
 		DrawerPtr drawer = Drawer::getTask( );
-		Drawer::Transform transform = Drawer::Transform( STATUS_HP_GAUGE_X, STATUS_HP_GAUGE_Y, 0, 0, tx, STATUS_HP_GAUGE_HEIGHT );
+		Drawer::Transform transform = Drawer::Transform( STATUS_HP_GAUGE_X, STATUS_HP_GAUGE_Y, 0, 0, ( int )tx, STATUS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_PLAYER_HP, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 		
@@ -505,7 +505,7 @@ void Viewer::drawUI( ) {
 		double tx = STATUS_SP_GAUGE_WIDTH * percentage;
 		//SP•`‰æ
 		DrawerPtr drawer = Drawer::getTask( );
-		Drawer::Transform transform = Drawer::Transform( STATUS_SP_GAUGE_X, STATUS_SP_GAUGE_Y, 0, 0, tx, STATUS_SP_GAUGE_HEIGHT );
+		Drawer::Transform transform = Drawer::Transform( STATUS_SP_GAUGE_X, STATUS_SP_GAUGE_Y, 0, 0, ( int )tx, STATUS_SP_GAUGE_HEIGHT );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_SP, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
@@ -542,7 +542,7 @@ void Viewer::drawUI( ) {
 		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
 		//HP•`‰æ
 		DrawerPtr drawer = Drawer::getTask( );
-		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_HP_GAUGE_X, STATUS_BOSS_HP_GAUGE_Y, 0, 0, tx, STATUS_BOSS_HP_GAUGE_HEIGHT );
+		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_HP_GAUGE_X, STATUS_BOSS_HP_GAUGE_Y, 0, 0, ( int )tx, STATUS_BOSS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_BOSS_HP, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}

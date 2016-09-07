@@ -9,5 +9,10 @@ public:
 	virtual ~BulletBubble( );
 public:
 	virtual bool update( );
+private:
+	Vector getBeginDir( ) const;
+	Vector getEndDir( ) const;
+private:
+	double _ratio;
 };
 

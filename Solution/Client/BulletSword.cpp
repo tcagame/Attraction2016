@@ -11,8 +11,6 @@ BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y )
 	_pos = pos;
 	_dir = Vector( dir_x, dir_y ).normalize( );
 	_ratio = 0;
-	_is_attack = false;
-
 }
 
 
@@ -58,7 +56,6 @@ bool BulletSword::update( ) {
 				if ( ( pos - p ).getLength( ) < getLength( ) ) {
 					count++;
 					attackEnemy( p, SWORD_POWER );
-					_is_attack = true;
 				}
 			}
 		}

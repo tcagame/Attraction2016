@@ -6,8 +6,6 @@ PTR( BulletLay );
 
 class BulletLay : public Bullet {
 public:
-	static void initialize( );
-public:
 	BulletLay( const Vector& pos, const Vector& dir );
 	virtual ~BulletLay( );
 public:

@@ -16,6 +16,5 @@ private:
 	double getLength( ) const;
 private:
 	double _ratio;
-	bool _is_attack;
 };
 

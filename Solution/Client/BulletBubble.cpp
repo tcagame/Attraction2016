@@ -1,16 +1,20 @@
 #include "BulletBubble.h"
+#include "Effect.h"
 
-const double WAIT_TIME = 10;
-const int BUBBLE_POWER = 1;
+const double WAIT_TIME = 1;
+const int BUBBLE_POWER = 10;
 const double BUBBLE_RADIUS = PI * 0.8;
-const double BUBBLE_LENGTH = 10;
-const double BUBBLE_SPEED = 1;
+const double BUBBLE_LENGTH = 5;
+const double BUBBLE_SPEED = 0.5;
 
 BulletBubble::BulletBubble( const Vector& pos, const Vector& dir ) :
 Bullet( Bullet::TYPE_BUBBLE ) {
 	_pos = pos;
 	_dir = dir;
 	_ratio = 0;
+	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE );
+	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos, dir );
 }
 
 BulletBubble::~BulletBubble( ) {

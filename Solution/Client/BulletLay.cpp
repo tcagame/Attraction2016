@@ -1,4 +1,5 @@
 #include "BulletLay.h"
+#include "Effect.h"
 
 const int LAY_POWER = 100;
 
@@ -6,9 +7,6 @@ const double SPEED = 0.05;
 const double RADIUS = 0.1;
 const double LENGTH = 5.0;
 const int PARTICLE = 8;
-
-void BulletLay::initialize( ) {
-}
 
 BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_LAY ) {
@@ -32,6 +30,9 @@ BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 			attackEnemy( lay_pos, _power );
 		}
 	}
+	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_LAY );
+	effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), pos, dir );
 }
 
 double BulletLay::getLength( ) const {

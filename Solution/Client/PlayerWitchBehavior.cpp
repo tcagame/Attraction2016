@@ -37,10 +37,7 @@ void PlayerWitchBehavior::attack( ) {
 					break;
 			}
 			weapon->add( bullet );
-<<<<<<< HEAD
 			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
-=======
->>>>>>> ecbe810430bbcd12329be2e619d0abbe806c138c
 		}
 		_common_state = COMMON_STATE_ATTACK;
 	}

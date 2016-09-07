@@ -178,7 +178,6 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP, "UI/boss_hp_dammy.png" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
-
 	drawer->loadEffect( Effect::EFFECT_FAIRY, "Effect/effect001.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "Effect/effect105.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT, "Effect/effect106.efk" );
@@ -188,8 +187,8 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE, "Effect/effect110.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_LAY, "Effect/effect111.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH, "Effect/effect112.efk" );
-	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "Effect/effect204.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE, "Effect/effect301.efk" );
+	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "Effect/effect204.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "Effect/effect305.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "Effect/effect306.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "Effect/effect307.efk" );
@@ -231,7 +230,6 @@ void Viewer::update( ) {
 	drawBoss( );
 	drawGroundModel( );
 	drawBossMapModel( );
-//	drawBullet( );
 	drawItem( );
 	drawBigCrystal( );
 	drawCrystal( );
@@ -364,58 +362,7 @@ void Viewer::drawBossMapModel( ) {
 	_boss_map_model->draw( _boss_map_tex_hadle );
 	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
 }
-/*
-void Viewer::drawBullet( ) {
-	AppPtr app = App::getTask( );
-	WeaponPtr weapon = app->getWeapon( );
-	DrawerPtr drawer = Drawer::getTask( );
-	for ( int i = 0; i < weapon->getWeaponMaxNum( ); i++ ) {
-		BulletPtr bullet = weapon->getBullet( i );
-		Drawer::Effect effect;
-		if ( !bullet ) {
-			continue;
-		}
 
-		if ( bullet->getType( ) == Bullet::TYPE_BEAM ) {
-			effect.pos = bullet->getPos( );
-			effect.dir = bullet->getDir( );
-			effect.res = EFFECT_PLAYER_ATTACK_BEAM;
-			drawer->setEffect( effect );
-		}
-		
-		if ( bullet->getType( ) == Bullet::TYPE_BUBBLE ) {
-			effect.pos = bullet->getPos( ) + Vector( 0, 0, 1 );
-			effect.dir = bullet->getDir( );
-			effect.scale = 0.5;
-			effect.res = EFFECT_PLAYER_ATTACK_BUBBLE;
-			drawer->setEffect( effect );
-		}
-		
-		if ( bullet->getType( ) == Bullet::TYPE_LAY ) {
-			effect.pos = bullet->getPos( ) + Vector( 0, 0, 1 );
-			effect.dir = bullet->getDir( );
-			effect.scale = 1.0;
-			effect.res = EFFECT_PLAYER_ATTACK_LAY;
-			drawer->setEffect( effect );
-		}
-		//ハンターの単発攻撃
-		if ( bullet->getType( ) == Bullet::TYPE_MISSILE ) {
-			Vector pos = bullet->getPos( );
-			pos.z += 1.0;	//高さ調整
-			Drawer::Billboard billboard = Drawer::Billboard( pos, 0.5, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
-			drawer->setBillboard( billboard );
-		}
-
-		//ゴーストの攻撃
-		if ( bullet->getType( ) == Bullet::TYPE_FIRE_BALL ) {
-			Vector pos = bullet->getPos( );
-			pos.z += 1.5;	//高さ調整
-			Drawer::Billboard billboard = Drawer::Billboard( pos, 2.0, GRAPHIC_BULLET_MISSILE, Drawer::BLEND_NONE, 0.0f );
-			drawer->setBillboard( billboard );
-		}
-	}
-}
-*/
 void Viewer::drawItem( ) {
 	AppPtr app = App::getTask( );
 	ItemsPtr items = app->getItems( );

@@ -37,6 +37,7 @@
     <ClCompile Include="Cohort.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="Crystals.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArmorBehavior.cpp" />
     <ClCompile Include="EnemyBossBehavior.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Cohort.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="Crystals.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArmorBehavior.h" />
     <ClInclude Include="EnemyBossBehavior.h" />

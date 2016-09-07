@@ -51,6 +51,22 @@ ratio( ratio_ ) {
 
 }
 
+Drawer::PlayingEffect::PlayingEffect( ) :
+playing_handle( -1 ),
+scale( Vector( 1, 1, 1 ) ),
+pos( Vector( 0, 0, 0 ) ),
+dir( Vector( 0, 0, 0 ) ) {
+
+}
+
+Drawer::PlayingEffect::PlayingEffect( int playing_handle_, Vector scale_,Vector pos_, Vector dir_ ) :
+playing_handle ( playing_handle_ ),
+scale( scale_ ),
+pos( pos_ ),
+dir( dir_ ) {
+
+}
+
 Drawer::Billboard::Billboard( ) :
 size( 0 ),
 res( 0 ),
@@ -66,18 +82,6 @@ res( res_ ),
 blend( blend_ ),
 ratio( ratio_ ) {
 
-}
-
-Drawer::Effect::Effect(  ) :
-res( -1 ) {
-	scale = 0.2;
-}
-
-Drawer::Effect::Effect ( Vector pos_, Vector dir_, int res_, double scale_ ) :
-pos( pos_ ),
-dir( dir_ ),
-res( res_ ) {
-	scale = scale_;
 }
 
 DrawerPtr Drawer::getTask( ) {
@@ -196,13 +200,12 @@ void Drawer::drawBillboard( ) {
 
 void Drawer::drawEffect( ) {
 	for ( int i = 0; i < _effect_idx; i++ ) {
-		const Effect& effect = _effect[ i ];
-		int playingEffectHandle = PlayEffekseer3DEffect( _effect_id[ effect.res ] );
-		SetScalePlayingEffekseer3DEffect( playingEffectHandle, ( float )effect.scale, ( float )effect.scale, ( float )effect.scale );
+		const PlayingEffect& effect = _effect[ i ];
+		SetScalePlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.scale.x, ( float )effect.scale.y, ( float )effect.scale.z );
 		//‰ñ“]
 		Vector dir = effect.dir;
-		SetRotationPlayingEffekseer3DEffect( playingEffectHandle, ( float )dir.x, 1.5f, ( float )dir.y );//‰ñ“]Šp‚ÌŽw’è
-		int check = SetPosPlayingEffekseer3DEffect( playingEffectHandle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
+		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, ( float )dir.x, ( float )dir.y, ( float )dir.z );//‰ñ“]Šp‚ÌŽw’è
+		int check = SetPosPlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
 	}
 	_effect_idx = 0;
 }
@@ -249,8 +252,6 @@ void Drawer::loadEffect( int res, const char * filename ) {
 	}
 }
 
-
-
 void Drawer::setSprite( const Sprite& sprite ) {
 	assert( _sprite_idx < SPRITE_NUM );
 	_sprite[ _sprite_idx ] = sprite;
@@ -269,12 +270,15 @@ void Drawer::setBillboard( const Billboard& billboard ) {
 	_billboard_idx++;
 }
 
-void Drawer::setEffect( const Effect& effect ) {
-	assert( _effect_idx < EFFECT_ID_NUM );
-	_effect[ _effect_idx ] = effect;
-	_effect_idx++;
+int Drawer::setEffect( int res ) {
+	return PlayEffekseer3DEffect( _effect_id[ res ] );
 }
 
+void Drawer::setPlayingEffectStatus( int playing_handle, Vector scale, Vector pos, Vector dir ) {
+	assert( _effect_idx < EFFECT_ID_NUM );
+	_effect[_effect_idx] = PlayingEffect( playing_handle, scale, pos, dir );
+	_effect_idx++;
+}
 
 void Drawer::flip( ) {
 	if ( _refresh_count == 0 ) {

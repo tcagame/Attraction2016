@@ -201,10 +201,25 @@ void Drawer::drawBillboard( ) {
 void Drawer::drawEffect( ) {
 	for ( int i = 0; i < _effect_idx; i++ ) {
 		const PlayingEffect& effect = _effect[ i ];
-		SetScalePlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.scale.x, ( float )effect.scale.y, ( float )effect.scale.z );
 		//‰ñ“]
 		Vector dir = effect.dir;
-		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, ( float )dir.x, ( float )dir.y, ( float )dir.z );//‰ñ“]Šp‚ÌŽw’è
+		if ( ( float )dir.x == 0 ) {
+			dir.x = 0.001;
+		}
+
+		//‰ñ“]
+		double lenght_dir = dir.getLength( );
+		double lenght_x = Vector( 1, 0, 0 ).getLength( );
+		double lenght_y = Vector( 0, 0, 1 ).getLength( );
+		double lenght_z = Vector( 0, 1, 0 ).getLength( );
+		double angle_x = acos( dir.dot( Vector( 1, 0, 0 ) ) / ( lenght_dir * lenght_x ) );
+		double angle_y = acos( dir.dot( Vector( 0, 0, 1 ) ) / ( lenght_dir * lenght_y ) );
+		double angle_z = acos( dir.dot( Vector( 0, 1, 0 ) ) / ( lenght_dir * lenght_z ) );
+		if ( dir.y > 0 ) {
+			angle_x *= -1;
+		}
+		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, angle_x, angle_y, angle_z );//‰ñ“]Šp‚ÌŽw’è
+		SetScalePlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.scale.x, ( float )effect.scale.y, ( float )effect.scale.z );
 		int check = SetPosPlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
 	}
 	_effect_idx = 0;

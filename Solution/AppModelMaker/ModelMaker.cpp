@@ -104,7 +104,7 @@ void ModelMaker::view( ) {
 	}
 
 	if ( keyboard->isPushKey( "Z" ) ) {
-		Matrix matrix = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI2 / 4 ); // ZŽ²‚É90“x‰ñ“]
+		Matrix matrix = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI2 / 6 ); // ZŽ²‚É90“x‰ñ“]
 		_model->multiply( matrix );
 	}
 	
@@ -133,7 +133,7 @@ void ModelMaker::view( ) {
 			length = max.y;
 		}
 		double scale = 0.5 / length;
-		Matrix matrix = Matrix::makeTransformScaling( Vector( scale * 5, scale * 5, scale * 5 ) );
+		Matrix matrix = Matrix::makeTransformScaling( Vector( scale * 10, scale * 10, scale * 10 ) );
 		_model->multiply( matrix );
 	}
 

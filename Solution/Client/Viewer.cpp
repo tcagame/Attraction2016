@@ -30,8 +30,8 @@ const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
 const char* CRYSTAL_TEXTRUE_PATH = "../Resource/Object/item/crystal.jpg";
 const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01_DM.jpg";
 const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
-const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
-const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor01.mdl";
+const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor02_DM.jpg";
+const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor02.mdl";
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
 
@@ -40,8 +40,8 @@ const int STATUS_POS_OFFSET = 10;
 
 const int STATUS_WINDOW_WIDTH = 400;
 const int STATUS_WINDOW_HEIGHT = 100;
-const int STATUS_WINDOW_X = 200;
-const int STATUS_WINDOW_Y = 550;
+const int STATUS_WINDOW_X = 20;
+const int STATUS_WINDOW_Y = 700;
 
 const int STATUS_NAME_WIDTH = 200;
 const int STATUS_NAME_HEIGHT = 50;
@@ -64,8 +64,8 @@ const int STATUS_SP_GAUGE_Y = STATUS_HP_GAUGE_Y + STATUS_HP_GAUGE_HEIGHT;
 
 const int STATUS_BOSS_WINDOW_WIDTH = 400;
 const int STATUS_BOSS_WINDOW_HEIGHT = 100;
-const int STATUS_BOSS_WINDOW_X = 270;
-const int STATUS_BOSS_WINDOW_Y = 70;
+const int STATUS_BOSS_WINDOW_X = 380;
+const int STATUS_BOSS_WINDOW_Y = 30;
 
 const int STATUS_BOSS_NAME_WIDTH = 200;
 const int STATUS_BOSS_NAME_HEIGHT = 50;
@@ -75,7 +75,7 @@ const int STATUS_BOSS_NAME_Y = STATUS_BOSS_WINDOW_Y - STATUS_POS_OFFSET * 3;
 const int STATUS_BOSS_HP_GAUGE_WIDTH = 256;
 const int STATUS_BOSS_HP_GAUGE_HEIGHT = 37;
 const int STATUS_BOSS_HP_GAUGE_X = STATUS_BOSS_NAME_X + STATUS_POS_OFFSET;
-const int STATUS_BOSS_HP_GAUGE_Y = STATUS_BOSS_NAME_Y + STATUS_BOSS_NAME_Y - STATUS_POS_OFFSET;
+const int STATUS_BOSS_HP_GAUGE_Y = STATUS_BOSS_WINDOW_Y +  STATUS_POS_OFFSET * 3;
 
 std::string MAP_NAME_LIST[ ] {
 	"none",
@@ -210,7 +210,6 @@ void Viewer::initialize( ) {
 	Matrix matrix = Matrix::makeTransformScaling( Vector( 3, 3, 3 ) );
 	_big_crystal_model->multiply( matrix );
 
-	
 	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
 		std::string _map_filepath = "../Resource/MapModel/";
 		_map_model[ i ] = ModelPtr( new Model( ) );
@@ -218,6 +217,7 @@ void Viewer::initialize( ) {
 		_map_filepath += ".mdl";
 		_map_model[ i ]->load( _map_filepath );
 	}
+
 	_boss_map_model = ModelPtr( new Model( ) );
 	_boss_map_model->load( MAP_BOSS_MODEL_PATH );
 	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
@@ -344,7 +344,6 @@ void Viewer::drawGroundModel( ) {
 				tex_handle = _path_tex_handle;
 			}
 			if ( _map_model[ type ] ) {
-				
 				_map_model[ type ]->translate( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) );
 				_map_model[ type ]->draw( tex_handle );
 				_map_model[ type ]->translate( Vector( -( i *  Ground::CHIP_WIDTH ), -( j *  Ground::CHIP_HEIGHT ), 0 ) );

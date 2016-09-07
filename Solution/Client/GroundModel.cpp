@@ -5,7 +5,7 @@
 #include "MapType.h"
 #include "Cohort.h"
 
-const char * BOSS_GROUND_NAME = "../Resource/MapModel/floor01.mdl";
+const char * BOSS_GROUND_NAME = "../Resource/MapModel/floor02.mdl";
 
 GroundModel::ModelData::ModelData( ) :
 polygon_num( 0 ) {

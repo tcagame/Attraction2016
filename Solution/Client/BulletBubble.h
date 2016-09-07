@@ -1,0 +1,13 @@
+#pragma once
+#include "Bullet.h"
+
+PTR( BulletBubble );
+
+class BulletBubble : public Bullet {
+public:
+	BulletBubble( const Vector& pos, const Vector& dir );
+	virtual ~BulletBubble( );
+public:
+	virtual bool update( );
+};
+

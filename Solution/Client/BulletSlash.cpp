@@ -8,8 +8,8 @@ const int SWORD_LENGTH = 3;
 const Vector SWORD_DIR = Vector( 1, 1, 1 );
 
 BulletSlash::BulletSlash( const Vector& pos, double dir_x, double dir_y ) 
-: Bullet( Bullet::TYPE_SLASH )
-, _pos( pos ) {
+: Bullet( Bullet::TYPE_SLASH ) {
+	_pos = pos;
 	double angle = Vector( 0, 1, 0 ).angle( Vector( dir_x, dir_y, 0 ) );
 	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ).cross( Vector( dir_x, dir_y, 0 ) ), angle );
 	_dir = mat.multiply( SWORD_DIR );
@@ -19,11 +19,6 @@ BulletSlash::BulletSlash( const Vector& pos, double dir_x, double dir_y )
 }
 
 BulletSlash::~BulletSlash() {
-}
-
-
-Vector BulletSlash::getPos( ) const {
-	return _pos;
 }
 
 Vector BulletSlash::getBeginDir( ) const {

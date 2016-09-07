@@ -7,9 +7,9 @@ const double SWORD_SPEED = 0.5;
 const int SWORD_LENGTH = 3;
 
 BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y ) 
-: Bullet( Bullet::TYPE_SWORD )
-, _pos( pos )
-, _dir( dir_x, dir_y, 0 ) {
+: Bullet( Bullet::TYPE_SWORD ) {
+	_pos = pos;
+	_dir = Vector( dir_x, dir_y ).normalize( );
 	_ratio = 0;
 	_is_attack = false;
 
@@ -17,10 +17,6 @@ BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y )
 
 
 BulletSword::~BulletSword( ) {
-}
-
-Vector BulletSword::getPos( ) const {
-	return _pos;
 }
 
 Vector BulletSword::getBeginDir( ) const {

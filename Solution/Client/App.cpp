@@ -71,7 +71,7 @@ void App::initialize( ) {
 	_cohort->init( );
 
 	//ƒvƒŒƒCƒ„[‚Ìİ’è
-	PlayerBehaviorPtr behavior = PlayerKnightBehaviorPtr( new PlayerKnightBehavior( ) );
+	PlayerBehaviorPtr behavior = PlayerWitchBehaviorPtr( new PlayerWitchBehavior( ) );
 	_player = PlayerPtr( new Player( behavior, Character::STATUS( 600, 1, 0.3 ), Player::PLAYER_TYPE_KNIGHT ) );
 	behavior->setParent( _player );
 }

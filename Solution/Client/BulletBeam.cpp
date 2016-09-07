@@ -1,22 +1,19 @@
-#include "BulletLay.h"
+#include "BulletBeam.h"
 
-const int LAY_POWER = 100;
+const int BEAM_POWER = 100;
 
 const double SPEED = 0.05;
-const double RADIUS = 0.1;
-const double LENGTH = 5.0;
+const double RADIUS = 0.3;
+const double LENGTH = 6.0;
 const int PARTICLE = 8;
 
-void BulletLay::initialize( ) {
-}
-
-BulletLay::BulletLay( const Vector& pos, const Vector& dir )
-: Bullet( Bullet::TYPE_LAY ) {
+BulletBeam::BulletBeam( const Vector& pos, const Vector& dir ) 
+: Bullet( Bullet::TYPE_BEAM ) {
 	_pos = pos;
 	_dir = dir.normalize( );
 	_expired = true;
 	_radius = RADIUS;
-	_power = LAY_POWER;
+	_power = BEAM_POWER;
 	_length = 0;
 
 	while ( _length < LENGTH ) {
@@ -34,22 +31,14 @@ BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 	}
 }
 
-double BulletLay::getLength( ) const {
-	return _length;
+BulletBeam::~BulletBeam( ) {
 }
 
-double BulletLay::getRadius( ) const {
-	return _radius;
-}
 
-BulletLay::~BulletLay( ) {
-}
-
-bool BulletLay::update( ) {
+bool BulletBeam::update( ) {
 	if ( _show ) {
 		_show = false;
 		return true;
 	}
-
 	return false;
 }

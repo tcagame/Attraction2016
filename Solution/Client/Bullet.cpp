@@ -23,6 +23,10 @@ Vector Bullet::getPos( ) const {
 	return _pos;
 }
 
+Vector Bullet::getDir( ) const {
+	return _dir;
+}
+
 Vector Bullet::getHitPos( ) const {
 	return _hit_pos;
 }

@@ -14,9 +14,7 @@ public:
 public:
 	virtual bool update( );
 public:
-	Vector getPos( ) const;
 	double getLength( ) const;
-	int getAlpha( ) const;
 private:
 	Vector _pos;
 	Vector _dir;

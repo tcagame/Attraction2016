@@ -10,14 +10,10 @@ void BulletImpact::initialize( ) {
 
 BulletImpact::BulletImpact( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_IMPACT )
-, _pos( pos )
-, _dir( dir )
 , _count( 0 ) {
+	_pos = pos;
+	_dir = dir;
 	_pos += Vector( 0, 0, 0.5 );
-}
-
-Vector BulletImpact::getPos( ) const {
-	return _pos;
 }
 
 double BulletImpact::getLength( ) const {

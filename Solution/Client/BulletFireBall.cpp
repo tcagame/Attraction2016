@@ -12,9 +12,9 @@ void BulletFireBall::initialize( ) {
 
 
 BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir ) 
-: Bullet( Bullet::TYPE_FIRE_BALL )
-, _dir( dir.normalize( ) ) {
+: Bullet( Bullet::TYPE_FIRE_BALL ) {
 	_pos = pos;
+	_dir = dir.normalize( );
 	initialize( );
 }
 

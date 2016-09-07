@@ -3,6 +3,8 @@
 #include "Character.h"
 #include "Device.h"
 #include "App.h"
+#include "BulletBeam.h"
+#include "BulletBubble.h"
 #include "BulletLay.h"
 #include "Weapon.h"
 
@@ -15,15 +17,27 @@ PlayerWitchBehavior::~PlayerWitchBehavior( ) {
 void PlayerWitchBehavior::attack( ) {
 	DevicePtr device = Device::getTask( );
 	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
+		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
 		_common_state = COMMON_STATE_ATTACK;
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_ATTACK && !_animation->isEndAnimation( )  ) {
 		if ( _animation->getAnimTime( ) == 20.0 ) {
 			AppPtr app = App::getTask( );
-			WeaponPtr weapon = app->getWeapon( );
-			BulletPtr bullet = BulletLayPtr( new BulletLay( _parent->getPos( ), _parent->getDir( ) ) );
-			weapon->add( bullet );
+		WeaponPtr weapon = app->getWeapon( );
+		BulletPtr bullet;
+		switch ( _attack_pattern ) {
+			case 0:
+				bullet = BulletBeamPtr( new BulletBeam( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+				break;
+			case 1:
+				bullet = BulletBubblePtr( new BulletBubble( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+				break;
+			case 2:
+				bullet = BulletLayPtr( new BulletLay( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+				break;
+		}
+		weapon->add( bullet );
 		}
 		_common_state = COMMON_STATE_ATTACK;
 	}
@@ -56,7 +70,17 @@ void PlayerWitchBehavior::animationUpdate( ) {
 	}
 	if ( _common_state == COMMON_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_ATTACK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+			switch ( _attack_pattern ) {
+				case 0:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+					break;
+				case 1:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+					break;
+				case 2:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+					break;
+			}
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );

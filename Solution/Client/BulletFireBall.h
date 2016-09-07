@@ -13,8 +13,6 @@ public:
 public:
 	virtual bool update( );
 private:
-	const Vector _dir;
-private:
 	int _power;
 	double _speed;
 	int _exist_time;

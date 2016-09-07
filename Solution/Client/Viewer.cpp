@@ -368,14 +368,32 @@ void Viewer::drawBullet( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	for ( int i = 0; i < weapon->getWeaponMaxNum( ); i++ ) {
 		BulletPtr bullet = weapon->getBullet( i );
+		Drawer::Effect effect;
 		if ( !bullet ) {
 			continue;
 		}
 
-		//ナイトのスラッシュ
-		if ( bullet->getType( ) == Bullet::TYPE_SLASH ) {
-			Vector pos = bullet->getPos( );
+		if ( bullet->getType( ) == Bullet::TYPE_BEAM ) {
+			effect.pos = bullet->getPos( );
+			effect.dir = bullet->getDir( );
+			effect.res = EFFECT_PLAYER_ATTACK_BEAM;
+			drawer->setEffect( effect );
+		}
 
+		if ( bullet->getType( ) == Bullet::TYPE_BUBBLE ) {
+			effect.pos = bullet->getPos( );
+			effect.dir = bullet->getDir( );
+			effect.scale = 1.0;
+			effect.res = EFFECT_PLAYER_ATTACK_BUBBLE;
+			drawer->setEffect( effect );
+		}
+
+		if ( bullet->getType( ) == Bullet::TYPE_LAY ) {
+			effect.pos = bullet->getPos( );
+			effect.dir = bullet->getDir( );
+			effect.scale = 1.0;
+			effect.res = EFFECT_PLAYER_ATTACK_LAY;
+			drawer->setEffect( effect );
 		}
 		//ハンターの単発攻撃
 		if ( bullet->getType( ) == Bullet::TYPE_MISSILE ) {

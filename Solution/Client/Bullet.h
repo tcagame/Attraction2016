@@ -12,8 +12,10 @@ public:
 		TYPE_SWORD,
 		TYPE_STAB,
 		TYPE_IMPACT,
-		TYPE_MISSILE,
+		TYPE_BEAM,
+		TYPE_BUBBLE,
 		TYPE_LAY,
+		TYPE_MISSILE,
 		TYPE_FIRE_BALL,
 		TYPE_MAX,
 	};
@@ -25,6 +27,7 @@ public:
 public:
 	TYPE getType( ) const;
 	Vector getPos( ) const;
+	Vector getDir( ) const;
 	Vector getHitPos( ) const;
 private:
 	void enemyReceiveDamage( EnemyPtr enemy, const Vector& pos, int power );
@@ -32,6 +35,7 @@ protected:
 	void attackEnemy( const Vector& pos, int power );
 protected:
 	Vector _pos;
+	Vector _dir;
 	Vector _hit_pos;
 private:
 	const TYPE _type;

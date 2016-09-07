@@ -11,11 +11,7 @@ public:
 public:
 	virtual bool update( );
 private:
-	Vector getPos( ) const;
 	double getLength( ) const;
-private:
-	const Vector _pos;
-	const Vector _dir;
 private:
 	double _ratio;
 };

@@ -11,14 +11,10 @@ public:
 public:
 	virtual bool update( );
 private:
-	Vector getPos( ) const;
 	Vector getBeginDir( ) const;
 	Vector getEndDir( ) const;
 	double getLength( ) const;
 private:
-	const Vector _pos;
-private:
-	Vector _dir;
 	double _ratio;
 	bool _is_attack;
 };

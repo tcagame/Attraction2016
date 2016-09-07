@@ -37,6 +37,7 @@ protected:
 	Vector _pos;
 	Vector _dir;
 	Vector _hit_pos;
+	int _effect_handle;
 private:
 	const TYPE _type;
 };

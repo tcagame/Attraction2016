@@ -20,6 +20,7 @@
 #include "Animation.h"
 #include "Device.h"
 #include "Mouse.h"
+#include "Effect.h"
 #include "Framework.h"
 #include "mathmatics.h"
 
@@ -176,26 +177,27 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9, "UI/hpnumber9_dammy.png" );
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP, "UI/boss_hp_dammy.png" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
-	
 	//エフェクトのロード
-	drawer->loadEffect( EFFECT_FAIRY, "Effect/effect001.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_JAB, "Effect/effect105.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_IMPACT, "Effect/effect106.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_UPPER, "Effect/effect107.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_RUSH, "Effect/effect108.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_BEAM, "Effect/effect109.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_BUBBLE, "Effect/effect110.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_LAY, "Effect/effect111.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_SPLASH, "Effect/effect112.efk" );
-	drawer->loadEffect( EFFECT_ENEMY_ATTACK_FIRE_BALL, "Effect/effect204.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_ATTACK_FIRE, "Effect/effect301.efk" );
-	drawer->loadEffect( EFFECT_BOSS_ATTACK_BOMBING, "Effect/effect305.efk" );
-	drawer->loadEffect( EFFECT_BOSS_HIT_EXPLOSION, "Effect/effect306.efk" );
-	drawer->loadEffect( EFFECT_BOSS_HIT_CIRCLE, "Effect/effect307.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_KNIGHT_STORE, "Effect/effect401.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_MONK_STORE, "Effect/effect402.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_WITCH_STORE, "Effect/effect403.efk" );
-	drawer->loadEffect( EFFECT_PLAYER_HUNTER_STORE, "Effect/effect404.efk" );
+
+	drawer->loadEffect( Effect::EFFECT_FAIRY, "Effect/effect001.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "Effect/effect105.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT, "Effect/effect106.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_UPPER, "Effect/effect107.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_RUSH, "Effect/effect108.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM, "Effect/effect109.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE, "Effect/effect110.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_LAY, "Effect/effect111.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH, "Effect/effect112.efk" );
+	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "Effect/effect204.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE, "Effect/effect301.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "Effect/effect305.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "Effect/effect306.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "Effect/effect307.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE, "Effect/effect401.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "Effect/effect402.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "Effect/effect403.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "Effect/effect404.efk" );
+
 
 	_item_model = ModelPtr( new Model );
 	_item_model->load( ITEM_POTION_MODEL_PATH );
@@ -229,7 +231,7 @@ void Viewer::update( ) {
 	drawBoss( );
 	drawGroundModel( );
 	drawBossMapModel( );
-	drawBullet( );
+//	drawBullet( );
 	drawItem( );
 	drawBigCrystal( );
 	drawCrystal( );
@@ -362,7 +364,7 @@ void Viewer::drawBossMapModel( ) {
 	_boss_map_model->draw( _boss_map_tex_hadle );
 	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
 }
-
+/*
 void Viewer::drawBullet( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
@@ -413,7 +415,7 @@ void Viewer::drawBullet( ) {
 		}
 	}
 }
-
+*/
 void Viewer::drawItem( ) {
 	AppPtr app = App::getTask( );
 	ItemsPtr items = app->getItems( );

@@ -24,20 +24,20 @@ void PlayerWitchBehavior::attack( ) {
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_ATTACK && !_animation->isEndAnimation( )  ) {
 		if ( _animation->getAnimTime( ) == 20.0 ) {
 			AppPtr app = App::getTask( );
-		WeaponPtr weapon = app->getWeapon( );
-		BulletPtr bullet;
-		switch ( _attack_pattern ) {
-			case 0:
-				bullet = BulletBeamPtr( new BulletBeam( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
-				break;
-			case 1:
-				bullet = BulletBubblePtr( new BulletBubble( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
-				break;
-			case 2:
-				bullet = BulletLayPtr( new BulletLay( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
-				break;
-		}
-		weapon->add( bullet );
+			WeaponPtr weapon = app->getWeapon( );
+			BulletPtr bullet;
+			switch ( _attack_pattern ) {
+				case 0:
+					bullet = BulletBeamPtr( new BulletBeam( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+					break;
+				case 1:
+					bullet = BulletBubblePtr( new BulletBubble( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+					break;
+				case 2:
+					bullet = BulletLayPtr( new BulletLay( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+					break;
+			}
+			weapon->add( bullet );
 		}
 		_common_state = COMMON_STATE_ATTACK;
 	}

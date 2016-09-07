@@ -59,16 +59,15 @@ public:
 		Billboard( );
 		Billboard( Vector pos_, double size_, int res, BLEND blend_, double ratio_ );
 	};
-	
-	struct Effect {
+	struct PlayingEffect {
+		int playing_handle;
+		Vector scale;
 		Vector pos;
 		Vector dir;
-		double scale;
-		int res;
-		Effect( );
-		Effect( Vector pos_, Vector dir_, int res_, double scale_ = 0.2 );
+		PlayingEffect( );
+		PlayingEffect( int playing_effect_, Vector scale_, Vector pos_, Vector dir_ );
 	};
-
+	
 public:
 	void initialize( );
 	void update( );
@@ -79,7 +78,8 @@ public:
 	void setSprite( const Sprite& sprite );
 	void setModel( const Model& model );
 	void setBillboard( const Billboard& billboard );
-	void setEffect( const Effect& effect );
+	int setEffect( int res );
+	void setPlayingEffectStatus( int playing_handle, Vector scale, Vector pos, Vector dir );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
 private:
@@ -112,7 +112,7 @@ private:
 	std::array< Billboard, BILLBOARD_NUM > _billboard;
 	int _billboard_idx;
 
-	std::array< Effect, EFFECT_ID_NUM > _effect;
+	std::array< PlayingEffect, EFFECT_ID_NUM > _effect;
 	int _effect_idx;
 
 

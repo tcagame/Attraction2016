@@ -12,6 +12,8 @@ public:
 private:
 	static const int BULLET_NUM = 2;
 	Vector _bullet_pos[ BULLET_NUM ];
+	int _bullet_effect_handle[ BULLET_NUM ];
+	bool _exist_bullet[ BULLET_NUM ];
 	int _power;
 	double _speed;
 	int _exist_time;

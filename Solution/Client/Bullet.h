@@ -33,8 +33,6 @@ public:
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	Vector getHitPos( ) const;
-private:
-	void enemyReceiveDamage( EnemyPtr enemy, const Vector& pos, int power );
 protected:
 	void attackEnemy( const Vector& pos, int power );
 protected:

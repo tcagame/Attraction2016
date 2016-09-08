@@ -1,4 +1,5 @@
 #pragma once
+#include "Object.h"
 #include "smart_ptr.h"
 #include "mathmatics.h"
 #include <string>
@@ -7,7 +8,7 @@ PTR( Character );
 PTR( Behavior );
 PTR( Animation );
 
-class Character {
+class Character : public Object {
 public:
 	struct STATUS {
 		int hp;

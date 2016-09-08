@@ -10,6 +10,7 @@
 #include "Weapon.h"
 #include "Crystals.h"
 #include "Items.h"
+#include "Field.h"
 #include "Ground.h"
 #include "PlayerCamera.h"
 #include "Keyboard.h"
@@ -80,6 +81,7 @@ void App::initialize( ) {
 	std::string filepath = DIRECTORY + "CSV/";
 	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
 	_ground_model = GroundModelPtr( new GroundModel( ) );
+	_field = FieldPtr( new Field( ) );
 	_cohort = CohortPtr( new Cohort( ) );
 	_weapon = WeaponPtr( new Weapon( ) );
 	_items = ItemsPtr( new Items( ) );
@@ -117,6 +119,11 @@ GroundModelPtr App::getGroundModel( ) const {
 WeaponPtr App::getWeapon( ) const {
 	return _weapon;
 }
+
+FieldPtr App::getField( ) const {
+	return _field;
+}
+
 
 DeedBoxesPtr App::getDeedBoxes( ) const{
 	return _deed_boxes;

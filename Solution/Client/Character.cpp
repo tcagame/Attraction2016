@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "Behavior.h"
 #include "App.h"
+#include "Field.h"
 #include "GroundModel.h"
 #include "Cohort.h"
 #include "Enemy.h"
@@ -14,6 +15,7 @@ CHARACTER_TYPE( type ) {
 	_character_name = character_name;
 	_expired = false;
 	_max_hp = status.hp;
+	
 }
 
 Character::~Character( ) {
@@ -27,8 +29,8 @@ void Character::update( ) {
 
 void Character::move( const Vector& vec ) {
 	//‚ ‚½‚è”»’è’²®’†
-	/*
-	CohortPtr cohort = app->getCohort( );
+//	AppPtr app = App::getTask();
+	/*CohortPtr cohort = app->getCohort( );
 	
 	bool is_character = false;
 	int max_enemy = cohort->getMaxNum( );
@@ -48,24 +50,36 @@ void Character::move( const Vector& vec ) {
 			is_character = true;
 			break;
 		}
-	}
-	Vector move_pos = getPos( ) + vec;
-	AppPtr app = App::getTask( );
-	GroundModelPtr ground_model = app->getGroundModel( );
-	bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
-	if ( is_ground /* && !is_character  ) {
-		_pos += vec;
-	}
+	}*/
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
-	}*/
-	_pos += vec;
+	}
+	AppPtr app = App::getTask( );
+	FieldPtr field = app->getField( );
+	Vector move_pos = getPos( ) + vec;
+	field->delTarget( ( int )move_pos.x, ( int )move_pos.y, getThis( ) );
+	bool is_character = !field->setTarget( ( int )move_pos.x, ( int )move_pos.y, getThis( ) );
+	if ( is_character ) {
+		field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+		return;
+	}
+	
+	GroundModelPtr ground_model = app->getGroundModel( );
+	bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
+	if ( is_ground ) {
+		field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+		_pos += vec;
+		field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+	}
 }
 
 void Character::create( const Vector& pos ) {
 	_pos = pos;
 	_dir = START_DIR;
 	_expired = true;
+	AppPtr App = App::getTask( );
+	FieldPtr field = App->getField( );
+	field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 	_behavior->init( );
 }
 

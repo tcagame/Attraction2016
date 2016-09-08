@@ -27,6 +27,7 @@ private:
 	bool loadMapCSV( const char* file_name );
 private:
 	std::vector< int > _ground_data;
+
 	int _height;
 	int _width;
 };

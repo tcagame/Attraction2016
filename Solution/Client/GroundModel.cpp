@@ -110,7 +110,12 @@ bool GroundModel::isCollisionModel( ModelData model, Vector pos_a, Vector pos_b 
 		Vector plane_point_a = model.pos[ polygon_idx ];
 		Vector plane_point_b = model.pos[ polygon_idx + 1 ];
 		Vector plane_point_c = model.pos[ polygon_idx + 2 ];
-
+		if ( plane_point_a.z < 0 || plane_point_b.z < 0 || plane_point_c.z < 0 ) {
+			continue;
+		}
+		if ( plane_point_a.z > 1 || plane_point_b.z > 1 || plane_point_c.z > 1 ) {
+			continue;
+		}
 		Vector normal_plane = ( plane_point_b - plane_point_a ).cross( plane_point_c - plane_point_b );
 		normal_plane = normal_plane.normalize( );
 

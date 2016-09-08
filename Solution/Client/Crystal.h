@@ -1,10 +1,11 @@
 #pragma once
+#include "Object.h"
 #include "smart_ptr.h"
 #include "mathmatics.h"
 
 PTR( Crystal )
 
-class Crystal {
+class Crystal : public Object {
 public:
 	Crystal( );
 	virtual ~Crystal( );

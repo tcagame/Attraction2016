@@ -11,6 +11,7 @@ PTR( Weapon );
 PTR( DeedBoxes );
 PTR( Items );
 PTR( Crystals );
+PTR( Field );
 
 class App : public Task {
 public:
@@ -40,6 +41,7 @@ public:
 	ItemsPtr getItems( ) const;
 	CrystalsPtr getCrystals( ) const;
 	STATE getState( ) const;
+	FieldPtr getField( ) const;
 	void setState( STATE state );
 private:
 	void loadToGround( );
@@ -53,6 +55,7 @@ private:
 	ItemsPtr _items;
 	CrystalsPtr _crystals;
 	STATE _state;
+	FieldPtr _field;
 	int _push_reset_count;
 	int _push_start_count;
 };

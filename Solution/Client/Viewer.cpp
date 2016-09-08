@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "BulletMissile.h"
 #include "Weapon.h"
 #include "DeedBox.h"
 #include "Crystals.h"
@@ -28,7 +27,7 @@ const char* ITEM_POTION_TEXTRUE_PATH = "../Resource/Object/item/item01_DM.jpg";
 const char* ITEM_POTION_MODEL_PATH = "../Resource/Object/item/item_potion.mdl";
 const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
 const char* CRYSTAL_TEXTRUE_PATH = "../Resource/Object/item/crystal.jpg";
-const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01_DM.jpg";
+const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01.jpg";
 const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
 const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor02_DM.jpg";
 const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor02.mdl";
@@ -367,9 +366,8 @@ void Viewer::drawGroundModel( ) {
 				tex_handle = _path_tex_handle;
 			}
 			if ( _map_model[ type ] ) {
-				_map_model[ type ]->translate( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) );
+				_map_model[ type ]->setPos( ( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) ) );
 				_map_model[ type ]->draw( tex_handle );
-				_map_model[ type ]->translate( Vector( -( i *  Ground::CHIP_WIDTH ), -( j *  Ground::CHIP_HEIGHT ), 0 ) );
 			}
 		}
 	}

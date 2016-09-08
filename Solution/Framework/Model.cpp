@@ -65,6 +65,9 @@ bool Model::load( std::string filename ) {
 	alloc( polygon_num );
 
 	FileRead_read( _impl->_vertex, sizeof( DxLib::VERTEX3D ) * ( polygon_num * 3 ), fh );
+	_origin_pos.x = _impl->_vertex[ 0 ].pos.x;
+	_origin_pos.y = _impl->_vertex[ 0 ].pos.y;
+	_origin_pos.z = _impl->_vertex[ 0 ].pos.z;
 
 	FileRead_close( fh );
 	return true;
@@ -75,6 +78,19 @@ void Model::translate( Vector move ) {
 		_impl->_vertex[ i ].pos.x += ( float )move.x;
 		_impl->_vertex[ i ].pos.y += ( float )move.y;
 		_impl->_vertex[ i ].pos.z += ( float )move.z;
+	}
+}
+
+void Model::setPos( Vector pos ) {
+	VECTOR diff;
+	diff.x = _impl->_vertex[ 0 ].pos.x - ( float )_origin_pos.x;
+	diff.y = _impl->_vertex[ 0 ].pos.y - ( float )_origin_pos.y;
+	diff.z = _impl->_vertex[ 0 ].pos.z - ( float )_origin_pos.z;
+
+	for ( int i = 0; i < ( int )_impl->_polygon_num * 3; i++ ) {
+		_impl->_vertex[ i ].pos.x += ( float )pos.x - diff.x;
+		_impl->_vertex[ i ].pos.y += ( float )pos.y - diff.y;
+		_impl->_vertex[ i ].pos.z += ( float )pos.z - diff.z;
 	}
 }
 

@@ -1,7 +1,12 @@
 #include "Ground.h"
 #include <string>
 
-
+const int Ground::CHIP_WIDTH = 7;
+const int Ground::CHIP_HEIGHT = 4;
+const int Ground::BOSS_CHIP_WIDTH = 10;
+const int Ground::BOSS_CHIP_HEIGHT = 10;
+const int Ground::BOSS_X = 100;
+const int Ground::BOSS_Y = 100;
 
 Ground::Ground( std::string file_name ) {
 	loadMapCSV( file_name.c_str( ) );

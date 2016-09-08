@@ -37,11 +37,13 @@ public:
 	void save( std::string filename );
 	void mergeModel( ModelConstPtr model );
 	void translate( Vector move );
+	void setPos( Vector pos );
 	void reset( );
 	Vector getPoint( int idx ) const;
 	ModelImplConstPtr getModelImpl( ) const;
 	int getTextureHandle( const char* filename );
 private:
 	ModelImplPtr _impl;
+	Vector _origin_pos;
 };
 

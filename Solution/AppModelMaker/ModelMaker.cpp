@@ -133,7 +133,7 @@ void ModelMaker::view( ) {
 			length = max.y;
 		}
 		double scale = 0.5 / length;
-		Matrix matrix = Matrix::makeTransformScaling( Vector( scale * 10, scale * 10, scale * 10 ) );
+		Matrix matrix = Matrix::makeTransformScaling( Vector( scale * 7, scale * 7, scale * 7 ) );
 		_model->multiply( matrix );
 	}
 

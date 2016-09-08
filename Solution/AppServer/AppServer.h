@@ -21,6 +21,9 @@ public:
 	void update( );
 private:
 	void updateCommand( );
+	void draw( );
+	void process( );
+	void processCommnad( );
 private:
 	TableDrawerPtr _td_status;
 	CommandPtr _command;

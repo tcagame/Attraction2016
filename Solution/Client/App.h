@@ -53,5 +53,6 @@ private:
 	ItemsPtr _items;
 	CrystalsPtr _crystals;
 	STATE _state;
-	int _push_count;
+	int _push_reset_count;
+	int _push_start_count;
 };

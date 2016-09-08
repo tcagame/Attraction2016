@@ -31,7 +31,8 @@ AppPtr App::getTask( ) {
 }
 
 App::App( ) {
-
+	_push_reset_count = 0;
+	_push_start_count = 0;
 }
 
 App::~App( ) {
@@ -48,16 +49,31 @@ void App::update( ) {
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	DevicePtr device = Device::getTask( );
+		CameraPtr camera = Camera::getTask( );
+	camera->setTarget( _player->getPos( ) );
 	//プレイヤーリセットコマンド
-	bool pop_player = device->getButton( ) > 0;
+	bool reset_flag = _push_reset_count >= 30;
+	if ( device->getButton( ) == BUTTON_A + BUTTON_B + BUTTON_C + BUTTON_D ) {
+		_push_reset_count +=1;
+	} else if( reset_flag && device->getButton( ) == 0 ) {
+		_push_reset_count = 0;
+	}
+	if( reset_flag ) {
+		initialize( );
+		camera->initialize( );
+	}
+
+	if ( ( device->getButton( ) > 0 ) && ( _state == STATE_READY ) ) {
+		_push_start_count += 1;
+	}
+	bool pop_player = _push_start_count >= 30;
 	pop_player = pop_player & !_player->isExpired( );
-	if ( pop_player ) {
+	if ( pop_player && !reset_flag ) {
 		Vector player_pos = Vector( 1, 1, 0 );
 		_player->create( player_pos );
 		setState( STATE_PLAY );
+		_push_start_count = 0;
 	}
-	CameraPtr camera = Camera::getTask( );
-	camera->setTarget( _player->getPos( ) );
 }
 
 void App::initialize( ) {
@@ -75,6 +91,7 @@ void App::initialize( ) {
 	PlayerBehaviorPtr behavior = PlayerMonkBehaviorPtr( new PlayerMonkBehavior( ) );
 	_player = PlayerPtr( new Player( behavior, Character::STATUS( 60000, 1, 0.3 ), Player::PLAYER_TYPE_KNIGHT ) );
 	behavior->setParent( _player );
+	_state = STATE_READY; 
 }
 
 void App::finalize( ) {

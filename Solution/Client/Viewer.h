@@ -74,5 +74,7 @@ private:
 	int _path_tex_handle;
 	int _item_tex_handle;
 	int _crystal_tex_handle;
+
+	int _fairy_handle;
 };
 

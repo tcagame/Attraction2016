@@ -231,6 +231,8 @@ void Viewer::initialize( ) {
 	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
 	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
 	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
+	Effect effect;
+	_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
 }
 
 void Viewer::update( ) {
@@ -285,6 +287,8 @@ void Viewer::drawPlayer( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+	Effect effect;
+	effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0.5, 0 ), dir );
 	
 	Player::STATUS status = player->getStatus( );
 	drawer->drawString( 0, 50, "Palyer_HP: %d Player_SP: %d", status.hp, player->getSP( ) );

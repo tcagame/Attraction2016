@@ -218,7 +218,7 @@ void Drawer::drawEffect( ) {
 		if ( dir.y > 0 ) {
 			angle_x *= -1;
 		}
-		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, angle_x, angle_y, angle_z );//‰ñ“]Šp‚ÌŽw’è
+		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, ( float )angle_x, ( float )angle_y, ( float )angle_z );//‰ñ“]Šp‚ÌŽw’è
 		SetScalePlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.scale.x, ( float )effect.scale.y, ( float )effect.scale.z );
 		int check = SetPosPlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
 	}

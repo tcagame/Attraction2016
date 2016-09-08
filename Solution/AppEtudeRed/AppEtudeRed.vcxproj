@@ -90,9 +90,6 @@
     <ProjectReference Include="..\Client\Client.vcxproj">
       <Project>{7fd66b9d-8a92-4703-92d8-b7cd89651a92}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{168a8c19-ae61-4a9b-a1e3-d123f5567a05}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Framework\Framework.vcxproj">
       <Project>{8f046e7a-ce27-43a0-bb98-50fe657ca528}</Project>
     </ProjectReference>

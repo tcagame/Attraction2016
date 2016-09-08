@@ -121,9 +121,11 @@ void App::loadToGround( ) {
 		for ( int j = 0; j < width; j++ ) {
 			int idx = _ground->getIdx( j, i );
 			int type = _ground->getGroundData( idx );
+			if ( type == 0 ) {
+				continue;
+			}
 			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ type ] + ".mdl";
 			std::string enemy_file_path = DIRECTORY + "EnemyData/" + MODEL_NAME_LIST[ type ] + ".ene";
-
 			_ground_model->loadModelData( j, i, model_file_path );
 			_cohort->loadBlockEnemyData( enemy_file_path );
 		}

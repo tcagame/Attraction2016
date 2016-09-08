@@ -34,7 +34,8 @@ bool BulletFire::update( ) {
 	}
 
 	//UŒ‚
-	AppPtr app = App::getTask( );
+	//‚ ‚½‚è”»’è’²®’†
+	/*AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
 	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
 		EnemyPtr enemy = cohort->getEnemy( i );
@@ -45,7 +46,7 @@ bool BulletFire::update( ) {
 			enemy->damage( _power );
 			return false;
 		}
-	}
+	}*/
 	Effect effect;
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
 	return true;

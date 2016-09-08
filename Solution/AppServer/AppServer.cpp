@@ -44,15 +44,27 @@ AppServer::~AppServer( ) {
 }
 
 void AppServer::update( ) {
-	_command->update( );
+	process( );
+	draw( );
+}
 
-	// ログとコマンドのサンプル
-	std::string str = _command->get( );
-	if ( !str.empty( ) ) {
-		_log->add( str );
+void AppServer::process( ) {
+	processCommand( );
+
+}
+
+void AppServer::processCommand( ) {
+	// 更新
+	_command->update( );
+	std::string cmd = _command->get( );
+	if ( cmd.empty( ) ) {
+		return;
 	}
 
+	// 解析
+}
 
+void AppServer::draw( ) {
 	_td_status->draw( );
 	_command->draw( );
 	_log->draw( );

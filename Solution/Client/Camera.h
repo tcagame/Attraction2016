@@ -21,6 +21,9 @@ public:
 	virtual void update( ) = 0;
 	virtual void initialize( ) { };
 protected:
+	Vector getStartPos( ) const;
+	Vector getStartTargetPos( ) const;
+protected:
 	Vector _pos;
 	Vector _target;
 };

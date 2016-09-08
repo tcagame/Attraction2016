@@ -10,6 +10,7 @@ public:
 	virtual ~PlayerCamera( );
 public:
 	Vector getConvertDeviceVec( ) const;
+	void initialize( );
 	void update( );
 	void setPos( Vector pos );
 private:

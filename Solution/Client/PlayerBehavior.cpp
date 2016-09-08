@@ -49,6 +49,7 @@ void PlayerBehavior::update( ) {
 	attack( );
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_common_state = COMMON_STATE_DEAD;
+		app->setState( App::STATE_DEAD );
 	}
 	_befor_state = _common_state;
 	pickupItem( );

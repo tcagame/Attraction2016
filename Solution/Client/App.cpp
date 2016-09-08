@@ -31,7 +31,7 @@ AppPtr App::getTask( ) {
 }
 
 App::App( ) {
-
+	_push_count = 0;
 }
 
 App::~App( ) {
@@ -48,15 +48,30 @@ void App::update( ) {
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	DevicePtr device = Device::getTask( );
-	//プレイヤーリセットコマンド
-	bool pop_player = device->getButton( ) > 0;
-	pop_player = pop_player & !_player->isExpired( );
-	if ( pop_player ) {
-		Vector player_pos = Vector( 1, 1, 0 );
-		_player->create( player_pos );
-	}
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player->getPos( ) );
+
+
+
+	//プレイヤーリセットコマンド
+	bool reset_flag = _push_count >= 30;
+	if ( device->getButton( ) == BUTTON_A + BUTTON_B + BUTTON_C + BUTTON_D ) {
+		_push_count += 1;
+	} else if ( reset_flag && device->getButton( ) == 0 ) {
+		_push_count = 0;
+	}
+	if ( reset_flag ) {
+		initialize( );
+		camera->initialize( );
+	}
+
+	bool pop_player = device->getButton( ) > 0;
+	pop_player = pop_player & !_player->isExpired( );
+	if ( pop_player && !reset_flag ) {
+		Vector player_pos = Vector( 1, 1, 0 );
+		_player->create( player_pos );
+		setState( STATE_PLAY );
+	}
 }
 
 void App::initialize( ) {
@@ -71,9 +86,10 @@ void App::initialize( ) {
 	_cohort->init( );
 
 	//プレイヤーの設定
-	PlayerBehaviorPtr behavior = PlayerHunterBehaviorPtr( new PlayerHunterBehavior( ) );
-	_player = PlayerPtr( new Player( behavior, Character::STATUS( 60000, 1, 0.3 ), Player::PLAYER_TYPE_KNIGHT ) );
+	PlayerBehaviorPtr behavior = PlayerKnightBehaviorPtr( new PlayerKnightBehavior( ) );
+	_player = PlayerPtr( new Player( behavior, Character::STATUS( 2000, 1, 0.3 ), Player::PLAYER_TYPE_KNIGHT ) );
 	behavior->setParent( _player );
+	_state = STATE_READY;
 }
 
 void App::finalize( ) {
@@ -110,6 +126,14 @@ ItemsPtr App::getItems( ) const {
 
 CrystalsPtr App::getCrystals( ) const {
 	return _crystals;
+}
+
+App::STATE App::getState( ) const {
+	return _state;
+}
+
+void App::setState( STATE state ) {
+	_state = state;
 }
 
 void App::loadToGround( ) {

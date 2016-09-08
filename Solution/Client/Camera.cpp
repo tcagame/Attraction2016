@@ -30,4 +30,10 @@ void Camera::setTarget( Vector target ) {
 	_target = target;
 }
 
+Vector Camera::getStartPos( ) const {
+	return START_CAMERA_POS;
+}
 
+Vector Camera::getStartTargetPos( ) const {
+	return START_TARGET_POS;
+}

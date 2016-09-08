@@ -34,10 +34,13 @@ bool BulletShot::update( ) {
 	}
 
 	//UŒ‚
+	//‚ ‚½‚è”»’è’²®’†
+	/*
 	AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
 	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
-		EnemyPtr enemy = cohort->getEnemy( i );
+		EnemyPtr enemy = 
+		->getEnemy( i );
 		Vector enemy_pos = enemy->getPos( );
 		Vector distance = _pos - enemy_pos;
 		double length = distance.getLength( );
@@ -46,6 +49,7 @@ bool BulletShot::update( ) {
 			return false;
 		}
 	}
+	*/
 	Effect effect;
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
 	return true;

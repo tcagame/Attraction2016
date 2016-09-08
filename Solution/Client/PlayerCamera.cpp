@@ -44,14 +44,14 @@ void PlayerCamera::initialize( ) {
 
 
 void PlayerCamera::update( ) {
-	
-	MousePtr mouse = Mouse::getTask( );
+
 
 	Vector vec = _pos - _target;
-	const double RATIO = 0.01;
 
+	/*
+	MousePtr mouse = Mouse::getTask( );
 	Vector mouse_pos = mouse->getPos( );
-
+	const double RATIO = 0.01;
 	//YAW軸回転
 	double rad_yaw = ( mouse_pos.x - _store_mouse_pos.x ) * RATIO;
 	Matrix mat_yaw = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), rad_yaw );
@@ -62,12 +62,12 @@ void PlayerCamera::update( ) {
 	Vector axis = Vector( 0, 0, 1 ).cross( vec );
 	Matrix mat_pitch = Matrix::makeTransformRotation( axis, rad_pitch );
 	vec = mat_pitch.multiply( vec );
-	
+	// マウスの位置を記憶
+	_store_mouse_pos = mouse_pos;
+	*/
 	// _camera_posを変更
 	_pos = _target + vec;
 	
-	// マウスの位置を記憶
-	_store_mouse_pos = mouse_pos;
 
 }
 

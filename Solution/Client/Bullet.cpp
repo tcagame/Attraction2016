@@ -32,7 +32,8 @@ Vector Bullet::getHitPos( ) const {
 }
 
 void Bullet::attackEnemy( const Vector& pos, int power ) {
-	AppPtr app = App::getTask( );
+	//‚ ‚½‚è”»’è’²®’†
+	/*AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
 	for( int i = 0; i < cohort->getMaxNum( ); i++ ) {
 		EnemyPtr enemy = cohort->getEnemy( i );
@@ -42,7 +43,7 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 		enemyReceiveDamage( enemy, pos, power );
 	}
 	EnemyPtr enemy = cohort->getBoss( );
-	enemyReceiveDamage( enemy, pos, power );
+	enemyReceiveDamage( enemy, pos, power );*/
 }
 
 void Bullet::enemyReceiveDamage( EnemyPtr enemy, const Vector& pos, int power ) {

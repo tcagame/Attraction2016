@@ -76,5 +76,6 @@ private:
 	int _crystal_tex_handle;
 
 	int _fairy_handle;
+	int _fairy_time;
 };
 

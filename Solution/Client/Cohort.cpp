@@ -34,7 +34,7 @@ void Cohort::init( ) {
 }
 
 void Cohort::update( ) {
-	for ( int i = 0; i < MAX_NUM; i++ ) {
+	for ( int i = 0; i < _enemy_max; i++ ) {
 		EnemyPtr enemy = _enemy[ i ];
 		if ( !enemy ) {
 			continue;

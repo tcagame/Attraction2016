@@ -53,6 +53,10 @@ bool BulletRapidFire::update( ) {
 		}
 		// ˆÚ“®
 		_bullet_pos[ i ] += _dir * _speed;
+
+		/*
+		//‚ ‚½‚è”»’è’²®’†
+
 		//UŒ‚
 		AppPtr app = App::getTask( );
 		CohortPtr cohort = app->getCohort( );
@@ -66,7 +70,11 @@ bool BulletRapidFire::update( ) {
 				_exist_bullet[ i ] = false;
 			}
 		}
-		effect.drawEffect( _bullet_effect_handle[ i ], Vector( 0.3, 0.3, 0.3 ), _bullet_pos[ i ], _dir );
+		Effect effect;
+		effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), _pos, _dir );
+		
+		effect.drawEffect( _bullet_effect_handle[ i ], Vector( 0.3, 0.3, 0.3 ), _bullet_pos[ i ], _dir );*/
+
 	}
 	return true;
 }

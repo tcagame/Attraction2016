@@ -26,10 +26,10 @@ void Character::update( ) {
 }
 
 void Character::move( const Vector& vec ) {
-	AppPtr app = App::getTask( );
-	GroundModelPtr ground_model = app->getGroundModel( );
+	//‚ ‚½‚è”»’è’²®’†
+	/*
 	CohortPtr cohort = app->getCohort( );
-	Vector move_pos = getPos( ) + vec;
+	
 	bool is_character = false;
 	int max_enemy = cohort->getMaxNum( );
 	for ( int i = 0; i < max_enemy; i++ ) {
@@ -49,13 +49,17 @@ void Character::move( const Vector& vec ) {
 			break;
 		}
 	}
+	Vector move_pos = getPos( ) + vec;
+	AppPtr app = App::getTask( );
+	GroundModelPtr ground_model = app->getGroundModel( );
 	bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
-	if ( is_ground && !is_character ) {
+	if ( is_ground /* && !is_character  ) {
 		_pos += vec;
 	}
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
-	}
+	}*/
+	_pos += vec;
 }
 
 void Character::create( const Vector& pos ) {

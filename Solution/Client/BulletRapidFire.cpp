@@ -30,7 +30,8 @@ bool BulletRapidFire::update( ) {
 	for ( int i = 0; i < BULLET_NUM; i++ ) {
 		// ˆÚ“®
 		_bullet_pos[ i ] += _dir * _speed;
-
+		/*
+		//‚ ‚½‚è”»’è’²®’†
 		//UŒ‚
 		AppPtr app = App::getTask( );
 		CohortPtr cohort = app->getCohort( );
@@ -45,6 +46,7 @@ bool BulletRapidFire::update( ) {
 		}
 		Effect effect;
 		effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), _pos, _dir );
+		*/
 	}
 	return true;
 }

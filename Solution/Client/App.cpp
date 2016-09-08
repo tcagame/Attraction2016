@@ -54,6 +54,7 @@ void App::update( ) {
 	if ( pop_player ) {
 		Vector player_pos = Vector( 1, 1, 0 );
 		_player->create( player_pos );
+		setState( STATE_PLAY );
 	}
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player->getPos( ) );
@@ -71,7 +72,7 @@ void App::initialize( ) {
 	_cohort->init( );
 
 	//ƒvƒŒƒCƒ„[‚ÌÝ’è
-	PlayerBehaviorPtr behavior = PlayerHunterBehaviorPtr( new PlayerHunterBehavior( ) );
+	PlayerBehaviorPtr behavior = PlayerMonkBehaviorPtr( new PlayerMonkBehavior( ) );
 	_player = PlayerPtr( new Player( behavior, Character::STATUS( 60000, 1, 0.3 ), Player::PLAYER_TYPE_KNIGHT ) );
 	behavior->setParent( _player );
 }
@@ -129,4 +130,12 @@ void App::loadToGround( ) {
 			_cohort->loadBlockEnemyData( enemy_file_path );
 		}
 	}
+}
+
+App::STATE App::getState( ) const {
+	return _state;
+}
+
+void App::setState( STATE state ) {
+	_state = state;
 }

@@ -131,6 +131,7 @@ void EnemyBossBehavior::switchStatus( ) {
 	}
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_boss_state = BOSS_STATE_DEAD;
+		app->setState( App::STATE_CLEAR );
 	}
 	
 }

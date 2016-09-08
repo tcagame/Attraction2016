@@ -5,7 +5,6 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "BulletMissile.h"
 #include "Weapon.h"
 #include "DeedBox.h"
 #include "Crystals.h"
@@ -76,6 +75,13 @@ const int STATUS_BOSS_HP_GAUGE_WIDTH = 256;
 const int STATUS_BOSS_HP_GAUGE_HEIGHT = 37;
 const int STATUS_BOSS_HP_GAUGE_X = STATUS_BOSS_NAME_X + STATUS_POS_OFFSET;
 const int STATUS_BOSS_HP_GAUGE_Y = STATUS_BOSS_WINDOW_Y +  STATUS_POS_OFFSET * 3;
+
+const int STATUS_READY_X = 0;
+const int STATUS_READY_Y = 0;
+const int STATUS_CLEAR_X = STATUS_READY_X;
+const int STATUS_CLEAR_Y = STATUS_READY_Y;
+const int STATUS_GAMEOVER_X = STATUS_READY_X;
+const int STATUS_GAMEOVER_Y = STATUS_READY_Y;
 
 std::string MAP_NAME_LIST[ ] {
 	"none",
@@ -177,6 +183,9 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9, "UI/hpnumber9_dammy.png" );
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP, "UI/boss_hp_dammy.png" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
+	drawer->loadGraph( GRAPHIC_READY,	"UI/ready_dammy.png" );
+	drawer->loadGraph( GRAPHIC_CLEAR,	"UI/clear_dammy.png" );
+	drawer->loadGraph( GRAPHIC_GAMEOVER,	"UI/gameover_dammy.png" );
 	//エフェクトのロード
 	drawer->loadEffect( Effect::EFFECT_FAIRY, "Effect/effect001.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "Effect/effect105.efk" );
@@ -222,19 +231,36 @@ void Viewer::initialize( ) {
 	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
 	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
 	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
+	Effect effect;
+	_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
 }
 
 void Viewer::update( ) {
-	drawPlayer( );
-	drawEnemy( );
-	drawBoss( );
-	drawGroundModel( );
-	drawBossMapModel( );
-	drawItem( );
-	drawBigCrystal( );
-	drawCrystal( );
-	drawUI( );
-	updateCamera( );
+	AppPtr app = App::getTask( );
+	App::STATE state = app->getState( );
+	switch( state ) {
+	case App::STATE_READY:
+		drawReady( );
+		break;
+	case App::STATE_PLAY:
+		drawPlayer( );
+		drawEnemy( );
+		drawBoss( );
+		drawGroundModel( );
+		drawBossMapModel( );
+		drawItem( );
+		drawBigCrystal( );
+		drawCrystal( );
+		drawUI( );
+		updateCamera( );
+		break;
+	case App::STATE_CLEAR:
+		drawClear( );
+		break;
+	case App::STATE_DEAD:
+		drawGameOver( );
+		break;
+	}
 }
 
 void Viewer::updateCamera( ) {
@@ -261,6 +287,8 @@ void Viewer::drawPlayer( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+	Effect effect;
+	effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0.5, 0 ), dir );
 	
 	Player::STATUS status = player->getStatus( );
 	drawer->drawString( 0, 50, "Palyer_HP: %d Player_SP: %d", status.hp, player->getSP( ) );
@@ -417,6 +445,7 @@ void Viewer::drawUI( ) {
 	if ( !player->isExpired( ) ) {
 		return;
 	}
+	DrawerPtr drawer = Drawer::getTask( );
 	{
 		//HP計算
 		Player::STATUS status = player->getStatus( );
@@ -425,7 +454,6 @@ void Viewer::drawUI( ) {
 		double percentage = hp / max_hp;
 		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
 		//HP描画
-		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::Transform transform = Drawer::Transform( STATUS_HP_GAUGE_X, STATUS_HP_GAUGE_Y, 0, 0, ( int )tx, STATUS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_PLAYER_HP, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
@@ -451,7 +479,6 @@ void Viewer::drawUI( ) {
 		double percentage = sp / 100;
 		double tx = STATUS_SP_GAUGE_WIDTH * percentage;
 		//SP描画
-		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::Transform transform = Drawer::Transform( STATUS_SP_GAUGE_X, STATUS_SP_GAUGE_Y, 0, 0, ( int )tx, STATUS_SP_GAUGE_HEIGHT );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_SP, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
@@ -460,14 +487,12 @@ void Viewer::drawUI( ) {
 		//ウィンドウ
 		Drawer::Transform transform = Drawer::Transform( STATUS_WINDOW_X, STATUS_WINDOW_Y );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_WINDOW, Drawer::BLEND_NONE, 0 );
-		DrawerPtr drawer = Drawer::getTask( );
 		drawer->setSprite( sprite );
 	}
 	{
 		//ネームタグ
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
 			if ( i == GRAPHIC_UI_NAME_KNIGHT ) {
-				DrawerPtr drawer = Drawer::getTask( );
 				Drawer::Transform transform = Drawer::Transform( STATUS_NAME_X, STATUS_NAME_Y );
 				Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
 				drawer->setSprite( sprite );
@@ -488,7 +513,6 @@ void Viewer::drawUI( ) {
 		double percentage = hp / max_hp;
 		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
 		//HP描画
-		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_HP_GAUGE_X, STATUS_BOSS_HP_GAUGE_Y, 0, 0, ( int )tx, STATUS_BOSS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_BOSS_HP, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
@@ -497,14 +521,33 @@ void Viewer::drawUI( ) {
 		//ウィンドウ
 		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_WINDOW_X, STATUS_BOSS_WINDOW_Y );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_WINDOW, Drawer::BLEND_NONE, 0 );
-		DrawerPtr drawer = Drawer::getTask( );
 		drawer->setSprite( sprite );
 	}
 	{
 		//ネームタグ
-		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::Transform transform = Drawer::Transform( STATUS_BOSS_NAME_X, STATUS_BOSS_NAME_Y );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_UI_NAME_BOSS, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
+}
+
+void Viewer::drawReady( ) {
+	Drawer::Transform transform = Drawer::Transform( STATUS_READY_X, STATUS_READY_Y );
+	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY, Drawer::BLEND_NONE, 0 );
+	DrawerPtr drawer = Drawer::getTask( );
+	drawer->setSprite( sprite );
+}
+
+void Viewer::drawClear( ) {
+	Drawer::Transform transform = Drawer::Transform( STATUS_CLEAR_X, STATUS_CLEAR_Y );
+	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_CLEAR, Drawer::BLEND_NONE, 0 );
+	DrawerPtr drawer = Drawer::getTask( );
+	drawer->setSprite( sprite );
+}
+
+void Viewer::drawGameOver( ) {
+	Drawer::Transform transform = Drawer::Transform( STATUS_GAMEOVER_X, STATUS_GAMEOVER_Y );
+	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_GAMEOVER, Drawer::BLEND_NONE, 0 );
+	DrawerPtr drawer = Drawer::getTask( );
+	drawer->setSprite( sprite );
 }

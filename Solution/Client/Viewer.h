@@ -39,6 +39,9 @@ private:
 		GRAPHIC_UI_HP_NUMBER_8,
 		GRAPHIC_UI_HP_NUMBER_9,
 		GRAPHIC_BULLET_MISSILE,
+		GRAPHIC_READY,
+		GRAPHIC_CLEAR,
+		GRAPHIC_GAMEOVER,
 		GRAPHIC_MAX
 	};
 	
@@ -54,6 +57,9 @@ private:
 	void drawCrystal( );
 	void drawBigCrystal( );
 	void drawUI( );
+	void drawReady( );
+	void drawClear( );
+	void drawGameOver( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
@@ -68,5 +74,7 @@ private:
 	int _path_tex_handle;
 	int _item_tex_handle;
 	int _crystal_tex_handle;
+
+	int _fairy_handle;
 };
 

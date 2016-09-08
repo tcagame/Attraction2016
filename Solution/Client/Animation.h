@@ -70,6 +70,7 @@ public:
 	bool isEndAnimation( ) const;
 	int getMotion( ) const;
 	double getAnimTime( ) const;
+	double getEndAnimTime( ) const;
 	void setAnimationTime( double anim_time );
 private:
 	double _anim_time;

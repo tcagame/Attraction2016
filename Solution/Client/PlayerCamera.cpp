@@ -37,6 +37,12 @@ Vector PlayerCamera::getConvertDeviceVec( ) const {
 	return move_dir.normalize( );
 }
 
+void PlayerCamera::initialize( ) {
+	_pos = getStartPos( );
+	_target = getStartTargetPos( );
+}
+
+
 void PlayerCamera::update( ) {
 	
 	MousePtr mouse = Mouse::getTask( );

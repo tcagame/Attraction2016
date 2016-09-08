@@ -3,9 +3,9 @@
 #include "Character.h"
 #include "Device.h"
 #include "App.h"
-#include "BulletMissile.h"
-#include "BulletMissile.h"
-#include "BulletMissile.h"
+#include "BulletFire.h"
+#include "BulletRapidFire.h"
+#include "BulletShot.h"
 #include "Weapon.h"
 
 PlayerHunterBehavior::PlayerHunterBehavior( ) {
@@ -28,13 +28,13 @@ void PlayerHunterBehavior::attack( ) {
 			BulletPtr bullet;
 			switch ( _attack_pattern ) {
 				case 0:
-					bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+					bullet = BulletFirePtr( new BulletFire( _parent->getPos( ), _parent->getDir( ) ) );
 					break;
 				case 1:
-					bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+					bullet = BulletRapidFirePtr( new BulletRapidFire( _parent->getPos( ), _parent->getDir( ) ) );
 					break;
 				case 2:
-					bullet = BulletMissilePtr( new BulletMissile( _parent->getPos( ), _parent->getDir( ) ) );
+					bullet = BulletShotPtr( new BulletShot( _parent->getPos( ), _parent->getDir( ) ) );
 					break;
 			}
 			weapon->add( bullet );

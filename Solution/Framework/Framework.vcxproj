@@ -11,26 +11,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Binary.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Task.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Binary.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Ip.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="mathmatics.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Mouse.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{168a8c19-ae61-4a9b-a1e3-d123f5567a05}</Project>
-    </ProjectReference>
+    <ClInclude Include="Network.h" />
+    <ClInclude Include="smart_ptr.h" />
+    <ClInclude Include="Task.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8F046E7A-CE27-43A0-BB98-50FE657CA528}</ProjectGuid>

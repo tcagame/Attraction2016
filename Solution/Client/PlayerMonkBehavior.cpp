@@ -3,7 +3,9 @@
 #include "Character.h"
 #include "Device.h"
 #include "App.h"
+#include "BulletJab.h"
 #include "BulletImpact.h"
+#include "BulletUpper.h"
 #include "Weapon.h"
 #include "Network.h"
 
@@ -21,11 +23,23 @@ void PlayerMonkBehavior::attack( ) {
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK && !_animation->isEndAnimation( ) ) {
-		if ( _animation->getAnimTime( ) == 25.0 ) {
+		if ( _animation->getAnimTime( ) == 30.0 ) {
 			AppPtr app = App::getTask( );
 			WeaponPtr weapon = app->getWeapon( );
-			BulletPtr bullet = BulletImpactPtr( new BulletImpact( _parent->getPos( ), _parent->getDir( ) ) );
+			BulletPtr bullet;
+			switch ( _attack_pattern ) {
+			case 0:
+				bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+				break;																									 
+			case 1:																										 
+				bullet = BulletImpactPtr( new BulletImpact( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+				break;																									 
+			case 2:																										 
+				bullet = BulletUpperPtr( new BulletUpper( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+				break;
+			}
 			weapon->add( bullet );
+			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
 		}
 		_common_state = COMMON_STATE_ATTACK;
 	}
@@ -57,7 +71,17 @@ void PlayerMonkBehavior::animationUpdate( ) {
 	}
 	if ( _common_state == COMMON_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_MONK_ATTACK ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK ) );
+			switch ( _attack_pattern ) {
+				case 0:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK, 1.5 ) );
+					break;
+				case 1:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK, 1.5 ) );
+					break;
+				case 2:
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK, 1.5 ) );
+					break;
+			}
 		} else {
 			if ( _animation->isEndAnimation( ) ) {
 				_animation->setAnimationTime( 0 );

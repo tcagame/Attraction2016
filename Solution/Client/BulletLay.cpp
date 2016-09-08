@@ -5,7 +5,7 @@ const int LAY_POWER = 100;
 
 const double SPEED = 0.05;
 const double RADIUS = 0.1;
-const double LENGTH = 5.0;
+const double LENGTH = 10.0;
 const int PARTICLE = 8;
 
 BulletLay::BulletLay( const Vector& pos, const Vector& dir )

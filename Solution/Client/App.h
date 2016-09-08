@@ -20,6 +20,14 @@ public:
 	App( );
 	virtual ~App( );
 public:
+	enum STATE {
+		STATE_READY,
+		STATE_PLAY,
+		STATE_CLEAR,
+		STATE_DEAD,
+		STATE_MAX
+	};
+public:
 	void update( );
 	void initialize( );
 	void finalize( );
@@ -31,6 +39,8 @@ public:
 	DeedBoxesPtr getDeedBoxes( ) const;
 	ItemsPtr getItems( ) const;
 	CrystalsPtr getCrystals( ) const;
+	STATE getState( ) const;
+	void setState( STATE state );
 private:
 	void loadToGround( );
 private:
@@ -42,4 +52,6 @@ private:
 	DeedBoxesPtr _deed_boxes;
 	ItemsPtr _items;
 	CrystalsPtr _crystals;
+	STATE _state;
+	int _push_count;
 };

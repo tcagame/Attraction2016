@@ -34,7 +34,7 @@ BulletBeam::BulletBeam( const Vector& pos, const Vector& dir )
 
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM );
-	effect.drawEffect( _effect_handle, Vector(1, 1, 1), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos, dir );
 }
 
 BulletBeam::~BulletBeam( ) {

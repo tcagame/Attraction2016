@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "Framework\Framework.vcxproj", "{8F046E7A-CE27-43A0-BB98-50FE657CA528}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcxproj", "{168A8C19-AE61-4A9B-A1E3-D123F5567A05}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppModelMaker", "AppModelMaker\AppModelMaker.vcxproj", "{D5154EB3-B253-4AE9-B80A-2D2478084B37}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppPlaneMaker", "AppPlaneMaker\AppPlaneMaker.vcxproj", "{FE4D30F8-6911-458F-95DC-171BE81884AC}"
@@ -41,10 +39,6 @@ Global
 		{8F046E7A-CE27-43A0-BB98-50FE657CA528}.Debug|Win32.Build.0 = Debug|Win32
 		{8F046E7A-CE27-43A0-BB98-50FE657CA528}.Release|Win32.ActiveCfg = Release|Win32
 		{8F046E7A-CE27-43A0-BB98-50FE657CA528}.Release|Win32.Build.0 = Release|Win32
-		{168A8C19-AE61-4A9B-A1E3-D123F5567A05}.Debug|Win32.ActiveCfg = Debug|Win32
-		{168A8C19-AE61-4A9B-A1E3-D123F5567A05}.Debug|Win32.Build.0 = Debug|Win32
-		{168A8C19-AE61-4A9B-A1E3-D123F5567A05}.Release|Win32.ActiveCfg = Release|Win32
-		{168A8C19-AE61-4A9B-A1E3-D123F5567A05}.Release|Win32.Build.0 = Release|Win32
 		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Debug|Win32.ActiveCfg = Debug|Win32
 		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Debug|Win32.Build.0 = Debug|Win32
 		{D5154EB3-B253-4AE9-B80A-2D2478084B37}.Release|Win32.ActiveCfg = Release|Win32

@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "Framework.h"
 
-const Vector START_CAMERA_POS = Vector( 50, 50, 10 );
+const Vector START_CAMERA_POS = Vector( 50, 50, 20 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
 CameraPtr Camera::getTask( ) {

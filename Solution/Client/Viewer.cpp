@@ -341,9 +341,8 @@ void Viewer::drawGroundModel( ) {
 				tex_handle = _path_tex_handle;
 			}
 			if ( _map_model[ type ] ) {
-				_map_model[ type ]->translate( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) );
+				_map_model[ type ]->setPos( ( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) ) );
 				_map_model[ type ]->draw( tex_handle );
-				_map_model[ type ]->translate( Vector( -( i *  Ground::CHIP_WIDTH ), -( j *  Ground::CHIP_HEIGHT ), 0 ) );
 			}
 		}
 	}

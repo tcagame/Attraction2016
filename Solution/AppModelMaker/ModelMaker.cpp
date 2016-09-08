@@ -127,7 +127,6 @@ void ModelMaker::view( ) {
 				max.z = abs( pos.z );
 			}
 		}
-
 		double length = max.x;
 		if ( length < max.y ) {
 			length = max.y;

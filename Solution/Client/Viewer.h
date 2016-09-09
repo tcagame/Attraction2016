@@ -63,7 +63,7 @@ private:
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
 private:
-	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
+/*	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
 	ModelPtr _boss_map_model;
 	ModelPtr _item_model;
 	ModelPtr _crystal_model;
@@ -73,7 +73,7 @@ private:
 	int _path_tex_handle;
 	int _item_tex_handle;
 	int _crystal_tex_handle;
-
+	*/
 	int _fairy_handle;
 	int _fairy_time;
 };

@@ -27,6 +27,7 @@ public:
 		}
 	};
 public:
+	void draw( bool trans = false ) const;
 	void draw( int texture, bool trans = false ) const;
 	void multiply( Matrix matrix );
 	void alloc( int polygon_num );
@@ -39,11 +40,14 @@ public:
 	void translate( Vector move );
 	void setPos( Vector pos );
 	void reset( );
+	void setTexture( const char* texture_path );
+	VERTEX getVERTEX( int idx );
 	Vector getPoint( int idx ) const;
 	ModelImplConstPtr getModelImpl( ) const;
 	int getTextureHandle( const char* filename );
 private:
 	ModelImplPtr _impl;
 	Vector _origin_pos;
+	int _texture_handle;
 };
 

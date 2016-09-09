@@ -22,7 +22,7 @@
 #include "Effect.h"
 #include "Framework.h"
 #include "mathmatics.h"
-
+/*
 const char* ITEM_POTION_TEXTRUE_PATH = "../Resource/Object/item/item01_DM.jpg";
 const char* ITEM_POTION_MODEL_PATH = "../Resource/Object/item/item_potion.mdl";
 const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
@@ -31,6 +31,17 @@ const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01.jpg";
 const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
 const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor02_DM.jpg";
 const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor02.mdl";
+*/
+
+enum MODEL_MDL {
+	MODEL_MDL_NONE,
+	MODEL_MDL_FLOOR,
+	MODEL_MDL_PATH01,
+	MODEL_MDL_PATH02,
+	MODEL_MDL_PATH03,
+	MODEL_MDL_BOSS,
+	MODEL_MDL_CRYSTAL
+};
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
 const int END_FAIRY_TIME = 131;
@@ -68,14 +79,14 @@ const int STATUS_CLEAR_X = STATUS_READY_X;
 const int STATUS_CLEAR_Y = STATUS_READY_Y;
 const int STATUS_GAMEOVER_X = STATUS_READY_X;
 const int STATUS_GAMEOVER_Y = STATUS_READY_Y;
-
+/*
 std::string MAP_NAME_LIST[ ] {
 	"none",
 	"floor01",
 	"path01",
 	"path02",
 	"path03"
-};
+};*/
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
@@ -192,7 +203,14 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "Effect/effect403.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "Effect/effect404.efk" );
 
+	drawer->loadMDLModel( MODEL_MDL_FLOOR  , "MapModel/floor01.mdl"   , "MapModel/floor01_DM.jpg" );
+	drawer->loadMDLModel( MODEL_MDL_PATH01 , "MapModel/path01.mdl"    , "MapModel/path.jpg" );
+	drawer->loadMDLModel( MODEL_MDL_PATH02 , "MapModel/path02.mdl"    , "MapModel/path.jpg" );
+	drawer->loadMDLModel( MODEL_MDL_PATH03 , "MapModel/path03.mdl"    , "MapModel/path.jpg" );
+	drawer->loadMDLModel( MODEL_MDL_BOSS   , "MapModel/floor02.mdl"   , "MapModel/floor02_DM.jpg" );
+	drawer->loadMDLModel( MODEL_MDL_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg" );
 
+	/*
 	_item_model = ModelPtr( new Model );
 	_item_model->load( ITEM_POTION_MODEL_PATH );
 	_item_tex_handle = _item_model->getTextureHandle( ITEM_POTION_TEXTRUE_PATH );
@@ -217,7 +235,7 @@ void Viewer::initialize( ) {
 	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
 	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
 	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
-
+	*/
 	_fairy_time = END_FAIRY_TIME;
 }
 
@@ -270,8 +288,8 @@ void Viewer::drawPlayer( ) {
 	Vector dir = player->getDir( );
 
 	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
-	drawer->setModel( model );
+	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+	drawer->setModelMV1( model );
 
 	//—d¸
 	Effect effect;
@@ -300,8 +318,8 @@ void Viewer::drawEnemy( ) {
 		Vector dir = enemy->getDir( );
 
 		DrawerPtr drawer = Drawer::getTask( );
-		Drawer::Model model = Drawer::Model( pos, dir, motion, time );
-		drawer->setModel( model );
+		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+		drawer->setModelMV1( model );
 		
 		Player::STATUS status = enemy->getStatus( );
 		drawer->drawString( 0, i * 100 + 100, "Enemy_HP: %d", status.hp );
@@ -325,8 +343,8 @@ void Viewer::drawBoss( ) {
 	Vector dir = enemy->getDir( );
 
 	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
-	drawer->setModel( model );
+	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+	drawer->setModelMV1( model );
 	
 	Player::STATUS status = enemy->getStatus( );
 	drawer->drawString( 100, 0 + 100, "BOSS_HP: %d", status.hp );
@@ -337,7 +355,7 @@ void Viewer::drawBoss( ) {
 void Viewer::drawGroundModel( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
-
+	DrawerPtr drawer = Drawer::getTask( );
 	int width = ground->getWidth( );
 	int height = ground->getHeight( );
 	int tex_handle = 0;
@@ -345,24 +363,11 @@ void Viewer::drawGroundModel( ) {
 		for ( int j = 0; j < height; j++ ) {
 			int idx = ground->getIdx( i, j );
 			int type = ground->getGroundData( idx );
-			if( type == GROUND_TYPE_FLOOR_01 ) {
-				tex_handle = _floor_tex_handle;
+			if ( type == MODEL_MDL_NONE ) {
+				continue;
 			}
-			if( type == GROUND_TYPE_PATH_01 ) {
-				tex_handle = _path_tex_handle;
-			}
-			if( type == GROUND_TYPE_PATH_02 ) {
-				tex_handle = _path_tex_handle;
-			}
-			if( type == GROUND_TYPE_PATH_03 ) {
-				tex_handle = _path_tex_handle;
-			}
-			if ( _map_model[ type ] ) {
-				_map_model[ type ]->setPos( ( Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ) ) );
-				_map_model[ type ]->draw( tex_handle );
-				//ModelImplPtr impl =  _map_model[ type ]->getModelImpl( );
-				
-			}
+			Drawer::ModelMDL model_mdl = Drawer::ModelMDL( Vector(  i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ), type );
+			drawer->setModelMDL( model_mdl );
 		}
 	}
 }
@@ -370,27 +375,36 @@ void Viewer::drawGroundModel( ) {
 void Viewer::drawBossMapModel( ) {
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
+	DrawerPtr drawer = Drawer::getTask( );
 
 	int x = Ground::BOSS_X;
 	int y = Ground::BOSS_Y;
 
-	_boss_map_model->translate( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ) );
+	Drawer::ModelMDL model = Drawer::ModelMDL( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ), MODEL_MDL_BOSS );
+	drawer->setModelMDL( model );
+	/*
+	_boss_map_model->translate(  );
 	_boss_map_model->draw( _boss_map_tex_hadle );
-	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
+	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );*/
 }
 
 void Viewer::drawCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
+	DrawerPtr drawer = Drawer::getTask( );
+	
 	for ( int i = 0; i < Crystals::MAX_CRYSTAL_NUM; i++ ) {
 		CrystalPtr crystal = crystals->getCrystal( i );
 		if ( !crystal ) {
 			continue;
 		}
+		Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_CRYSTAL );
+		drawer->setModelMDL( model );
+		/*
 		Vector pos = crystal->getPos( );
 		_crystal_model->translate( pos );
 		_crystal_model->draw( _crystal_tex_handle );
-		_crystal_model->translate( pos * -1 );
+		_crystal_model->translate( pos * -1 );*/
 	}
 }
 
@@ -398,18 +412,20 @@ void Viewer::drawBigCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
 	CrystalPtr crystal = crystals->getBigCrystal( );
+	DrawerPtr drawer = Drawer::getTask( );
 	if ( !crystal ) {
 		return;
 	}
 	if ( !crystal->isExpired( ) ) {
 		return;
 	}
-	Matrix matrix;
-	matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
+	Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_CRYSTAL );
+	drawer->setModelMDL( model );
+	/*
 	_big_crystal_model->multiply( matrix );
 	_big_crystal_model->translate( crystal->getPos( ) );
 	_big_crystal_model->draw( _crystal_tex_handle );
-	_big_crystal_model->translate( crystal->getPos( ) * -1 );
+	_big_crystal_model->translate( crystal->getPos( ) * -1 );*/
 }
 
 void Viewer::drawUI( ) {

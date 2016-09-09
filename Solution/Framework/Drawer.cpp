@@ -1,5 +1,6 @@
 #include "Drawer.h"
 #include "Framework.h"
+#include "Model.h"
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include <assert.h>
@@ -25,17 +26,28 @@ tw( tw_ ),
 th( th_ ) {
 }
 
-Drawer::Model::Model( ) :
+Drawer::ModelMV1::ModelMV1( ) :
 motion( -1 ),
 time( 0 ){
 }
 
-Drawer::Model::Model( Vector pos_, Vector dir_, int motion_, double time_ ) :
+Drawer::ModelMV1::ModelMV1(Vector pos_, Vector dir_, int motion_, double time_) :
 pos( pos_ ),
 dir( dir_ ),
 motion( motion_ ),
 time( time_ ) {
 }
+
+Drawer::ModelMDL::ModelMDL( ) :
+type( -1 ){
+}
+
+Drawer::ModelMDL::ModelMDL( Vector pos_, int type_ ) :
+pos( pos_ ),
+type( type_ ) {
+
+}
+
 
 Drawer::Sprite::Sprite( ) :
 res( -1 ),
@@ -101,7 +113,7 @@ void Drawer::initialize( ) {
 		_model_id[ i ].body = -1;
 	}
 	_sprite_idx = 0;
-	_model_idx = 0;
+	_model_mv1_idx = 0;
 	_billboard_idx = 0;
 	_effect_idx = 0;
 	
@@ -112,19 +124,31 @@ void Drawer::initialize( ) {
 
 void Drawer::update( ) {
 	flip( );
-	drawSprite( );
-	drawModel( );
+	drawModelMV1( );
+	drawModelMDL( );
 	drawBillboard( );
 	drawEffect( );
+	drawSprite( );
+
 }
 
-void Drawer::drawModel( ) {
-	for ( int i = 0; i < _model_idx; i++ ) {
-		int id = _model_id[ _model[ i ].motion ].body;
-		int anim = _model_id[ _model[ i ].motion ].body_anim;
-		double time = _model[ i ].time;
-		Vector pos = _model[ i ].pos;
-		Vector dir = _model[ i ].dir;
+void Drawer::drawModelMDL( ) {
+	for ( int i = 0; i < _model_mdl_idx; i++ ) {
+		int type = _model_mdl[ i ].type;
+		Vector pos = _model_mdl[ i ].pos;
+		_model[ type ]->setPos( pos );
+		_model[ type ]->draw( );
+	}
+	_model_mdl_idx = 0;
+}
+
+void Drawer::drawModelMV1( ) {
+	for ( int i = 0; i < _model_mv1_idx; i++ ) {
+		int id = _model_id[ _model_mv1[ i ].motion ].body;
+		int anim = _model_id[ _model_mv1[ i ].motion ].body_anim;
+		double time = _model_mv1[ i ].time;
+		Vector pos = _model_mv1[ i ].pos;
+		Vector dir = _model_mv1[ i ].dir;
 		if ( ( float )dir.x == 0 ) {
 			dir.x = 0.001;
 		}
@@ -148,7 +172,7 @@ void Drawer::drawModel( ) {
 		// ‚R‚cƒ‚ƒfƒ‹‚Ì•`‰æ
 		MV1DrawModel( id ) ;
 	}
-	_model_idx = 0;
+	_model_mv1_idx = 0;
 }
 
 void Drawer::drawSprite( ) {
@@ -241,6 +265,18 @@ void Drawer::loadMV1Model( int motion, const char* filename ) {
 	anim = MV1AttachAnim( id, 0, -1, FALSE );
 }
 
+void Drawer::loadMDLModel( int type, const char* model_filename, const char* texture_filename ) {
+	std::string path = _directory;
+	path += "/";
+	std::string tex_path = path;
+	path += model_filename;
+	tex_path += texture_filename;
+	assert( type < MODEL_NUM );
+	_model[ type ] = ModelPtr( new Model );
+	_model[ type ]->load( path.c_str( ) );
+	_model[ type ]->setTexture( tex_path.c_str( ) );
+}
+
 void Drawer::loadGraph( int res, const char * filename ) {
 	std::string path = _directory;
 	path += "/";
@@ -273,10 +309,16 @@ void Drawer::setSprite( const Sprite& sprite ) {
 	_sprite_idx++;
 }
 
-void Drawer::setModel( const Model& model ) {
-	assert( _model_idx < MODEL_NUM );
-	_model[ _model_idx ] = model;
-	_model_idx++;
+void Drawer::setModelMV1( const ModelMV1& model ) {
+	assert( _model_mv1_idx < MODEL_MV1_NUM );
+	_model_mv1[ _model_mv1_idx ] = model;
+	_model_mv1_idx++;
+}
+
+void Drawer::setModelMDL( const ModelMDL& model_mdl ) {
+	assert( _model_mdl_idx < MODEL_MDL_NUM );
+	_model_mdl[ _model_mdl_idx ] = model_mdl;
+	_model_mdl_idx++;
 }
 
 void Drawer::setBillboard( const Billboard& billboard ) {

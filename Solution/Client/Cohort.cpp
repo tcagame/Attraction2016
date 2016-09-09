@@ -1,5 +1,6 @@
 #include "Cohort.h"
 #include "App.h"
+#include "Field.h"
 #include "EnemyMinotaurBehavior.h"
 #include "EnemyGhostBehavior.h"
 #include "EnemyArmorBehavior.h"
@@ -25,6 +26,7 @@ void Cohort::init( ) {
 	_enemy_max = 0;
 	int _enemy_data_max = _enemy_data.size( );
 	for ( int i = 0; i < MAX_NUM; i++ ) {
+		EnemyPtr enemy = _enemy[ i ];
 		_enemy[ i ].reset( );
 	}
 	for ( int i = 0; i < _enemy_data_max; i++ ) {
@@ -35,9 +37,13 @@ void Cohort::init( ) {
 
 void Cohort::reset( ) {
 	_enemy_max = 0;
-	int _enemy_data_max = _enemy_data.size();
+	int _enemy_data_max = _enemy_data.size( );
 	for (int i = 0; i < MAX_NUM; i++) {
-		_enemy[i].reset();
+		if ( !_enemy[ i ] ) {
+			continue;
+		}
+		_enemy[ i ]->reset( );
+		_enemy[ i ].reset( );
 	}
 	for (int i = 0; i < _enemy_data_max; i++) {
 		putBlockEnemy(i);

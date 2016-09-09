@@ -21,11 +21,8 @@ void Player::addSP( unsigned int value ) {
 	}
 }
 
-void Player::sabSP( unsigned int value ) {
-	_sp -= value;
-	if ( _sp < 0 ) {
-		_sp = 0;
-	}
+void Player::resetSP( ) {
+	_sp = 0;
 }
 
 int Player::getSP( ) const {

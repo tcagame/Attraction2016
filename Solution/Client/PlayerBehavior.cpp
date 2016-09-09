@@ -11,21 +11,25 @@
 #include "GroundModel.h"
 #include "Ground.h"
 #include "Keyboard.h"
-#include "Device.h"
 #include "PlayerCamera.h"
+#include "Device.h"
+#include "Player.h"
 
 const int ITEM_LENGTH = 2;
 const int CRYSTAL_LENGTH = 2;
 
 PlayerBehavior::PlayerBehavior( ) :
 MAX_ATTACK_PATTERN( 3 ){
+	_player_state = PLAYER_STATE_WAIT;
+	_before_state = _player_state;
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
 }
 
 void PlayerBehavior::update( ) {
-	_common_state = COMMON_STATE_WAIT;
+	//âΩÇ‡ÇµÇ»Ç©Ç¡ÇΩÇÁë“ã@
+	_player_state = PLAYER_STATE_WAIT;
 
 	CameraPtr camera = Camera::getTask( );
 	PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
@@ -35,25 +39,48 @@ void PlayerBehavior::update( ) {
 
 	AppPtr app = App::getTask( );
 	Vector move_pos = _parent->getPos( ) + move_vec;
-	if ( _befor_state != COMMON_STATE_ATTACK && _befor_state != COMMON_STATE_DEAD ) {
+	if ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK ) {
+		//à⁄ìÆ
 		if ( move_vec.getLength( ) > 0.0 ) {
-			//êiÇﬂÇÈèÍçáà⁄ìÆ
 			_parent->move( move_vec );
-			_common_state = COMMON_STATE_WALK;
+			_player_state = PLAYER_STATE_WALK;
 		}
-		bool long_wait = ( _common_state == COMMON_STATE_WAIT && _animation->getAnimTime( ) > 10 );
-		if ( _common_state == COMMON_STATE_WALK || long_wait ) {
+		bool long_wait = ( _player_state == PLAYER_STATE_WAIT && _animation->getAnimTime( ) > 10 );
+		if ( _player_state == PLAYER_STATE_WALK || long_wait ) {
 			_attack_pattern = 0;
 		}
 	}
 	attack( );
+	//ïKéEãZÇÃç\Ç¶
+	DevicePtr device = Device::getTask( );
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	if ( device->getButton( ) & BUTTON_D && player->getSP( ) == 100 ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	if ( _before_state == PLAYER_STATE_STORE && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//ïKéEãZÇÇ§Ç¬
+	if ( _before_state == PLAYER_STATE_STORE && _animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	//ïKéEãZèIóπÇ‹Ç≈ïKéEãZÉÇÅ[ÉVÉáÉì
+	if ( _before_state == PLAYER_STATE_DEATHBLOW && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
 	if ( _parent->getStatus( ).hp <= 0 ) {
-		_common_state = COMMON_STATE_DEAD;
+		_player_state = PLAYER_STATE_DEAD;
 		app->setState( App::STATE_DEAD );
 	}
-	_befor_state = _common_state;
+	_before_state = _player_state;
 	pickupItem( );
 	pickupCrystal( );
+}
+
+bool PlayerBehavior::isDeathblow( ) {
+	bool on_store = _player_state == PLAYER_STATE_STORE;
+	bool on_death_blow = _player_state == PLAYER_STATE_DEATHBLOW;
+	return on_store || on_death_blow;
 }
 
 void PlayerBehavior::pickupItem( ) {

@@ -7,17 +7,9 @@ PTR( Character );
 
 class Behavior {
 public:
-	enum COMMON_STATE {
-		COMMON_STATE_WAIT,
-		COMMON_STATE_WALK,
-		COMMON_STATE_ATTACK,
-		COMMON_STATE_DEAD,
-	};
-public:
 	Behavior( );
 	virtual ~Behavior( );
 public:
-	void init( );
 	void mainLoop( );
 	AnimationPtr getAnimation( ) const;
 	void setParent( CharacterPtr parent );
@@ -27,8 +19,5 @@ protected:
 protected:
 	CharacterPtr _parent;
 	AnimationPtr _animation;
-	int _attack_pattern;
-	COMMON_STATE _common_state;
-	COMMON_STATE _befor_state;
 };
 

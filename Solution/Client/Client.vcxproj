@@ -41,6 +41,7 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArmorBehavior.cpp" />
+    <ClCompile Include="EnemyBehavior.cpp" />
     <ClCompile Include="EnemyBossBehavior.cpp" />
     <ClCompile Include="EnemyCyclopsBehavior.cpp" />
     <ClCompile Include="EnemyGhostBehavior.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArmorBehavior.h" />
+    <ClInclude Include="EnemyBehavior.h" />
     <ClInclude Include="EnemyBossBehavior.h" />
     <ClInclude Include="EnemyCyclopsBehavior.h" />
     <ClInclude Include="EnemyGhostBehavior.h" />

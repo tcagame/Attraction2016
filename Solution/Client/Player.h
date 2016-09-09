@@ -17,7 +17,7 @@ public:
 	Player( BehaviorPtr behavior, Character::STATUS status, PLAYER_TYPE player_type );
 	virtual ~Player( );
 	void addSP( unsigned int value );
-	void sabSP( unsigned int value );
+	void resetSP( );
 	int getSP( ) const;
 private:
 	int _sp;

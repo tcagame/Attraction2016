@@ -17,8 +17,8 @@ PlayerHunterBehavior::~PlayerHunterBehavior( ) {
 
 void PlayerHunterBehavior::attack( ) {
 	DevicePtr device = Device::getTask( );
-	if ( device->getButton( ) == BUTTON_A && _befor_state != COMMON_STATE_ATTACK ) {
-		_common_state = COMMON_STATE_ATTACK;
+	if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		_player_state = PLAYER_STATE_ATTACK;
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK && !_animation->isEndAnimation( ) ) {
@@ -40,17 +40,17 @@ void PlayerHunterBehavior::attack( ) {
 			weapon->add( bullet );
 			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
 		}
-		_common_state = COMMON_STATE_ATTACK;
+		_player_state = PLAYER_STATE_ATTACK;
 	}
 }
 
 void PlayerHunterBehavior::animationUpdate( ) {
-	if ( _common_state == COMMON_STATE_DEAD && _animation->isEndAnimation( ) ) {
+	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
 		return;
 	}
 
-	if ( _common_state == COMMON_STATE_WAIT ) {
+	if ( _player_state == PLAYER_STATE_WAIT ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_WAIT ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_WAIT ) );
 		} else {
@@ -59,7 +59,7 @@ void PlayerHunterBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_WALK ) {
+	if ( _player_state == PLAYER_STATE_WALK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_WALK ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_WALK ) ); 
 		} else {
@@ -68,7 +68,7 @@ void PlayerHunterBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_ATTACK ) {
+	if ( _player_state == PLAYER_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_ATTACK ) {
 			switch ( _attack_pattern ) {
 				case 0:
@@ -87,7 +87,7 @@ void PlayerHunterBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_DEAD ) {
+	if ( _player_state == PLAYER_STATE_DEAD ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_DEAD ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_DEAD ) );
 		}

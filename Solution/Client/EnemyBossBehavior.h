@@ -34,10 +34,11 @@ private:
 private:
 	PlayerWeakPtr _target;
 	BOSS_STATE _boss_state;
-	BOSS_STATE _before_boss_state;
+	BOSS_STATE _before_state;
 	double _boss_damage_hp;
 	double _attack_range[ BOSS_ATTACK_PATTERN_MAX ];
 	bool _on_damage;
 	bool _has_damage_motion;
 	bool _has_entry;
+	int _attack_pattern;
 };

@@ -4,15 +4,9 @@
 
 Behavior::Behavior( ) {
 	_animation = AnimationPtr( new Animation( ) );
-	_attack_pattern = 0;
 }
 
 Behavior::~Behavior( ) {
-}
-
-void Behavior::init( ) {
-	_common_state = COMMON_STATE_WAIT;
-	_befor_state = _common_state;
 }
 
 void Behavior::mainLoop( ) {

@@ -1,11 +1,11 @@
 #pragma once
-#include "Behavior.h"
+#include "EnemyBehavior.h"
 #include "smart_ptr.h"
 
 PTR( EnemyGhostBehavior );
 PTR( Player );
 
-class EnemyGhostBehavior : public Behavior {
+class EnemyGhostBehavior : public EnemyBehavior {
 public:
 	EnemyGhostBehavior( );
 	virtual ~EnemyGhostBehavior( );

@@ -1,10 +1,10 @@
 #pragma once
-#include "Behavior.h"
+#include "EnemyBehavior.h"
 
 PTR( EnemyGoblinBehavior );
 PTR( Player );
 
-class EnemyGoblinBehavior : public Behavior {
+class EnemyGoblinBehavior : public EnemyBehavior {
 public:
 	EnemyGoblinBehavior( );
 	virtual ~EnemyGoblinBehavior( );

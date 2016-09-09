@@ -29,7 +29,7 @@ void EnemyMinotaurBehavior::update( ) {
 
 	movePosToTarget( );
 	switchStatus( );
-	_befor_state = _common_state;
+	_before_state = _enemy_state;
 	_befor_hp = _parent->getStatus( ).hp;
 }
 
@@ -42,13 +42,13 @@ void EnemyMinotaurBehavior::movePosToTarget( ) {
 	
 	Vector distance = target_pos - _parent->getPos( );
 	double length = distance.getLength( );
-	if ( _common_state == COMMON_STATE_WALK ) {
+	if ( _enemy_state == ENEMY_STATE_WALK ) {
 		_parent->move( distance * _parent->getStatus( ).speed );
 	}
 }
 
 void EnemyMinotaurBehavior::switchStatus( ) {
-	_common_state = COMMON_STATE_WAIT;
+	_enemy_state = ENEMY_STATE_WAIT;
 	_on_damage = false;
 
 	if ( _target.expired( ) ) {
@@ -60,15 +60,15 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 
 	double range = stance.getLength( );
 	if ( range <= _move_range ) {
-		_common_state = COMMON_STATE_WALK;
+		_enemy_state = ENEMY_STATE_WALK;
 	}
 
-	if ( range <= _attack_range && _befor_state != COMMON_STATE_ATTACK ) {
-		_common_state = COMMON_STATE_ATTACK;
+	if ( range <= _attack_range && _before_state != ENEMY_STATE_ATTACK ) {
+		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_CLEAVE && !_animation->isEndAnimation( ) ) {
-		_common_state = COMMON_STATE_ATTACK;
+		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 
 	if ( _befor_hp > _parent->getStatus( ).hp ) {
@@ -76,7 +76,7 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 	}
 
 	if ( _parent->getStatus( ).hp <= 0 ) {
-		_common_state = COMMON_STATE_DEAD;
+		_enemy_state = ENEMY_STATE_DEAD;
 	}
 }
 
@@ -88,10 +88,10 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 		return;
 	}
 	if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DAMAGE && !_animation->isEndAnimation( ) ) {
-		_common_state = COMMON_STATE_WAIT;
+		_enemy_state = ENEMY_STATE_WAIT;
 		return;
 	}
-	if ( _common_state == COMMON_STATE_WAIT ) {
+	if ( _enemy_state == ENEMY_STATE_WAIT ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_WAIT ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_WAIT, MOTION_SPEED ) );
 		} else {
@@ -100,7 +100,7 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_WALK ) {
+	if ( _enemy_state == ENEMY_STATE_WALK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_WALK ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_WALK, MOTION_SPEED ) );
 		} else {
@@ -109,7 +109,7 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_ATTACK ) {
+	if ( _enemy_state == ENEMY_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_CLEAVE ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_CLEAVE, MOTION_SPEED ) );
 		} else {
@@ -126,7 +126,7 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_DAMAGE, MOTION_SPEED ) );
 		}
 	}
-	if ( _common_state == COMMON_STATE_DEAD ) {
+	if ( _enemy_state == ENEMY_STATE_DEAD ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_MINOTAUR_DEAD ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_DEAD, MOTION_SPEED ) );
 		}

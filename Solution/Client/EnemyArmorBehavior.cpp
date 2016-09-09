@@ -31,7 +31,7 @@ void EnemyArmorBehavior::update( ) {
 
 	movePosToTarget( );
 	switchStatus( );
-	_befor_state = _common_state;
+	_before_state = _enemy_state;
 	_befor_hp = _parent->getStatus( ).hp;
 }
 
@@ -44,13 +44,13 @@ void EnemyArmorBehavior::movePosToTarget( ) {
 	
 	Vector distance = target_pos - _parent->getPos( );
 	double length = distance.getLength( );
-	if ( _common_state == COMMON_STATE_WALK ) {
+	if ( _enemy_state == ENEMY_STATE_WALK ) {
 		_parent->move( distance * _parent->getStatus( ).speed );
 	}
 }
 
 void EnemyArmorBehavior::switchStatus( ) {
-	_common_state = COMMON_STATE_WAIT;
+	_enemy_state = ENEMY_STATE_WAIT;
 	_on_damage = false;
 
 	if ( _target.expired( ) ) {
@@ -62,15 +62,15 @@ void EnemyArmorBehavior::switchStatus( ) {
 
 	double range = stance.getLength( );
 	if ( range <= _move_range ) {
-		_common_state = COMMON_STATE_WALK;
+		_enemy_state = ENEMY_STATE_WALK;
 	}
 
-	if ( range <= _attack_range && _befor_state != COMMON_STATE_ATTACK ) {
-		_common_state = COMMON_STATE_ATTACK;
+	if ( range <= _attack_range && _before_state != ENEMY_STATE_ATTACK ) {
+		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 	//UŒ‚’†
 	if ( _animation->getMotion( ) == Animation::MOTION_ARMOR_ATTACK && !_animation->isEndAnimation( ) ) {
-		_common_state = COMMON_STATE_ATTACK;
+		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 
 	if ( _befor_hp > _parent->getStatus( ).hp ) {
@@ -78,7 +78,7 @@ void EnemyArmorBehavior::switchStatus( ) {
 	}
 
 	if ( _parent->getStatus( ).hp <= 0 ) {
-		_common_state = COMMON_STATE_DEAD;
+		_enemy_state = ENEMY_STATE_DEAD;
 	}
 }
 
@@ -90,10 +90,10 @@ void EnemyArmorBehavior::animationUpdate( ) {
 		return;
 	}
 	if ( _animation->getMotion( ) == Animation::MOTION_ARMOR_DAMAGE && !_animation->isEndAnimation( ) ) {
-		_common_state = COMMON_STATE_WAIT;
+		_enemy_state = ENEMY_STATE_WAIT;
 		return;
 	}
-	if ( _common_state == COMMON_STATE_WAIT ) {
+	if ( _enemy_state == ENEMY_STATE_WAIT ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_WAIT ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_WAIT, MOTION_SPEED ) );
 		} else {
@@ -102,7 +102,7 @@ void EnemyArmorBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_WALK ) {
+	if ( _enemy_state == ENEMY_STATE_WALK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_WALK ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_WALK, MOTION_SPEED ) );
 		} else {
@@ -111,7 +111,7 @@ void EnemyArmorBehavior::animationUpdate( ) {
 			}
 		}
 	}
-	if ( _common_state == COMMON_STATE_ATTACK ) {
+	if ( _enemy_state == ENEMY_STATE_ATTACK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_ATTACK ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_ATTACK, MOTION_SPEED ) );
 		} else {
@@ -128,7 +128,7 @@ void EnemyArmorBehavior::animationUpdate( ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_DAMAGE, MOTION_SPEED ) );
 		}
 	}
-	if ( _common_state == COMMON_STATE_DEAD ) {
+	if ( _enemy_state == ENEMY_STATE_DEAD ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_ARMOR_DEAD ) {
 			_animation = AnimationPtr( new Animation( Animation::MOTION_ARMOR_DEAD, MOTION_SPEED ) );
 		}

@@ -63,7 +63,7 @@ void EnemyBossBehavior::update( ) {
 		_parent->move( pos );
 	}
 	switchStatus( );
-	_before_boss_state = _boss_state;
+	_before_state = _boss_state;
 }
 
 
@@ -81,7 +81,7 @@ void EnemyBossBehavior::switchStatus( ) {
 	switch ( _boss_state ) {
 	case BOSS_STATE_WAIT:
 		for ( int i = 0; i < BOSS_ATTACK_PATTERN_MAX; i++ ) {
-			if ( range <= _attack_range[i] && _befor_state != BOSS_STATE_ATTACK ) {
+			if ( range <= _attack_range[i] && _before_state != BOSS_STATE_ATTACK ) {
 				_boss_state = BOSS_STATE_ATTACK;
 				_attack_pattern = i;
 				break;

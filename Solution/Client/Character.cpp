@@ -80,7 +80,6 @@ void Character::create( const Vector& pos ) {
 	AppPtr App = App::getTask( );
 	FieldPtr field = App->getField( );
 	field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
-	_behavior->init( );
 }
 
 void Character::damage( unsigned int power ) {

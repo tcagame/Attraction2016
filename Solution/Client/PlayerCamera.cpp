@@ -48,7 +48,7 @@ void PlayerCamera::update( ) {
 
 	Vector vec = _pos - _target;
 
-	/*
+	
 	MousePtr mouse = Mouse::getTask( );
 	Vector mouse_pos = mouse->getPos( );
 	const double RATIO = 0.01;
@@ -64,7 +64,7 @@ void PlayerCamera::update( ) {
 	vec = mat_pitch.multiply( vec );
 	// マウスの位置を記憶
 	_store_mouse_pos = mouse_pos;
-	*/
+	
 	// _camera_posを変更
 	_pos = _target + vec;
 	

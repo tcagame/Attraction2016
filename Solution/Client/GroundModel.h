@@ -15,8 +15,8 @@ public:
 	void update( );
 	bool isCollisionGround( Vector pos );
 private:
-	static const int MAX_POLYGON_NUM = 10000;
-	static const int MAX_MODEL_NUM = 200;
+	static const int MAX_POLYGON_NUM = 8000;
+	static const int MAX_MODEL_NUM = 1000;
 private:
 	struct ModelData {
 		std::array< Vector, MAX_POLYGON_NUM > pos;

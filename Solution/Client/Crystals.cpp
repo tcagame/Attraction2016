@@ -4,7 +4,7 @@
 
 Vector CRYSTAL_POS[ Crystals::MAX_CRYSTAL_NUM ] {
 	Vector( 10, 10, 0.05 ),
-	Vector( 27.5, 0, 0.15 ),
+	Vector( 27.5, 7, 0.15 ),
 	Vector( 5, 5, 0.20 ),
 };
 

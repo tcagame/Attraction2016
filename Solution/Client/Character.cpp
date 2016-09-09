@@ -116,9 +116,13 @@ std::string Character::getCharacterName( ) const {
 }
 
 bool Character::isExpired( ) const {
+	
 	return _expired;
 }
 
 void Character::dead( ) {
+	AppPtr app = App::getTask();
+	FieldPtr field = app->getField();
+	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 	_expired = false;
 }

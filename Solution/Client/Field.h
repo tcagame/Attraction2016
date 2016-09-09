@@ -17,7 +17,7 @@ public:
 private:
 	int getIndexTargetBoard( int x, int y );
 private:
-	static const int MAX_MAP_CHIP_NUM = 50000;
+	static const int MAX_MAP_CHIP_NUM = 1000000;
 private:
 	std::array< ObjectWeakPtr, MAX_MAP_CHIP_NUM > _target_board;
 };

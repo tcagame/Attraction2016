@@ -26,7 +26,7 @@ PlayerBehavior::~PlayerBehavior( ) {
 }
 
 void PlayerBehavior::update( ) {
-	_common_state = COMMON_STATE_WAIT;
+	_player_state = PLAYER_STATE_WAIT;
 
 	CameraPtr camera = Camera::getTask( );
 	PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
@@ -36,23 +36,23 @@ void PlayerBehavior::update( ) {
 
 	AppPtr app = App::getTask( );
 	Vector move_pos = _parent->getPos( ) + move_vec;
-	if ( _befor_state != COMMON_STATE_ATTACK && _befor_state != COMMON_STATE_DEAD ) {
+	if ( _before_state != PLAYER_STATE_ATTACK && _before_state != PLAYER_STATE_DEAD ) {
 		if ( move_vec.getLength( ) > 0.0 ) {
 			//i‚ß‚éê‡ˆÚ“®
 			_parent->move( move_vec );
-			_common_state = COMMON_STATE_WALK;
+			_player_state = PLAYER_STATE_WALK;
 		}
-		bool long_wait = ( _common_state == COMMON_STATE_WAIT && _animation->getAnimTime( ) > 10 );
-		if ( _common_state == COMMON_STATE_WALK || long_wait ) {
+		bool long_wait = ( _player_state == PLAYER_STATE_WAIT && _animation->getAnimTime( ) > 10 );
+		if ( _player_state == PLAYER_STATE_WALK || long_wait ) {
 			_attack_pattern = 0;
 		}
 	}
 	attack( );
 	if ( _parent->getStatus( ).hp <= 0 ) {
-		_common_state = COMMON_STATE_DEAD;
+		_player_state = PLAYER_STATE_DEAD;
 		app->setState( App::STATE_DEAD );
 	}
-	_befor_state = _common_state;
+	_before_state = _player_state;
 	//pickupItem( );
 	pickupCrystal( );
 }

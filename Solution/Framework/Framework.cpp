@@ -25,12 +25,12 @@ Framework::Framework( ) {
 	sx = sx * 3 / 4;
 	sy = sy * 3 / 4;
 	ChangeWindowMode( TRUE );
-	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
-	SetUseDirect3DVersion( DX_DIRECT3D_9 ); 
 	SetGraphMode( sx, sy, COLOR_BIT_DEPTH, FPS );
 	_screen_width = sx;
 	_screen_height = sy;
 #endif
+	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
+	SetUseDirect3DVersion( DX_DIRECT3D_9 );
 	SetWindowText( WINDOW_NAME );
 	if ( DxLib_Init( ) == -1 ) {
 		return;

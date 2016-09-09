@@ -249,7 +249,6 @@ void Viewer::update( ) {
 		drawBoss( );
 		drawGroundModel( );
 		drawBossMapModel( );
-		drawItem( );
 		drawBigCrystal( );
 		drawCrystal( );
 		drawUI( );
@@ -393,20 +392,6 @@ void Viewer::drawBossMapModel( ) {
 	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );
 }
 
-void Viewer::drawItem( ) {
-	AppPtr app = App::getTask( );
-	ItemsPtr items = app->getItems( );
-	for ( int i = 0; i < Items::MAX_ITEM_NUM; i++ ) {
-		ItemPtr item = items->getItem( i );
-		if ( !item ) {
-			continue;
-		}
-		_item_model->translate( item->getPos( ) );
-		_item_model->draw( _item_tex_handle );
-		_item_model->translate( item->getPos( ) * -1 );
-	}
-}
-
 void Viewer::drawCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
@@ -416,9 +401,6 @@ void Viewer::drawCrystal( ) {
 			continue;
 		}
 		Vector pos = crystal->getPos( );
-		//Matrix matrix;
-		//matrix = matrix.makeTransformRotation( CRYSTAL_ROT, CRYSTAL_ROT_SPEED );
-		//_crystal_model->multiply( matrix );
 		_crystal_model->translate( pos );
 		_crystal_model->draw( _crystal_tex_handle );
 		_crystal_model->translate( pos * -1 );

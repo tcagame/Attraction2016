@@ -39,6 +39,7 @@ public:
 public:
 	void update( );
 
+	void reset( );
 	void create( const Vector& pos );
 	void dead( );
 	void damage( unsigned int power );
@@ -49,10 +50,10 @@ public:
 	TYPE getType( ) const;
 	std::string getCharacterName( ) const;
 	bool isExpired( ) const;
-	
+
 	STATUS getStatus( ) const;
 	int getMaxHp( ) const;
-	
+
 	AnimationPtr getAnimation( ) const;
 private:
 	const TYPE CHARACTER_TYPE;
@@ -63,6 +64,7 @@ private:
 	bool _expired;
 
 	STATUS _status;
+	STATUS _origin_status;
 	int _max_hp;
 
 	BehaviorPtr _behavior;

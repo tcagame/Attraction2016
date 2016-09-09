@@ -12,6 +12,7 @@ Character::Character( TYPE type, BehaviorPtr behavior, Character::STATUS status,
 CHARACTER_TYPE( type ) {
 	_behavior = behavior;
 	_status = status;
+	_origin_status = _status;
 	_character_name = character_name;
 	_expired = false;
 	_max_hp = status.hp;
@@ -27,30 +28,16 @@ void Character::update( ) {
 	}
 }
 
+void Character::reset( ){
+	_status = _origin_status;
+	_expired = false;
+	AppPtr app = App::getTask();
+	FieldPtr field = app->getField();
+	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+}
+
 void Character::move( const Vector& vec ) {
-	//‚ ‚½‚è”»’è’²®’†
-//	AppPtr app = App::getTask();
-	/*CohortPtr cohort = app->getCohort( );
-	
-	bool is_character = false;
-	int max_enemy = cohort->getMaxNum( );
-	for ( int i = 0; i < max_enemy; i++ ) {
-		EnemyPtr enemy = cohort->getEnemy( i );
-		if ( !enemy->isExpired( ) ) {
-			continue;
-		}
-		//Ž©g‚Æ‚Í”»’è‚µ‚È‚¢
-		if ( enemy.get( ) == this ) {
-			continue;
-		}
-		Vector enemy_pos = enemy->getPos( );
-		STATUS status = enemy->getStatus( );
-		double length = ( move_pos - enemy_pos ).getLength( );
-		if ( length < status.width ) {
-			is_character = true;
-			break;
-		}
-	}*/
+
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}

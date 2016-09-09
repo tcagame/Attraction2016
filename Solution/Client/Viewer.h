@@ -53,7 +53,6 @@ private:
 	void drawBossMapModel( );
 //	void drawBullet( );
 	void drawEffect( );
-	void drawItem( );
 	void drawCrystal( );
 	void drawBigCrystal( );
 	void drawUI( );

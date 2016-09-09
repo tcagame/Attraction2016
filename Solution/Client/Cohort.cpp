@@ -33,6 +33,19 @@ void Cohort::init( ) {
 	
 }
 
+void Cohort::reset( ) {
+	_enemy_max = 0;
+	int _enemy_data_max = _enemy_data.size();
+	for (int i = 0; i < MAX_NUM; i++) {
+		_enemy[i].reset();
+	}
+	for (int i = 0; i < _enemy_data_max; i++) {
+		putBlockEnemy(i);
+	}
+	_boss->reset( );
+	_boss->create( Vector( Ground::CHIP_WIDTH * Ground::BOSS_X + 1, Ground::CHIP_HEIGHT * Ground::BOSS_Y + 1, 0 ) );
+}
+
 void Cohort::update( ) {
 	for ( int i = 0; i < _enemy_max; i++ ) {
 		EnemyPtr enemy = _enemy[ i ];

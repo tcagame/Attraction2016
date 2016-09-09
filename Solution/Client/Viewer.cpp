@@ -33,6 +33,7 @@ const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor02_DM.jpg";
 const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor02.mdl";
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
+const int END_FAIRY_TIME = 131;
 
 //UI•`‰æ
 const int STATUS_POS_OFFSET = 10;
@@ -231,7 +232,8 @@ void Viewer::initialize( ) {
 	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
 	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
 	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
-	_fairy_time = 9999;
+
+	_fairy_time = END_FAIRY_TIME;
 }
 
 void Viewer::update( ) {
@@ -286,16 +288,15 @@ void Viewer::drawPlayer( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::Model model = Drawer::Model( pos, dir, motion, time );
 	drawer->setModel( model );
+
+	//—d¸
 	Effect effect;
-	if ( _fairy_time > 123 ) {//ˆê’èŽžŠÔ
+	if ( _fairy_time >= END_FAIRY_TIME ) {//effect‚ðˆÛŽ‚³‚¹‚é‚½‚ß
 		_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
 		_fairy_time = 0;
 	}
 	effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
 	_fairy_time++;
-	Player::STATUS status = player->getStatus( );
-	drawer->drawString( 0, 50, "Palyer_HP: %d Player_SP: %d", status.hp, player->getSP( ) );
-	drawer->drawString( 0, 75, "X %lf, Y %lf", pos.x, pos.y );
 }
 
 void Viewer::drawEnemy( ) {

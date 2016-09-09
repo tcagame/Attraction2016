@@ -47,7 +47,7 @@ bool Crystal::isExpired( ) {
 void Crystal::pickup( ) {
 	AppPtr App = App::getTask( );
 	CohortPtr cohort = App->getCohort( );
-	cohort->init( );
+	cohort->reset( );
 	FieldPtr field = App->getField( );
 	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 	_expired = false;

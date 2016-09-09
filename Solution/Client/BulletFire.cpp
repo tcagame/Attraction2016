@@ -47,6 +47,7 @@ bool BulletFire::update( ) {
 			return false;
 		}
 	}*/
+	attackEnemy( _pos, _power );
 	Effect effect;
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
 	return true;

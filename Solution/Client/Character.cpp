@@ -20,6 +20,7 @@ CHARACTER_TYPE( type ) {
 }
 
 Character::~Character( ) {
+	
 }
 
 void Character::update( ) {
@@ -102,7 +103,6 @@ std::string Character::getCharacterName( ) const {
 }
 
 bool Character::isExpired( ) const {
-	
 	return _expired;
 }
 

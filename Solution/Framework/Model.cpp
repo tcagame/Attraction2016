@@ -12,6 +12,7 @@ Model::Model( ) {
 
 	_impl->_vertex = NULL;
 	_impl->_polygon_num = 0;
+	_texture_handle = -1;
 }
 
 Model::~Model( ) {
@@ -38,6 +39,12 @@ void Model::draw( int texture, bool trans ) const {
 		
 }
 
+
+void Model::draw( bool trans ) const {
+	int check = DrawPolygon3D( _impl->_vertex, _impl->_polygon_num, _texture_handle, trans ? TRUE : FALSE );		
+}
+
+
 void Model::set( int n, VERTEX vertex ) {
 
 	VERTEX3D vtx;
@@ -52,6 +59,15 @@ void Model::set( int n, VERTEX vertex ) {
 
 	_impl->_vertex[ n ] = vtx;
 }
+
+Model::VERTEX Model::getVERTEX( int idx ){
+	VERTEX vertex;
+	vertex.pos = Vector( _impl->_vertex[ idx ].pos.x, _impl->_vertex[ idx ].pos.y, _impl->_vertex[ idx ].pos.z );
+	vertex.u = _impl->_vertex[ idx ].u;
+	vertex.v = _impl->_vertex[ idx ].v;
+	return vertex;
+}
+
 
 bool Model::load( std::string filename ) {
 	int fh = FileRead_open( filename.c_str( ) );
@@ -170,4 +186,8 @@ void Model::reset( ) {
 
 	_impl->_vertex = NULL;
 	_impl->_polygon_num = 0;
+}
+
+void Model::setTexture( const char* filename ) {
+	_texture_handle = getTextureHandle( filename );
 }

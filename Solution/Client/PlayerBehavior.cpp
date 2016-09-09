@@ -15,6 +15,7 @@
 #include "Keyboard.h"
 #include "Device.h"
 #include "PlayerCamera.h"
+#include "Player.h"
 
 const int CRYSTAL_LENGTH = 2;
 
@@ -26,6 +27,7 @@ PlayerBehavior::~PlayerBehavior( ) {
 }
 
 void PlayerBehavior::update( ) {
+	//âΩÇ‡ÇµÇ»Ç©Ç¡ÇΩÇÁë“ã@
 	_player_state = PLAYER_STATE_WAIT;
 
 	CameraPtr camera = Camera::getTask( );
@@ -48,6 +50,23 @@ void PlayerBehavior::update( ) {
 		}
 	}
 	attack( );
+	//ïKéEãZÇÃç\Ç¶
+	DevicePtr device = Device::getTask( );
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	if ( device->getButton( ) & BUTTON_D && player->getSP( ) == 100 ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	if ( _before_state == PLAYER_STATE_STORE && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//ïKéEãZÇÇ§Ç¬
+	if ( _before_state == PLAYER_STATE_STORE && _animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	//ïKéEãZèIóπÇ‹Ç≈ïKéEãZÉÇÅ[ÉVÉáÉì
+	if ( _before_state == PLAYER_STATE_DEATHBLOW && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_player_state = PLAYER_STATE_DEAD;
 		app->setState( App::STATE_DEAD );

@@ -50,7 +50,7 @@ void App::update( ) {
 	}
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	DevicePtr device = Device::getTask( );
-		CameraPtr camera = Camera::getTask( );
+	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player->getPos( ) );
 	//プレイヤーリセットコマンド
 	bool reset_flag = _push_reset_count >= 30;
@@ -70,7 +70,7 @@ void App::update( ) {
 	bool pop_player = _push_start_count >= 30;
 	pop_player = pop_player & !_player->isExpired( );
 	if ( pop_player && !reset_flag ) {
-		Vector player_pos = Vector( 1, 1, 0 );
+		Vector player_pos = Vector( 10, 10, 0 );
 		_player->create( player_pos );
 		setState( STATE_PLAY );
 		_push_start_count = 0;
@@ -145,13 +145,15 @@ void App::loadToGround( ) {
 		for ( int j = 0; j < width; j++ ) {
 			int idx = _ground->getIdx( j, i );
 			int type = _ground->getGroundData( idx );
-			if ( type == 0 ) {
+			
+			std::string enemy_file_path = DIRECTORY + "EnemyData/" + MODEL_NAME_LIST[ type ] + ".ene";
+			_cohort->loadBlockEnemyData(enemy_file_path);
+			if (type == 0) {
 				continue;
 			}
-			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ type ] + ".mdl";
-			std::string enemy_file_path = DIRECTORY + "EnemyData/" + MODEL_NAME_LIST[ type ] + ".ene";
-			_ground_model->loadModelData( j, i, model_file_path );
-			_cohort->loadBlockEnemyData( enemy_file_path );
+			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[type] + ".mdl";
+			_ground_model->loadModelData(j, i, model_file_path);
+
 		}
 	}
 }

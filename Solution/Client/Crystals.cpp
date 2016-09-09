@@ -26,6 +26,16 @@ Crystals::~Crystals( ) {
 
 }
 
+void Crystals::reset( ) {
+	for (int i = 0; i < MAX_CRYSTAL_NUM; i++) {
+		_crystal[ i ] = CrystalPtr( new Crystal );
+		_crystal[ i ]->create( CRYSTAL_POS[ i ] );
+	}
+	_big_crystal.reset( );
+	_get_crystal_num = 0;
+	_get_big_crystal = false;
+}
+
 CrystalPtr Crystals::getCrystal( int idx ) {
 	return _crystal[ idx ];
 }

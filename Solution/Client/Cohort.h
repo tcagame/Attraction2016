@@ -25,6 +25,7 @@ public:
 	virtual ~Cohort();
 public:
 	void init( );
+	void reset( );
 	virtual void update( );
 	EnemyConstPtr getEnemy( int index ) const;
 	EnemyConstPtr getBoss( )const;

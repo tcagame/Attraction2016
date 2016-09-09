@@ -13,6 +13,7 @@ public:
 public:
 	static const int MAX_CRYSTAL_NUM = 3;
 public:
+	void reset( );
 	CrystalPtr getCrystal( int idx );
 	CrystalPtr getBigCrystal( );
 	bool isGetBigCrystal( );

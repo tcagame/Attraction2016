@@ -10,6 +10,7 @@ public:
 	Crystal( );
 	virtual ~Crystal( );
 public:
+	void reset( );
 	void create( Vector pos );
 	Vector getPos( );
 	bool isExpired( );

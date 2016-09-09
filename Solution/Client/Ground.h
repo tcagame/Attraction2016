@@ -10,8 +10,6 @@ public:
 	Ground( std::string file_name );
 	virtual ~Ground( );
 public:
-
-public:
 	int getWidth( ) const;
 	int getHeight( ) const;
 	int getIdx( int x, int y );
@@ -27,7 +25,6 @@ private:
 	bool loadMapCSV( const char* file_name );
 private:
 	std::vector< int > _ground_data;
-
 	int _height;
 	int _width;
 };

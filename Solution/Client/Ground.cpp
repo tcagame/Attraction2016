@@ -8,7 +8,10 @@ const int Ground::BOSS_CHIP_HEIGHT = 10;
 const int Ground::BOSS_X = 100;
 const int Ground::BOSS_Y = 100;
 
-Ground::Ground( std::string file_name ) {
+Ground::Ground(std::string file_name) {
+	for ( int i = 0; i < _ground_data.size( ); i++ ) {
+		_ground_data.pop_back( );
+	}
 	loadMapCSV( file_name.c_str( ) );
 }
 

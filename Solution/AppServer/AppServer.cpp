@@ -4,7 +4,7 @@
 #include "Keyboard.h"
 #include "Command.h"
 #include "Log.h"
-
+#include "ip.h"
 
 
 AppServerPtr AppServer::getTask( ) {
@@ -55,13 +55,39 @@ void AppServer::process( ) {
 
 void AppServer::processCommand( ) {
 	// 更新
-	_command->update( );
-	std::string cmd = _command->get( );
-	if ( cmd.empty( ) ) {
+	Command::DATA data = _command->update( );
+
+	// なにもしない
+	if ( data.word.size( ) == 0 ) {
+		return;
+	}
+	
+	// IP取得
+	if ( data.word[ 0 ] == "ip" && data.word.size( ) == 1 ) {
+		createIP( );
 		return;
 	}
 
-	// 解析
+	_log->add( std::string( "[エラー] コマンドが認識できませんでした (" ) + data.input + ")" );
+
+}
+
+void AppServer::createIP( ) {
+	FrameworkPtr fw = Framework::getInstance( );
+
+	// IP取得
+	IP ip = fw->getIP( );
+	char buf[ 255 ];
+	sprintf_s( buf, 255, "IP : %d.%d.%d.%d", ip.address[ 0 ], ip.address[ 1 ], ip.address[ 2 ], ip.address[ 3 ] );
+	_log->add( buf );
+
+	// ファイル書き込み
+	FILE* fp;
+	fopen_s( &fp, "IP.ini", "wb" );
+	fwrite( &ip, sizeof( IP ), 1, fp );
+	fclose( fp );
+	_log->add( "IP.iniファイルを出力しました" );
+
 }
 
 void AppServer::draw( ) {

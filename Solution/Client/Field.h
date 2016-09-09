@@ -11,6 +11,7 @@ public:
 	virtual ~Field( );
 public:
 	void initialize( );
+	void reset( );
 	bool setTarget( int x, int y, ObjectPtr object );
 	void delTarget( int x, int y, ObjectPtr object );
 	ObjectPtr getTarget( int x, int y );

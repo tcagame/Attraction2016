@@ -13,6 +13,7 @@ public:
 	Weapon( );
 	virtual ~Weapon( );
 public:
+	void reset( );
 	virtual void update( );
 	int getWeaponMaxNum( ) const;
 	BulletPtr getBullet( int idx );

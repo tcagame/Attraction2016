@@ -1,4 +1,4 @@
-#include "BulletLay.h"
+#include "BulletSplash.h"
 #include "Effect.h"
 
 const int LAY_POWER = 100;
@@ -8,7 +8,7 @@ const double RADIUS = 0.1;
 const double LENGTH = 10.0;
 const int PARTICLE = 8;
 
-BulletLay::BulletLay( const Vector& pos, const Vector& dir )
+BulletSplash::BulletSplash( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_LAY ) {
 	_pos = pos;
 	_dir = dir.normalize( );
@@ -35,18 +35,18 @@ BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 	effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), pos, dir );
 }
 
-BulletLay::~BulletLay( ) {
+BulletSplash::~BulletSplash( ) {
 }
 
-double BulletLay::getLength( ) const {
+double BulletSplash::getLength( ) const {
 	return _length;
 }
 
-double BulletLay::getRadius( ) const {
+double BulletSplash::getRadius( ) const {
 	return _radius;
 }
 
-bool BulletLay::update( ) {
+bool BulletSplash::update( ) {
 	if ( _show ) {
 		_show = false;
 		return true;

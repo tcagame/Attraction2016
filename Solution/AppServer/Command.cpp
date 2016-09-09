@@ -24,35 +24,47 @@ Command::Command( ) {
 	_td = TableDrawerPtr( new TableDrawer( form ) );
 }
 
-
 Command::~Command( ) {
 }
 
-void Command::update( ) {
+Command::DATA Command::update( ) {
+	DATA data;
+	data.input = _input;
+
+	_td->setCell( 0, 0, _input );
+
 	KeyboardPtr keyboard = Keyboard::getTask( );
 	char single_ch = keyboard->getInputChar( );
 	if ( keyboard->isPushKey( "ENTER" ) ) {
-		_output = _display;
-		_display.clear( );
+		_input += " ";
+		std::transform( _input.cbegin( ), _input.cend( ), _input.begin( ), tolower );
+
+		int pos = 0;
+		while ( true ) {
+			int p = _input.find( ' ', pos );
+			std::string tmp = _input.substr( pos, ( p - pos ) );
+
+			if ( tmp.empty( ) ) {
+				break;
+			}
+
+			data.word.push_back( tmp );
+			pos = p + 1;
+		}
+		_input.clear( );
 	}
 	if ( single_ch == 0 ) {
-		return;
+		return data;
 	}
-	if ( keyboard->isHoldKey( "BACK_SPACE" ) && !_display.empty( ) ) {
-		_display.pop_back( );
-	} else {
-		_display += single_ch;
+	if ( keyboard->isHoldKey( "BACK_SPACE" ) && !_input.empty( ) ) {
+		_input.pop_back( );
+	} else if ( single_ch != '\r' ) {
+		_input += single_ch;
 	}
-	_td->setCell( 0, 0, _display );
+
+	return data;
 }
 
 void Command::draw( ) {
 	_td->draw( );
 }
-
-std::string Command::get( ) {
-	std::string ret = _output;
-	_output.clear( );
-	return ret;
-}
-

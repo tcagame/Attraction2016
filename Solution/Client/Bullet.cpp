@@ -37,7 +37,7 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
 	ObjectPtr object = field->getTarget( ( int )pos.x, ( int )pos.y );
-	EnemyPtr enemy = std::dynamic_pointer_cast< Enemy >(object);
+	EnemyPtr enemy = std::dynamic_pointer_cast< Enemy >( object );
 	if ( !enemy ) {
 		return;
 	}

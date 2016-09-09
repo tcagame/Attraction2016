@@ -3,7 +3,7 @@
 #include "App.h"
 
 Field::Field( ) {
-	
+	initialize( );
 }
 
 
@@ -11,9 +11,13 @@ Field::~Field( ) {
 
 }
 
-void Field::initialize( ) {
+void Field::reset( ) {
+	initialize( );
+}
+
+void Field::initialize(  ) {
 	for ( int i = 0; i < MAX_MAP_CHIP_NUM; i++ ) {
-		_target_board[i].reset( );
+		_target_board[ i ].reset( );
 	}
 }
 
@@ -54,7 +58,7 @@ int Field::getIndexTargetBoard( int x, int y ) {
 	}
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
-	int map_width = ground->getWidth( ) * 12;
+	int map_width = ground->getWidth( ) * 10;
 	int map_height = ground->getHeight() * 10;
 	if ( map_x >= 0 && map_x < map_width &&
 		 map_y >= 0 && map_y < map_height ) {

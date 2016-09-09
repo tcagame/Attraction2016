@@ -3,6 +3,7 @@
 #include "Task.h"
 #include "smart_ptr.h"
 #include <string>
+#include <vector>
 
 PTR( AppServer );
 PTR( TableDrawer );
@@ -24,6 +25,7 @@ private:
 	void draw( );
 	void process( );
 	void processCommand( );
+	void createIP( );
 private:
 	TableDrawerPtr _td_status;
 	CommandPtr _command;

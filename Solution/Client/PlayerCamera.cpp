@@ -47,8 +47,8 @@ void PlayerCamera::update( ) {
 
 
 	Vector vec = _pos - _target;
-
 	/*
+	
 	MousePtr mouse = Mouse::getTask( );
 	Vector mouse_pos = mouse->getPos( );
 	const double RATIO = 0.01;

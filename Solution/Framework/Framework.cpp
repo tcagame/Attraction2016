@@ -25,12 +25,12 @@ Framework::Framework( ) {
 	sx = sx * 3 / 4;
 	sy = sy * 3 / 4;
 	ChangeWindowMode( TRUE );
-	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
-	SetUseDirect3DVersion( DX_DIRECT3D_9 ); 
 	SetGraphMode( sx, sy, COLOR_BIT_DEPTH, FPS );
 	_screen_width = sx;
 	_screen_height = sy;
 #endif
+	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
+	SetUseDirect3DVersion( DX_DIRECT3D_9 );
 	SetWindowText( WINDOW_NAME );
 	if ( DxLib_Init( ) == -1 ) {
 		return;
@@ -211,3 +211,17 @@ void Framework::setCamera( const Vector& pos, const Vector& target ) {
 	// DXライブラリのカメラとEffekseerのカメラを同期する。
 	Effekseer_Sync3DSetting();
 }
+
+IP Framework::getIP( ) {
+	IPDATA data;
+	GetMyIPAddress( &data );
+
+	IP ip;
+	ip.address[ 0 ] = data.d1;
+	ip.address[ 1 ] = data.d2;
+	ip.address[ 2 ] = data.d3;
+	ip.address[ 3 ] = data.d4;
+
+	return ip;
+}
+

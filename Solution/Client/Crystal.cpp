@@ -12,6 +12,13 @@ Crystal::Crystal( ) {
 Crystal::~Crystal( ) {
 }
 
+void Crystal::reset( ) {
+	_expired = false;
+	AppPtr App = App::getTask( );
+	FieldPtr field = App->getField( );
+	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+}
+
 void Crystal::create( Vector pos ) {
 	_pos = pos;
 	_expired = true;

@@ -11,6 +11,12 @@ Weapon::Weapon( ) {
 Weapon::~Weapon( ) {
 }
 
+void Weapon::reset( ) {
+	for (int i = 0; i < MAX_BULLET_NUM; i++) {
+		_bullet[ i ].reset( );
+	}
+}
+
 void Weapon::update( ) {
 	for ( int i = 0; i < MAX_BULLET_NUM; i++ ) {
 		BulletPtr bullet = _bullet[ i ];

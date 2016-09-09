@@ -2,6 +2,7 @@
 
 #include "smart_ptr.h"
 #include <string>
+#include <vector>
 
 PTR( Command );
 PTR( TableDrawer );
@@ -11,11 +12,14 @@ public:
 	Command( );
 	virtual ~Command( );
 public:
-	void update( );
+	struct DATA {
+		std::string input;
+		std::vector< std::string > word;
+	};
+public:
+	DATA update( );
 	void draw( );
-	std::string get( );
 private:
-	std::string _display;
-	std::string _output;
+	std::string _input;
 	TableDrawerPtr _td;
 };

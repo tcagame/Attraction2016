@@ -62,14 +62,16 @@ const unsigned char SOUND_SE_BOSS_LOWHIT		= 0x1a; // 突きさし
 const unsigned char SOUND_SE_BOSS_CHANT			= 0x1b; // 詠唱
 const unsigned char SOUND_SE_BOSS_MAGIC			= 0x1c; // 魔法
 
-const int PLAYER_NUM = 6;
+const int PLAYER_NUM = 7;
 const int STATUS_NUM = 16;	//最大デバイス数
 const unsigned char PLAYER_KNIGHT      = 0;
-const unsigned char PLAYER_WARRIOR     = 1;
-const unsigned char PLAYER_MAGE        = 2;
-const unsigned char PLAYER_MONK        = 3;
+const unsigned char PLAYER_HUNTER      = 1;
+const unsigned char PLAYER_MONK        = 2;
+const unsigned char PLAYER_WITCH       = 3;
 const unsigned char PLAYER_SHOOTER     = 4;
-const unsigned char PLAYER_SUMMONER	   = 5;
+const unsigned char PLAYER_ETUDE_RED   = 5;
+const unsigned char PLAYER_ETUDE_GREE  = 6;
+const unsigned char PLAYER_ETUDE_BLUE  = 7;
 
 const unsigned char STATE_NONE         = 0x00; // なにもしない
 const unsigned char STATE_READY        = 0x01; // エントリー待機

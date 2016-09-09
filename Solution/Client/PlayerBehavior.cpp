@@ -7,14 +7,15 @@
 #include "Character.h"
 #include "Camera.h"
 #include "Animation.h"
+#include "Field.h"
 #include "mathmatics.h"
 #include "GroundModel.h"
 #include "Ground.h"
+#include "Object.h"
 #include "Keyboard.h"
 #include "Device.h"
 #include "PlayerCamera.h"
 
-const int ITEM_LENGTH = 2;
 const int CRYSTAL_LENGTH = 2;
 
 PlayerBehavior::PlayerBehavior( ) :
@@ -52,64 +53,38 @@ void PlayerBehavior::update( ) {
 		app->setState( App::STATE_DEAD );
 	}
 	_befor_state = _common_state;
-	pickupItem( );
+	//pickupItem( );
 	pickupCrystal( );
 }
 
-void PlayerBehavior::pickupItem( ) {
-	KeyboardPtr keyboard = Keyboard::getTask( );
-	DevicePtr device = Device::getTask( );
-
-	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
-		AppPtr app = App::getTask( );
-		ItemsPtr items = app->getItems( );
-		for ( int i = 0; i < Items::MAX_ITEM_NUM; i++ ) {
-			ItemPtr item = items->getItem( i );
-			if ( !item ) {
-				return;
-			}
-			int lenght = ( int )( _parent->getPos( ) - item->getPos( ) ).getLength( );
-			if ( lenght < ITEM_LENGTH ) {
-				item->pickup( );
-			}
-		}
-	}
-}
 
 void PlayerBehavior::pickupCrystal( ) {
 	KeyboardPtr keyboard = Keyboard::getTask( );
 	DevicePtr device = Device::getTask( );
 
 	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
-		AppPtr app = App::getTask( );
-		CrystalsPtr crystals = app->getCrystals( );
-		int has_crystal_num = 0;
-		for ( int i = 0; i < Crystals::MAX_CRYSTAL_NUM; i++ ) {
-			CrystalPtr crystal = crystals->getCrystal( i );
-			if ( !crystal ) {
-				has_crystal_num++;
-				continue;
-			}
-			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
-			if ( lenght < CRYSTAL_LENGTH ) {
-				crystal->pickup( );
+		int crystal_num = 0;
+		AppPtr app = App::getTask();
+		FieldPtr field = app->getField( );
+		Vector pos = _parent->getPos( );
+		for ( int i = -CRYSTAL_LENGTH; i < CRYSTAL_LENGTH; i++ ) {
+			for ( int j = -CRYSTAL_LENGTH; j < CRYSTAL_LENGTH; j++ ) {
+				ObjectPtr object = field->getTarget( ( int )pos.x + i, ( int )pos.y + j );
+				CrystalPtr crystal = std::dynamic_pointer_cast< Crystal >( object );
+				if ( !crystal ) {
+					continue;
+				}
+				CrystalsPtr crystals = app->getCrystals();
+				//‘å‚«‚¢ƒNƒŠƒXƒ^ƒ‹‚ð‚Æ‚Á‚½‚ç
+				if ( crystals->getCrystalNum( ) >= Crystals::MAX_CRYSTAL_NUM) {
+					CameraPtr camera = Camera::getTask();
+					PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >(camera);
+					Vector boss_map_pos = Vector(Ground::BOSS_X * Ground::CHIP_WIDTH, Ground::BOSS_Y * Ground::CHIP_HEIGHT, 0);
+					p_camera->setPos(Vector(boss_map_pos.x + 100, boss_map_pos.y + 100, 0));
+					_parent->move(boss_map_pos);
+				}
+				crystal->pickup();
 				return;
-			}
-		}
-
-		if ( has_crystal_num >= Crystals::MAX_CRYSTAL_NUM ) {
-			CrystalPtr crystal = crystals->getBigCrystal( );
-			if ( !crystal ) {
-				return;
-			}
-			int lenght = ( int )( _parent->getPos( ) - crystal->getPos( ) ).getLength( );
-			if ( lenght < CRYSTAL_LENGTH ) {
-				CameraPtr camera = Camera::getTask( );
-				PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
-				Vector boss_map_pos = Vector( Ground::BOSS_X * Ground::CHIP_WIDTH, Ground::BOSS_Y * Ground::CHIP_HEIGHT, 0 );
-				p_camera->setPos( Vector( boss_map_pos.x + 100, boss_map_pos.y + 100, 0) );
-				crystal->pickup( );
-				_parent->move( boss_map_pos );
 			}
 		}
 	}

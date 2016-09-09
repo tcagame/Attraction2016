@@ -59,8 +59,7 @@ void App::update( ) {
 	}
 	if( reset_flag ) {
 		reset( );
-		//initialize( );
-		//camera->initialize( );
+		camera->initialize( );
 	}
 
 	if ( ( device->getButton( ) > 0 ) && ( _state == STATE_READY ) ) {

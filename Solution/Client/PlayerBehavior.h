@@ -22,6 +22,7 @@ public:
 	virtual ~PlayerBehavior( );
 public:
 	void update( );
+	bool isDeathblow( );
 	//void pickupDeedBox( );
 	//void pickupItem( );
 	void pickupCrystal( );

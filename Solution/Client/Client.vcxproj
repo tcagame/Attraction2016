@@ -22,6 +22,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletBeam.cpp" />
     <ClCompile Include="BulletBubble.cpp" />
+    <ClCompile Include="BulletExcalibur.cpp" />
     <ClCompile Include="BulletFire.cpp" />
     <ClCompile Include="BulletFireBall.cpp" />
     <ClCompile Include="BulletImpact.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletBeam.h" />
     <ClInclude Include="BulletBubble.h" />
+    <ClInclude Include="BulletExcalibur.h" />
     <ClInclude Include="BulletFire.h" />
     <ClInclude Include="BulletFireBall.h" />
     <ClInclude Include="BulletImpact.h" />

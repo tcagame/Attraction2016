@@ -77,7 +77,7 @@ void App::update( ) {
 
 void App::initialize( ) {
 	//ƒvƒŒƒCƒ„[‚ÌÝ’è
-	PlayerBehaviorPtr behavior = PlayerMonkBehaviorPtr(new PlayerMonkBehavior());
+	PlayerBehaviorPtr behavior = PlayerKnightBehaviorPtr(new PlayerKnightBehavior());
 	_player = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_KNIGHT));
 	behavior->setParent(_player);
 	_state = STATE_READY;

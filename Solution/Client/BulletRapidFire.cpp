@@ -54,26 +54,12 @@ bool BulletRapidFire::update( ) {
 		// ˆÚ“®
 		_bullet_pos[ i ] += _dir * _speed;
 
-		/*
-		//‚ ‚½‚è”»’è’²®’†
+		attackEnemy( _bullet_pos[ i ], POWER );
 
-		//UŒ‚
-		AppPtr app = App::getTask( );
-		CohortPtr cohort = app->getCohort( );
-		for ( int j = 0; j < cohort->getMaxNum( ); j++ ) {
-			EnemyPtr enemy = cohort->getEnemy( j );
-			Vector enemy_pos = enemy->getPos( );
-			Vector distance = _pos - enemy_pos;
-			double length = distance.getLength( );
-			if ( length <= 1.0 ) {
-				enemy->damage( _power );
-				_exist_bullet[ i ] = false;
-			}
-		}
 		Effect effect;
 		effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), _pos, _dir );
 		
-		effect.drawEffect( _bullet_effect_handle[ i ], Vector( 0.3, 0.3, 0.3 ), _bullet_pos[ i ], _dir );*/
+		effect.drawEffect( _bullet_effect_handle[ i ], Vector( 0.3, 0.3, 0.3 ), _bullet_pos[ i ], _dir );
 
 	}
 	return true;

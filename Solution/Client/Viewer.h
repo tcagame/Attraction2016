@@ -54,6 +54,7 @@ private:
 //	void drawBullet( );
 	void drawEffect( );
 	void drawCrystal( );
+	void drawShadow( );
 	void drawBigCrystal( );
 	void drawUI( );
 	void drawReady( );

@@ -7,6 +7,8 @@
 
 static const int REFRESH_COUNT = 60;	//平均を取るサンプル数
 static const int FPS = 30;
+static const double RADIUS = 1.0;
+const char* SHADOW_TEXTURE_PATH = "../Resource/Images/Shadow/shadow.png";
 
 Drawer::Transform::Transform( ) :
 sx( 0 ),
@@ -31,11 +33,12 @@ motion( -1 ),
 time( 0 ){
 }
 
-Drawer::ModelMV1::ModelMV1(Vector pos_, Vector dir_, int motion_, double time_) :
+Drawer::ModelMV1::ModelMV1( Vector pos_, Vector dir_, int motion_, double time_, double scale_ ) :
 pos( pos_ ),
 dir( dir_ ),
 motion( motion_ ),
-time( time_ ) {
+time( time_ ),
+scale( scale_ ){
 }
 
 Drawer::ModelMDL::ModelMDL( ) :
@@ -116,7 +119,10 @@ void Drawer::initialize( ) {
 	_model_mv1_idx = 0;
 	_billboard_idx = 0;
 	_effect_idx = 0;
-	
+
+	_shadow_model = ModelPtr( new Model );
+	_shadow_model->alloc( SHADOW_NUM * 2 );
+	_shadow_handle = _shadow_model->getTextureHandle( SHADOW_TEXTURE_PATH );
 	_refresh_count = 0;
 	_fps = FPS;
 	_start_time = 0;
@@ -124,6 +130,7 @@ void Drawer::initialize( ) {
 
 void Drawer::update( ) {
 	flip( );
+	drawShadow( );
 	drawModelMV1( );
 	drawModelMDL( );
 	drawBillboard( );
@@ -140,6 +147,13 @@ void Drawer::drawModelMDL( ) {
 		_model[ type ]->draw( );
 	}
 	_model_mdl_idx = 0;
+}
+
+
+void Drawer::drawShadow( ) {
+	_shadow_model->setPolygonNum( _shadow_idx * 2 );
+	_shadow_model->draw( _shadow_handle, true );
+	_shadow_idx = 0;
 }
 
 void Drawer::drawModelMV1( ) {
@@ -161,7 +175,8 @@ void Drawer::drawModelMV1( ) {
 		Vector axis = dir.cross( Vector( 0, -1, 0 ) );
 		matrix = MMult( matrix, MGetRotAxis( VGet( ( float )axis.x, ( float )axis.y, ( float )axis.z ), angle ) );
 		//サイズ変換
-		matrix = MMult( matrix, MGetScale( VGet( 0.008f, 0.008f, 0.008f ) ) );
+		float scale = ( float )_model_mv1[ i ].scale;
+		matrix = MMult( matrix, MGetScale( VGet( scale, scale, scale ) ) );
 		// 座標変換
 		matrix = MMult( matrix, MGetTranslate( VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z ) ) );
 		MV1SetMatrix( id, matrix );
@@ -242,6 +257,9 @@ void Drawer::drawEffect( ) {
 		if ( dir.y > 0 ) {
 			angle_x *= -1;
 		}
+		if ( dir.x > 0 ) {
+			angle_y *= -1; 
+		}
 		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, ( float )angle_x, ( float )angle_y, ( float )angle_z );//回転角の指定
 		SetScalePlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.scale.x, ( float )effect.scale.y, ( float )effect.scale.z );
 		int check = SetPosPlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
@@ -265,16 +283,18 @@ void Drawer::loadMV1Model( int motion, const char* filename ) {
 	anim = MV1AttachAnim( id, 0, -1, FALSE );
 }
 
-void Drawer::loadMDLModel( int type, const char* model_filename, const char* texture_filename ) {
+void Drawer::loadMDLModel( int type, const char* model_filename, const char* texture_filename, Matrix matrix ) {
+	assert( type < MODEL_NUM );
 	std::string path = _directory;
 	path += "/";
 	std::string tex_path = path;
 	path += model_filename;
 	tex_path += texture_filename;
-	assert( type < MODEL_NUM );
+	
 	_model[ type ] = ModelPtr( new Model );
 	_model[ type ]->load( path.c_str( ) );
 	_model[ type ]->setTexture( tex_path.c_str( ) );
+	_model[ type ]->multiply( matrix );
 }
 
 void Drawer::loadGraph( int res, const char * filename ) {
@@ -313,6 +333,28 @@ void Drawer::setModelMV1( const ModelMV1& model ) {
 	assert( _model_mv1_idx < MODEL_MV1_NUM );
 	_model_mv1[ _model_mv1_idx ] = model;
 	_model_mv1_idx++;
+}
+
+void Drawer::setShadow( const Vector& pos ){
+	if ( _shadow_idx >= SHADOW_NUM ) {
+		return;
+	}
+
+	Model::VERTEX vertex[ 4 ];
+	for ( int i = 0; i < 4; i++ ) {
+		vertex[ i ].pos = Vector( i / 2 * RADIUS - RADIUS / 2, i % 2 * RADIUS - RADIUS / 2, 0.01 ) + pos;
+		vertex[ i ].u = i % 2;
+		vertex[ i ].v = i / 2;
+	}
+		
+	_shadow_model->set( _shadow_idx * 6 + 0, vertex[ 0 ] ); 
+	_shadow_model->set( _shadow_idx * 6 + 1, vertex[ 2 ] ); 
+	_shadow_model->set( _shadow_idx * 6 + 2, vertex[ 1 ] ); 
+	_shadow_model->set( _shadow_idx * 6 + 3, vertex[ 1 ] ); 
+	_shadow_model->set( _shadow_idx * 6 + 4, vertex[ 2 ] ); 
+	_shadow_model->set( _shadow_idx * 6 + 5, vertex[ 3 ] ); 
+
+	_shadow_idx++;
 }
 
 void Drawer::setModelMDL( const ModelMDL& model_mdl ) {

@@ -104,7 +104,7 @@ void ModelMaker::view( ) {
 	}
 
 	if ( keyboard->isPushKey( "Z" ) ) {
-		Matrix matrix = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI2 / 6 ); // ZŽ²‚É90“x‰ñ“]
+		Matrix matrix = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI2 / 4 ); // ZŽ²‚É90“x‰ñ“]
 		_model->multiply( matrix );
 	}
 	

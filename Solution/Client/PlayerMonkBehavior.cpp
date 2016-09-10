@@ -26,8 +26,12 @@ void PlayerMonkBehavior::attack( ) {
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
+		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		//攻撃中
-		if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK && !_animation->isEndAnimation( ) ) {
+		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_JAB || 
+				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT || 
+				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_UPPER )
+										&& !_animation->isEndAnimation( ) ) {
 			if ( _animation->getAnimTime( ) == 30.0 ) {
 				switch ( _attack_pattern ) {
 				case 0:
@@ -41,7 +45,6 @@ void PlayerMonkBehavior::attack( ) {
 					break;
 				}
 				weapon->add( bullet );
-				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 			}
 			_player_state = PLAYER_STATE_ATTACK;
 		}
@@ -93,16 +96,19 @@ void PlayerMonkBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _player_state == PLAYER_STATE_ATTACK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_MONK_ATTACK ) {
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_MONK_ATTACK_JAB && 
+			 _animation->getMotion( ) != Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT && 
+			 _animation->getMotion( ) != Animation::MOTION_PLAYER_MONK_ATTACK_UPPER ) {
+
 			switch ( _attack_pattern ) {
 				case 0:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK, 1.5 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_JAB, 1.5 ) );
 					break;
 				case 1:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK, 1.5 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT, 1.5 ) );
 					break;
 				case 2:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK, 1.5 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_UPPER, 1.5 ) );
 					break;
 			}
 		} else {

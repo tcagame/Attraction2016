@@ -82,14 +82,15 @@ void PlayerBehavior::pickupCrystal( ) {
 				}
 				CrystalsPtr crystals = app->getCrystals();
 				//‘å‚«‚¢ƒNƒŠƒXƒ^ƒ‹‚ð‚Æ‚Á‚½‚ç
-				if ( crystals->getCrystalNum( ) >= Crystals::MAX_CRYSTAL_NUM) {
+				if ( crystals->getCrystalNum( ) >= Crystals::MAX_CRYSTAL_NUM ) {
 					CameraPtr camera = Camera::getTask();
-					PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >(camera);
-					Vector boss_map_pos = Vector(Ground::BOSS_X * Ground::CHIP_WIDTH, Ground::BOSS_Y * Ground::CHIP_HEIGHT, 0);
-					p_camera->setPos(Vector(boss_map_pos.x + 100, boss_map_pos.y + 100, 0));
-					_parent->move(boss_map_pos);
+					PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
+					Vector boss_map_pos = Vector( Ground::BOSS_X * Ground::CHIP_WIDTH - 2, Ground::BOSS_Y * Ground::CHIP_HEIGHT -2, 0 );
+					p_camera->setPos( Vector( boss_map_pos.x - 200, boss_map_pos.y - 100, 10 ) );
+					boss_map_pos -= _parent->getPos( );
+					_parent->move( boss_map_pos );
 				}
-				crystal->pickup();
+				crystal->pickup( );
 				return;
 			}
 		}

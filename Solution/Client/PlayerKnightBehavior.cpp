@@ -24,6 +24,7 @@ void PlayerKnightBehavior::attack( ) {
 	if ( !isDeathblow( ) ) {
 		//UŒ‚‚É“ü‚éuŠÔ
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
@@ -36,11 +37,12 @@ void PlayerKnightBehavior::attack( ) {
 					break;
 			}
 			weapon->add( bullet );
-			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
 			_player_state = PLAYER_STATE_ATTACK;
 		}
 		//UŒ‚’†
-		if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK && !_animation->isEndAnimation( ) ) {
+		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH ||
+			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ||
+			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB ) && !_animation->isEndAnimation( ) ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
 	}
@@ -92,16 +94,18 @@ void PlayerKnightBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _player_state == PLAYER_STATE_ATTACK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_ATTACK ) {
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH &&
+			 _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB &&
+			 _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ) {
 			switch ( _attack_pattern ) {
 				case 0:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH ) );
 					break;
 				case 1:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ) );
 					break;
 				case 2:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB ) );
 					break;
 			}
 		} else {

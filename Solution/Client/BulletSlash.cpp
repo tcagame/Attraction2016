@@ -1,7 +1,8 @@
 #include "BulletSlash.h"
+#include "Effect.h"
 
 const double SLASH_RADIUS = PI * 0.8;
-
+const double BULLET_SCALE = 0.3;
 const int SWORD_POWER = 25;
 const double SWORD_SPEED = 0.5;
 const int SWORD_LENGTH = 3;
@@ -13,6 +14,9 @@ BulletSlash::BulletSlash( const Vector& pos, double dir_x, double dir_y )
 	double angle = Vector( 0, 1, 0 ).angle( Vector( dir_x, dir_y, 0 ) );
 	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ).cross( Vector( dir_x, dir_y, 0 ) ), angle );
 	_dir = mat.multiply( SWORD_DIR );
+	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH );
+	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, Vector( dir_x, dir_y, 0 ) );
 	_ratio = 0;
 	_is_attack = false;
 

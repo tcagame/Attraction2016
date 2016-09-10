@@ -60,9 +60,6 @@ int Field::getIndexTargetBoard( int x, int y ) {
 	GroundPtr ground = app->getGround( );
 	int map_width = ground->getWidth( ) * 10;
 	int map_height = ground->getHeight() * 10;
-	if ( map_x >= 0 && map_x < map_width &&
-		 map_y >= 0 && map_y < map_height ) {
-		ret = map_x + map_y * map_width ;
-	}
+	ret = map_x + map_y * map_width ;
 	return ret;
 }

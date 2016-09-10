@@ -44,8 +44,9 @@ public:
 		Vector dir;
 		int motion;
 		double time;
+		double scale;
 		ModelMV1( );
-		ModelMV1( Vector pos_, Vector dir_, int motion_, double time_ );
+		ModelMV1( Vector pos_, Vector dir_, int motion_, double time_, double scale_ );
 	};
 	struct ModelMDL {
 		Vector pos;
@@ -79,24 +80,27 @@ public:
 	void initialize( );
 	void update( );
 	void loadMV1Model( int motion, const char* filename );
-	void loadMDLModel( int type, const char* filename, const char* texture_filename );
+	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
 	void loadEffect( int res,  const char* filename );
 	double getEndAnimTime( int res );
 	void setSprite( const Sprite& sprite );
 	void setModelMV1( const ModelMV1& model );
 	void setModelMDL( const ModelMDL& model_mdl );
+	void setShadow( const Vector& pos );
 	void setBillboard( const Billboard& billboard );
 	int setEffect( int res );
 	void setPlayingEffectStatus( int playing_handle, Vector scale, Vector pos, Vector dir );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
+
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );
 	void drawSprite( );
 	void drawBillboard( );
 	void drawEffect( );
+	void drawShadow( );
 	void flip( );
 private:
 	const char* _directory;
@@ -132,7 +136,13 @@ private:
 	static const int MODEL_NUM = 20;
 	std::array< ModelPtr, MODEL_NUM > _model;
 
+	static const int SHADOW_NUM = 100;
+	ModelPtr _shadow_model;
+	int _shadow_idx;
+
+
 	int _refresh_count;
+	int _shadow_handle;
 	int _start_time;
 	double _fps;
 };

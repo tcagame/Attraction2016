@@ -25,8 +25,12 @@ void PlayerWitchBehavior::attack( ) {
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
+		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		//攻撃中
-		if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_ATTACK && !_animation->isEndAnimation( )  ) {
+		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_ATTACK_BEAM || 
+			 _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_ATTACK_BUBBLE || 
+			 _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_ATTACK_LAY ) 
+										&& !_animation->isEndAnimation( )  ) {
 			if ( _animation->getAnimTime( ) == 20.0 ) {
 				switch ( _attack_pattern ) {
 					case 0:
@@ -40,7 +44,7 @@ void PlayerWitchBehavior::attack( ) {
 						break;
 				}
 				weapon->add( bullet );
-				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
+				
 			}
 			_player_state = PLAYER_STATE_ATTACK;
 		}
@@ -93,16 +97,18 @@ void PlayerWitchBehavior::animationUpdate( ) {
 		}
 	}
 	if ( _player_state == PLAYER_STATE_ATTACK ) {
-		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_ATTACK ) {
+		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_ATTACK_BEAM && 
+			_animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_ATTACK_BUBBLE && 
+			_animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_ATTACK_LAY  ) {
 			switch ( _attack_pattern ) {
 				case 0:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK_BEAM ) );
 					break;
 				case 1:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK_BUBBLE ) );
 					break;
 				case 2:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_ATTACK_LAY ) );
 					break;
 			}
 		} else {

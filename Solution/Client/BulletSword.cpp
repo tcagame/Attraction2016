@@ -1,16 +1,21 @@
 #include "BulletSword.h"
+#include "Effect.h"
 
 const double SLASH_RADIUS = PI * 0.8;
 
 const int SWORD_POWER = 25;
 const double SWORD_SPEED = 0.5;
 const int SWORD_LENGTH = 3;
+const double BULLET_SCALE = 0.3;
 
 BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y ) 
 : Bullet( Bullet::TYPE_SWORD ) {
 	_pos = pos;
 	_dir = Vector( dir_x, dir_y ).normalize( );
 	_ratio = 0;
+	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD );
+	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, Vector( dir_x, dir_y, 0 ) );
 }
 
 

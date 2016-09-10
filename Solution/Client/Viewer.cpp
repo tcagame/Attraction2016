@@ -22,16 +22,6 @@
 #include "Effect.h"
 #include "Framework.h"
 #include "mathmatics.h"
-/*
-const char* ITEM_POTION_TEXTRUE_PATH = "../Resource/Object/item/item01_DM.jpg";
-const char* ITEM_POTION_MODEL_PATH = "../Resource/Object/item/item_potion.mdl";
-const char* CRYSTAL_MODEL_PATH = "../Resource/Object/item/crystal.mdl";
-const char* CRYSTAL_TEXTRUE_PATH = "../Resource/Object/item/crystal.jpg";
-const char* MAP_PATH_TEXTURE_FILEPATH = "../Resource/MapModel/path01.jpg";
-const char* MAP_FLOOR_TEXTURE_FILEPATH = "../Resource/MapModel/floor01_DM.jpg";
-const char* MAP_BOSS_TEXTURE_FILEPATH = "../Resource/MapModel/floor02_DM.jpg";
-const char* MAP_BOSS_MODEL_PATH = "../Resource/MapModel/floor02.mdl";
-*/
 
 enum MODEL_MDL {
 	MODEL_MDL_NONE,
@@ -40,7 +30,9 @@ enum MODEL_MDL {
 	MODEL_MDL_PATH02,
 	MODEL_MDL_PATH03,
 	MODEL_MDL_BOSS,
-	MODEL_MDL_CRYSTAL
+	MODEL_MDL_CRYSTAL,
+	MODEL_MDL_BIG_CRYSTAL
+
 };
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
@@ -79,14 +71,7 @@ const int STATUS_CLEAR_X = STATUS_READY_X;
 const int STATUS_CLEAR_Y = STATUS_READY_Y;
 const int STATUS_GAMEOVER_X = STATUS_READY_X;
 const int STATUS_GAMEOVER_Y = STATUS_READY_Y;
-/*
-std::string MAP_NAME_LIST[ ] {
-	"none",
-	"floor01",
-	"path01",
-	"path02",
-	"path03"
-};*/
+
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
@@ -111,19 +96,31 @@ void Viewer::initialize( ) {
 	//モーションのロード
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_WAIT,		"CaracterModel/knight/player_knight_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_WALK,		"CaracterModel/knight/player_knight_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_ATTACK,	"CaracterModel/knight/player_knight_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH,	"CaracterModel/knight/player_knight_attack_slash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD,	"CaracterModel/knight/player_knight_attack_sword.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB,	"CaracterModel/knight/player_knight_attack_stab.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW,	"CaracterModel/knight/player_knight_attack_excalibur.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_KNIGHT_DEAD,		"CaracterModel/knight/player_knight_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_WAIT,		"CaracterModel/monk/player_monk_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_WALK,		"CaracterModel/monk/player_monk_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_ATTACK,		"CaracterModel/monk/player_monk_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_ATTACK_JAB,		"CaracterModel/monk/player_monk_attack_jab.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT, "CaracterModel/monk/player_monk_attack_impact.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_ATTACK_UPPER,  "CaracterModel/monk/player_monk_attack_upper.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_DEATHBLOW,  "CaracterModel/monk/player_monk_attack_rush.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_MONK_DEAD,		"CaracterModel/monk/player_monk_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_WAIT,		"CaracterModel/hunter/player_hunter_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_WALK,		"CaracterModel/hunter/player_hunter_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_ATTACK,	"CaracterModel/hunter/player_hunter_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_ATTACK_FIRE,	"CaracterModel/hunter/player_hunter_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_ATTACK_SHOT,	"CaracterModel/hunter/player_hunter_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE,	"CaracterModel/hunter/player_hunter_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_DEATHBLOW,	"CaracterModel/hunter/player_hunter_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_HUNTER_DEAD,		"CaracterModel/hunter/player_hunter_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_WAIT,		"CaracterModel/witch/player_witch_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_WALK,		"CaracterModel/witch/player_witch_walk.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_ATTACK,	"CaracterModel/witch/player_witch_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_ATTACK_BEAM,	"CaracterModel/witch/player_witch_attack_beam.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_ATTACK_BUBBLE,	"CaracterModel/witch/player_witch_attack_bubble.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_ATTACK_LAY,	"CaracterModel/witch/player_witch_attack_lay.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_DEATHBLOW,	"CaracterModel/witch/player_witch_attack_splash.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_PLAYER_WITCH_DEAD,		"CaracterModel/witch/player_witch_dead.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WAIT,		    "EnemyModel/minotaur/enemy_minotaur_wait.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_MINOTAUR_WALK,		    "EnemyModel/minotaur/enemy_minotaur_walk.mv1" );
@@ -184,24 +181,28 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_CLEAR,	"UI/clear_dammy.png" );
 	drawer->loadGraph( GRAPHIC_GAMEOVER,	"UI/gameover_dammy.png" );
 	//エフェクトのロード
-	drawer->loadEffect( Effect::EFFECT_FAIRY, "Effect/effect001.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "Effect/effect105.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT, "Effect/effect106.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_UPPER, "Effect/effect107.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_RUSH, "Effect/effect108.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM, "Effect/effect109.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE, "Effect/effect110.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_LAY, "Effect/effect111.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH, "Effect/effect112.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE, "Effect/effect301.efk" );
-	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "Effect/effect204.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "Effect/effect305.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "Effect/effect306.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "Effect/effect307.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE, "Effect/effect401.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "Effect/effect402.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "Effect/effect403.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "Effect/effect404.efk" );
+	drawer->loadEffect( Effect::EFFECT_FAIRY, "effect/effect001.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH, "effect/effect101.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD, "effect/effect102.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_STAB, "effect/effect103.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_EXCARIBUR, "effect/effect104.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "effect/effect105.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT, "effect/effect106.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_UPPER, "effect/effect107.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_RUSH, "effect/effect108.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM, "effect/effect109.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE, "effect/effect110.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_LAY, "effect/effect111.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH, "effect/effect112.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE, "effect/effect301.efk" );
+	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "effect/effect204.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "effect/effect305.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "effect/effect306.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "effect/effect307.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE, "effect/effect401.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/effect402.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/effect403.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "effect/effect404.efk" );
 
 	drawer->loadMDLModel( MODEL_MDL_FLOOR  , "MapModel/floor01.mdl"   , "MapModel/floor01_DM.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_PATH01 , "MapModel/path01.mdl"    , "MapModel/path.jpg" );
@@ -209,33 +210,9 @@ void Viewer::initialize( ) {
 	drawer->loadMDLModel( MODEL_MDL_PATH03 , "MapModel/path03.mdl"    , "MapModel/path.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_BOSS   , "MapModel/floor02.mdl"   , "MapModel/floor02_DM.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg" );
-
-	/*
-	_item_model = ModelPtr( new Model );
-	_item_model->load( ITEM_POTION_MODEL_PATH );
-	_item_tex_handle = _item_model->getTextureHandle( ITEM_POTION_TEXTRUE_PATH );
-	_crystal_model = ModelPtr( new Model );
-	_crystal_model->load( CRYSTAL_MODEL_PATH );  
-	_crystal_tex_handle = _crystal_model->getTextureHandle( CRYSTAL_TEXTRUE_PATH );
-	_big_crystal_model = ModelPtr( new Model );
-	_big_crystal_model->load( CRYSTAL_MODEL_PATH );
 	Matrix matrix = Matrix::makeTransformScaling( Vector( 3, 3, 3 ) );
-	_big_crystal_model->multiply( matrix );
+	drawer->loadMDLModel( MODEL_MDL_BIG_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg", matrix );
 
-	for ( int i = 1; i < GROUND_TYPE_MAX; i++ ) {
-		std::string _map_filepath = "../Resource/MapModel/";
-		_map_model[ i ] = ModelPtr( new Model( ) );
-		_map_filepath +=  MAP_NAME_LIST[ i ];
-		_map_filepath += ".mdl";
-		_map_model[ i ]->load( _map_filepath );
-	}
-
-	_boss_map_model = ModelPtr( new Model( ) );
-	_boss_map_model->load( MAP_BOSS_MODEL_PATH );
-	_boss_map_tex_hadle = _boss_map_model->getTextureHandle( MAP_BOSS_TEXTURE_FILEPATH );
-	_floor_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_FLOOR_TEXTURE_FILEPATH );
-	_path_tex_handle = _map_model[ 1 ]->getTextureHandle( MAP_PATH_TEXTURE_FILEPATH );
-	*/
 	_fairy_time = END_FAIRY_TIME;
 }
 
@@ -249,6 +226,7 @@ void Viewer::update( ) {
 	case App::STATE_PLAY:
 		drawPlayer( );
 		drawEnemy( );
+		drawShadow( );
 		drawBoss( );
 		drawGroundModel( );
 		drawBossMapModel( );
@@ -288,7 +266,7 @@ void Viewer::drawPlayer( ) {
 	Vector dir = player->getDir( );
 
 	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time, 0.06 );
 	drawer->setModelMV1( model );
 
 	//妖精
@@ -318,7 +296,7 @@ void Viewer::drawEnemy( ) {
 		Vector dir = enemy->getDir( );
 
 		DrawerPtr drawer = Drawer::getTask( );
-		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time, 0.008 );
 		drawer->setModelMV1( model );
 		
 		Player::STATUS status = enemy->getStatus( );
@@ -326,6 +304,31 @@ void Viewer::drawEnemy( ) {
 	}
 }
 
+void Viewer::drawShadow( ) {
+	AppPtr app = App::getTask( );
+	CohortPtr cohort = app->getCohort( );
+	DrawerPtr drawer = Drawer::getTask( );
+	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
+		EnemyPtr enemy = cohort->getEnemy( i );
+		if ( !enemy ) {
+			return;
+		}
+		if ( !enemy->isExpired( ) ) {
+			return;
+		}
+		Vector pos = enemy->getPos( );
+		pos.z = 0.1;
+		drawer->setShadow( pos );
+	}
+	PlayerPtr player = app->getPlayer( );
+	Vector player_pos = player->getPos( );
+	player_pos.z = 0.1;
+	drawer->setShadow( player_pos );
+	EnemyPtr boss = cohort->getBoss( );
+	Vector boss_pos = boss->getPos( );
+	boss_pos.z = 0.1;
+	drawer->setShadow( boss_pos );
+}
 
 void Viewer::drawBoss( ) {
 	AppPtr app = App::getTask( );
@@ -343,7 +346,7 @@ void Viewer::drawBoss( ) {
 	Vector dir = enemy->getDir( );
 
 	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time, 0.008 );
 	drawer->setModelMV1( model );
 	
 	Player::STATUS status = enemy->getStatus( );
@@ -382,10 +385,6 @@ void Viewer::drawBossMapModel( ) {
 
 	Drawer::ModelMDL model = Drawer::ModelMDL( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ), MODEL_MDL_BOSS );
 	drawer->setModelMDL( model );
-	/*
-	_boss_map_model->translate(  );
-	_boss_map_model->draw( _boss_map_tex_hadle );
-	_boss_map_model->translate( Vector( -( x *  Ground::CHIP_WIDTH ), -( y *  Ground::CHIP_HEIGHT ), 0 ) );*/
 }
 
 void Viewer::drawCrystal( ) {
@@ -400,11 +399,6 @@ void Viewer::drawCrystal( ) {
 		}
 		Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_CRYSTAL );
 		drawer->setModelMDL( model );
-		/*
-		Vector pos = crystal->getPos( );
-		_crystal_model->translate( pos );
-		_crystal_model->draw( _crystal_tex_handle );
-		_crystal_model->translate( pos * -1 );*/
 	}
 }
 
@@ -419,7 +413,7 @@ void Viewer::drawBigCrystal( ) {
 	if ( !crystal->isExpired( ) ) {
 		return;
 	}
-	Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_CRYSTAL );
+	Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_BIG_CRYSTAL );
 	drawer->setModelMDL( model );
 	/*
 	_big_crystal_model->multiply( matrix );

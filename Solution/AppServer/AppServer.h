@@ -10,6 +10,7 @@ PTR( TableDrawer );
 PTR( Log );
 PTR( Command );
 PTR( Connect );
+PTR( Server );
 
 class AppServer : public Task {
 public:
@@ -26,12 +27,11 @@ private:
 	void draw( );
 	void process( );
 	void processCommand( );
-	void createIP( );
 private:
 	TableDrawerPtr _td_status;
 	CommandPtr _command;
 	LogPtr _log;
 	ConnectPtr _connect;
-
+	ServerPtr _server;
 };
 

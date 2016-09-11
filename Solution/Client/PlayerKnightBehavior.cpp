@@ -9,6 +9,7 @@
 #include "BulletExcalibur.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Effect.h"
 
 PlayerKnightBehavior::PlayerKnightBehavior( ) {
 }
@@ -26,6 +27,9 @@ void PlayerKnightBehavior::attack( ) {
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//溜めモーション
 	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
+		Effect effect;
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//溜め持続
@@ -46,7 +50,6 @@ void PlayerKnightBehavior::attack( ) {
 	if ( !isDeathblow( ) ) {
 		//攻撃に入る瞬間
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
-			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ).x, _parent->getDir( ).y ) );
@@ -65,7 +68,11 @@ void PlayerKnightBehavior::attack( ) {
 		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH ||
 			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ||
 			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB ) && !_animation->isEndAnimation( ) ) {
-			_player_state = PLAYER_STATE_ATTACK;
+			if ( !_animation->isEndAnimation( ) ) {
+				_player_state = PLAYER_STATE_ATTACK;
+			} else {
+				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
+			}
 		}
 	}
 }

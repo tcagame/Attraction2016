@@ -59,6 +59,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
     <ClCompile Include="PlayerCamera.cpp" />
+    <ClCompile Include="PlayerFactory.cpp" />
     <ClCompile Include="PlayerHunterBehavior.cpp" />
     <ClCompile Include="PlayerKnightBehavior.cpp" />
     <ClCompile Include="PlayerMonkBehavior.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBehavior.h" />
     <ClInclude Include="PlayerCamera.h" />
+    <ClInclude Include="PlayerFactory.h" />
     <ClInclude Include="PlayerHunterBehavior.h" />
     <ClInclude Include="PlayerKnightBehavior.h" />
     <ClInclude Include="PlayerMonkBehavior.h" />

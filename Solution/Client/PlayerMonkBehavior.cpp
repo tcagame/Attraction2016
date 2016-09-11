@@ -9,6 +9,7 @@
 #include "BulletRush.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Effect.h"
 
 PlayerMonkBehavior::PlayerMonkBehavior( ) {
 }
@@ -22,18 +23,34 @@ void PlayerMonkBehavior::attack( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
+	//•KE‹Z‚Ì\‚¦
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	//—­‚ßƒ‚[ƒVƒ‡ƒ“
+	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+		Effect effect;
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ),_parent->getDir( ) );
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//—­‚ß‘±
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//•KE‹Z‚ğ‚¤‚Â
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && _animation->isEndAnimation( ) ) {
+		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ) ) );
+		weapon->add( bullet );
+		player->resetSP( );
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	//•KE‹ZI—¹‚Ü‚Å•KE‹Zƒ‚[ƒVƒ‡ƒ“
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_DEATHBLOW && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+
 	if ( !isDeathblow( ) ) {
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
-			_player_state = PLAYER_STATE_ATTACK;
-		}
-		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
-		//UŒ‚’†
-		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_JAB || 
-				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT || 
-				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_UPPER )
-										&& !_animation->isEndAnimation( ) ) {
-			if ( _animation->getAnimTime( ) == 30.0 ) {
-				switch ( _attack_pattern ) {
+			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 					break;																									 
@@ -43,31 +60,20 @@ void PlayerMonkBehavior::attack( ) {
 				case 2:																										 
 					bullet = BulletUpperPtr( new BulletUpper( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 					break;
-				}
-				weapon->add( bullet );
 			}
+			weapon->add( bullet );
 			_player_state = PLAYER_STATE_ATTACK;
 		}
-	}
-	//•KE‹Z‚Ì\‚¦
-	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
-	//—­‚ßƒ‚[ƒVƒ‡ƒ“
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
-		_player_state = PLAYER_STATE_STORE;
-	}
-	//—­‚ß‘±
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && !_animation->isEndAnimation( ) ) {
-		_player_state = PLAYER_STATE_STORE;
-	}
-	//•KE‹Z‚ğ‚¤‚Â
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ) ) );
-		weapon->add( bullet );
-		_player_state = PLAYER_STATE_DEATHBLOW;
-	}
-	//•KE‹ZI—¹‚Ü‚Å•KE‹Zƒ‚[ƒVƒ‡ƒ“
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && !_animation->isEndAnimation( ) ) {
-		_player_state = PLAYER_STATE_DEATHBLOW;
+		//UŒ‚’†
+		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_JAB || 
+				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT || 
+				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_UPPER ) ) {
+			if ( !_animation->isEndAnimation( ) ) {
+				_player_state = PLAYER_STATE_ATTACK;
+			} else {
+				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
+			}
+		}
 	}
 }
 

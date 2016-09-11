@@ -1,9 +1,10 @@
 #include "Connect.h"
 #include "TableDrawer.h"
+#include "Network.h"
 
 const int POS_X = 500;
 const int POS_Y = 160;
-const int ROW_NUM = 13;
+const int ROW_NUM = MAX_MACHINE;
 const int COL_NUM = 1;
 const int COL_WIDTH = 290;
 

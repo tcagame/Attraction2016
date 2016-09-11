@@ -2,7 +2,8 @@
 #include "Effect.h"
 
 const int POWER = 10;
-const int TIME = 3;
+const int ANIMATION_TIME = 2;
+const int WAIT_TIME = 8;
 const double RANGE = 2;
 
 BulletJab::BulletJab( const Vector& pos, const Vector& dir )
@@ -19,12 +20,15 @@ BulletJab::~BulletJab( ) {
 }
 
 double BulletJab::getLength( ) const {
-	return RANGE * _count / TIME;
+	return RANGE * ( _count - WAIT_TIME ) / ANIMATION_TIME;
 }
 
 bool BulletJab::update( ) {
 	_count++;
-	if ( _count >= TIME ) {
+	if ( _count < WAIT_TIME ) {
+		return true;
+	}
+	if ( _count >= WAIT_TIME + ANIMATION_TIME ) {
 		return false;
 	}
 

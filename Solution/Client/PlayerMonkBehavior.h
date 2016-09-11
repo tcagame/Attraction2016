@@ -11,5 +11,6 @@ public:
 private:
 	void attack( );
 	void animationUpdate( );
+private:
+	CameraWeakPtr _target;
 };
-

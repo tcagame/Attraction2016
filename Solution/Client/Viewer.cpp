@@ -161,7 +161,6 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/boss/enemy_boss_damage.mv1" );
 
 	//UI
-	//ダミーないです(位置をかえたらパスを変えましょう)
 	drawer->loadGraph( GRAPHIC_UI_NAME_HUNTER,			"UI/name_plate_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT,			"UI/name_plate_knight.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_MONK,			"UI/name_plate_monk.png" );

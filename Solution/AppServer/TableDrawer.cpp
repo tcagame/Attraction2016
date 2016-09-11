@@ -5,7 +5,7 @@ const int COL_PITCH = 30;
 const int OFFSET_ROW = 12;
 const int OFFSET_CAL = 0;
 const int OFFSET_X = 5;
-const int OFFSET_Y = 10;
+const int OFFSET_Y = 0;
 
 TableDrawer::TableDrawer( const FORM& form ) :
 _form( form ),

@@ -12,5 +12,8 @@ bool main( ) {
 	fw->addTask( Drawer::getTag( ), drawer );
 	fw->addTask( AppServer::getTag( ), app_server );
 	fw->addTask( Keyboard::getTag( ), keyboard );
+
+	fw->setWindowSize( 800, 600 );
+
 	return true;
 }

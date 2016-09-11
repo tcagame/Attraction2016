@@ -3,21 +3,15 @@
 #include "Framework.h"
 #include "Keyboard.h"
 
-const int OFFSET_COMMAND_LINE_X = 10;
-const int OFFSET_COMMAND_LINE_Y = -100;
+const int COL_WIDTH = 450;
+const int POS_X = 10;
+const int POS_Y = 520;
 
 Command::Command( ) {
-	// caution ’è”’è‹`‚É‚·‚é‚×‚«
-	FrameworkPtr fw = Framework::getInstance( );
-	int window_width = fw->getWindowWidth( );
-	int window_height = fw->getWindowHeight( );
-	int command_line_pos_x = window_width / 2 + OFFSET_COMMAND_LINE_X;
-	int command_line_pos_y = window_height + OFFSET_COMMAND_LINE_Y;
-
 	TableDrawer::FORM form;
 	form.title = "command";
-	form.x = command_line_pos_x;
-	form.y = command_line_pos_y;
+	form.x = POS_X;
+	form.y = POS_Y;
 	form.rows = 1;
 	form.cols = 1;
 	form.col[ 0 ] = 450;

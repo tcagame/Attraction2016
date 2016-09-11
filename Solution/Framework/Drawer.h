@@ -119,7 +119,7 @@ private:
 	static const int GRAPHIC_ID_NUM = 1000;
 	std::array< int, GRAPHIC_ID_NUM > _graphic_id;
 
-	static const int EFFECT_ID_NUM = 100;
+	static const int EFFECT_ID_NUM = 1000;
 	std::array< int, EFFECT_ID_NUM > _effect_id;
 
 	static const int BILLBOARD_NUM = 1000;

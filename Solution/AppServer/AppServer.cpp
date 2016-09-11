@@ -5,7 +5,7 @@
 #include "Command.h"
 #include "Log.h"
 #include "ip.h"
-
+#include "Connect.h"
 
 AppServerPtr AppServer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -34,6 +34,9 @@ void AppServer::initialize( ) {
 
 	_command = CommandPtr( new Command );
 	_log = LogPtr( new Log );
+	_connect = ConnectPtr( new Connect );
+
+
 }
 
 AppServer::AppServer( ) {
@@ -94,4 +97,5 @@ void AppServer::draw( ) {
 	_td_status->draw( );
 	_command->draw( );
 	_log->draw( );
+	_connect->draw( );
 }

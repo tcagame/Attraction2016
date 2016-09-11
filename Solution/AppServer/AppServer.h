@@ -9,6 +9,7 @@ PTR( AppServer );
 PTR( TableDrawer );
 PTR( Log );
 PTR( Command );
+PTR( Connect );
 
 class AppServer : public Task {
 public:
@@ -30,5 +31,7 @@ private:
 	TableDrawerPtr _td_status;
 	CommandPtr _command;
 	LogPtr _log;
+	ConnectPtr _connect;
+
 };
 

@@ -9,6 +9,7 @@
 #include "BulletBulletRain.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Effect.h"
 
 PlayerHunterBehavior::PlayerHunterBehavior( ) {
 }
@@ -22,6 +23,30 @@ void PlayerHunterBehavior::attack( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
+	//必殺技の構え
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	//溜めモーション
+	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
+		Effect effect;
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ),_parent->getDir( ) );
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//溜め持続
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_STORE && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//必殺技をうつ
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_STORE && _animation->isEndAnimation( ) ) {
+		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ) ) );
+		weapon->add( bullet );
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	//必殺技終了まで必殺技モーション
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_DEATHBLOW && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+
 	if ( !isDeathblow( ) ) {
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
@@ -47,26 +72,6 @@ void PlayerHunterBehavior::attack( ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
 		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
-	}
-	//必殺技の構え
-	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
-	//溜めモーション
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
-		_player_state = PLAYER_STATE_STORE;
-	}
-	//溜め持続
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && !_animation->isEndAnimation( ) ) {
-		_player_state = PLAYER_STATE_STORE;
-	}
-	//必殺技をうつ
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ) ) );
-		weapon->add( bullet );
-		_player_state = PLAYER_STATE_DEATHBLOW;
-	}
-	//必殺技終了まで必殺技モーション
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && !_animation->isEndAnimation( ) ) {
-		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 }
 

@@ -2,8 +2,9 @@
 #include "Effect.h"
 
 const int POWER = 100;
-const int TIME = 3;
-const double RANGE = 2;
+const int WAIT_TIME = 8;
+const int ANIMATION_TIME = 2;
+const double RANGE = 4;
 
 BulletImpact::BulletImpact( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_IMPACT )
@@ -12,19 +13,22 @@ BulletImpact::BulletImpact( const Vector& pos, const Vector& dir )
 	_dir = dir;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT );
-	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos + dir, dir );
 }
 
 BulletImpact::~BulletImpact( ) {
 }
 
 double BulletImpact::getLength( ) const {
-	return RANGE * _count / TIME;
+	return RANGE * ( _count - WAIT_TIME ) / ANIMATION_TIME;
 }
 
 bool BulletImpact::update( ) {
 	_count++;
-	if ( _count >= TIME ) {
+	if ( _count < WAIT_TIME ) {
+		return true;
+	}
+	if ( _count >= WAIT_TIME + ANIMATION_TIME ) {
 		return false;
 	}
 

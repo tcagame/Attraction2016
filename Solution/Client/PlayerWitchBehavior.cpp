@@ -9,6 +9,7 @@
 #include "BulletSplash.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Effect.h"
 
 PlayerWitchBehavior::PlayerWitchBehavior( ) {
 }
@@ -25,6 +26,9 @@ void PlayerWitchBehavior::attack( ) {
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
+		Effect effect;
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//—­‚ßŽ‘±
@@ -34,6 +38,7 @@ void PlayerWitchBehavior::attack( ) {
 	//•KŽE‹Z‚ð‚¤‚Â
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && _animation->isEndAnimation( ) ) {
 		bullet = BulletPtr( new BulletSplash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+		player->resetSP( );
 		weapon->add( bullet );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}

@@ -37,7 +37,7 @@ void PlayerBehavior::update( ) {
 
 	AppPtr app = App::getTask( );
 	Vector move_pos = _parent->getPos( ) + move_vec;
-	if ( _before_state != PLAYER_STATE_ATTACK && _before_state != PLAYER_STATE_DEAD ) {
+	if ( _before_state != PLAYER_STATE_ATTACK && _before_state != PLAYER_STATE_DEAD && !isDeathblow( ) ) {
 		if ( move_vec.getLength( ) > 0.0 ) {
 			//i‚ß‚éê‡ˆÚ“®
 			_parent->move( move_vec );
@@ -59,8 +59,8 @@ void PlayerBehavior::update( ) {
 }
 
 bool PlayerBehavior::isDeathblow( ) {
-	bool on_store = _player_state == PLAYER_STATE_STORE;
-	bool on_deathblow = _player_state == PLAYER_STATE_DEATHBLOW;
+	bool on_store = _player_state == PLAYER_STATE_STORE || _before_state == PLAYER_STATE_STORE;
+	bool on_deathblow = _player_state == PLAYER_STATE_DEATHBLOW || _before_state == PLAYER_STATE_DEATHBLOW;
 	return on_store || on_deathblow;
 }
 

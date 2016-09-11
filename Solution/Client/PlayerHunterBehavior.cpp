@@ -22,11 +22,10 @@ void PlayerHunterBehavior::attack( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
-	if ( isDeathblow( ) ) {
+	if ( !isDeathblow( ) ) {
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
-		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 		//攻撃中
 		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_FIRE ||
 			 _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ||
@@ -47,6 +46,7 @@ void PlayerHunterBehavior::attack( ) {
 			}
 			_player_state = PLAYER_STATE_ATTACK;
 		}
+		_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 	}
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );

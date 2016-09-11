@@ -21,6 +21,28 @@ void PlayerKnightBehavior::attack( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
+	
+	//•KE‹Z‚Ì\‚¦
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	//—­‚ßƒ‚[ƒVƒ‡ƒ“
+	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//—­‚ß‘±
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_STORE;
+	}
+	//•KE‹Z‚ğ‚¤‚Â
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
+		bullet = BulletPtr( new BulletExcalibur( _parent->getPos( ), _parent->getDir( ) ) );
+		weapon->add( bullet );
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	//•KE‹ZI—¹‚Ü‚Å•KE‹Zƒ‚[ƒVƒ‡ƒ“
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && !_animation->isEndAnimation( ) ) {
+		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+
 	if ( !isDeathblow( ) ) {
 		//UŒ‚‚É“ü‚éuŠÔ
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
@@ -45,27 +67,6 @@ void PlayerKnightBehavior::attack( ) {
 			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB ) && !_animation->isEndAnimation( ) ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
-	}
-
-	//•KE‹Z‚Ì\‚¦
-	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
-	//—­‚ßƒ‚[ƒVƒ‡ƒ“
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
-		_player_state = PLAYER_STATE_STORE;
-	}
-	//—­‚ß‘±
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && !_animation->isEndAnimation( ) ) {
-		_player_state = PLAYER_STATE_STORE;
-	}
-	//•KE‹Z‚ğ‚¤‚Â
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletExcalibur( _parent->getPos( ), _parent->getDir( ) ) );
-		weapon->add( bullet );
-		_player_state = PLAYER_STATE_DEATHBLOW;
-	}
-	//•KE‹ZI—¹‚Ü‚Å•KE‹Zƒ‚[ƒVƒ‡ƒ“
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && !_animation->isEndAnimation( ) ) {
-		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 }
 

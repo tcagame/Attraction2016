@@ -22,7 +22,7 @@ void PlayerMonkBehavior::attack( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
-	if ( isDeathblow( ) ) {
+	if ( !isDeathblow( ) ) {
 		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}

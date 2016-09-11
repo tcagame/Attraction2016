@@ -31,6 +31,7 @@ public:
 	void setCameraUp( const Vector& up );
 	void setCamera( const Vector& pos, const Vector& target );
 	IP getIP( );
+	void setWindowSize( int width, int height );
 private:
 	static FrameworkPtr _instance;
 	int _screen_width;

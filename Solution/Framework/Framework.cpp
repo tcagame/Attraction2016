@@ -225,3 +225,10 @@ IP Framework::getIP( ) {
 	return ip;
 }
 
+void Framework::setWindowSize( int width, int height ) {
+
+	SetGraphMode( width, height, COLOR_BIT_DEPTH, FPS );
+	_screen_width = width;
+	_screen_height = height;
+}
+

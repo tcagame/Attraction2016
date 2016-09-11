@@ -1,9 +1,9 @@
 #include "Log.h"
 #include "TableDrawer.h"
 
-const int LOG_LINE_POS_X = 400;
-const int LOG_LINE_POS_Y = 280;
-const int LOG_ROW_NUM = 12;
+const int LOG_LINE_POS_X = 10;
+const int LOG_LINE_POS_Y = 160;
+const int LOG_ROW_NUM = 10;
 const int LOG_COL_NUM = 1;
 const int LOG_COL_WIDTH = 450;
 

@@ -33,7 +33,7 @@ void PlayerWitchBehavior::attack( ) {
 	}
 	//•KŽE‹Z‚ð‚¤‚Â
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletSplash( _parent->getPos( ), _parent->getDir( ) ) );
+		bullet = BulletPtr( new BulletSplash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}

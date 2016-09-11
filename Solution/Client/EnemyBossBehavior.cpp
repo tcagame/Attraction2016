@@ -93,6 +93,9 @@ void EnemyBossBehavior::switchStatus( ) {
 		}
 		if ( crystals->isGetBigCrystal( ) && !_has_entry ) {
 			_boss_state = BOSS_STATE_ENTRY;
+			Vector player_pos = player->getPos( );
+			Vector pos = _parent->getPos( );
+			_parent->move( ( player_pos - pos ).normalize( ) );
 		}
 		break;
 	case BOSS_STATE_ENTRY:

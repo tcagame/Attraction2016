@@ -212,19 +212,6 @@ void Framework::setCamera( const Vector& pos, const Vector& target ) {
 	Effekseer_Sync3DSetting();
 }
 
-IP Framework::getIP( ) {
-	IPDATA data;
-	GetMyIPAddress( &data );
-
-	IP ip;
-	ip.address[ 0 ] = data.d1;
-	ip.address[ 1 ] = data.d2;
-	ip.address[ 2 ] = data.d3;
-	ip.address[ 3 ] = data.d4;
-
-	return ip;
-}
-
 void Framework::setWindowSize( int width, int height ) {
 
 	SetGraphMode( width, height, COLOR_BIT_DEPTH, FPS );

@@ -44,9 +44,8 @@ public:
 		Vector dir;
 		int motion;
 		double time;
-		double scale;
 		ModelMV1( );
-		ModelMV1( Vector pos_, Vector dir_, int motion_, double time_, double scale_ );
+		ModelMV1( Vector pos_, Vector dir_, int motion_, double time_ );
 	};
 	struct ModelMDL {
 		Vector pos;
@@ -57,6 +56,7 @@ public:
 	struct MV1_ID {
 		int body;
 		int body_anim;
+		double scale;
 	};
 	struct Billboard {
 		Vector pos;
@@ -79,7 +79,7 @@ public:
 public:
 	void initialize( );
 	void update( );
-	void loadMV1Model( int motion, const char* filename );
+	void loadMV1Model( int motion, const char* filename, double scale );
 	void loadMDLModel( int type, const char* filename, const char* texture_filename, Matrix matrix = Matrix( ) );
 	void loadGraph( int res, const char* filename );
 	void loadEffect( int res,  const char* filename );

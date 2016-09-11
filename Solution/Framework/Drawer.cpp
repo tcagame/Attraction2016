@@ -33,12 +33,11 @@ motion( -1 ),
 time( 0 ){
 }
 
-Drawer::ModelMV1::ModelMV1( Vector pos_, Vector dir_, int motion_, double time_, double scale_ ) :
+Drawer::ModelMV1::ModelMV1( Vector pos_, Vector dir_, int motion_, double time_ ) :
 pos( pos_ ),
 dir( dir_ ),
 motion( motion_ ),
-time( time_ ),
-scale( scale_ ){
+time( time_ ) {
 }
 
 Drawer::ModelMDL::ModelMDL( ) :
@@ -175,7 +174,7 @@ void Drawer::drawModelMV1( ) {
 		Vector axis = dir.cross( Vector( 0, -1, 0 ) );
 		matrix = MMult( matrix, MGetRotAxis( VGet( ( float )axis.x, ( float )axis.y, ( float )axis.z ), angle ) );
 		//サイズ変換
-		float scale = ( float )_model_mv1[ i ].scale;
+		float scale = ( float )_model_id[ _model_mv1[ i ].motion ].scale;
 		matrix = MMult( matrix, MGetScale( VGet( scale, scale, scale ) ) );
 		// 座標変換
 		matrix = MMult( matrix, MGetTranslate( VGet( ( float )pos.x, ( float )pos.y, ( float )pos.z ) ) );
@@ -267,7 +266,7 @@ void Drawer::drawEffect( ) {
 	_effect_idx = 0;
 }
 
-void Drawer::loadMV1Model( int motion, const char* filename ) {
+void Drawer::loadMV1Model( int motion, const char* filename, double scale ) {
 	std::string path = _directory;
 	path += "/";
 	path += filename;
@@ -281,6 +280,7 @@ void Drawer::loadMV1Model( int motion, const char* filename ) {
 	}
 	int& anim = _model_id[ motion ].body_anim;
 	anim = MV1AttachAnim( id, 0, -1, FALSE );
+	_model_id[ motion ].scale = scale;
 }
 
 void Drawer::loadMDLModel( int type, const char* model_filename, const char* texture_filename, Matrix matrix ) {

@@ -3,7 +3,6 @@
 #include "smart_ptr.h"
 #include "Task.h"
 #include "mathmatics.h"
-#include "Ip.h"
 #include <string>
 #include <map>
 
@@ -30,7 +29,6 @@ public:
 	void terminate( );
 	void setCameraUp( const Vector& up );
 	void setCamera( const Vector& pos, const Vector& target );
-	IP getIP( );
 	void setWindowSize( int width, int height );
 private:
 	static FrameworkPtr _instance;

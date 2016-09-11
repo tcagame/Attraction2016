@@ -466,9 +466,9 @@ void Viewer::drawUI( ) {
 		int digit = ( int )log10( ( double )hp ) + 1;
 		if ( hp > 0 ) {
 			for ( int i = 0; i < digit; i++ ) {
-				int status_number_x = status_hp_gauge_x + STATUS_HP_GAUGE_WIDTH + STATUS_POS_OFFSET * 5;
-				int status_number_y = status_hp_gauge_y;
-				Drawer::Transform num_transform = Drawer::Transform( status_number_x - STATUS_HP_NUMBER_WIDTH * i, status_number_y );
+				int PLAYER_NUMber_x = status_hp_gauge_x + STATUS_HP_GAUGE_WIDTH + STATUS_POS_OFFSET * 5;
+				int PLAYER_NUMber_y = status_hp_gauge_y;
+				Drawer::Transform num_transform = Drawer::Transform( PLAYER_NUMber_x - STATUS_HP_NUMBER_WIDTH * i, PLAYER_NUMber_y );
 				int num = ( int )hp % 10;
 				hp /= 10;
 				int res = num + ( int )GRAPHIC_UI_HP_NUMBER_0;
@@ -476,9 +476,9 @@ void Viewer::drawUI( ) {
 				drawer->setSprite( num_sprite );
 			}
 		} else {
-			int status_number_x = status_hp_gauge_x + STATUS_HP_GAUGE_WIDTH + STATUS_POS_OFFSET * 5;
-			int status_number_y = status_hp_gauge_y;
-			Drawer::Transform num_transform = Drawer::Transform( status_number_x, status_number_y );
+			int PLAYER_NUMber_x = status_hp_gauge_x + STATUS_HP_GAUGE_WIDTH + STATUS_POS_OFFSET * 5;
+			int PLAYER_NUMber_y = status_hp_gauge_y;
+			Drawer::Transform num_transform = Drawer::Transform( PLAYER_NUMber_x, PLAYER_NUMber_y );
 			Drawer::Sprite num_sprite = Drawer::Sprite( num_transform, GRAPHIC_UI_HP_NUMBER_0, Drawer::BLEND_NONE, 0 );
 			drawer->setSprite( num_sprite );
 		}

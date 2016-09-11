@@ -18,6 +18,7 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="Task.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -26,12 +27,12 @@
     <ClInclude Include="Device.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="Ip.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="mathmatics.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Network.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="smart_ptr.h" />
     <ClInclude Include="Task.h" />
   </ItemGroup>

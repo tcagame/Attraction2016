@@ -39,22 +39,16 @@ const double CRYSTAL_ROT_SPEED = 0.05;
 const int END_FAIRY_TIME = 131;
 
 //UI•`‰æ
-const int STATUS_POS_OFFSET = 5;
+const int STATUS_POS_OFFSET = 10;
 
-const int STATUS_WINDOW_WIDTH = 714;
-const int STATUS_WINDOW_HEIGHT = 288;
+const int STATUS_WINDOW_WIDTH = 400;
+const int STATUS_WINDOW_HEIGHT = 100;
 
-const int STATUS_BACKGROUND_WIDTH = 663;
-const int STATUS_BACKGROUND_HEIGHT = 237;
+const int STATUS_NAME_WIDTH = 200;
+const int STATUS_NAME_HEIGHT = 50;
 
-const int STATUS_NAME_WIDTH = 495;
-const int STATUS_NAME_HEIGHT = 148;
-
-const int STATUS_HP_GAUGE_WIDTH = 597;
-const int STATUS_HP_GAUGE_HEIGHT = 31;
-
-const int STATUS_SP_GAUGE_WIDTH = STATUS_HP_GAUGE_WIDTH;
-const int STATUS_SP_GAUGE_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
+const int STATUS_HP_GAUGE_WIDTH = 256;
+const int STATUS_HP_GAUGE_HEIGHT = 37;
 
 const int STATUS_GAUGE_FRAME_WIDTH = 636;
 const int STATUS_GAUGE_FRAME_HEIGHT = 95;
@@ -62,8 +56,17 @@ const int STATUS_GAUGE_FRAME_HEIGHT = 95;
 const int STATUS_HP_NUMBER_WIDTH = 20;
 const int STATUS_HP_NUMBER_HEIGHT = 20;
 
-const int BOSS_HP_GAUGE_WIDTH = 1624;
-const int BOSS_HP_GAUGE_HEIGHT = 59;
+const int STATUS_SP_GAUGE_WIDTH = STATUS_HP_GAUGE_WIDTH;
+const int STATUS_SP_GAUGE_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
+
+const int BOSS_WINDOW_WIDTH = 400;
+const int BOSS_WINDOW_HEIGHT = 100;
+
+const int BOSS_NAME_WIDTH = 200;
+const int BOSS_NAME_HEIGHT = 50;
+
+const int BOSS_HP_GAUGE_WIDTH = 256;
+const int BOSS_HP_GAUGE_HEIGHT = 37;
 
 const int STATUS_READY_X = 0;
 const int STATUS_READY_Y = 0;
@@ -149,17 +152,16 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK,		    "EnemyModel/cyclops/enemy_cyclops_attack.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE,		    "EnemyModel/cyclops/enemy_cyclops_damage.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD,		    "EnemyModel/cyclops/enemy_cyclops_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/boss/enemy_boss_wait.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ENTRY,			    "EnemyModel/boss/enemy_boss_entry.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/boss/enemy_boss_attack_cleave.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/boss/enemy_boss_attack_bite.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/boss/enemy_boss_attack_fire.mv1" );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_DESCENT,           "EnemyModel/boss/enemy_boss_descent.mv1" );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/boss/enemy_boss_attack_bombing.mv1" );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/boss/enemy_boss_fly.mv1" );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,				"EnemyModel/boss/enemy_boss_dead.mv1" );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/boss/enemy_boss_damage.mv1" );
-
+	drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "CaracterModel/knight/player_knight_wait.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ENTRY,			    "EnemyModel/minotaur/enemy_minotaur_dash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/goblin/enemy_goblin_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/ghost/enemy_ghost_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/minotaur/enemy_minotaur_smash.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DESCENT,           "EnemyModel/ghost/enemy_ghost_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/armor/enemy_armor_attack.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/ghost/enemy_ghost_walk.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/minotaur/enemy_minotaur_damege.mv1" );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
 	//UI
 	drawer->loadGraph( GRAPHIC_UI_NAME_HUNTER,			"UI/name_plate_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT,			"UI/name_plate_knight.png" );
@@ -356,7 +358,7 @@ void Viewer::drawBoss( ) {
 	Vector dir = enemy->getDir( );
 
 	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time, 0.06 );
+	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time, 0.008 );
 	drawer->setModelMV1( model );
 	
 	Player::STATUS status = enemy->getStatus( );

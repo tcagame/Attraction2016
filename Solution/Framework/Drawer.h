@@ -129,14 +129,14 @@ private:
 	std::array< PlayingEffect, EFFECT_ID_NUM > _effect;
 	int _effect_idx;
 
-	static const int MODEL_MDL_NUM = 10000;
+	static const int MODEL_MDL_NUM = 500;
 	std::array< ModelMDL, MODEL_MDL_NUM > _model_mdl;
 	int _model_mdl_idx;
 
 	static const int MODEL_NUM = 20;
 	std::array< ModelPtr, MODEL_NUM > _model;
 
-	static const int SHADOW_NUM = 100;
+	static const int SHADOW_NUM = 50;
 	ModelPtr _shadow_model;
 	int _shadow_idx;
 

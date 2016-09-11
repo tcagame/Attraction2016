@@ -28,17 +28,17 @@ void PlayerWitchBehavior::attack( ) {
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//—­‚ßŽ‘±
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && !_animation->isEndAnimation( ) ) {
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//•KŽE‹Z‚ð‚¤‚Â
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && _animation->isEndAnimation( ) ) {
 		bullet = BulletPtr( new BulletSplash( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_DEATHBLOW && !_animation->isEndAnimation( ) ) {
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 

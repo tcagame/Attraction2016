@@ -19,4 +19,5 @@ private:
 	double _radius;
 	double _length;
 	int _power;
+	double _time;
 };

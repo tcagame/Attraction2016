@@ -159,27 +159,29 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/ghost/enemy_ghost_walk.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/minotaur/enemy_minotaur_damege.mv1" );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,		        "EnemyModel/goblin/enemy_goblin_dead.mv1" );
+	//UI
+	//ダミーないです(位置をかえたらパスを変えましょう)
+	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT,	"DammyUI/knight_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_NAME_BOSS,	"DammyUI/boss_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_WINDOW,		"DammyUI/window_dammy.png" ); 
+	drawer->loadGraph( GRAPHIC_UI_PLAYER_HP,	"DammyUI/hp_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_SP,			"DammyUI/sp_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_0,	"DammyUI/hpnumber0_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_1,	"DammyUI/hpnumber1_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_2,	"DammyUI/hpnumber2_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_3,	"DammyUI/hpnumber3_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_4,	"DammyUI/hpnumber4_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_5,	"DammyUI/hpnumber5_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_6,	"DammyUI/hpnumber6_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_7,	"DammyUI/hpnumber7_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_8,	"DammyUI/hpnumber8_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9,	"DammyUI/hpnumber9_dammy.png" );
+	drawer->loadGraph( GRAPHIC_UI_BOSS_HP,		"DammyUI/boss_hp_dammy.png" );
+	drawer->loadGraph( GRAPHIC_READY,			"DammyUI/ready_dammy.png" );
+	drawer->loadGraph( GRAPHIC_CLEAR,			"DammyUI/clear_dammy.png" );
+	drawer->loadGraph( GRAPHIC_GAMEOVER,		"DammyUI/gameover_dammy.png" );
 	//テクスチャ
-	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT, "UI/knight_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_NAME_BOSS, "UI/boss_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_WINDOW, "UI/window_dammy.png" ); 
-	drawer->loadGraph( GRAPHIC_UI_PLAYER_HP, "UI/hp_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_SP, "UI/sp_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_0, "UI/hpnumber0_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_1, "UI/hpnumber1_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_2, "UI/hpnumber2_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_3, "UI/hpnumber3_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_4, "UI/hpnumber4_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_5, "UI/hpnumber5_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_6, "UI/hpnumber6_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_7, "UI/hpnumber7_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_8, "UI/hpnumber8_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9, "UI/hpnumber9_dammy.png" );
-	drawer->loadGraph( GRAPHIC_UI_BOSS_HP, "UI/boss_hp_dammy.png" );
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
-	drawer->loadGraph( GRAPHIC_READY,	"UI/ready_dammy.png" );
-	drawer->loadGraph( GRAPHIC_CLEAR,	"UI/clear_dammy.png" );
-	drawer->loadGraph( GRAPHIC_GAMEOVER,	"UI/gameover_dammy.png" );
 	//エフェクトのロード
 	drawer->loadEffect( Effect::EFFECT_FAIRY, "effect/effect001.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH, "effect/effect101.efk" );

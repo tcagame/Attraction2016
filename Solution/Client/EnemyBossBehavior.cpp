@@ -1,5 +1,6 @@
 #include "EnemyBossBehavior.h"
 #include "Character.h"
+#include "Effect.h"
 #include "Animation.h"
 #include "Crystals.h"
 #include "App.h"
@@ -8,11 +9,19 @@
 const double MOTION_SPEED = 1;
 const double BOSS_DAMAGE_HP = 100;
 const double MAX_BOSS_FLIGHT_ALTITUDE = 5;
+const double EFFECT_SCALE = 0.5;
 const double ATTACK_TIME[ ] = {
 	27.0,
 	10.0,
-	25.0,
+	160.0,
 	23.0
+};
+
+const Effect::EFFECT BOSS_EFFCT[ ] = {
+	Effect::EFFECT_BOSS_ATTACK_FIRE, 
+	Effect::EFFECT_BOSS_ATTACK_BOMBING,
+	Effect::EFFECT_BOSS_HIT_CIRCLE, 
+	Effect::EFFECT_BOSS_HIT_EXPLOSION,
 };
 
 const Animation::MOTION BOSS_ATTACK_MOTION[ ] = {
@@ -29,9 +38,9 @@ const int BOSS_ATTACK_POWER[ ] = {
 };
 
 EnemyBossBehavior::EnemyBossBehavior() {
-	_attack_range[ BOSS_ATTACK_PATTERN_CLEAVE ] = 7.0;
-	_attack_range[ BOSS_ATTACK_PATTERN_BITE ] = 10.0;
-	_attack_range[ BOSS_ATTACK_PATTERN_FIRE ] = 13.0;
+	_attack_range[ BOSS_ATTACK_PATTERN_CLEAVE ] = 3.0;
+	_attack_range[ BOSS_ATTACK_PATTERN_BITE ] = 5.0;
+	_attack_range[ BOSS_ATTACK_PATTERN_FIRE ] = 7.0;
 	_attack_pattern = BOSS_ATTACK_PATTERN_MAX;
 	_on_damage = false;
 	_has_entry = false;
@@ -72,9 +81,10 @@ void EnemyBossBehavior::switchStatus( ) {
 		return;
 	}
 	PlayerPtr player = _target.lock( );
-	Vector target_pos = player->getPos( );
-	Vector stance = target_pos - _parent->getPos( );
+	_target_pos = player->getPos( );
+	Vector stance = _target_pos - _parent->getPos( );
 	Vector pos = _parent->getPos( );
+
 	double range = stance.getLength();
 	AppPtr app = App::getTask();
 	CrystalsPtr crystals = app->getCrystals();
@@ -84,6 +94,8 @@ void EnemyBossBehavior::switchStatus( ) {
 			if ( range <= _attack_range[i] && _before_state != BOSS_STATE_ATTACK ) {
 				_boss_state = BOSS_STATE_ATTACK;
 				_attack_pattern = i;
+				_parent->move( ( _target_pos - pos ).normalize( )* 0.0001 );
+			
 				break;
 			}
 		}
@@ -93,9 +105,9 @@ void EnemyBossBehavior::switchStatus( ) {
 		}
 		if ( crystals->isGetBigCrystal( ) && !_has_entry ) {
 			_boss_state = BOSS_STATE_ENTRY;
-			Vector player_pos = player->getPos( );
+		
 			Vector pos = _parent->getPos( );
-			_parent->move( ( player_pos - pos ).normalize( ) );
+			_parent->move( ( _target_pos - pos ).normalize( ) * 0.0001 );
 		}
 		break;
 	case BOSS_STATE_ENTRY:
@@ -227,4 +239,10 @@ void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	int power = _parent->getStatus( ).power;
 	power += BOSS_ATTACK_POWER[ attack_pattern ];
 	player->damage( power );
+	Vector pos = _parent->getPos( );
+	Effect effect;
+	if ( _attack_pattern == BOSS_ATTACK_PATTERN_FIRE ) {
+		int effect_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_FIRE );
+		effect.drawEffect( effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos + ( ( _target_pos - pos ).normalize( ) * 5 ), ( pos - _target_pos ).normalize( ) );
+	}
 }

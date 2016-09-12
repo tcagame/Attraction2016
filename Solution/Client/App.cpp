@@ -305,3 +305,7 @@ unsigned char App::getPlayerId( ) const {
 int App::getStartCount( ) const {
 	return _push_start_count;
 }
+
+int App::getStartCountMax( ) const {
+	return START_COUNT;
+}

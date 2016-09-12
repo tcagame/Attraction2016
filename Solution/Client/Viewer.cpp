@@ -506,11 +506,11 @@ void Viewer::drawUI( ) {
 		double hp = ( double )status.hp;
 		double max_hp = ( double )player->getMaxHp( );
 		double hp_percentage = hp / max_hp;
-		double hp_tx = STATUS_HP_GAUGE_WIDTH * hp_percentage;
+		double hp_tw = STATUS_HP_GAUGE_WIDTH * hp_percentage;
 		
 		int status_hp_gauge_x = status_window_x + STATUS_WINDOW_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
 		int status_hp_gauge_y = status_window_y + STATUS_POS_OFFSET * 30;
-		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, 0, 0, ( int )hp_tx, STATUS_HP_GAUGE_HEIGHT );
+		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, 0, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 		
@@ -582,14 +582,14 @@ void Viewer::drawUI( ) {
 		//HPŒvŽZ
 		CohortPtr cohort = app->getCohort( );
 		EnemyPtr boss = cohort->getBoss( );
-		double hp = boss->getStatus( ).hp;
-		double max_hp = ( double )boss->getMaxHp( );
-		double percentage = hp / max_hp;
-		double tx = BOSS_HP_GAUGE_WIDTH * percentage;
+		int hp = boss->getStatus( ).hp;
+		int max_hp = boss->getMaxHp( );
+		double percentage = ( double )hp / ( double )max_hp;
+		double tw = BOSS_HP_GAUGE_WIDTH * percentage;
 		//HP•`‰æ
 		int boss_hp_gauge_x = window_width / 2 - BOSS_HP_GAUGE_WIDTH / 2;
 		int boss_hp_gauge_y = STATUS_POS_OFFSET;
-		Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tx, BOSS_HP_GAUGE_HEIGHT );
+		Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_gauge_sprite );
 
@@ -614,16 +614,21 @@ void Viewer::drawReady( ) {
 
 	AppPtr app = App::getTask( );
 	FrameworkPtr fw = Framework::getInstance( );
+
 	if ( app->getStartCount( ) > 0 ) {
 		int gauge_count = app->getStartCount( );
-		//int gauge_x = 
-
+		double percentage = ( double )gauge_count / app->getStartCountMax( );
+		double now_gauge = ( double )STATUS_READY_GAUGE_HEIGHT * percentage;
+		int gauge_x = fw->getWindowWidth( ) / 2 - STATUS_READY_GAUGE_WIDTH / 2;
+		int gauge_y = fw->getWindowHeight( ) / 2 - STATUS_READY_GAUGE_HEIGHT / 2;
+		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + STATUS_READY_GAUGE_HEIGHT - now_gauge , 0, STATUS_READY_GAUGE_HEIGHT - now_gauge, STATUS_READY_GAUGE_WIDTH, now_gauge );
+		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( gauge_sprite );
 	} else {
 		//ready‰æ–Ê•¶Žš
-		
-		int x = fw->getWindowWidth( ) / 2 - STATUS_READY_STRING_WIDTH / 2;
-		int y = fw->getWindowHeight( ) / 2 - STATUS_READY_STRING_HEIGHT / 2;
-		Drawer::Transform transform = Drawer::Transform( x, y );
+		int string_x = fw->getWindowWidth( ) / 2 - STATUS_READY_STRING_WIDTH / 2;
+		int string_y = fw->getWindowHeight( ) / 2 - STATUS_READY_STRING_HEIGHT / 2;
+		Drawer::Transform transform = Drawer::Transform( string_x, string_y );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY_STRING, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}

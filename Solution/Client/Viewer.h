@@ -47,9 +47,11 @@ private:
 		GRAPHIC_BULLET_MISSILE,
 		GRAPHIC_UI_BOSS_HP_GAUGE,
 		GRAPHIC_UI_BOSS_HP_FRAME,
-		GRAPHIC_READY,
-		GRAPHIC_CLEAR,
-		GRAPHIC_GAMEOVER,
+		GRAPHIC_READY_STRING,
+		GRAPHIC_READY_BACK,
+		GRAPHIC_RESULT_STRING_CLEAR,
+		GRAPHIC_RESULT_STRING_GAMEOVER,
+		GRAPHIC_RESULT_BACK,
 		GRAPHIC_MAX
 	};
 	
@@ -66,8 +68,7 @@ private:
 	void drawBigCrystal( );
 	void drawUI( );
 	void drawReady( );
-	void drawClear( );
-	void drawGameOver( );
+	void drawResult( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );

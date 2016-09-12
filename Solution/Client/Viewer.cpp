@@ -39,16 +39,16 @@ const double CRYSTAL_ROT_SPEED = 0.05;
 const int END_FAIRY_TIME = 131;
 
 //UI描画
-const int STATUS_POS_OFFSET = 10;
+const int STATUS_POS_OFFSET = 5;
 
-const int STATUS_WINDOW_WIDTH = 400;
-const int STATUS_WINDOW_HEIGHT = 100;
+const int STATUS_WINDOW_WIDTH = 714;
+const int STATUS_WINDOW_HEIGHT = 288;
 
-const int STATUS_NAME_WIDTH = 200;
-const int STATUS_NAME_HEIGHT = 50;
+const int STATUS_NAME_WIDTH = 495;
+const int STATUS_NAME_HEIGHT = 148;
 
-const int STATUS_HP_GAUGE_WIDTH = 256;
-const int STATUS_HP_GAUGE_HEIGHT = 37;
+const int STATUS_HP_GAUGE_WIDTH = 596;
+const int STATUS_HP_GAUGE_HEIGHT = 30;
 
 const int STATUS_GAUGE_FRAME_WIDTH = 636;
 const int STATUS_GAUGE_FRAME_HEIGHT = 95;
@@ -62,18 +62,17 @@ const int STATUS_SP_GAUGE_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 const int BOSS_WINDOW_WIDTH = 400;
 const int BOSS_WINDOW_HEIGHT = 100;
 
-const int BOSS_NAME_WIDTH = 200;
-const int BOSS_NAME_HEIGHT = 50;
+const int BOSS_HP_GAUGE_WIDTH = 1624;
+const int BOSS_HP_GAUGE_HEIGHT = 59;
 
-const int BOSS_HP_GAUGE_WIDTH = 256;
-const int BOSS_HP_GAUGE_HEIGHT = 37;
+const int STATUS_READY_STRING_WIDTH = 779;
+const int STATUS_READY_STRING_HEIGHT = 273;
 
-const int STATUS_READY_X = 0;
-const int STATUS_READY_Y = 0;
-const int STATUS_CLEAR_X = STATUS_READY_X;
-const int STATUS_CLEAR_Y = STATUS_READY_Y;
-const int STATUS_GAMEOVER_X = STATUS_READY_X;
-const int STATUS_GAMEOVER_Y = STATUS_READY_Y;
+const int STATUS_CLEAR_STRING_WIDTH = 900;
+const int STATUS_CLEAR_STRING_HEIGHT = 198;
+
+const int STATUS_GAMEOVER_WIDTH = 834;
+const int STATUS_GAMEOVER_HEIGHT = 194;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
@@ -195,9 +194,11 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9,			"UI/hpnumber9.png" );
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_GAUGE,		"UI/boss_hp_gauge.png" );
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_FRAME,		"UI/boss_hp_frame.png" );
-	drawer->loadGraph( GRAPHIC_READY,					"UI/ready.png" );
-	drawer->loadGraph( GRAPHIC_CLEAR,					"UI/clear.png" );
-	drawer->loadGraph( GRAPHIC_GAMEOVER,				"UI/gameover.png" );
+	drawer->loadGraph( GRAPHIC_READY_STRING,			"UI/ready_string.png" );
+	drawer->loadGraph( GRAPHIC_READY_BACK,				"UI/ready_back.png" );
+	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
+	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
+	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -256,10 +257,8 @@ void Viewer::update( ) {
 		updateCamera( );
 		break;
 	case App::STATE_CLEAR:
-		drawClear( );
-		break;
 	case App::STATE_DEAD:
-		drawGameOver( );
+		drawResult( );
 		break;
 	}
 }
@@ -589,22 +588,29 @@ void Viewer::drawUI( ) {
 }
 
 void Viewer::drawReady( ) {
-	Drawer::Transform transform = Drawer::Transform( STATUS_READY_X, STATUS_READY_Y );
-	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY, Drawer::BLEND_NONE, 0 );
 	DrawerPtr drawer = Drawer::getTask( );
-	drawer->setSprite( sprite );
+	
+	//ready画面背景
+	{
+		Drawer::Transform transform = Drawer::Transform( -10, -10 );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY_BACK, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
+
+	//ready画面文字
+	{
+		FrameworkPtr fw = Framework::getInstance( );
+		int x = fw->getWindowWidth( ) / 2 - STATUS_READY_STRING_WIDTH / 2;
+		int y = fw->getWindowHeight( ) / 2 - STATUS_READY_STRING_HEIGHT / 2;
+		Drawer::Transform transform = Drawer::Transform( x, y );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY_STRING, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
 }
 
-void Viewer::drawClear( ) {
-	Drawer::Transform transform = Drawer::Transform( STATUS_CLEAR_X, STATUS_CLEAR_Y );
+void Viewer::drawResult( ) {
+	/*Drawer::Transform transform = Drawer::Transform( STATUS_CLEAR_X, STATUS_CLEAR_Y );
 	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_CLEAR, Drawer::BLEND_NONE, 0 );
 	DrawerPtr drawer = Drawer::getTask( );
-	drawer->setSprite( sprite );
-}
-
-void Viewer::drawGameOver( ) {
-	Drawer::Transform transform = Drawer::Transform( STATUS_GAMEOVER_X, STATUS_GAMEOVER_Y );
-	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_GAMEOVER, Drawer::BLEND_NONE, 0 );
-	DrawerPtr drawer = Drawer::getTask( );
-	drawer->setSprite( sprite );
+	drawer->setSprite( sprite );*/
 }

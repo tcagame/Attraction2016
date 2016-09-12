@@ -297,3 +297,7 @@ App::STATE App::getState( ) const {
 void App::setState( STATE state ) {
 	_state = state;
 }
+
+unsigned char App::getPlayerId( ) const {
+	return _player_id;
+}

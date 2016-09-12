@@ -248,17 +248,13 @@ void Drawer::drawEffect( ) {
 		//‰ñ“]
 		double lenght_dir = dir.getLength( );
 		double lenght_x = Vector( 1, 0, 0 ).getLength( );
-		double lenght_y = Vector( 0, 0, 1 ).getLength( );
-		double lenght_z = Vector( 0, 1, 0 ).getLength( );
 		double angle_x = acos( dir.dot( Vector( 1, 0, 0 ) ) / ( lenght_dir * lenght_x ) );
-		double angle_y = acos( dir.dot( Vector( 0, 0, 1 ) ) / ( lenght_dir * lenght_y ) );
-		double angle_z = acos( dir.dot( Vector( 0, 1, 0 ) ) / ( lenght_dir * lenght_z ) );
+		double angle_y = PI / 2;
+		double angle_z = PI / 2;
 		if ( dir.y > 0 ) {
 			angle_x *= -1;
 		}
-		if ( dir.x > 0 ) {
-			angle_y *= -1; 
-		}
+		
 		SetRotationPlayingEffekseer3DEffect( effect.playing_handle, ( float )angle_x, ( float )angle_y, ( float )angle_z );//‰ñ“]Šp‚ÌŽw’è
 		SetScalePlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.scale.x, ( float )effect.scale.y, ( float )effect.scale.z );
 		int check = SetPosPlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);

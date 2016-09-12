@@ -19,7 +19,8 @@ public:
 	};
 	typedef std::vector< ENEMY_DATA > BLOCK_ENEMY_DATA;//ブロックごとのエネミー配置データ
 public:
-	static const int MAX_NUM = 500;
+	static const int MAX_NUM = 500;	
+	static const int MAX_BLOCK_NUM = 10000;
 public:
 	Cohort( );
 	virtual ~Cohort();
@@ -33,14 +34,14 @@ public:
 	EnemyPtr getBoss( );
 	void add( EnemyPtr enemy, const Vector& pos );
 	int getMaxNum( );
-	void loadBlockEnemyData( std::string filepath );
+	void loadBlockEnemyData( int idx, std::string filepath );
 private:
 	void putBlockEnemy( int idx );
 	void putEnemy( const Vector& pos, std::string enemy_name );
 private:
 	std::array< EnemyPtr, MAX_NUM > _enemy;
 	EnemyPtr _boss;
-	std::vector< BLOCK_ENEMY_DATA > _enemy_data;
+	std::array< BLOCK_ENEMY_DATA, MAX_BLOCK_NUM > _enemy_data;
 	int _enemy_max;
 };
 

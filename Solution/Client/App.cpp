@@ -14,6 +14,7 @@
 #include "PlayerCamera.h"
 #include "Device.h"
 #include "Framework.h"
+#include <stdio.h>
 
 const std::string DIRECTORY = "../Resource/";
 const std::string MODEL_NAME_LIST [] {
@@ -28,6 +29,7 @@ const int START_POS_X = 23 * Ground::CHIP_WIDTH;
 const int START_POS_Y = 34 * Ground::CHIP_HEIGHT;
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
+const int STRING_BUF = 256;
 
 AppPtr App::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -278,17 +280,51 @@ void App::loadToGround( ) {
 			int idx = _ground->getIdx( j, i );
 			int type = _ground->getGroundData( idx );
 			
-			std::string enemy_file_path = DIRECTORY + "EnemyData/" + MODEL_NAME_LIST[ type ] + ".ene";
-			_cohort->loadBlockEnemyData(enemy_file_path);
-			if (type == 0) {
+			char idx_string[ STRING_BUF ] = "";
+			sprintf_s( idx_string, STRING_BUF,"%d", type );
+			
+			std::string md_file_path = DIRECTORY + "MapData/";
+			md_file_path += idx_string;
+			md_file_path += ".md";
+
+			//ÉtÉ@ÉCÉãÇÃì«Ç›çûÇ›
+			FILE* fp;
+			errno_t err = fopen_s( &fp, md_file_path.c_str( ), "r" );
+			if ( err != 0 ) {
 				continue;
 			}
-			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[type] + ".mdl";
+			
+			char buf[ 1024 ];
+			std::string name[ 2 ];
+			for( int k = 0; k < 2; k++ ) {
+				fscanf_s( fp,"%s", buf, 1024 );
+				name[ k ] = buf;
+			}
+			fclose( fp );
+			int model_type = 0;
+			for ( int k = 0; k < 4; k++ ) {
+				if( name[ 0 ] == MODEL_NAME_LIST[ k ] ) {
+					model_type = k;
+				}
+			}
+			_map_convert[ type ] = model_type;
+
+			std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
+			_cohort->loadBlockEnemyData( idx, enemy_file_path );
+			if ( model_type == 0 ) {
+				continue;
+			}
+			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ model_type ] + ".mdl";
 			_ground_model->loadModelData( j, i, model_file_path );
 
 		}
 	}
 }
+
+int App::convertCSVtoMap( int type ) {
+	return _map_convert[ type ];
+}
+
 
 App::STATE App::getState( ) const {
 	return _state;

@@ -403,7 +403,8 @@ void Viewer::drawGroundModel( ) {
 	for ( int i = 0; i < width; i++ ) {
 		for ( int j = 0; j < height; j++ ) {
 			int idx = ground->getIdx( i, j );
-			int type = ground->getGroundData( idx );
+			int csv_type = ground->getGroundData( idx );
+			int type = app->convertCSVtoMap( csv_type );
 			if ( type == MODEL_MDL_NONE ) {
 				continue;
 			}
@@ -625,7 +626,7 @@ void Viewer::drawReady( ) {
 		double now_gauge = ( double )STATUS_READY_GAUGE_HEIGHT * percentage;
 		int gauge_x = fw->getWindowWidth( ) / 2 - STATUS_READY_GAUGE_WIDTH / 2;
 		int gauge_y = fw->getWindowHeight( ) / 2 - STATUS_READY_GAUGE_HEIGHT / 2;
-		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + STATUS_READY_GAUGE_HEIGHT - now_gauge , 0, STATUS_READY_GAUGE_HEIGHT - now_gauge, STATUS_READY_GAUGE_WIDTH, now_gauge );
+		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge , 0, STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge, STATUS_READY_GAUGE_WIDTH, ( int )now_gauge );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 	} else {

@@ -99,13 +99,13 @@ int Cohort::getMaxNum( ) {
 	return _enemy_max;
 }
 
-void Cohort::loadBlockEnemyData( std::string filepath ) {
+void Cohort::loadBlockEnemyData( int idx, std::string filepath ) {
 	BLOCK_ENEMY_DATA data;
 	//ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ
 	FILE* fp;
 	errno_t err = fopen_s( &fp, filepath.c_str( ), "r" );
 	if ( err != 0 ) {
-		_enemy_data.push_back( data );
+		_enemy_data[ idx ] = data;
 		return;
 	}
 	
@@ -121,7 +121,7 @@ void Cohort::loadBlockEnemyData( std::string filepath ) {
 		enemy_data.name = buf;
 		data.push_back( enemy_data );
 	}
-	_enemy_data.push_back( data );
+	_enemy_data[ idx ] = data;
 	fclose( fp );
 }
 

@@ -134,7 +134,6 @@ void EnemyBossBehavior::switchStatus( ) {
 	}
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_boss_state = BOSS_STATE_DEAD;
-		app->setState( App::STATE_CLEAR );
 	}
 	
 }
@@ -144,6 +143,8 @@ void EnemyBossBehavior::animationUpdate( ) {
 	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_DEAD ) {
 		if ( _animation->isEndAnimation( ) ) {
 			_parent->dead( );
+			AppPtr app = App::getTask( );
+			app->setState( App::STATE_CLEAR );
 		}
 		return;
 	}

@@ -49,6 +49,9 @@ public:
 	unsigned char getPlayerId( ) const;
 	int getStartCount( ) const;
 	int getStartCountMax( ) const;
+	int convertCSVtoMap( int type );
+private:
+	static const int MAX_MAP_DATA_NUM = 5;
 private:
 	void loadToGround( );
 	void updateStateReady( );
@@ -66,6 +69,7 @@ private:
 	CrystalsPtr _crystals;
 	STATE _state;
 	FieldPtr _field;
+	std::array< int , MAX_MAP_DATA_NUM > _map_convert;
 	int _push_reset_count;
 	int _push_start_count;
 	unsigned char _player_id;

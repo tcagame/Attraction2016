@@ -332,10 +332,7 @@ void Drawer::setModelMV1( const ModelMV1& model ) {
 }
 
 void Drawer::setShadow( const Vector& pos ){
-	if ( _shadow_idx >= SHADOW_NUM ) {
-		return;
-	}
-
+	assert( _shadow_idx < SHADOW_NUM );
 	Model::VERTEX vertex[ 4 ];
 	for ( int i = 0; i < 4; i++ ) {
 		vertex[ i ].pos = Vector( i / 2 * SHADOW_RADIUS - SHADOW_RADIUS / 2, i % 2 * SHADOW_RADIUS - SHADOW_RADIUS / 2, 0 ) + pos;

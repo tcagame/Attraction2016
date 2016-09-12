@@ -207,6 +207,7 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
 	drawer->loadEffect( Effect::EFFECT_FAIRY, "effect/project/effect001.efk" );
+	drawer->loadEffect( Effect::EFFECT_DAMAGE, "effect/project/effect004.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH, "effect/project/effect101.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD, "effect/project/effect102.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_STAB, "effect/project/effect103.efk" );

@@ -6,6 +6,7 @@
 #include "Log.h"
 #include "Connect.h"
 #include "Server.h"
+#include "Status.h"
 
 AppServerPtr AppServer::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -15,23 +16,7 @@ AppServerPtr AppServer::getTask( ) {
 
 
 void AppServer::initialize( ) {
-	//status
-	{
-		TableDrawer::FORM form;
-		form.title = "status";
-		form.x = 10;
-		form.y = 10;
-		form.rows = 3;
-		form.cols = 6;
-		form.col[ 0 ] = 50;
-		form.col[ 1 ] = 50;
-		form.col[ 2 ] = 50;
-		form.col[ 3 ] = 50;
-		form.col[ 4 ] = 50;
-		form.col[ 5 ] = 50;
-		_td_status = TableDrawerPtr( new TableDrawer( form ) );
-	}
-
+	_status = StatusPtr( new Status );
 	_command = CommandPtr( new Command );
 	_log = LogPtr( new Log );
 	_connect = ConnectPtr( new Connect );
@@ -52,6 +37,7 @@ void AppServer::update( ) {
 void AppServer::process( ) {
 	processCommand( );
 
+	_status->update( );
 	_connect->update( );
 }
 
@@ -77,7 +63,7 @@ void AppServer::processCommand( ) {
 }
 
 void AppServer::draw( ) {
-	_td_status->draw( );
+	_status->draw( );
 	_command->draw( );
 	_log->draw( );
 	_connect->draw( );

@@ -3,11 +3,11 @@
 #include "Network.h"
 #include "Server.h"
 
-const int POS_X = 500;
-const int POS_Y = 160;
+const int POS_X = 600;
+const int POS_Y = 10;
 const int ROW_NUM = MAX_MACHINE;
 const int COL_NUM = 1;
-const int COL_WIDTH = 290;
+const int COL_WIDTH = 190;
 
 Connect::Connect( ) {
 	TableDrawer::FORM form;

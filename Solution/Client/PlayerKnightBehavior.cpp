@@ -11,7 +11,8 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerKnightBehavior::PlayerKnightBehavior( ) {
+PlayerKnightBehavior::PlayerKnightBehavior( ) :
+PlayerBehavior( PLAYER_KNIGHT ) {
 }
 
 PlayerKnightBehavior::~PlayerKnightBehavior( ) {
@@ -28,8 +29,8 @@ void PlayerKnightBehavior::attack( ) {
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
 		Effect effect;
-		int id = effect.setEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE );
-		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ),_parent->getDir( ) );
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//—­‚ßŽ‘±
@@ -124,7 +125,7 @@ void PlayerKnightBehavior::animationUpdate( ) {
 	}
 	if ( _player_state == PLAYER_STATE_STORE ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_KNIGHT_STORE ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_STORE ) );
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_STORE, 0.25 ) );
 		}
 	}
 	if ( _player_state == PLAYER_STATE_DEATHBLOW ) {

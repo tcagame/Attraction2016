@@ -15,11 +15,13 @@
 #include "Keyboard.h"
 #include "Device.h"
 #include "PlayerCamera.h"
+#include "Client.h"
 
 const int CRYSTAL_LENGTH = 2;
 
-PlayerBehavior::PlayerBehavior( ) :
-MAX_ATTACK_PATTERN( 3 ){
+PlayerBehavior::PlayerBehavior( unsigned char player_id ) :
+MAX_ATTACK_PATTERN( 3 ),
+_player_id( player_id ) {
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
@@ -36,11 +38,21 @@ void PlayerBehavior::update( ) {
 	move_vec *= status.speed;//プレイヤーの進行ベクトル
 
 	AppPtr app = App::getTask( );
-	Vector move_pos = _parent->getPos( ) + move_vec;
 	if ( _before_state != PLAYER_STATE_ATTACK && _before_state != PLAYER_STATE_DEAD && !isDeathblow( ) ) {
 		if ( move_vec.getLength( ) > 0.0 ) {
 			//進める場合移動
-			_parent->move( move_vec );
+			if ( !_parent->move( move_vec ) ) {
+				// チップが変わった
+				// ※このキャラクターがメインの場合のみ
+				Vector pos = _parent->getPos( );
+				ClientPtr client = Client::getTask( );
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_POS;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ( int )pos.x;
+				data.value[ 2 ] = ( int )pos.y;
+				client->send( data );
+			}
 			_player_state = PLAYER_STATE_WALK;
 		}
 		bool long_wait = ( _player_state == PLAYER_STATE_WAIT && _animation->getAnimTime( ) > 10 );

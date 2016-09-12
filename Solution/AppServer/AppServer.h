@@ -6,10 +6,10 @@
 #include <vector>
 
 PTR( AppServer );
-PTR( TableDrawer );
 PTR( Log );
 PTR( Command );
 PTR( Connect );
+PTR( Status );
 
 class AppServer : public Task {
 public:
@@ -27,7 +27,7 @@ private:
 	void process( );
 	void processCommand( );
 private:
-	TableDrawerPtr _td_status;
+	StatusPtr _status;
 	CommandPtr _command;
 	LogPtr _log;
 	ConnectPtr _connect;

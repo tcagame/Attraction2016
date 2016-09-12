@@ -2,10 +2,10 @@
 #include "TableDrawer.h"
 
 const int LOG_LINE_POS_X = 10;
-const int LOG_LINE_POS_Y = 160;
-const int LOG_ROW_NUM = 10;
+const int LOG_LINE_POS_Y = 270;
+const int LOG_ROW_NUM = 7;
 const int LOG_COL_NUM = 1;
-const int LOG_COL_WIDTH = 450;
+const int LOG_COL_WIDTH = 550;
 
 Log::Log( ) {
 	//log

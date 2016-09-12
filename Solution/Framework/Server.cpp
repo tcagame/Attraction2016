@@ -22,7 +22,7 @@ Server::Server( ) {
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
 		_data.player[ i ].x = 0;
 		_data.player[ i ].y = 0;
-		_data.player[ i ].attack = ACTION_ATTACK;
+		_data.player[ i ].action = ACTION_NONE;
 	}
 }
 
@@ -97,9 +97,12 @@ void Server::listenForPackets( ) {
 void Server::executeNetData( const SERVERDATA& data ) {
 	switch ( data.command ) {
 	case COMMAND_DUMMY:
-		{
-
-		}
+		break;
+	case COMMAND_CONDITION:
+		break;
+	case COMMAND_STATUS_POS:
+		_data.player[ data.value[ 0 ] ].x = data.value[ 1 ];
+		_data.player[ data.value[ 0 ] ].y = data.value[ 2 ];
 		break;
 	}
 }

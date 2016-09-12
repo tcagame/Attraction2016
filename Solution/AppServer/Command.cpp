@@ -3,7 +3,7 @@
 #include "Framework.h"
 #include "Keyboard.h"
 
-const int COL_WIDTH = 450;
+const int COL_WIDTH = 550;
 const int POS_X = 10;
 const int POS_Y = 520;
 
@@ -14,7 +14,7 @@ Command::Command( ) {
 	form.y = POS_Y;
 	form.rows = 1;
 	form.cols = 1;
-	form.col[ 0 ] = 450;
+	form.col[ 0 ] = COL_WIDTH;
 	_td = TableDrawerPtr( new TableDrawer( form ) );
 }
 

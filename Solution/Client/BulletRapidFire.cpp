@@ -21,8 +21,9 @@ BulletRapidFire::BulletRapidFire( const Vector& pos, const Vector& dir )
 	for ( int i = 0; i < BULLET_NUM; i++ ) {
 		_bullet_pos[ i ] = _pos + BULLET_POS[ i ];
 	}
-
 	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_RAPID_FIRE );
+	effect.drawEffect( _effect_handle, Vector( 0.1, 0.1, 0.1 ), _pos, _dir  );
 	_bullet_effect_handle[ 0 ] = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 	_exist_bullet[ 0 ] = true;
 	_exist_bullet[ 1 ] = false;
@@ -57,7 +58,6 @@ bool BulletRapidFire::update( ) {
 		attackEnemy( _bullet_pos[ i ], POWER );
 
 		Effect effect;
-		effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), _pos, _dir );
 		
 		effect.drawEffect( _bullet_effect_handle[ i ], Vector( 0.3, 0.3, 0.3 ), _bullet_pos[ i ], _dir );
 

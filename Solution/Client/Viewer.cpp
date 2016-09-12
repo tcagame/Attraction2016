@@ -227,6 +227,7 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/project/effect403.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/project/effect402.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "effect/project/effect404.efk" );
+	drawer->loadEffect( Effect::EFFECT_PICKUP_CRYSTAL, "effect/project/effect003.efk" );
 
 	drawer->loadMDLModel( MODEL_MDL_FLOOR  , "MapModel/floor01.mdl"   , "MapModel/floor01_DM.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_PATH01 , "MapModel/path01.mdl"    , "MapModel/path.jpg" );

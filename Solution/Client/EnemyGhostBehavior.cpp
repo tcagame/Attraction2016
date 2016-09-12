@@ -67,7 +67,7 @@ void EnemyGhostBehavior::switchStatus( ) {
 		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 		//UŒ‚’†
-	if ( _animation->getMotion( ) == Animation::MOTION_GHOST_ATTACK && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_GHOST_ATTACK && !_animation->isEndAnimation( ) && range <= _attack_range ) {
 		_enemy_state = ENEMY_STATE_ATTACK;
 		//ƒ_ƒ[ƒW
 		if ( _animation->getAnimTime( ) == ATTACK_TIME ) {

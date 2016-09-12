@@ -66,7 +66,7 @@ void EnemyGoblinBehavior::switchStatus( ) {
 		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 	//UŒ‚’†
-	if ( _animation->getMotion( ) == Animation::MOTION_GOBLIN_ATTACK && !_animation->isEndAnimation( ) ) {
+	if ( _animation->getMotion( ) == Animation::MOTION_GOBLIN_ATTACK && !_animation->isEndAnimation( ) && range <= _attack_range ) {
 		_enemy_state = ENEMY_STATE_ATTACK;
 	}
 

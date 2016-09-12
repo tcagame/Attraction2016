@@ -325,9 +325,6 @@ void Viewer::drawEnemy( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
-		
-		Player::STATUS status = enemy->getStatus( );
-		drawer->drawString( 0, i * 100 + 100, "Enemy_HP: %d", status.hp );
 	}
 }
 
@@ -380,10 +377,6 @@ void Viewer::drawBoss( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 	drawer->setModelMV1( model );
-	
-	Player::STATUS status = enemy->getStatus( );
-	drawer->drawString( 100, 0 + 100, "BOSS_HP: %d", status.hp );
-	
 }
 
 
@@ -573,7 +566,7 @@ void Viewer::drawUI( ) {
 		double hp = boss->getStatus( ).hp;
 		double max_hp = ( double )boss->getMaxHp( );
 		double percentage = hp / max_hp;
-		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
+		double tx = BOSS_HP_GAUGE_WIDTH * percentage;
 		//HP•`‰æ
 		int boss_hp_gauge_x = window_width / 2 - BOSS_HP_GAUGE_WIDTH / 2;
 		int boss_hp_gauge_y = STATUS_POS_OFFSET;

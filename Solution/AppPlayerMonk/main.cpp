@@ -1,5 +1,5 @@
-#include "Framework.h"
+#include "PlayerFactory.h"
 
 void main( ) {
-	
+	PlayerFactory factory( PLAYER_MONK );
 }

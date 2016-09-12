@@ -4,6 +4,7 @@
 // EffekseerForDXLib.hをインクルードします。
 #include "EffekseerForDXLib.h"
 
+#pragma warning(disable:4099)
 
 const int PARTICLE = 2000; //Effekseerの最大パーティクル数
 const int COLOR_BIT = 32;

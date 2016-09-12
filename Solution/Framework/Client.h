@@ -41,7 +41,6 @@ private:
 	int _tcp_handle;
 	int _udp_handle;
 	int _network_state_time;
-	int _count;
 	CLIENTDATA _status;
 };
 

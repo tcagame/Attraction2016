@@ -28,7 +28,7 @@ const unsigned char PLAYER_MONK        = 2;
 const unsigned char PLAYER_WITCH       = 3;
 const unsigned char PLAYER_SHOOTER     = 4;
 const unsigned char PLAYER_ETUDE_RED   = 5;
-const unsigned char PLAYER_ETUDE_GREE  = 6;
+const unsigned char PLAYER_ETUDE_GREEN = 6;
 const unsigned char PLAYER_ETUDE_BLUE  = 7;
 
 const unsigned char ACTION_NONE = 0x01;
@@ -50,9 +50,9 @@ const int MAX_MACHINE = 13;
 
 	struct CLIENTDATA {
 		struct PLAYER {
-			char x; // -100 +100
-			char y; // -100 +100
-			unsigned char attack; // 8ƒ{ƒ^ƒ“
+			unsigned int x;
+			unsigned int y;
+			unsigned int attack;
 		};
 		PLAYER player[ PLAYER_NUM ];
 	};

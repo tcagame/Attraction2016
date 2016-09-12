@@ -38,7 +38,7 @@ void Server::update( ) {
 	listenForAcceptNewClient( );
 	listenForPackets( );
 	sendCondition( );
-	sendData( );
+	sendStatus( _data );
 }
 
 std::string Server::getMachineIPStr( int index ) {
@@ -153,13 +153,4 @@ void Server::sendCondition( ) {
 
 CLIENTDATA Server::getData( ) {
 	return _data;
-}
-
-//server
-void Server::updateOriginal( ) {
-	sendData( );
-}
-
-void Server::sendData( ) {
-	sendStatus( _data );
 }

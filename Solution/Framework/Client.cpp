@@ -18,7 +18,6 @@ Client::Client( ) {
 	_network_state_time = 0;
 	_tcp_handle = -1;
 	_udp_handle = MakeUDPSocket( UDP_PORT_NUM );
-	_count = 0;
 
 }
 

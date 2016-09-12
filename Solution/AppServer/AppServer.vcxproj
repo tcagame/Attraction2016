@@ -96,6 +96,7 @@
     <ClCompile Include="Connect.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Status.cpp" />
     <ClCompile Include="TableDrawer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +104,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Connect.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Status.h" />
     <ClInclude Include="TableDrawer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -29,16 +29,9 @@ void Field::delTarget( int x, int y, ObjectPtr object ) {
 	}
 }
 
-
-bool Field::setTarget(int x, int y, ObjectPtr object) {
+void Field::setTarget(int x, int y, ObjectPtr object) {
 	int idx = getIndexTargetBoard( x, y );
-	ObjectPtr target = _target_board[ idx ].lock();
-	if ( !target ) {
-		_target_board[ idx ] = object;
-		return true;
-	}
-	return false;
-	//target = _target_board[ idx ].lock( );//ƒeƒXƒg
+	_target_board[ idx ] = object;
 }
 
 ObjectPtr Field::getTarget( int x, int y ) {

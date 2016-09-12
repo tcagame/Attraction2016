@@ -48,6 +48,7 @@ public:
 	void setState( STATE state );
 	unsigned char getPlayerId( ) const;
 	int getStartCount( ) const;
+	int getStartCountMax( ) const;
 private:
 	void loadToGround( );
 	void updateStateReady( );

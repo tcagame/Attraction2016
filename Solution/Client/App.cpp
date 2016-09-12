@@ -301,3 +301,7 @@ void App::setState( STATE state ) {
 unsigned char App::getPlayerId( ) const {
 	return _player_id;
 }
+
+int App::getStartCount( ) const {
+	return _push_start_count;
+}

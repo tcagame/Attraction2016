@@ -47,6 +47,7 @@ public:
 	FieldPtr getField( ) const;
 	void setState( STATE state );
 	unsigned char getPlayerId( ) const;
+	int getStartCount( ) const;
 private:
 	void loadToGround( );
 	void updateStateReady( );

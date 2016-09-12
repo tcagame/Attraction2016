@@ -61,6 +61,7 @@ private:
 	void drawBoss( );
 	void drawGroundModel( );
 	void drawBossMapModel( );
+	void drawBackGround( );
 //	void drawBullet( );
 	void drawEffect( );
 	void drawCrystal( );

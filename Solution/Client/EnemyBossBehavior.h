@@ -1,5 +1,6 @@
 #pragma once
 #include "Behavior.h"
+#include "mathmatics.h"
 
 PTR( EnemyBossBehavior );
 PTR( Player );

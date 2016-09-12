@@ -94,7 +94,7 @@ void EnemyBossBehavior::switchStatus( ) {
 			if ( range <= _attack_range[i] && _before_state != BOSS_STATE_ATTACK ) {
 				_boss_state = BOSS_STATE_ATTACK;
 				_attack_pattern = i;
-				_parent->move( ( _target_pos - pos ).normalize( )* 0.0001 );
+				_parent->move( ( _target_pos - pos ).normalize( ) * 0.0001 );
 			
 				break;
 			}

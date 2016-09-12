@@ -31,7 +31,8 @@ enum MODEL_MDL {
 	MODEL_MDL_PATH03,
 	MODEL_MDL_BOSS,
 	MODEL_MDL_CRYSTAL,
-	MODEL_MDL_BIG_CRYSTAL
+	MODEL_MDL_BIG_CRYSTAL,
+	MODEL_MDL_BACK_GROUND
 
 };
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
@@ -241,6 +242,8 @@ void Viewer::initialize( ) {
 	drawer->loadMDLModel( MODEL_MDL_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg" );
 	Matrix matrix = Matrix::makeTransformScaling( Vector( 2, 2, 2 ) );
 	drawer->loadMDLModel( MODEL_MDL_BIG_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg", matrix );
+	drawer->loadMDLModel( MODEL_MDL_BACK_GROUND, "MapModel/bg.mdl", "MapModel/bg01_DM.jpg" );
+
 
 	_fairy_time = END_FAIRY_TIME;
 }
@@ -253,6 +256,7 @@ void Viewer::update( ) {
 		drawReady( );
 		break;
 	case App::STATE_PLAY:
+		drawBackGround( );
 		drawPlayer( );
 		drawEnemy( );
 		drawShadow( );
@@ -403,6 +407,16 @@ void Viewer::drawGroundModel( ) {
 			drawer->setModelMDL( model_mdl );
 		}
 	}
+}
+
+
+
+void Viewer::drawBackGround( ) {
+	AppPtr app = App::getTask( );
+	GroundPtr ground = app->getGround( );
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::ModelMDL model_mdl = Drawer::ModelMDL( Vector(  0, 0, 0 ), MODEL_MDL_BACK_GROUND );
+	drawer->setModelMDL( model_mdl );
 }
 
 void Viewer::drawBossMapModel( ) {

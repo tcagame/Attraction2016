@@ -4,7 +4,7 @@
 
 
 PlayerCamera::PlayerCamera( ) {
-
+	_max_lenght = 40;
 }
 
 
@@ -47,7 +47,9 @@ void PlayerCamera::update( ) {
 
 
 	Vector vec = _pos - _target;
-	/*
+	while ( vec.getLength( ) > _max_lenght ) {
+		vec -= vec.normalize( );
+	}
 	
 	MousePtr mouse = Mouse::getTask( );
 	Vector mouse_pos = mouse->getPos( );
@@ -64,7 +66,7 @@ void PlayerCamera::update( ) {
 	vec = mat_pitch.multiply( vec );
 	// マウスの位置を記憶
 	_store_mouse_pos = mouse_pos;
-	*/
+	
 	// _camera_posを変更
 	_pos = _target + vec;
 	

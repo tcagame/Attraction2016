@@ -201,28 +201,28 @@ void Viewer::initialize( ) {
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
-	drawer->loadEffect( Effect::EFFECT_FAIRY, "effect/effect001.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH, "effect/effect101.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD, "effect/effect102.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_STAB, "effect/effect103.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_EXCARIBUR, "effect/effect104.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "effect/effect105.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT, "effect/effect106.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_UPPER, "effect/effect107.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_RUSH, "effect/effect108.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM, "effect/effect109.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE, "effect/effect110.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_LAY, "effect/effect111.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH, "effect/effect112.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE, "effect/effect301.efk" );
-	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "effect/effect204.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "effect/effect305.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "effect/effect306.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "effect/effect307.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE, "effect/effect401.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/effect402.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/effect403.efk" );
-	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "effect/effect404.efk" );
+	drawer->loadEffect( Effect::EFFECT_FAIRY, "effect/project/effect001.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH, "effect/project/effect101.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD, "effect/project/effect102.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_STAB, "effect/project/effect103.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_EXCARIBUR, "effect/project/effect104.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_JAB, "effect/project/effect105.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT, "effect/project/effect106.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_UPPER, "effect/project/effect107.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_RUSH, "effect/project/effect108.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM, "effect/project/effect109.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE, "effect/project/effect110.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_LAY, "effect/project/effect111.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH, "effect/project/effect112.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE, "effect/project/effect301.efk" );
+	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "effect/project/effect204.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "effect/project/effect305.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "effect/project/effect306.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "effect/project/effect307.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE, "effect/project/effect401.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/project/effect403.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/project/effect402.efk" );
+	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "effect/project/effect404.efk" );
 
 	drawer->loadMDLModel( MODEL_MDL_FLOOR  , "MapModel/floor01.mdl"   , "MapModel/floor01_DM.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_PATH01 , "MapModel/path01.mdl"    , "MapModel/path.jpg" );
@@ -281,7 +281,7 @@ void Viewer::drawPlayer( ) {
 			continue;
 		}
 		if ( !player->isExpired( ) ) {
-			return;
+			continue;
 		}
 		AnimationPtr animation = player->getAnimation( );
 		int motion = animation->getMotion( );

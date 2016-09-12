@@ -28,7 +28,7 @@ void PlayerKnightBehavior::attack( ) {
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
 		Effect effect;
-		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE );
 		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
 	}

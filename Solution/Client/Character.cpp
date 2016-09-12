@@ -5,6 +5,7 @@
 #include "GroundModel.h"
 #include "Cohort.h"
 #include "Enemy.h"
+#include "PlayerBehavior.h"
 
 Vector START_DIR = Vector( 0, 1, 0 );
 
@@ -76,7 +77,15 @@ void Character::create( const Vector& pos ) {
 }
 
 void Character::damage( unsigned int power ) {
-	_status.hp -= power;
+	bool isPlayer = CHARACTER_TYPE == TYPE_PLAYER;
+	PlayerBehaviorPtr player_behavior;
+	if ( isPlayer ) {
+		player_behavior  = std::dynamic_pointer_cast< PlayerBehavior >( _behavior );
+	}
+	bool is_unrivaled  = isPlayer && player_behavior->isDeathblow( );
+	if ( !is_unrivaled ) {
+		_status.hp -= power;
+	}
 }
 
 Vector Character::getPos( ) const {

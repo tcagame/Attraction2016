@@ -27,7 +27,7 @@ void PlayerKnightBehavior::attack( ) {
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//溜めモーション
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
+	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
@@ -41,6 +41,7 @@ void PlayerKnightBehavior::attack( ) {
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
 		bullet = BulletPtr( new BulletExcalibur( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
+		player->resetSP( );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//必殺技終了まで必殺技モーション

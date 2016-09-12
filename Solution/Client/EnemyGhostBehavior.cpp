@@ -1,5 +1,6 @@
 #include "EnemyGhostBehavior.h"
 #include "Character.h"
+#include "Effect.h"
 #include "Animation.h"
 #include "Weapon.h"
 #include "BulletFireBall.h"
@@ -8,6 +9,7 @@
 
 const double MOTION_SPEED = 1;
 const int ATTACK_TIME = 40;
+const double DAMAGE_SCALE = 0.5;
 
 EnemyGhostBehavior::EnemyGhostBehavior( ) {
 	_move_range = 6.0;
@@ -76,6 +78,9 @@ void EnemyGhostBehavior::switchStatus( ) {
 	}
 	if ( _before_hp > _parent->getStatus( ).hp ) {
 		_on_damage = true;
+		Effect effect;
+		int damage_effect = effect.setEffect( Effect::EFFECT_DAMAGE );
+		effect.drawEffect( damage_effect, Vector( DAMAGE_SCALE, DAMAGE_SCALE, DAMAGE_SCALE ), _parent->getPos( ), _parent->getDir( ) );
 	}
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_enemy_state = ENEMY_STATE_DEAD;

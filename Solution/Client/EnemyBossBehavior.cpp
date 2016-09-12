@@ -29,9 +29,9 @@ const int BOSS_ATTACK_POWER[ ] = {
 };
 
 EnemyBossBehavior::EnemyBossBehavior() {
-	_attack_range[ BOSS_ATTACK_PATTERN_CLEAVE ] = 1.0;
-	_attack_range[ BOSS_ATTACK_PATTERN_BITE ] = 2.0;
-	_attack_range[ BOSS_ATTACK_PATTERN_FIRE ] = 3.0;
+	_attack_range[ BOSS_ATTACK_PATTERN_CLEAVE ] = 7.0;
+	_attack_range[ BOSS_ATTACK_PATTERN_BITE ] = 10.0;
+	_attack_range[ BOSS_ATTACK_PATTERN_FIRE ] = 13.0;
 	_attack_pattern = BOSS_ATTACK_PATTERN_MAX;
 	_on_damage = false;
 	_has_entry = false;

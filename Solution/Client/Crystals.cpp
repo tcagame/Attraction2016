@@ -3,9 +3,9 @@
 #include "BigCrystal.h"
 
 Vector CRYSTAL_POS[ Crystals::MAX_CRYSTAL_NUM ] {
-	Vector( 23 * 7, 2 * 4, 0.05 ),
-	Vector( 3 * 7, 24 * 4, 0.15 ),
-	Vector( 39 * 7, 24 * 4, 0.20 ),
+	Vector( 23 * 7 + 3, 2 * 4 + 2, 0.05 ),
+	Vector( 3 * 7 + 3, 24 * 4 + 2, 0.15 ),
+	Vector( 39 * 7 + 3, 24 * 4 + 2, 0.20 ),
 };
 
 

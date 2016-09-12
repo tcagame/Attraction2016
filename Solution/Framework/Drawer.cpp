@@ -7,7 +7,7 @@
 
 static const int REFRESH_COUNT = 60;	//•½‹Ï‚ğæ‚éƒTƒ“ƒvƒ‹”
 static const int FPS = 30;
-static const double RADIUS = 1.0;
+static const double SHADOW_RADIUS = 0.5;
 const char* SHADOW_TEXTURE_PATH = "../Resource/Images/Shadow/shadow.png";
 
 Drawer::Transform::Transform( ) :
@@ -338,7 +338,7 @@ void Drawer::setShadow( const Vector& pos ){
 
 	Model::VERTEX vertex[ 4 ];
 	for ( int i = 0; i < 4; i++ ) {
-		vertex[ i ].pos = Vector( i / 2 * RADIUS - RADIUS / 2, i % 2 * RADIUS - RADIUS / 2, 0.01 ) + pos;
+		vertex[ i ].pos = Vector( i / 2 * SHADOW_RADIUS - SHADOW_RADIUS / 2, i % 2 * SHADOW_RADIUS - SHADOW_RADIUS / 2, 0 ) + pos;
 		vertex[ i ].u = i % 2;
 		vertex[ i ].v = i / 2;
 	}

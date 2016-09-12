@@ -78,6 +78,8 @@ const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
 const double MODEL_SCALE_ALL = 0.4;
 
+const double MODEL_SHADOW_HEIGTH = 0.002;
+
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
 const Vector START_CAMERA_POS = Vector( 50, 50, 50 );
@@ -342,7 +344,7 @@ void Viewer::drawShadow( ) {
 			continue;
 		}
 		Vector pos = enemy->getPos( );
-		pos.z = 0.1;
+		pos.z = MODEL_SHADOW_HEIGTH;
 		drawer->setShadow( pos );
 	}
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -351,12 +353,12 @@ void Viewer::drawShadow( ) {
 			continue;
 		}
 		Vector player_pos = player->getPos( );
-		player_pos.z = 0.1;
+		player_pos.z = MODEL_SHADOW_HEIGTH;
 		drawer->setShadow( player_pos );
 	}
 	EnemyPtr boss = cohort->getBoss( );
 	Vector boss_pos = boss->getPos( );
-	boss_pos.z = 0.1;
+	boss_pos.z = MODEL_SHADOW_HEIGTH;
 	drawer->setShadow( boss_pos );
 }
 

@@ -51,8 +51,8 @@ int Field::getIndexTargetBoard( int x, int y ) {
 	}
 	AppPtr app = App::getTask( );
 	GroundPtr ground = app->getGround( );
-	int map_width = ground->getWidth( ) * 7;
-	int map_height = ground->getHeight( ) * 7;
+	int map_width = ground->getWidth( ) * 10;
+	int map_height = ground->getHeight( ) * 10;
 	ret = map_x + map_y * map_width ;
 	return ret;
 }

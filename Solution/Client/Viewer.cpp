@@ -281,7 +281,7 @@ void Viewer::drawPlayer( ) {
 			continue;
 		}
 		if ( !player->isExpired( ) ) {
-			return;
+			continue;
 		}
 		AnimationPtr animation = player->getAnimation( );
 		int motion = animation->getMotion( );

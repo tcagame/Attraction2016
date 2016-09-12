@@ -74,6 +74,9 @@ const int STATUS_CLEAR_STRING_HEIGHT = 198;
 const int STATUS_GAMEOVER_STRING_WIDTH = 834;
 const int STATUS_GAMEOVER_STRING_HEIGHT = 194;
 
+const int STATUS_READY_GAUGE_WIDTH = 1300;
+const int STATUS_READY_GAUGE_HEIGHT = 925;
+
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
 const double MODEL_SCALE_ALL = 0.4;
@@ -199,6 +202,7 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_FRAME,		"UI/boss_hp_frame.png" );
 	drawer->loadGraph( GRAPHIC_READY_STRING,			"UI/ready_string.png" );
 	drawer->loadGraph( GRAPHIC_READY_BACK,				"UI/ready_back.png" );
+	drawer->loadGraph( GRAPHIC_READY_GAUGE,				"UI/ready_title_gauge.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
@@ -594,15 +598,23 @@ void Viewer::drawReady( ) {
 		drawer->setSprite( sprite );
 	}
 
-	//ready‰æ–Ê•¶Žš
-	{
-		FrameworkPtr fw = Framework::getInstance( );
+	AppPtr app = App::getTask( );
+	FrameworkPtr fw = Framework::getInstance( );
+	if ( app->getStartCount( ) > 0 ) {
+		int gauge_count = app->getStartCount( );
+		//int gauge_x = 
+
+	} else {
+		//ready‰æ–Ê•¶Žš
+		
 		int x = fw->getWindowWidth( ) / 2 - STATUS_READY_STRING_WIDTH / 2;
 		int y = fw->getWindowHeight( ) / 2 - STATUS_READY_STRING_HEIGHT / 2;
 		Drawer::Transform transform = Drawer::Transform( x, y );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY_STRING, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
+
+	
 }
 
 void Viewer::drawResult( ) {

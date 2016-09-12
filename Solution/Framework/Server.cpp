@@ -19,14 +19,11 @@ Server::Server( ) {
 	PreparationListenNetWork( TCP_PORT_NUM );
 	_udp_handle = MakeUDPSocket( -1 );
 
-	//STATUS
-	FrameworkPtr fw = Framework::getInstance( );
-
-
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		_data.player[ i ].x = 0;
+		_data.player[ i ].y = 0;
+		_data.player[ i ].attack = ACTION_ATTACK;
 	}
-
-	_count = 0;
 }
 
 Server::~Server( ) {
@@ -38,7 +35,7 @@ void Server::update( ) {
 	listenForAcceptNewClient( );
 	listenForPackets( );
 	sendCondition( );
-	sendData( );
+	sendStatus( _data );
 }
 
 std::string Server::getMachineIPStr( int index ) {
@@ -153,13 +150,4 @@ void Server::sendCondition( ) {
 
 CLIENTDATA Server::getData( ) {
 	return _data;
-}
-
-//server
-void Server::updateOriginal( ) {
-	sendData( );
-}
-
-void Server::sendData( ) {
-	sendStatus( _data );
 }

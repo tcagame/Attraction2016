@@ -12,7 +12,7 @@ void main( ) {
 	DevicePtr device = DevicePtr( new Device );
 	KeyboardPtr keyboad = KeyboardPtr( new Keyboard );
 	MousePtr mouse = MousePtr( new Mouse );
-	AppPtr app = AppPtr( new App );
+	AppPtr app = AppPtr( new App( PLAYER_NONE ) );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
 	LiveCameraPtr camera = LiveCameraPtr( new LiveCamera( ) );

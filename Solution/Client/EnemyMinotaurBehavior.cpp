@@ -20,7 +20,7 @@ EnemyMinotaurBehavior::~EnemyMinotaurBehavior( ) {
 
 void EnemyMinotaurBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
@@ -135,6 +135,6 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 
 void EnemyMinotaurBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

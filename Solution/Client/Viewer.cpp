@@ -275,28 +275,33 @@ void Viewer::updateCamera( ) {
 
 void Viewer::drawPlayer( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
-	if ( !player->isExpired( ) ) {
-		return;
-	}
-	AnimationPtr animation = player->getAnimation( );
-	int motion = animation->getMotion( );
-	double time = animation->getAnimTime( );
-	Vector pos = player->getPos( );
-	Vector dir = player->getDir( );
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		PlayerPtr player = app->getPlayer( i );
+		if ( !player ) {
+			continue;
+		}
+		if ( !player->isExpired( ) ) {
+			return;
+		}
+		AnimationPtr animation = player->getAnimation( );
+		int motion = animation->getMotion( );
+		double time = animation->getAnimTime( );
+		Vector pos = player->getPos( );
+		Vector dir = player->getDir( );
 
-	DrawerPtr drawer = Drawer::getTask( );
-	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
-	drawer->setModelMV1( model );
+		DrawerPtr drawer = Drawer::getTask( );
+		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
+		drawer->setModelMV1( model );
 
-	//—d¸
-	Effect effect;
-	if ( _fairy_time >= END_FAIRY_TIME ) {//effect‚ðˆÛŽ‚³‚¹‚é‚½‚ß
-		_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
-		_fairy_time = 0;
+		//—d¸
+		Effect effect;
+		if ( _fairy_time >= END_FAIRY_TIME ) {//effect‚ðˆÛŽ‚³‚¹‚é‚½‚ß
+			_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
+			_fairy_time = 0;
+		}
+		effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
+		_fairy_time++;
 	}
-	effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
-	_fairy_time++;
 }
 
 void Viewer::drawEnemy( ) {
@@ -340,10 +345,15 @@ void Viewer::drawShadow( ) {
 		pos.z = 0.1;
 		drawer->setShadow( pos );
 	}
-	PlayerPtr player = app->getPlayer( );
-	Vector player_pos = player->getPos( );
-	player_pos.z = 0.1;
-	drawer->setShadow( player_pos );
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		PlayerPtr player = app->getPlayer( i );
+		if ( !player ) {
+			continue;
+		}
+		Vector player_pos = player->getPos( );
+		player_pos.z = 0.1;
+		drawer->setShadow( player_pos );
+	}
 	EnemyPtr boss = cohort->getBoss( );
 	Vector boss_pos = boss->getPos( );
 	boss_pos.z = 0.1;
@@ -446,7 +456,7 @@ void Viewer::drawUI( ) {
 	AppPtr app = App::getTask( );
 
 	//ƒvƒŒƒCƒ„[
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( !player->isExpired( ) ) {
 		return;
 	}

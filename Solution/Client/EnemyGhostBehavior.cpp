@@ -21,7 +21,7 @@ EnemyGhostBehavior::~EnemyGhostBehavior( ) {
 
 void EnemyGhostBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {

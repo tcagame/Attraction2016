@@ -1,6 +1,9 @@
 #pragma once
+
 #include "Task.h"
+#include "Network.h"
 #include <string>
+#include <array>
 
 PTR( App );
 PTR( Ground );
@@ -17,7 +20,7 @@ public:
 	static std::string getTag( ) { return "APP"; }
 	static AppPtr getTask( );
 public:
-	App( );
+	App( unsigned char player_id );
 	virtual ~App( );
 public:
 	enum STATE {
@@ -33,7 +36,8 @@ public:
 	void finalize( );
 	void reset( );
 	GroundPtr getGround( ) const;
-	PlayerPtr getPlayer( ) const;
+	PlayerPtr getPlayer( unsigned char player_id ) const;
+	PlayerPtr getPlayerMine( ) const;
 	CohortPtr  getCohort( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;
@@ -46,7 +50,7 @@ private:
 	void loadToGround( );
 private:
 	GroundPtr _ground;
-	PlayerPtr _player;
+	std::array< PlayerPtr, PLAYER_NUM > _player;
 	GroundModelPtr _ground_model;
 	CohortPtr _cohort;
 	WeaponPtr _weapon;
@@ -56,4 +60,5 @@ private:
 	FieldPtr _field;
 	int _push_reset_count;
 	int _push_start_count;
+	unsigned char _player_id;
 };

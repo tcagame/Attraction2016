@@ -20,7 +20,7 @@ EnemyGoblinBehavior::~EnemyGoblinBehavior() {
 
 void EnemyGoblinBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
@@ -134,6 +134,6 @@ void EnemyGoblinBehavior::animationUpdate( ) {
 
 void EnemyGoblinBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

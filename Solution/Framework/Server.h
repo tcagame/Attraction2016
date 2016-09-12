@@ -22,21 +22,15 @@ public:
 	void sendStatus( const CLIENTDATA& data );
 	void setConecting( int index, int device );
 	CLIENTDATA getData( );
-	void updateOriginal( );
 private:
 	void listenForAcceptNewClient( );
 	void listenForPackets( );
 	void sendCondition( );
-	void showTheReceivedLog( int index, const SERVERDATA& data );
 	void executeNetData( const SERVERDATA& data );
-	void resetDevice( int index = 0 );
-	void sendData( );
-	void resetState( );
 private:
 	std::array< int, MAX_MACHINE > _machine;
 	int _udp_handle;
 	int _network_state_time;
 	int _send_network_condition_num;
-	int _count;
 	CLIENTDATA _data;
 };

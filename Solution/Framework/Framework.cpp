@@ -4,6 +4,7 @@
 // EffekseerForDXLib.hをインクルードします。
 #include "EffekseerForDXLib.h"
 
+#pragma warning(disable:4099)
 
 const int PARTICLE = 2000; //Effekseerの最大パーティクル数
 const int COLOR_BIT = 32;
@@ -28,6 +29,9 @@ Framework::Framework( ) {
 	SetGraphMode( sx, sy, COLOR_BIT_DEPTH, FPS );
 	_screen_width = sx;
 	_screen_height = sy;
+#endif
+#if _DEBUG
+	SetDoubleStartValidFlag( TRUE ); // 多重起動
 #endif
 	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
 	SetUseDirect3DVersion( DX_DIRECT3D_9 );

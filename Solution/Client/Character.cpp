@@ -107,6 +107,9 @@ bool Character::isExpired( ) const {
 }
 
 void Character::dead( ) {
+	if ( !_expired ) {
+		return;
+	}
 	AppPtr app = App::getTask();
 	FieldPtr field = app->getField();
 	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );

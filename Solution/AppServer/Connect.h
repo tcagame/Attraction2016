@@ -10,6 +10,7 @@ public:
 	Connect( );
 	virtual ~Connect( );
 public:
+	void update( );
 	void draw( );
 private:
 	TableDrawerPtr _td;

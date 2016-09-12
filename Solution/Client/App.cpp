@@ -25,12 +25,16 @@ const std::string MODEL_NAME_LIST [] {
 	"path03"
 };
 
+const int START_POS_X = 12;
+const int START_POS_Y = 12;
+
 AppPtr App::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< App >( fw->getTask( App::getTag( ) ) );
 }
 
-App::App( ) {
+App::App( unsigned char player_id ) :
+_player_id( player_id ) {
 	_push_reset_count = 0;
 	_push_start_count = 0;
 }
@@ -40,7 +44,13 @@ App::~App( ) {
 }
 
 void App::update( ) {
-	_player->update( );
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		if ( !_player[ i ] ) {
+			continue;
+		}
+		_player[ i ]->update( );
+	}
+
 	_cohort->update( );
 	_crystals->updata( );
 	if ( _weapon ) {
@@ -49,7 +59,7 @@ void App::update( ) {
 	KeyboardPtr keyboad = Keyboard::getTask( );
 	DevicePtr device = Device::getTask( );
 	CameraPtr camera = Camera::getTask( );
-	camera->setTarget( _player->getPos( ) );
+	camera->setTarget( _player[ _player_id ]->getPos( ) );
 	//プレイヤーリセットコマンド
 	bool reset_flag = _push_reset_count >= 30;
 	if ( device->getButton( ) == BUTTON_A + BUTTON_B + BUTTON_C + BUTTON_D ) {
@@ -66,20 +76,42 @@ void App::update( ) {
 		_push_start_count += 1;
 	}
 	bool pop_player = _push_start_count >= 30;
-	pop_player = pop_player & !_player->isExpired( );
+	pop_player = pop_player & !_player[ _player_id ]->isExpired( );
 	if ( pop_player && !reset_flag ) {
-		Vector player_pos = Vector( 12, 12, 0 );
-		_player->create( player_pos );
+		Vector player_pos = Vector( START_POS_X, START_POS_Y, 0 );
+		_player[ _player_id ]->create( player_pos );
 		setState( STATE_PLAY );
 		_push_start_count = 0;
 	}
 }
 
 void App::initialize( ) {
-	//プレイヤーの設定
-	PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerKnightBehavior());
-	_player = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_KNIGHT));
-	behavior->setParent(_player);
+
+	{ //Knight
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerKnightBehavior());
+		_player[ PLAYER_KNIGHT ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_KNIGHT));
+		behavior->setParent(_player[ PLAYER_KNIGHT ]);
+	}
+	
+	{ //Monk
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerMonkBehavior());
+		_player[ PLAYER_MONK ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_MONK));
+		behavior->setParent(_player[ PLAYER_MONK ]);
+	}
+	
+	{ //Hunter
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerHunterBehavior());
+		_player[ PLAYER_HUNTER ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_HUNTER));
+		behavior->setParent(_player[ PLAYER_HUNTER ]);
+	}
+	
+	{ //Witch
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerWitchBehavior());
+		_player[ PLAYER_WITCH ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_WITCH));
+		behavior->setParent(_player[ PLAYER_WITCH ]);
+	}
+
+
 	_state = STATE_READY;
 
 
@@ -97,7 +129,12 @@ void App::initialize( ) {
 
 void App::reset( ) {
 	_field->reset();
-	_player->reset( );
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		if ( !_player[ i ] ) {
+			continue;
+		}
+		_player[ i ]->reset( );
+	}
 	_state = STATE_READY;
 	_cohort->reset( );
 	_weapon->reset( );
@@ -112,8 +149,12 @@ GroundPtr App::getGround( ) const {
 	return _ground;
 }
 
-PlayerPtr App::getPlayer( ) const {
-	return _player;
+PlayerPtr App::getPlayer( unsigned char player_id ) const {
+	return _player[ player_id ];
+}
+
+PlayerPtr App::getPlayerMine( ) const {
+	return _player[ _player_id ];
 }
 
 CohortPtr App::getCohort( ) const {

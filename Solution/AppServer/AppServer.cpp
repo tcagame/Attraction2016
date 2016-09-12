@@ -35,7 +35,6 @@ void AppServer::initialize( ) {
 	_command = CommandPtr( new Command );
 	_log = LogPtr( new Log );
 	_connect = ConnectPtr( new Connect );
-	_server = ServerPtr( new Server );
 }
 
 AppServer::AppServer( ) {
@@ -53,6 +52,7 @@ void AppServer::update( ) {
 void AppServer::process( ) {
 	processCommand( );
 
+	_connect->update( );
 }
 
 void AppServer::processCommand( ) {
@@ -66,7 +66,8 @@ void AppServer::processCommand( ) {
 	
 	// IPæ“¾
 	if ( data.word[ 0 ] == "ip" && data.word.size( ) == 1 ) {
-		_server->saveIP( );
+		ServerPtr server = Server::getTask( );
+		server->saveIP( );
 		_log->add( "IP.iniƒtƒ@ƒCƒ‹‚ğ¶¬‚µ‚Ü‚µ‚½" );
 		return;
 	}

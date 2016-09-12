@@ -21,7 +21,7 @@ EnemyCyclopsBehavior::~EnemyCyclopsBehavior( ) {
 
 void EnemyCyclopsBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
@@ -135,6 +135,6 @@ void EnemyCyclopsBehavior::animationUpdate( ) {
 
 void EnemyCyclopsBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

@@ -10,13 +10,13 @@
 #include "App.h"
 
 
-PlayerFactory::PlayerFactory( const char player_id ) {
+PlayerFactory::PlayerFactory( const unsigned char player_id ) {
 	FrameworkPtr fw = Framework::getInstance ( );
 	DevicePtr device = DevicePtr( new Device );
 	KeyboardPtr keyboad = KeyboardPtr( new Keyboard );
 	MousePtr mouse = MousePtr( new Mouse );
 	ClientPtr client = ClientPtr( new Client );
-	AppPtr app = AppPtr( new App );
+	AppPtr app = AppPtr( new App( player_id )  );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
 	PlayerCameraPtr camera = PlayerCameraPtr( new PlayerCamera( ) );

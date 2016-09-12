@@ -4,7 +4,7 @@
 
 class PlayerFactory {
 public:
-	PlayerFactory( const char player_id );
+	PlayerFactory( const unsigned char player_id );
 	virtual ~PlayerFactory( );
 };
 

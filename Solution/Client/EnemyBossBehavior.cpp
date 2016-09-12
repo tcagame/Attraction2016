@@ -44,7 +44,7 @@ EnemyBossBehavior::~EnemyBossBehavior() {
 
 void EnemyBossBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
@@ -223,7 +223,7 @@ void EnemyBossBehavior::animationUpdate( ) {
 
 void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	int power = _parent->getStatus( ).power;
 	power += BOSS_ATTACK_POWER[ attack_pattern ];
 	player->damage( power );

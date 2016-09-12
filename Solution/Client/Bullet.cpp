@@ -49,7 +49,7 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 			enemy->damage( power );
 			status = enemy->getStatus( );
 			if ( status.hp <= 0 ) {
-				PlayerPtr player = app->getPlayer( );
+				PlayerPtr player = app->getPlayerMine( );
 				player->addSP( 10 );
 			}
 		}

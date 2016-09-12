@@ -22,7 +22,7 @@ EnemyArmorBehavior::~EnemyArmorBehavior( ) {
 
 void EnemyArmorBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
@@ -138,6 +138,6 @@ void EnemyArmorBehavior::animationUpdate( ) {
 
 void EnemyArmorBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

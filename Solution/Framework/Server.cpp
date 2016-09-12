@@ -19,14 +19,11 @@ Server::Server( ) {
 	PreparationListenNetWork( TCP_PORT_NUM );
 	_udp_handle = MakeUDPSocket( -1 );
 
-	//STATUS
-	FrameworkPtr fw = Framework::getInstance( );
-
-
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		_data.player[ i ].x = 0;
+		_data.player[ i ].y = 0;
+		_data.player[ i ].attack = ACTION_ATTACK;
 	}
-
-	_count = 0;
 }
 
 Server::~Server( ) {

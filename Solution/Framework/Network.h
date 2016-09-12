@@ -30,6 +30,7 @@ const unsigned char PLAYER_SHOOTER     = 4;
 const unsigned char PLAYER_ETUDE_RED   = 5;
 const unsigned char PLAYER_ETUDE_GREEN = 6;
 const unsigned char PLAYER_ETUDE_BLUE  = 7;
+const unsigned char PLAYER_NONE        = 0xff;
 
 const unsigned char ACTION_NONE = 0x01;
 const unsigned char ACTION_ATTACK = 0x02;

@@ -32,7 +32,7 @@ bool BulletFireBall::update( ) {
 
 	//UŒ‚
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayer( );
+	PlayerPtr player = app->getPlayerMine( );
 	Vector player_pos = player->getPos( );
 	Vector distance = _pos - player_pos;
 	double length = distance.getLength( );

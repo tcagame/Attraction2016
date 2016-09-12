@@ -32,6 +32,5 @@ private:
 	int _udp_handle;
 	int _network_state_time;
 	int _send_network_condition_num;
-	int _count;
 	CLIENTDATA _data;
 };

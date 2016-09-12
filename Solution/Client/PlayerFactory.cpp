@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Client.h"
 #include "PlayerCamera.h"
 #include "Viewer.h"
 #include "App.h"
@@ -14,6 +15,7 @@ PlayerFactory::PlayerFactory( const char player_id ) {
 	DevicePtr device = DevicePtr( new Device );
 	KeyboardPtr keyboad = KeyboardPtr( new Keyboard );
 	MousePtr mouse = MousePtr( new Mouse );
+	ClientPtr client = ClientPtr( new Client );
 	AppPtr app = AppPtr( new App );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
@@ -22,6 +24,7 @@ PlayerFactory::PlayerFactory( const char player_id ) {
 	fw->addTask( Device::getTag( ), device );
 	fw->addTask( Keyboard::getTag( ), keyboad );
 	fw->addTask( Mouse::getTag( ), mouse );
+	fw->addTask( Client::getTag( ), client );
 	fw->addTask( Viewer::getTag( ), viewer );
 	fw->addTask( Drawer::getTag( ), drawer );
 	fw->addTask( App::getTag( ), app );

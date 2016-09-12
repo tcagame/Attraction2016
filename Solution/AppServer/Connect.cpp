@@ -1,6 +1,7 @@
 #include "Connect.h"
 #include "TableDrawer.h"
 #include "Network.h"
+#include "Server.h"
 
 const int POS_X = 500;
 const int POS_Y = 160;
@@ -20,6 +21,15 @@ Connect::Connect( ) {
 }
 
 Connect::~Connect( ) {
+}
+
+void Connect::update( ) {
+	ServerPtr server = Server::getTask( );
+
+	for ( int i = 0; i < MAX_MACHINE; i++ ) {
+		std::string str = server->getMachineIPStr( i );
+		_td->setCell( 0, i, str );
+	}
 }
 
 void Connect::draw( ) {

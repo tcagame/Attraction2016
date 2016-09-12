@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Binary.cpp" />
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Framework.cpp" />
@@ -24,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Binary.h" />
+    <ClInclude Include="Client.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Framework.h" />

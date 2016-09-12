@@ -29,6 +29,9 @@ Framework::Framework( ) {
 	_screen_width = sx;
 	_screen_height = sy;
 #endif
+#if _DEBUG
+	SetDoubleStartValidFlag( TRUE ); // 多重起動
+#endif
 	//Effekseerを使用するには必ず設定する。 DirectX9を使用するようにする。
 	SetUseDirect3DVersion( DX_DIRECT3D_9 );
 	SetWindowText( WINDOW_NAME );

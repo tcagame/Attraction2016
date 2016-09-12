@@ -336,10 +336,10 @@ void Viewer::drawShadow( ) {
 	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
 		EnemyPtr enemy = cohort->getEnemy( i );
 		if ( !enemy ) {
-			return;
+			continue;
 		}
 		if ( !enemy->isExpired( ) ) {
-			return;
+			continue;
 		}
 		Vector pos = enemy->getPos( );
 		pos.z = 0.1;

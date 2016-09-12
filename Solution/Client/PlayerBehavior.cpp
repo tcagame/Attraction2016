@@ -60,6 +60,8 @@ void PlayerBehavior::update( ) {
 		if ( _player_state == PLAYER_STATE_WALK || long_wait ) {
 			_attack_pattern = 0;
 		}
+		//pickupItem( );
+		pickupCrystal( );
 	}
 	attack( );
 	if ( _parent->getStatus( ).hp <= 0 ) {
@@ -67,8 +69,6 @@ void PlayerBehavior::update( ) {
 		app->setState( App::STATE_DEAD );
 	}
 	_before_state = _player_state;
-	//pickupItem( );
-	pickupCrystal( );
 }
 
 bool PlayerBehavior::isDeathblow( ) {

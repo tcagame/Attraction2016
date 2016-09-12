@@ -39,6 +39,8 @@ public:
 	Vector getHitPos( ) const;
 protected:
 	void attackEnemy( const Vector& pos, int power );
+private:
+	bool isDeathBlow( );
 protected:
 	Vector _pos;
 	Vector _dir;

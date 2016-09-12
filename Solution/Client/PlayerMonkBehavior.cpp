@@ -9,6 +9,7 @@
 #include "BulletRush.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Field.h"
 #include "Effect.h"
 
 PlayerMonkBehavior::PlayerMonkBehavior( ) :
@@ -24,21 +25,35 @@ void PlayerMonkBehavior::attack( ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
+	if ( !isDeathblow( ) && _attack_pattern == 0 ) {
+		_target.reset( );
+	}
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) /*&& player->getSP( ) == 100*/ ) {
 		Effect effect;
-		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
-		effect.drawEffect( id, Vector( 0.5, 0.5, 0.5 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
+		int id = effect.setEffect( Effect::EFFECT_PLAYER_MONK_STORE );
+		effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//—­‚ß‘±
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && !_animation->isEndAnimation( ) ) {
+		FieldPtr field = app->getField( );
+		Vector pos = _parent->getPos( ) + _parent->getDir( );
+		CharacterPtr character = std::dynamic_pointer_cast< Character >( field->getTarget( ( int )pos.x, ( int )pos.y ) );
+		if ( character ) {
+			_target = character;
+		}
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//•KE‹Z‚ğ‚¤‚Â
-	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && _animation->isEndAnimation( ) ) {
+	bool isEnemy = false;
+	if ( !_target.expired( ) ) {
+		CharacterPtr character = _target.lock( );
+		isEnemy = character->getType( ) == Character::TYPE_ENEMY;
+	}
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && _animation->isEndAnimation( ) && isEnemy ) {
 		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		player->resetSP( );

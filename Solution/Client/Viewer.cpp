@@ -60,8 +60,8 @@ const int STATUS_HP_NUMBER_HEIGHT = 20;
 const int STATUS_SP_GAUGE_WIDTH = STATUS_HP_GAUGE_WIDTH;
 const int STATUS_SP_GAUGE_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 
-const int BOSS_WINDOW_WIDTH = 400;
-const int BOSS_WINDOW_HEIGHT = 100;
+const int BOSS_HP_FRAME_WIDTH = 1804;
+const int BOSS_HP_FRAME_HEIGHT = 98;
 
 const int BOSS_HP_GAUGE_WIDTH = 1624;
 const int BOSS_HP_GAUGE_HEIGHT = 59;
@@ -72,8 +72,8 @@ const int STATUS_READY_STRING_HEIGHT = 273;
 const int STATUS_CLEAR_STRING_WIDTH = 900;
 const int STATUS_CLEAR_STRING_HEIGHT = 198;
 
-const int STATUS_GAMEOVER_WIDTH = 834;
-const int STATUS_GAMEOVER_HEIGHT = 194;
+const int STATUS_GAMEOVER_STRING_WIDTH = 834;
+const int STATUS_GAMEOVER_STRING_HEIGHT = 194;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
@@ -174,12 +174,12 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/boss/enemy_boss_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 
 	//UI
-	drawer->loadGraph( GRAPHIC_UI_NAME_HUNTER,			"UI/name_plate_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT,			"UI/name_plate_knight.png" );
+	drawer->loadGraph( GRAPHIC_UI_NAME_HUNTER,			"UI/name_plate_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_MONK,			"UI/name_plate_monk.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_WITCH,			"UI/name_plate_witch.png" );
-	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_HUNTER,	"UI/background_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_KNIGHT,	"UI/background_knight.png" );
+	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_HUNTER,	"UI/background_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_MONK,		"UI/background_monk.png" );
 	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_WITCH,		"UI/background_witch.png" );
 	drawer->loadGraph( GRAPHIC_UI_WINDOW,				"UI/player_window.png" ); 
@@ -228,6 +228,7 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/project/effect403.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/project/effect402.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "effect/project/effect404.efk" );
+	drawer->loadEffect( Effect::EFFECT_PICKUP_CRYSTAL, "effect/project/effect003.efk" );
 
 	drawer->loadMDLModel( MODEL_MDL_FLOOR  , "MapModel/floor01.mdl"   , "MapModel/floor01_DM.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_PATH01 , "MapModel/path01.mdl"    , "MapModel/path.jpg" );
@@ -329,9 +330,6 @@ void Viewer::drawEnemy( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
-		
-		Player::STATUS status = enemy->getStatus( );
-		drawer->drawString( 0, i * 100 + 100, "Enemy_HP: %d", status.hp );
 	}
 }
 
@@ -384,10 +382,6 @@ void Viewer::drawBoss( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 	drawer->setModelMV1( model );
-	
-	Player::STATUS status = enemy->getStatus( );
-	drawer->drawString( 100, 0 + 100, "BOSS_HP: %d", status.hp );
-	
 }
 
 
@@ -493,9 +487,9 @@ void Viewer::drawUI( ) {
 		int background_y = status_window_y + STATUS_POS_OFFSET * 5;
 
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
-			if ( i == ( int )player->getType( ) ) {
+			if ( i == ( int )app->getPlayerId( ) ) {
 				Drawer::Transform background_transform = Drawer::Transform( background_x, background_y );
-				Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, i + ( int )GRAPHIC_UI_BACKGROUND_HUNTER, Drawer::BLEND_NONE, 0 );
+				Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, i + ( int )GRAPHIC_UI_BACKGROUND_KNIGHT, Drawer::BLEND_NONE, 0 );
 				drawer->setSprite( background_sprite );
 			}
 		}
@@ -560,11 +554,11 @@ void Viewer::drawUI( ) {
 		
 		//ネームタグ
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
-			if ( i == ( int )player->getType( ) ) {
+			if ( i == ( int )app->getPlayerId( ) ) {
 				int status_name_x = status_window_x + STATUS_WINDOW_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
 				int status_name_y = status_window_y - STATUS_POS_OFFSET * 10;
 				Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
-				Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, i + ( int )GRAPHIC_UI_NAME_HUNTER, Drawer::BLEND_NONE, 0 );
+				Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, i + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
 				drawer->setSprite( name_sprite );
 			}
 		}
@@ -587,7 +581,7 @@ void Viewer::drawUI( ) {
 		double hp = boss->getStatus( ).hp;
 		double max_hp = ( double )boss->getMaxHp( );
 		double percentage = hp / max_hp;
-		double tx = STATUS_HP_GAUGE_WIDTH * percentage;
+		double tx = BOSS_HP_GAUGE_WIDTH * percentage;
 		//HP描画
 		int boss_hp_gauge_x = window_width / 2 - BOSS_HP_GAUGE_WIDTH / 2;
 		int boss_hp_gauge_y = STATUS_POS_OFFSET;
@@ -596,8 +590,8 @@ void Viewer::drawUI( ) {
 		drawer->setSprite( boss_hp_gauge_sprite );
 
 		//HPフレーム
-		int boss_hp_gauge_frame_x = boss_hp_gauge_x;
-		int boss_hp_gauge_frame_y = boss_hp_gauge_y - STATUS_POS_OFFSET * 3;
+		int boss_hp_gauge_frame_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
+		int boss_hp_gauge_frame_y = boss_hp_gauge_y - STATUS_POS_OFFSET * 3 - 1;
 		Drawer::Transform boss_hp_frame_transform = Drawer::Transform( boss_hp_gauge_frame_x, boss_hp_gauge_frame_y );
 		Drawer::Sprite boss_hp_frame_sprite = Drawer::Sprite( boss_hp_frame_transform, GRAPHIC_UI_BOSS_HP_FRAME, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_frame_sprite );
@@ -626,8 +620,34 @@ void Viewer::drawReady( ) {
 }
 
 void Viewer::drawResult( ) {
-	/*Drawer::Transform transform = Drawer::Transform( STATUS_CLEAR_X, STATUS_CLEAR_Y );
-	Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_CLEAR, Drawer::BLEND_NONE, 0 );
 	DrawerPtr drawer = Drawer::getTask( );
-	drawer->setSprite( sprite );*/
+	
+	{//result画面背景
+		Drawer::Transform transform = Drawer::Transform( -10, -10 );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_RESULT_BACK, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
+
+	{//result結果
+		FrameworkPtr fw = Framework::getInstance( );
+		AppPtr app = App::getTask( );
+		int x = 0;
+		int y = 0;
+		GRAPHIC res = GRAPHIC_MAX;
+		switch( app->getState( ) ) {
+		case App::STATE_CLEAR:
+			x = fw->getWindowWidth( ) / 2 - STATUS_CLEAR_STRING_WIDTH / 2;
+			y = fw->getWindowHeight( ) / 2 - STATUS_CLEAR_STRING_HEIGHT / 2;
+			res = GRAPHIC_RESULT_STRING_CLEAR;
+			break;
+		case App::STATE_DEAD:
+			x = fw->getWindowWidth( ) / 2 - STATUS_GAMEOVER_STRING_WIDTH / 2;
+			y = fw->getWindowHeight( ) / 2 - STATUS_GAMEOVER_STRING_HEIGHT / 2;
+			res = GRAPHIC_RESULT_STRING_GAMEOVER;
+			break;
+		}
+		Drawer::Transform transform = Drawer::Transform( x, y );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, res, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+	}
 }

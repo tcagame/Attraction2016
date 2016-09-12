@@ -12,5 +12,5 @@ private:
 	void attack( );
 	void animationUpdate( );
 private:
-	CameraWeakPtr _target;
+	CharacterWeakPtr _target;
 };

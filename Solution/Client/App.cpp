@@ -12,7 +12,6 @@
 #include "Field.h"
 #include "Ground.h"
 #include "PlayerCamera.h"
-#include "Keyboard.h"
 #include "Device.h"
 #include "Framework.h"
 
@@ -27,6 +26,8 @@ const std::string MODEL_NAME_LIST [] {
 
 const int START_POS_X = 12;
 const int START_POS_Y = 12;
+const int RESET_COUNT = 30;
+const int START_COUNT = 60;
 
 AppPtr App::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -43,6 +44,105 @@ App::~App( ) {
 
 }
 
+
+void App::update( ) {
+	updateReset( );
+
+	switch ( _state ) {
+	case STATE_READY:
+		updateStateReady( );
+		break;
+	case STATE_PLAY:
+		updateStatePlay( );
+		break;
+	case STATE_CLEAR:
+		updateStateClear( );
+		break;
+	case STATE_DEAD:
+		updateStateDead( );
+		break;
+	}
+
+}
+
+void App::updateReset( ) {
+	DevicePtr device = Device::getTask( );
+	if ( device->getButton( ) == BUTTON_A + BUTTON_B + BUTTON_C + BUTTON_D ) {
+		_push_reset_count += 1;
+	} else  {
+		_push_reset_count = 0;
+	}
+	if ( _push_reset_count < RESET_COUNT ) {
+		return;
+	}
+
+	_field->reset();
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		if ( !_player[ i ] ) {
+			continue;
+		}
+		_player[ i ]->reset( );
+	}
+	_state = STATE_READY;
+	_cohort->reset( );
+	_weapon->reset( );
+	_crystals->reset( );
+	
+	CameraPtr camera = Camera::getTask( );
+	camera->initialize( );
+
+	_push_reset_count = 0;
+	_push_start_count = 0;
+}
+
+void App::updateStateReady( ) {
+	DevicePtr device = Device::getTask( );
+	if ( device->getButton( ) > 0 ) {
+		_push_start_count += 1;
+	} else {
+		_push_start_count = 0;
+	}
+	if ( _push_start_count < START_COUNT ) {
+		return;
+	}
+
+	Vector player_pos = Vector( START_POS_X, START_POS_Y, 0 );
+	_player[ _player_id ]->create( player_pos );
+	setState( STATE_PLAY );
+	_push_start_count = 0;
+}
+
+void App::updateStatePlay( ) {
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		if ( !_player[ i ] ) {
+			continue;
+		}
+		_player[ i ]->update( );
+	}
+	
+	if ( _cohort ) {
+		_cohort->update( );
+	}
+	if ( _crystals ) {
+		_crystals->updata( );
+	}
+	if ( _weapon ) {
+		_weapon->update( );
+	}
+
+	CameraPtr camera = Camera::getTask( );
+	camera->setTarget( _player[ _player_id ]->getPos( ) );
+}
+
+void App::updateStateClear( ) {
+
+}
+
+void App::updateStateDead( ) {
+
+}
+
+/*
 void App::update( ) {
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
 		if ( !_player[ i ] ) {
@@ -56,7 +156,7 @@ void App::update( ) {
 	if ( _weapon ) {
 		_weapon->update( );
 	}
-	KeyboardPtr keyboad = Keyboard::getTask( );
+
 	DevicePtr device = Device::getTask( );
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );
@@ -69,7 +169,6 @@ void App::update( ) {
 	}
 	if( reset_flag ) {
 		reset( );
-		camera->initialize( );
 	}
 
 	if ( ( device->getButton( ) > 0 ) && ( _state == STATE_READY ) ) {
@@ -84,6 +183,7 @@ void App::update( ) {
 		_push_start_count = 0;
 	}
 }
+*/
 
 void App::initialize( ) {
 
@@ -125,20 +225,6 @@ void App::initialize( ) {
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	_cohort->init();
 
-}
-
-void App::reset( ) {
-	_field->reset();
-	for ( int i = 0; i < PLAYER_NUM; i++ ) {
-		if ( !_player[ i ] ) {
-			continue;
-		}
-		_player[ i ]->reset( );
-	}
-	_state = STATE_READY;
-	_cohort->reset( );
-	_weapon->reset( );
-	_crystals->reset( );
 }
 
 void App::finalize( ) {

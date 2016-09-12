@@ -48,6 +48,11 @@ public:
 	void setState( STATE state );
 private:
 	void loadToGround( );
+	void updateStateReady( );
+	void updateStatePlay( );
+	void updateStateClear( );
+	void updateStateDead( );
+	void updateReset( );
 private:
 	GroundPtr _ground;
 	std::array< PlayerPtr, PLAYER_NUM > _player;

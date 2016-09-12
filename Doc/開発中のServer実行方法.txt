@@ -1,0 +1,5 @@
+1:Debugフォルダから直接AppServer.exeを実行する
+2:コマンドipを打ち込み、IP.iniを作成する
+3:IP.iniをスタートアッププロジェクトにコピーする
+	例:AppPlayerKnightがスタートアッププロジェクトの場合、AppPlayerKnightフォルダにコピーする
+4:スタートアッププロジェクトを実行する

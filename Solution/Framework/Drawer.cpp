@@ -399,7 +399,7 @@ void Drawer::flip( ) {
 	if ( wait_time > 0 ) {
 		Sleep( wait_time );	//待機
 	}
-	drawString( 600, 0, "FPS :  %lf", _fps );//現状のFPSの表示//デバッグコマンド
+	//drawString( 600, 0, "FPS :  %lf", _fps );//現状のFPSの表示//デバッグコマンド
 
 	// Effekseerにより再生中のエフェクトを更新する。
 	UpdateEffekseer3D();

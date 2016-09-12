@@ -44,7 +44,7 @@ public:
 	void dead( );
 	void damage( unsigned int power );
 
-	void move( const Vector& vec );
+	bool move( const Vector& vec );
 	Vector getPos( ) const;
 	Vector getDir( ) const;
 	TYPE getType( ) const;

@@ -37,28 +37,33 @@ void Character::reset( ){
 	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 }
 
-void Character::move( const Vector& vec ) {
+bool Character::move( const Vector& vec ) {
 
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}
+
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
-	Vector move_pos = getPos( ) + vec;
-	field->delTarget( ( int )move_pos.x, ( int )move_pos.y, getThis( ) );
-	bool is_character = !field->setTarget( ( int )move_pos.x, ( int )move_pos.y, getThis( ) );
-	if ( is_character ) {
-		field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
-		return;
-	}
 	
-	GroundModelPtr ground_model = app->getGroundModel( );
-	bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
-	if ( is_ground ) {
-		field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
-		_pos += vec;
-		field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+
+	Vector store = _pos;
+	Vector move_pos = _pos + vec;
+	ObjectPtr object = field->getTarget( ( int )move_pos.x, ( int )move_pos.y );
+	if ( !object ) {
+		GroundModelPtr ground_model = app->getGroundModel( );
+		bool is_ground = ground_model->isCollisionGround( move_pos );//’n–Ê‚Æ‚Ì”»’è
+		if ( is_ground ) {
+			_pos = move_pos;
+		}
 	}
+
+	field->setTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
+
+	return
+		( int )_pos.x == ( int )store.x &&
+		( int )_pos.y == ( int )store.y;   
 }
 
 void Character::create( const Vector& pos ) {

@@ -11,7 +11,8 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerWitchBehavior::PlayerWitchBehavior( ) {
+PlayerWitchBehavior::PlayerWitchBehavior( ) :
+PlayerBehavior( PLAYER_WITCH ) {
 }
 
 PlayerWitchBehavior::~PlayerWitchBehavior( ) {

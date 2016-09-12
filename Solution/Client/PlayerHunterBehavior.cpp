@@ -11,7 +11,8 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerHunterBehavior::PlayerHunterBehavior( ) {
+PlayerHunterBehavior::PlayerHunterBehavior( ) :
+PlayerBehavior( PLAYER_HUNTER ) {
 }
 
 

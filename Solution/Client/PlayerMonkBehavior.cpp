@@ -11,7 +11,8 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerMonkBehavior::PlayerMonkBehavior( ) {
+PlayerMonkBehavior::PlayerMonkBehavior( ) :
+PlayerBehavior( PLAYER_MONK ) {
 }
 
 

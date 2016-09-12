@@ -31,7 +31,8 @@ enum MODEL_MDL {
 	MODEL_MDL_PATH03,
 	MODEL_MDL_BOSS,
 	MODEL_MDL_CRYSTAL,
-	MODEL_MDL_BIG_CRYSTAL
+	MODEL_MDL_BIG_CRYSTAL,
+	MODEL_MDL_BACK_GROUND
 
 };
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
@@ -73,6 +74,9 @@ const int STATUS_CLEAR_STRING_HEIGHT = 198;
 
 const int STATUS_GAMEOVER_STRING_WIDTH = 834;
 const int STATUS_GAMEOVER_STRING_HEIGHT = 194;
+
+const int STATUS_READY_GAUGE_WIDTH = 1300;
+const int STATUS_READY_GAUGE_HEIGHT = 925;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
@@ -199,6 +203,7 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_FRAME,		"UI/boss_hp_frame.png" );
 	drawer->loadGraph( GRAPHIC_READY_STRING,			"UI/ready_string.png" );
 	drawer->loadGraph( GRAPHIC_READY_BACK,				"UI/ready_back.png" );
+	drawer->loadGraph( GRAPHIC_READY_GAUGE,				"UI/ready_title_gauge.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
@@ -206,6 +211,7 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
 	drawer->loadEffect( Effect::EFFECT_FAIRY, "effect/project/effect001.efk" );
+	drawer->loadEffect( Effect::EFFECT_DAMAGE, "effect/project/effect004.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH, "effect/project/effect101.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD, "effect/project/effect102.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_STAB, "effect/project/effect103.efk" );
@@ -230,6 +236,7 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/project/effect403.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/project/effect402.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_HUNTER_STORE, "effect/project/effect404.efk" );
+	drawer->loadEffect( Effect::EFFECT_PICKUP_CRYSTAL, "effect/project/effect003.efk" );
 
 	drawer->loadMDLModel( MODEL_MDL_FLOOR  , "MapModel/floor01.mdl"   , "MapModel/floor01_DM.jpg" );
 	drawer->loadMDLModel( MODEL_MDL_PATH01 , "MapModel/path01.mdl"    , "MapModel/path.jpg" );
@@ -239,6 +246,8 @@ void Viewer::initialize( ) {
 	drawer->loadMDLModel( MODEL_MDL_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg" );
 	Matrix matrix = Matrix::makeTransformScaling( Vector( 2, 2, 2 ) );
 	drawer->loadMDLModel( MODEL_MDL_BIG_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg", matrix );
+	drawer->loadMDLModel( MODEL_MDL_BACK_GROUND, "MapModel/bg.mdl", "MapModel/bg01_DM.jpg" );
+
 
 	_fairy_time = END_FAIRY_TIME;
 }
@@ -251,6 +260,7 @@ void Viewer::update( ) {
 		drawReady( );
 		break;
 	case App::STATE_PLAY:
+		drawBackGround( );
 		drawPlayer( );
 		drawEnemy( );
 		drawShadow( );
@@ -401,6 +411,16 @@ void Viewer::drawGroundModel( ) {
 			drawer->setModelMDL( model_mdl );
 		}
 	}
+}
+
+
+
+void Viewer::drawBackGround( ) {
+	AppPtr app = App::getTask( );
+	GroundPtr ground = app->getGround( );
+	DrawerPtr drawer = Drawer::getTask( );
+	Drawer::ModelMDL model_mdl = Drawer::ModelMDL( Vector(  0, 0, 0 ), MODEL_MDL_BACK_GROUND );
+	drawer->setModelMDL( model_mdl );
 }
 
 void Viewer::drawBossMapModel( ) {
@@ -596,15 +616,23 @@ void Viewer::drawReady( ) {
 		drawer->setSprite( sprite );
 	}
 
-	//ready画面文字
-	{
-		FrameworkPtr fw = Framework::getInstance( );
+	AppPtr app = App::getTask( );
+	FrameworkPtr fw = Framework::getInstance( );
+	if ( app->getStartCount( ) > 0 ) {
+		int gauge_count = app->getStartCount( );
+		//int gauge_x = 
+
+	} else {
+		//ready画面文字
+		
 		int x = fw->getWindowWidth( ) / 2 - STATUS_READY_STRING_WIDTH / 2;
 		int y = fw->getWindowHeight( ) / 2 - STATUS_READY_STRING_HEIGHT / 2;
 		Drawer::Transform transform = Drawer::Transform( x, y );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY_STRING, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
+
+	
 }
 
 void Viewer::drawResult( ) {

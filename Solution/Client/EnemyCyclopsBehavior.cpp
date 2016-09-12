@@ -1,11 +1,13 @@
 #include "EnemyCyclopsBehavior.h"
 #include "Character.h"
 #include "Animation.h"
+#include "Effect.h"
 #include "App.h"
 #include "Player.h"
 
 const double MOTION_SPEED = 1;
 const double ATTACK_TIME = 27.0;
+const double DAMAGE_SCALE = 0.5;
 
 EnemyCyclopsBehavior::EnemyCyclopsBehavior() {
 	_attack_range = 2.0;
@@ -73,6 +75,9 @@ void EnemyCyclopsBehavior::switchStatus( ) {
 
 	if ( _befor_hp > _parent->getStatus( ).hp ) {
 		_on_damage = true;
+		Effect effect;
+		int damage_effect = effect.setEffect( Effect::EFFECT_DAMAGE );
+		effect.drawEffect( damage_effect, Vector( DAMAGE_SCALE, DAMAGE_SCALE, DAMAGE_SCALE ), _parent->getPos( ), _parent->getDir( ) );
 	}
 
 	if ( _parent->getStatus( ).hp <= 0 ) {

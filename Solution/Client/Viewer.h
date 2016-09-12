@@ -48,6 +48,7 @@ private:
 		GRAPHIC_UI_BOSS_HP_GAUGE,
 		GRAPHIC_UI_BOSS_HP_FRAME,
 		GRAPHIC_READY_STRING,
+		GRAPHIC_READY_GAUGE,
 		GRAPHIC_READY_BACK,
 		GRAPHIC_RESULT_STRING_CLEAR,
 		GRAPHIC_RESULT_STRING_GAMEOVER,
@@ -61,6 +62,7 @@ private:
 	void drawBoss( );
 	void drawGroundModel( );
 	void drawBossMapModel( );
+	void drawBackGround( );
 //	void drawBullet( );
 	void drawEffect( );
 	void drawCrystal( );

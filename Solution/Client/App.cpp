@@ -24,8 +24,8 @@ const std::string MODEL_NAME_LIST [] {
 	"path03"
 };
 
-const int START_POS_X = 12;
-const int START_POS_Y = 12;
+const int START_POS_X = 23 * Ground::CHIP_WIDTH;
+const int START_POS_Y = 34 * Ground::CHIP_HEIGHT;
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 
@@ -300,4 +300,8 @@ void App::setState( STATE state ) {
 
 unsigned char App::getPlayerId( ) const {
 	return _player_id;
+}
+
+int App::getStartCount( ) const {
+	return _push_start_count;
 }

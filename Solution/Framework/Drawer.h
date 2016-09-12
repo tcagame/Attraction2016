@@ -136,7 +136,7 @@ private:
 	static const int MODEL_NUM = 20;
 	std::array< ModelPtr, MODEL_NUM > _model;
 
-	static const int SHADOW_NUM = 50;
+	static const int SHADOW_NUM = 1000;
 	ModelPtr _shadow_model;
 	int _shadow_idx;
 

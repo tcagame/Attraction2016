@@ -12,6 +12,7 @@
 #include "GroundModel.h"
 #include "Ground.h"
 #include "Object.h"
+#include "Effect.h"
 #include "Keyboard.h"
 #include "Device.h"
 #include "PlayerCamera.h"
@@ -103,6 +104,9 @@ void PlayerBehavior::pickupCrystal( ) {
 					_parent->move( boss_map_pos );
 				}
 				crystal->pickup( );
+				Effect effect;
+				int id = effect.setEffect( Effect::EFFECT_PICKUP_CRYSTAL );
+				effect.drawEffect( id, Vector( 0.5, 0.5, 0.5 ), crystal->getPos( ) - Vector( 0, 0, 0.3 ), Vector( 0, 0, 1 ) );
 				return;
 			}
 		}

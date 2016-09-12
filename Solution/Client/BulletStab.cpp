@@ -2,15 +2,15 @@
 #include "Effect.h"
 
 const int SWORD_POWER = 25;
-const int SWORD_LENGTH = 5;
+const int SWORD_LENGTH = 3;
 const int SWORD_RATIO = 5;
 const double SWORD_SPEED = 0.5;
-const double WAIT_TIME = 1.0;
-const double BULLET_SCALE = 0.5;
+const double WAIT_TIME = 3.0;
+const double BULLET_SCALE = 0.1;
 
 BulletStab::BulletStab( const Vector& pos, double dir_x, double dir_y ) 
 : Bullet( Bullet::TYPE_STAB ) {
-	_pos = pos;
+	_pos = pos + Vector( 0, 0, 0.5 );
 	_dir = Vector( dir_x, dir_y ).normalize( );
 	_ratio = 0;
 	_hit_pos = pos;

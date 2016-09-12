@@ -2,27 +2,25 @@
 #include "Effect.h"
 
 const double SLASH_RADIUS = PI * 0.8;
-const double BULLET_SCALE = 0.3;
-const int SWORD_POWER = 25;
-const double SWORD_SPEED = 0.5;
-const int SWORD_LENGTH = 3;
-const Vector SWORD_DIR = Vector( 1, 1, 1 );
+
+const int SLASH_POWER = 25;
+const double SLASH_SPEED = 0.5;
+const double SLASH_LENGTH = 0.5;
+const int WAIT_TIME = 5;
+const double BULLET_SCALE = 0.1;
 
 BulletSlash::BulletSlash( const Vector& pos, double dir_x, double dir_y ) 
 : Bullet( Bullet::TYPE_SLASH ) {
-	_pos = pos;
-	double angle = Vector( 0, 1, 0 ).angle( Vector( dir_x, dir_y, 0 ) );
-	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 1, 0 ).cross( Vector( dir_x, dir_y, 0 ) ), angle );
-	_dir = mat.multiply( SWORD_DIR );
+	_pos = pos + Vector( 0, 0, 1.0 );
+	_dir = Vector( dir_x, dir_y ).normalize( );
+	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SLASH );
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, Vector( dir_x, dir_y, 0 ) );
-	_ratio = 0;
-	_is_attack = false;
-
 }
 
-BulletSlash::~BulletSlash() {
+
+BulletSlash::~BulletSlash( ) {
 }
 
 Vector BulletSlash::getBeginDir( ) const {
@@ -36,14 +34,14 @@ Vector BulletSlash::getEndDir( ) const {
 }
 
 double BulletSlash::getLength( ) const {
-	return SWORD_LENGTH;
+	return SLASH_LENGTH;
 }
 
 bool BulletSlash::update( ) {
 
-	_ratio += SWORD_SPEED;
+	_ratio += SLASH_SPEED;
 
-	if ( _ratio < 1.0 ) {
+	if ( _ratio < WAIT_TIME ) {
 		return true;
 	}
 	int count = 0;
@@ -63,11 +61,9 @@ bool BulletSlash::update( ) {
 			if ( center_angle < angle  ) {
 				if ( ( pos - p ).getLength( ) < getLength( ) ) {
 					count++;
-					attackEnemy( p, SWORD_POWER );
-					_is_attack = true;
+					attackEnemy( p, SLASH_POWER );
 				}
 			}
-			_hit_pos = p;
 		}
 	}
 	return false;

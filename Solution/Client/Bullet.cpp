@@ -33,7 +33,6 @@ Vector Bullet::getHitPos( ) const {
 }
 
 void Bullet::attackEnemy( const Vector& pos, int power ) {
-	//‚ ‚½‚è”»’è’²®’†
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
 	ObjectPtr object = field->getTarget( ( int )pos.x, ( int )pos.y );
@@ -48,10 +47,27 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 		if ( status.hp > 0 ) {
 			enemy->damage( power );
 			status = enemy->getStatus( );
-			if ( status.hp <= 0 ) {
-				PlayerPtr player = app->getPlayerMine( );
+			PlayerPtr player = app->getPlayerMine( );
+			if ( !isDeathBlow( ) ) {
 				player->addSP( 10 );
 			}
 		}
 	}
+}
+
+bool Bullet::isDeathBlow( ) {
+	bool result = false;
+	if ( _type == TYPE_EXCALIBUR ) {
+		result = true;
+	}
+	if ( _type == TYPE_SPLASH ) {
+		result = true;
+	}
+	if ( _type == TYPE_RUSH ) {
+		result = true;
+	}
+	if ( _type == TYPE_BULLET_RAIN ) {
+		result = true;
+	}
+	return result;
 }

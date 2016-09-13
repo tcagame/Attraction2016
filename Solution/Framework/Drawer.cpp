@@ -138,6 +138,10 @@ void Drawer::update( ) {
 
 }
 
+void Drawer::deleteEffect( int effect_handle ) {
+	int cheak = DeleteEffekseerEffect( effect_handle );
+}
+
 void Drawer::drawModelMDL( ) {
 	for ( int i = 0; i < _model_mdl_idx; i++ ) {
 		int type = _model_mdl[ i ].type;

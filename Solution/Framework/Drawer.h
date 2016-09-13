@@ -90,6 +90,7 @@ public:
 	void setShadow( const Vector& pos );
 	void setBillboard( const Billboard& billboard );
 	int setEffect( int res );
+	void deleteEffect( int effect_handle );
 	void setPlayingEffectStatus( int playing_handle, Vector scale, Vector pos, Vector dir );
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );

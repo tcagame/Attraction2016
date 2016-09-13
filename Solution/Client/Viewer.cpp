@@ -644,8 +644,9 @@ void Viewer::drawReady( ) {
 }
 
 void Viewer::drawResult( ) {
+	Effect effect;
+	effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), Vector ( 100, 100, 100 ) + Vector( 0, 0, 1.5 ), Vector( 0, 1, 0 ) );
 	DrawerPtr drawer = Drawer::getTask( );
-	
 	{//result‰æ–Ê”wŒi
 		Drawer::Transform transform = Drawer::Transform( -10, -10 );
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_RESULT_BACK, Drawer::BLEND_NONE, 0 );

@@ -129,7 +129,7 @@ void PlayerWitchBehavior::animationUpdate( ) {
 	}
 	if ( _player_state == PLAYER_STATE_DEATHBLOW ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_DEATHBLOW ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_DEATHBLOW ) );
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_DEATHBLOW, 0.5 ) );
 		}
 	}
 	if ( _player_state == PLAYER_STATE_DEAD ) {

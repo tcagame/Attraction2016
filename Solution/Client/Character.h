@@ -12,7 +12,6 @@ class Character : public Object {
 public:
 	struct STATUS {
 		int hp;
-		int sp;
 		unsigned int power;
 		double speed;
 		double width;

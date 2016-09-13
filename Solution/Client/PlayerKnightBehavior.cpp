@@ -115,7 +115,7 @@ void PlayerKnightBehavior::animationUpdate( ) {
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ) );
 					break;
 				case 2:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB, 1.5 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB, 2.0 ) );
 					break;
 			}
 		} else {

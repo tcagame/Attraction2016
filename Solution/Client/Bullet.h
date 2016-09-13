@@ -36,7 +36,6 @@ public:
 	TYPE getType( ) const;
 	Vector getPos( ) const;
 	Vector getDir( ) const;
-	Vector getHitPos( ) const;
 protected:
 	void attackEnemy( const Vector& pos, int power );
 private:
@@ -44,7 +43,6 @@ private:
 protected:
 	Vector _pos;
 	Vector _dir;
-	Vector _hit_pos;
 	int _effect_handle;
 private:
 	const TYPE _type;

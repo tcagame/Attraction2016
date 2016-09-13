@@ -47,7 +47,10 @@ void Cohort::reset( ) {
 	for (int i = 0; i < _enemy_data_max; i++) {
 		putBlockEnemy(i);
 	}
-	_boss->reset( );
+	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
+	Character::STATUS status = Character::STATUS( 200, 1, 50, 2 );
+	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
+	behavior->setParent( _boss );
 	_boss->create( Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y + 3, 0 ) );
 }
 

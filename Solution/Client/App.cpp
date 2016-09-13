@@ -84,6 +84,7 @@ void App::updateReset( ) {
 			continue;
 		}
 		_player[ i ]->reset( );
+		_player[ i ]->resetSP( );
 	}
 	_state = STATE_READY;
 	_cohort->reset( );
@@ -302,7 +303,7 @@ void App::loadToGround( ) {
 			}
 			fclose( fp );
 			int model_type = 0;
-			for ( int k = 0; k < 4; k++ ) {
+			for ( int k = 0; k < 5; k++ ) {
 				if( name[ 0 ] == MODEL_NAME_LIST[ k ] ) {
 					model_type = k;
 				}

@@ -25,11 +25,6 @@
                     <Max>10</Max>
                     <Min>10</Min>
                   </Life>
-                  <GenerationTimeOffset>
-                    <Center>30</Center>
-                    <Max>30</Max>
-                    <Min>30</Min>
-                  </GenerationTimeOffset>
                 </CommonValues>
                 <LocationValues>
                   <Type>1</Type>
@@ -68,9 +63,9 @@
                   </Easing>
                 </ScalingValues>
                 <RendererCommonValues>
-                  <ColorTexture>../texture/effects_tx_106.png</ColorTexture>
+                  <ColorTexture>../texture/effects_tx_100.png</ColorTexture>
                 </RendererCommonValues>
-                <Name>106</Name>
+                <Name>100</Name>
                 <Children />
               </Node>
               <Node>
@@ -80,11 +75,6 @@
                     <Max>10</Max>
                     <Min>10</Min>
                   </Life>
-                  <GenerationTimeOffset>
-                    <Center>30</Center>
-                    <Max>30</Max>
-                    <Min>30</Min>
-                  </GenerationTimeOffset>
                 </CommonValues>
                 <LocationValues>
                   <Type>1</Type>
@@ -145,9 +135,9 @@
                     <Min>0.8</Min>
                   </GenerationTime>
                   <GenerationTimeOffset>
-                    <Center>25</Center>
-                    <Max>25</Max>
-                    <Min>25</Min>
+                    <Center>2</Center>
+                    <Max>2</Max>
+                    <Min>2</Min>
                   </GenerationTimeOffset>
                 </CommonValues>
                 <ScalingValues>
@@ -240,9 +230,9 @@
                     <Min>15</Min>
                   </Life>
                   <GenerationTimeOffset>
-                    <Center>30</Center>
-                    <Max>30</Max>
-                    <Min>30</Min>
+                    <Center>2</Center>
+                    <Max>2</Max>
+                    <Min>2</Min>
                   </GenerationTimeOffset>
                 </CommonValues>
                 <ScalingValues>

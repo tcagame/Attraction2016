@@ -70,27 +70,57 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
-			_player_state = PLAYER_STATE_ATTACK;
-		}
+		//UŒ‚‚É“ü‚éuŠÔ
+		bool in_attack = controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK;
+		bool next_attack = false;
 		//UŒ‚’†
 		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_FIRE ||
-			 _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ||
-			 _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_SHOT ) && !_animation->isEndAnimation( ) ) {
-			if ( _animation->getAnimTime( ) == 20.0 ) {
+			  _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ||
+			  _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_SHOT ) ) {
+			if ( !_animation->isEndAnimation( ) ) {
+				if ( _animation->getAnimTime( ) == 40.0 ) {
 				switch ( _attack_pattern ) {
-					case 0:
-						bullet = BulletFirePtr( new BulletFire( _parent->getPos( ), _parent->getDir( ) ) );
-						break;
-					case 1:
-						bullet = BulletRapidFirePtr( new BulletRapidFire( _parent->getPos( ), _parent->getDir( ) ) );
-						break;
-					case 2:
-						bullet = BulletShotPtr( new BulletShot( _parent->getPos( ), _parent->getDir( ) ) );
-						break;
+						case 0:
+							bullet = BulletFirePtr( new BulletFire( _parent->getPos( ), _parent->getDir( ) ) );
+							break;
+						case 1:
+							bullet = BulletRapidFirePtr( new BulletRapidFire( _parent->getPos( ), _parent->getDir( ) ) );
+							break;
+						case 2:
+							bullet = BulletShotPtr( new BulletShot( _parent->getPos( ), _parent->getDir( ) ) );
+							break;
+					}
+					weapon->add( bullet );
 				}
+				_player_state = PLAYER_STATE_ATTACK;
+			}
+			if ( _animation->getEndAnimTime( ) - 20 < _animation->getAnimTime( ) && controll.action == CONTROLL::ATTACK ) {
 				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
-				weapon->add( bullet );
+				_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_WAIT ) );//ˆê’U‚v‚`‚h‚s‚É‚µ‚Ä‚¨‚­
+				next_attack = true;
+			}
+		}
+		if ( in_attack || next_attack ) {
+			Effect effect;
+			int id;
+			Vector effect_pos;
+			switch ( _attack_pattern ) {
+				case 0:
+					id = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE );
+					effect_pos = _parent->getPos( ) + _parent->getDir( ) * 0.5 + Vector( 0, 0, 0.5 );
+					effect.drawEffect( id, Vector( 0.05, 0.05, 0.05 ), effect_pos, _parent->getDir( )  );
+					break;
+				case 1:
+					id = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_RAPID_FIRE );
+					effect_pos = _parent->getPos( ) + _parent->getDir( ) * 0.3 + Vector( 0, 0, 0.2 );
+					effect.drawEffect( id, Vector( 0.05, 0.05, 0.05 ), effect_pos, _parent->getDir( )  );
+					break;
+				case 2:
+					//id = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SHOT );
+					//effect_pos = _parent->getPos( ) + _parent->getDir( ) + Vector( 0, 0, 0.5 );
+					//Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI / 2 );
+					//effect.drawEffect( id, Vector( 0.1, 0.1, 0.1 ), effect_pos, mat.multiply( _parent->getDir( ) )  );
+					break;
 			}
 			_player_state = PLAYER_STATE_ATTACK;
 		}
@@ -153,18 +183,17 @@ void PlayerHunterBehavior::animationUpdate( ) {
 			 _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ) {
 			switch ( _attack_pattern ) {
 				case 0:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_FIRE, 2.0 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_FIRE ) );
+					_animation->setAnimationTime( 10 );
 					break;
 				case 1:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE, 2.0 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ) );
+					_animation->setAnimationTime( 10 ); 
 					break;
 				case 2:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_SHOT, 2.0 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_SHOT ) );
+					_animation->setAnimationTime( 10 );
 					break;
-			}
-		} else {
-			if ( _animation->isEndAnimation( ) ) {
-				_animation->setAnimationTime( 0 );
 			}
 		}
 	}

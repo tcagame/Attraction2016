@@ -10,7 +10,7 @@ const double ATTACK_TIME = 27.0;
 const double DAMAGE_SCALE = 0.3;
 
 EnemyGoblinBehavior::EnemyGoblinBehavior() {
-	_attack_range = 2.0;
+	_attack_range = 1.0;
 	_move_range =7.5;
 	_on_damage = false;
 

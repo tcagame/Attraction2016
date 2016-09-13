@@ -11,7 +11,7 @@ static const int NETWORK_STATE_TIME = 1200;
 const unsigned char COMMAND_DUMMY		   = 0xF0; // ダミー
 const unsigned char COMMAND_CONDITION	   = 0xE0; // 接続確認
 const unsigned char COMMAND_STATUS_POS     = 0x10; // Status変更
-const unsigned char COMMAND_STATUS_ATTACK  = 0x11; // Status変更
+const unsigned char COMMAND_STATUS_ACTION  = 0x11; // Status変更
 
 const int PLAYER_NUM = 7;
 

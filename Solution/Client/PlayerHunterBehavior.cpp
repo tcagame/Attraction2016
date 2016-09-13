@@ -1,7 +1,6 @@
 #include "PlayerHunterBehavior.h"
 #include "Animation.h"
 #include "Character.h"
-#include "Device.h"
 #include "App.h"
 #include "BulletFire.h"
 #include "BulletRapidFire.h"
@@ -10,28 +9,37 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
+#include "Client.h"
 
-PlayerHunterBehavior::PlayerHunterBehavior( ) :
-PlayerBehavior( PLAYER_HUNTER ) {
+PlayerHunterBehavior::PlayerHunterBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_HUNTER, player_id ) {
 }
 
 
 PlayerHunterBehavior::~PlayerHunterBehavior( ) {
 }
 
-void PlayerHunterBehavior::attack( ) {
-	DevicePtr device = Device::getTask( );
+void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 		effect.drawEffect( id, Vector( 0.5, 0.5, 0.5 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
+		
+		if ( _controll ) {
+			ClientPtr client = Client::getTask( );
+			SERVERDATA data;
+			data.command = COMMAND_STATUS_ACTION;
+			data.value[ 0 ] = _player_id;
+			data.value[ 1 ] = ACTION_DEATHBLOW;
+			client->send( data );	
+		}
 	}
 	//—­‚ß‘±
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_STORE && !_animation->isEndAnimation( ) ) {
@@ -50,7 +58,7 @@ void PlayerHunterBehavior::attack( ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
 		//UŒ‚’†
@@ -73,6 +81,32 @@ void PlayerHunterBehavior::attack( ) {
 				weapon->add( bullet );
 			}
 			_player_state = PLAYER_STATE_ATTACK;
+		}
+	}
+
+	
+	if ( _controll ) {
+		ClientPtr client = Client::getTask( );
+		CLIENTDATA status = client->getClientData( );
+		switch ( controll.action ) {
+		case CONTROLL::NONE:
+			if ( status.player[ _player_id ].action != ACTION_NONE ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_NONE;
+				client->send( data );	
+			}
+			break;
+		case CONTROLL::ATTACK:
+			if ( status.player[ _player_id ].action != ACTION_ATTACK ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_ATTACK;
+				client->send( data );	
+			}
+			break;
 		}
 	}
 }

@@ -10,10 +10,10 @@ const double MOTION_SPEED = 1;
 const double BOSS_DAMAGE_HP = 700;
 const double MAX_BOSS_FLIGHT_ALTITUDE = 5;
 const double EFFECT_SCALE = 0.5;
-const double BOSS_MAX_FLY_TIME = 60;
-const int BOSS_CRICLE_TIME = 6;
-const int BOSS_METOR_TIME = 10;
-const int BOSS_EXPLOSION_TIME = 50;
+const double BOSS_MAX_FLY_TIME = 120;
+const int BOSS_CRICLE_TIME = 60;
+const int BOSS_METOR_TIME = 90;
+const int BOSS_EXPLOSION_TIME = 120;
 
 const double ATTACK_TIME[ ] = {
 	27.0,

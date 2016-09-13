@@ -251,12 +251,15 @@ void Viewer::initialize( ) {
 
 void Viewer::update( ) {
 	AppPtr app = App::getTask( );
+	DrawerPtr drawer = Drawer::getTask( );
 	App::STATE state = app->getState( );
 	switch( state ) {
 	case App::STATE_READY:
+		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		drawReady( );
 		break;
 	case App::STATE_PLAY:
+		drawer->setPlayEffect( true );		//エフェクト描画ON
 		drawBackGround( );
 		drawPlayer( );
 		drawEnemy( );
@@ -272,6 +275,7 @@ void Viewer::update( ) {
 	case App::STATE_CLEAR:
 	case App::STATE_DEAD:
 		drawResult( );
+		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		break;
 	}
 }
@@ -659,8 +663,6 @@ void Viewer::drawReady( ) {
 		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_READY_STRING, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
-
-	
 }
 
 void Viewer::drawResult( ) {

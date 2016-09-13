@@ -95,6 +95,7 @@ public:
 	void drawString( int x, int y, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
 
+	void setPlayEffect( bool play_flag );
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );
@@ -146,4 +147,6 @@ private:
 	int _shadow_handle;
 	int _start_time;
 	double _fps;
+
+	bool _is_play_effect;
 };

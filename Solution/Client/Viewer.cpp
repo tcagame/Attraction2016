@@ -36,7 +36,7 @@ enum MODEL_MDL {
 };
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
-const int END_FAIRY_TIME = 131;
+const int END_FAIRY_TIME = 150;
 
 //UI描画
 const int STATUS_POS_OFFSET = 5;
@@ -66,6 +66,9 @@ const int BOSS_HP_FRAME_HEIGHT = 91;
 
 const int BOSS_HP_GAUGE_WIDTH = BOSS_HP_FRAME_WIDTH;
 const int BOSS_HP_GAUGE_HEIGHT = BOSS_HP_FRAME_HEIGHT;
+
+const int BOSS_BACKGROUND_WIDTH = BOSS_HP_FRAME_WIDTH;
+const int BOSS_BACKGROUND_HEIGHT = BOSS_HP_FRAME_HEIGHT;
 
 const int STATUS_READY_STRING_WIDTH = 779;
 const int STATUS_READY_STRING_HEIGHT = 273;
@@ -167,16 +170,16 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK,		    "EnemyModel/cyclops/enemy_cyclops_attack.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE,		    "EnemyModel/cyclops/enemy_cyclops_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD,		    "EnemyModel/cyclops/enemy_cyclops_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/boss/enemy_boss_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	//drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/boss/enemy_boss_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ENTRY,			    "EnemyModel/boss/enemy_boss_entry.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/boss/enemy_boss_attack_cleave.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/boss/enemy_boss_attack_bite.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/boss/enemy_boss_attack_fire.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DESCENT,           "EnemyModel/boss/enemy_boss_descent.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	//drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/boss/enemy_boss_attack_bombing.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/boss/enemy_boss_fly.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,				"EnemyModel/boss/enemy_boss_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/boss/enemy_boss_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/boss/enemy_boss_fly.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	//drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,				"EnemyModel/boss/enemy_boss_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/boss/enemy_boss_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 
 	//UI
 	drawer->loadGraph( GRAPHIC_UI_NAME_KNIGHT,			"UI/name_plate_knight.png" );
@@ -191,8 +194,9 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_SP_GAUGE,				"UI/status_sp_gauge.png" );
 	drawer->loadGraph( GRAPHIC_UI_GAUGE_FRAME,			"UI/status_gauge_frame.png" );
 	drawer->loadGraph( GRAPHIC_UI_GAUGE_BACKGROUND,     "UI/status_gauge_background.png" );
-	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_GAUGE,		"UI/boss_hp_gauge.png" );
-	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_FRAME,		"UI/boss_hp_frame.png" );
+	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_GAUGE,		"UI/boss_gauge.png" );
+	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_FRAME,		"UI/boss_frame.png" );
+	drawer->loadGraph( GRAPHIC_UI_BOSS_BACKGROUND,      "UI/boss_background.png" );
 	drawer->loadGraph( GRAPHIC_READY_STRING,			"UI/ready_string.png" );
 	drawer->loadGraph( GRAPHIC_READY_BACK,				"UI/ready_back.png" );
 	drawer->loadGraph( GRAPHIC_READY_GAUGE,				"UI/ready_title_gauge.png" );
@@ -222,9 +226,9 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BULLET_RAIN, "effect/project/effect116.efk" );
 	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "effect/project/effect204.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_FIRE, "effect/project/effect301.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "effect/project/effect305.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "effect/project/effect307.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "effect/project/effect306.efk" );
-	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "effect/project/effect307.efk" );
+	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_CIRCLE, "effect/project/effect305.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_KNIGHT_STORE, "effect/project/effect401.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_MONK_STORE, "effect/project/effect403.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_WITCH_STORE, "effect/project/effect402.efk" );
@@ -521,8 +525,8 @@ void Viewer::drawUI( ) {
 	//プレイヤーUI描画
 	{
 		//ステータスウィンドウ
-		int status_base_x = window_width / 2 - STATUS_BASE_WIDTH / 2;
-		int status_base_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
+		int status_base_x = STATUS_POS_OFFSET;
+		int status_base_y = STATUS_POS_OFFSET * 8;
 
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
 			if ( i == ( int )app->getPlayerId( ) ) {
@@ -536,7 +540,7 @@ void Viewer::drawUI( ) {
 		int status_gauge_background_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
 		int status_gauge_background_y = status_base_y + STATUS_POS_OFFSET * 15;
 		Drawer::Transform background_transform = Drawer::Transform( status_gauge_background_x, status_gauge_background_y );
-		Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+		Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, GRAPHIC_UI_GAUGE_BACKGROUND, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( background_sprite );
 
 		//HPゲージ
@@ -544,23 +548,23 @@ void Viewer::drawUI( ) {
 		double hp = ( double )status.hp;
 		double max_hp = ( double )player->getMaxHp( );
 		double hp_percentage = hp / max_hp;
-		double hp_tw = ( ( double )STATUS_HP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET ) * hp_percentage;
+		double hp_tw = ( ( double )STATUS_HP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * hp_percentage + STATUS_GAUSGE_OFFSET;
 		
 		int status_hp_gauge_x = status_gauge_background_x;
 		int status_hp_gauge_y = status_gauge_background_y;
-		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, 0, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
+		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 		
 		//SPゲージ
 		double sp = ( double )player->getSP( );
 		double sp_percentage = sp / 100;
-		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET ) * sp_percentage;
+		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
 		
 		int status_sp_gauge_x = status_hp_gauge_x;
 		int status_sp_gauge_y = status_hp_gauge_y;
 		
-		Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, 0, 0, ( int )sp_tw, STATUS_SP_GAUGE_HEIGHT );
+		Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )sp_tw, STATUS_SP_GAUGE_HEIGHT );
 		Drawer::Sprite sp_sprite = Drawer::Sprite( sp_transform, GRAPHIC_UI_SP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sp_sprite );
 
@@ -577,7 +581,7 @@ void Viewer::drawUI( ) {
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
 			if ( i == ( int )app->getPlayerId( ) ) {
 				int status_name_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
-				int status_name_y = status_base_y - STATUS_POS_OFFSET * 10;
+				int status_name_y = status_base_y - STATUS_POS_OFFSET * 9;
 				Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
 				Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, i + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
 				drawer->setSprite( name_sprite );
@@ -595,6 +599,12 @@ void Viewer::drawUI( ) {
 		int status_window_x = window_width / 2 - STATUS_BASE_WIDTH / 2;
 		int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
 
+		//下地
+		int boss_background_x = window_width / 3 * 2 - BOSS_HP_FRAME_WIDTH / 2 + STATUS_POS_OFFSET * 6;
+		int boss_background_y = STATUS_POS_OFFSET * 3;
+		Drawer::Transform boss_hp_background_transform = Drawer::Transform( boss_background_x, boss_background_y );
+		Drawer::Sprite boss_hp_background_sprite = Drawer::Sprite( boss_hp_background_transform, GRAPHIC_UI_BOSS_BACKGROUND, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( boss_hp_background_sprite );
 
 		//HP計算
 		CohortPtr cohort = app->getCohort( );
@@ -604,15 +614,15 @@ void Viewer::drawUI( ) {
 		double percentage = ( double )hp / ( double )max_hp;
 		double tw = BOSS_HP_GAUGE_WIDTH * percentage;
 		//HP描画
-		int boss_hp_gauge_x = window_width / 2 - BOSS_HP_GAUGE_WIDTH / 2;
-		int boss_hp_gauge_y = STATUS_POS_OFFSET;
+		int boss_hp_gauge_x = boss_background_x;
+		int boss_hp_gauge_y = boss_background_y;
 		Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_gauge_sprite );
 
 		//HPフレーム
-		int boss_hp_gauge_frame_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
-		int boss_hp_gauge_frame_y = boss_hp_gauge_y - STATUS_POS_OFFSET * 3 - 1;
+		int boss_hp_gauge_frame_x = boss_background_x;
+		int boss_hp_gauge_frame_y = boss_background_y;
 		Drawer::Transform boss_hp_frame_transform = Drawer::Transform( boss_hp_gauge_frame_x, boss_hp_gauge_frame_y );
 		Drawer::Sprite boss_hp_frame_sprite = Drawer::Sprite( boss_hp_frame_transform, GRAPHIC_UI_BOSS_HP_FRAME, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_frame_sprite );

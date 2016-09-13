@@ -36,6 +36,7 @@ private:
 	PlayerWeakPtr _target;
 	BOSS_STATE _boss_state;
 	BOSS_STATE _before_state;
+
 	Vector _target_pos; 
 	double _boss_damage_hp;
 	int _boss_fly_time;

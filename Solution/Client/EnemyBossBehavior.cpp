@@ -7,10 +7,14 @@
 #include "Player.h"
 
 const double MOTION_SPEED = 1;
-const double BOSS_DAMAGE_HP = 100;
+const double BOSS_DAMAGE_HP = 700;
 const double MAX_BOSS_FLIGHT_ALTITUDE = 5;
 const double EFFECT_SCALE = 0.5;
-const double BOSS_MAX_FLY_TIME = 80;
+const double BOSS_MAX_FLY_TIME = 60;
+const int BOSS_CRICLE_TIME = 6;
+const int BOSS_METOR_TIME = 10;
+const int BOSS_EXPLOSION_TIME = 50;
+
 const double ATTACK_TIME[ ] = {
 	27.0,
 	10.0,
@@ -35,7 +39,7 @@ const int BOSS_ATTACK_POWER[ ] = {
 	40,
 	30,
 	20,
-	10,
+	1000,
 };
 
 EnemyBossBehavior::EnemyBossBehavior() {
@@ -61,6 +65,23 @@ void EnemyBossBehavior::update( ) {
 		_target.reset( );
 	}
 
+	if ( _boss_fly_time >= BOSS_CRICLE_TIME && _boss_fly_time < BOSS_METOR_TIME ) {
+		Effect effect;
+		int boss_hit_cricle_handle = effect.setEffect( Effect::EFFECT_BOSS_HIT_CIRCLE );
+		effect.drawEffect( boss_hit_cricle_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE ), player->getPos( ), _parent->getDir( ) );
+	}
+	if ( _boss_fly_time >= BOSS_METOR_TIME && _boss_fly_time < BOSS_EXPLOSION_TIME ) {
+		Effect effect;
+		Vector player_pos = player->getPos( );
+		int boss_attack_bombing_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING );
+		effect.drawEffect( boss_attack_bombing_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE * 3 ), player_pos, _parent->getDir( ) );
+	}
+	if ( _boss_fly_time == BOSS_EXPLOSION_TIME ) {
+		Effect effect;
+		//int boss_attack_explosion_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING );
+		//effect.drawEffect( boss_attack_explosion_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE * 3 ), player->getPos( ), _parent->getDir( ) );
+		onAttack( 4 );
+	}
 	switchStatus( );
 	_before_state = _boss_state;
 }
@@ -77,6 +98,7 @@ void EnemyBossBehavior::switchStatus( ) {
 	double range = stance.getLength();
 	AppPtr app = App::getTask();
 	CrystalsPtr crystals = app->getCrystals();
+	int hp = _parent->getStatus( ).hp;
 	switch ( _boss_state ) {
 	case BOSS_STATE_WAIT:
 		for ( int i = 0; i < BOSS_ATTACK_PATTERN_MAX; i++ ) {
@@ -86,7 +108,8 @@ void EnemyBossBehavior::switchStatus( ) {
 				break;
 			}
 		}
-		if ( _boss_damage_hp >= _parent->getStatus( ).hp ) {
+		
+		if ( _boss_damage_hp >= hp ) {
 			_boss_damage_hp -= BOSS_DAMAGE_HP;
 			_boss_state = BOSS_STATE_DAMAGE;
 		}
@@ -114,13 +137,15 @@ void EnemyBossBehavior::switchStatus( ) {
 		}
 		break;
 	case BOSS_STATE_FLY:
-		if ( _animation->isEndAnimation( ) &&  _boss_fly_time < BOSS_MAX_FLY_TIME ) {
-			_boss_state = BOSS_STATE_FLY;
-			_boss_fly_time++;
-			_animation->setAnimationTime( _animation->getAnimTime( ) );
-		} else {
-			_boss_state = BOSS_STATE_DESCENT;
-		}
+		if ( _animation->isEndAnimation( ) ) {
+			if ( _boss_fly_time < BOSS_MAX_FLY_TIME ) {
+				_boss_state = BOSS_STATE_FLY;
+				_boss_fly_time++;
+				_animation->setAnimationTime( _animation->getEndAnimTime( ) );
+			} else {
+				_boss_state = BOSS_STATE_DESCENT;
+			}
+		} 
 		break;
 	case BOSS_STATE_DESCENT:
 		if ( _animation->isEndAnimation( ) ) {
@@ -233,4 +258,5 @@ void EnemyBossBehavior::onAttack( int attack_pattern ) {
 		Vector effect_dir = ( pos - _target_pos ).normalize( );
 		effect.drawEffect( effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos + ( ( _target_pos - pos ).normalize( ) * 2 ), effect_dir );
 	}
+	
 }

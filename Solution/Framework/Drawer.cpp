@@ -125,6 +125,8 @@ void Drawer::initialize( ) {
 	_refresh_count = 0;
 	_fps = FPS;
 	_start_time = 0;
+
+	_is_play_effect = true;
 }
 
 void Drawer::update( ) {
@@ -401,7 +403,9 @@ void Drawer::flip( ) {
 	// Effekseerにより再生中のエフェクトを更新する。
 	UpdateEffekseer3D();
 	// Effekseerにより再生中のエフェクトを描画する。
-	DrawEffekseer3D();
+	if ( _is_play_effect ) {
+		DrawEffekseer3D( );
+	}
 	ScreenFlip( );
 	ClearDrawScreen( );
 }
@@ -423,4 +427,8 @@ void Drawer::drawString( int x, int y, const char* string, ... ) {
 	vsprintf_s( buf, 1024, string, ap );
 	DrawString( x, y, buf, 0xFFFFFF );
 	va_end(ap);
+}
+
+void Drawer::setPlayEffect( bool play_flag ) {
+	_is_play_effect = play_flag;
 }

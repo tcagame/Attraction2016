@@ -31,7 +31,7 @@ const int START_POS_Y = 34 * Ground::CHIP_HEIGHT;
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 const int STRING_BUF = 256;
-const double SPEED = 0.1;
+const double SPEED = 0.15;
 
 AppPtr App::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );

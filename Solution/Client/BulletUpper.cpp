@@ -3,7 +3,8 @@
 
 const int POWER = 50;
 const int WAIT_TIME = 15;
-const double RANGE = 5;
+const double RANGE = 3;
+const int PARTICLE = 8;
 
 BulletUpper::BulletUpper( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_UPPER )
@@ -12,7 +13,8 @@ BulletUpper::BulletUpper( const Vector& pos, const Vector& dir )
 	_dir = dir;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_UPPER );
-	effect.drawEffect( _effect_handle, Vector( 0.2, 0.2, 0.2 ), pos - dir * 0.3 + Vector( 0, 0, -0.2 ), dir );
+	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), -PI / 2 );
+	effect.drawEffect( _effect_handle, Vector( 0.2, 0.2, 0.2 ), pos + dir * 0.4 + Vector( 0, 0, -0.2 ), mat.multiply( dir ) );
 }
 
 BulletUpper::~BulletUpper( ) {
@@ -24,8 +26,8 @@ bool BulletUpper::update( ) {
 		return true;
 	}
 
-	for ( int i = 0; i< RANGE + 1; i++ ) {
-		int range = i;
+	for ( int i = 0; i< PARTICLE; i++ ) {
+		double range = RANGE * i / PARTICLE;
 		Vector pos = getPos( ) + _dir * range;
 		attackEnemy( pos, POWER );
 	}

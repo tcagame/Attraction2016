@@ -154,12 +154,12 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_GHOST_DAMAGE,		    "EnemyModel/ghost/enemy_ghost_damage.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_DEAD,			    "EnemyModel/ghost/enemy_ghost_dead.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK,		    "EnemyModel/ghost/enemy_ghost_attack.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	//
-	//drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT,			    "EnemyModel/armor/enemy_armor_wait.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK,			    "EnemyModel/armor/enemy_armor_walk.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK,		    "EnemyModel/armor/enemy_armor_attack.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE,		    "EnemyModel/armor/enemy_armor_damage.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD,			    "EnemyModel/armor/enemy_armor_dead.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
+	
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT,			    "EnemyModel/armor/enemy_armor_wait.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK,			    "EnemyModel/armor/enemy_armor_walk.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK,		    "EnemyModel/armor/enemy_armor_attack.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE,		    "EnemyModel/armor/enemy_armor_damage.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD,			    "EnemyModel/armor/enemy_armor_dead.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WAIT,		    "EnemyModel/goblin/enemy_goblin_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WALK,		    "EnemyModel/goblin/enemy_goblin_walk.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GOBLIN_ATTACK,		    "EnemyModel/goblin/enemy_goblin_attack.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
@@ -170,15 +170,15 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_ATTACK,		    "EnemyModel/cyclops/enemy_cyclops_attack.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DAMAGE,		    "EnemyModel/cyclops/enemy_cyclops_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_CYCLOPS_DEAD,		    "EnemyModel/cyclops/enemy_cyclops_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/boss/enemy_boss_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_WAIT,			    "EnemyModel/boss/enemy_boss_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ENTRY,			    "EnemyModel/boss/enemy_boss_entry.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_CLEAVE,	    "EnemyModel/boss/enemy_boss_attack_cleave.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BITE,	    "EnemyModel/boss/enemy_boss_attack_bite.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_FIRE,	    "EnemyModel/boss/enemy_boss_attack_fire.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DESCENT,           "EnemyModel/boss/enemy_boss_descent.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/boss/enemy_boss_attack_bombing.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_ATTACK_BOMBING,    "EnemyModel/boss/enemy_boss_attack_bombing.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_FLY,		        "EnemyModel/boss/enemy_boss_fly.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
-	//drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,				"EnemyModel/boss/enemy_boss_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_BOSS_DEAD,				"EnemyModel/boss/enemy_boss_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_BOSS_DAMAGE,		    "EnemyModel/boss/enemy_boss_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 
 	//UI

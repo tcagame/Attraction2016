@@ -7,6 +7,7 @@ const double SPEED = 0.05;
 const double RADIUS = 0.1;
 const double LENGTH = 10.0;
 const int PARTICLE = 8;
+const Vector EFFECT_DIFF_POS = Vector( 0, 0, -2 );
 
 BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_LAY ) {
@@ -32,7 +33,8 @@ BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 	}
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_LAY );
-	effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), pos, dir );
+	Vector effect_pos = _pos + EFFECT_DIFF_POS;
+	effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), effect_pos, dir );
 }
 
 BulletLay::~BulletLay( ) {

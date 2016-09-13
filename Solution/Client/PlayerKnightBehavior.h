@@ -12,4 +12,3 @@ private:
 	void attack( const CONTROLL& controll );
 	void animationUpdate( );
 };
-

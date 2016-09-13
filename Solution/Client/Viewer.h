@@ -26,24 +26,14 @@ private:
 		GRAPHIC_UI_NAME_HUNTER,
 		GRAPHIC_UI_NAME_MONK,
 		GRAPHIC_UI_NAME_WITCH,
-		GRAPHIC_UI_BACKGROUND_KNIGHT,
-		GRAPHIC_UI_BACKGROUND_HUNTER,
-		GRAPHIC_UI_BACKGROUND_MONK,
-		GRAPHIC_UI_BACKGROUND_WITCH,
-		GRAPHIC_UI_WINDOW,
+		GRAPHIC_UI_BASE_KNIGHT,
+		GRAPHIC_UI_BASE_HUNTER,
+		GRAPHIC_UI_BASE_MONK,
+		GRAPHIC_UI_BASE_WITCH,
 		GRAPHIC_UI_HP_GAUGE,
 		GRAPHIC_UI_SP_GAUGE,
 		GRAPHIC_UI_GAUGE_FRAME,
-		GRAPHIC_UI_HP_NUMBER_0,
-		GRAPHIC_UI_HP_NUMBER_1,
-		GRAPHIC_UI_HP_NUMBER_2,
-		GRAPHIC_UI_HP_NUMBER_3,
-		GRAPHIC_UI_HP_NUMBER_4,
-		GRAPHIC_UI_HP_NUMBER_5,
-		GRAPHIC_UI_HP_NUMBER_6,
-		GRAPHIC_UI_HP_NUMBER_7,
-		GRAPHIC_UI_HP_NUMBER_8,
-		GRAPHIC_UI_HP_NUMBER_9,
+		GRAPHIC_UI_GAUGE_BACKGROUND,
 		GRAPHIC_BULLET_MISSILE,
 		GRAPHIC_UI_BOSS_HP_GAUGE,
 		GRAPHIC_UI_BOSS_HP_FRAME,
@@ -64,7 +54,6 @@ private:
 	void drawBossMapModel( );
 	void drawBackGround( );
 //	void drawBullet( );
-	void drawEffect( );
 	void drawCrystal( );
 	void drawShadow( );
 	void drawBigCrystal( );
@@ -74,6 +63,7 @@ private:
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
+	void deleteEffect( );
 private:
 /*	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
 	ModelPtr _boss_map_model;

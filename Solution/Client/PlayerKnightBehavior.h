@@ -9,7 +9,7 @@ public:
 	PlayerKnightBehavior( unsigned char player_id );
 	virtual ~PlayerKnightBehavior( );
 private:
-	void attack( );
+	void attack( const CONTROLL& controll );
 	void animationUpdate( );
 };
 

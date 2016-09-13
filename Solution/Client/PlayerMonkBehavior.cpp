@@ -1,7 +1,6 @@
 #include "PlayerMonkBehavior.h"
 #include "Animation.h"
 #include "Character.h"
-#include "Device.h"
 #include "App.h"
 #include "BulletJab.h"
 #include "BulletImpact.h"
@@ -20,8 +19,7 @@ PlayerBehavior( PLAYER_MONK, player_id ) {
 PlayerMonkBehavior::~PlayerMonkBehavior( ) {
 }
 
-void PlayerMonkBehavior::attack( ) {
-	DevicePtr device = Device::getTask( );
+void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -31,7 +29,7 @@ void PlayerMonkBehavior::attack( ) {
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//溜めモーション
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_MONK_STORE );
 		effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
@@ -65,7 +63,7 @@ void PlayerMonkBehavior::attack( ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );

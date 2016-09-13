@@ -9,7 +9,7 @@ public:
 	PlayerMonkBehavior( unsigned char player_id );
 	virtual ~PlayerMonkBehavior( );
 private:
-	void attack( );
+	void attack( const CONTROLL& controll );
 	void animationUpdate( );
 private:
 	CharacterWeakPtr _target;

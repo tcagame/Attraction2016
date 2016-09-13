@@ -1,7 +1,6 @@
 #include "PlayerKnightBehavior.h"
 #include "Animation.h"
 #include "Character.h"
-#include "Device.h"
 #include "App.h"
 #include "BulletSword.h"
 #include "BulletSlash.h"
@@ -18,8 +17,7 @@ PlayerBehavior( PLAYER_KNIGHT, player_id ) {
 PlayerKnightBehavior::~PlayerKnightBehavior( ) {
 }
 
-void PlayerKnightBehavior::attack( ) {
-	DevicePtr device = Device::getTask( );
+void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -27,7 +25,7 @@ void PlayerKnightBehavior::attack( ) {
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
@@ -51,7 +49,7 @@ void PlayerKnightBehavior::attack( ) {
 
 	if ( !isDeathblow( ) ) {
 		//UŒ‚‚É“ü‚éuŠÔ
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );

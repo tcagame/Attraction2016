@@ -1,7 +1,6 @@
 #include "PlayerMonkBehavior.h"
 #include "Animation.h"
 #include "Character.h"
-#include "Device.h"
 #include "App.h"
 #include "BulletJab.h"
 #include "BulletImpact.h"
@@ -11,17 +10,17 @@
 #include "Player.h"
 #include "Field.h"
 #include "Effect.h"
+#include "Client.h"
 
-PlayerMonkBehavior::PlayerMonkBehavior( ) :
-PlayerBehavior( PLAYER_MONK ) {
+PlayerMonkBehavior::PlayerMonkBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_MONK, player_id ) {
 }
 
 
 PlayerMonkBehavior::~PlayerMonkBehavior( ) {
 }
 
-void PlayerMonkBehavior::attack( ) {
-	DevicePtr device = Device::getTask( );
+void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -31,11 +30,20 @@ void PlayerMonkBehavior::attack( ) {
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//溜めモーション
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_MONK_STORE );
 		effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
+		
+		if ( _controll ) {
+			ClientPtr client = Client::getTask( );
+			SERVERDATA data;
+			data.command = COMMAND_STATUS_ACTION;
+			data.value[ 0 ] = _player_id;
+			data.value[ 1 ] = ACTION_DEATHBLOW;
+			client->send( data );	
+		}
 	}
 	//溜め持続
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && !_animation->isEndAnimation( ) ) {
@@ -65,7 +73,7 @@ void PlayerMonkBehavior::attack( ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
@@ -89,6 +97,32 @@ void PlayerMonkBehavior::attack( ) {
 			} else {
 				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 			}
+		}
+	}
+
+	
+	if ( _controll ) {
+		ClientPtr client = Client::getTask( );
+		CLIENTDATA status = client->getClientData( );
+		switch ( controll.action ) {
+		case CONTROLL::NONE:
+			if ( status.player[ _player_id ].action != ACTION_NONE ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_NONE;
+				client->send( data );	
+			}
+			break;
+		case CONTROLL::ATTACK:
+			if ( status.player[ _player_id ].action != ACTION_ATTACK ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_ATTACK;
+				client->send( data );	
+			}
+			break;
 		}
 	}
 }

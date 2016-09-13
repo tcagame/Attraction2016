@@ -3,7 +3,7 @@
 
 const double SLASH_RADIUS = PI * 0.5;
 
-const int SLASH_POWER = 25;
+const int SLASH_POWER = 10;
 const double SLASH_LENGTH = 0.5;
 const int WAIT_TIME = 5;
 const int PARTICLE = 2;

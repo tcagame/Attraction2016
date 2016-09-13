@@ -38,9 +38,8 @@ private:
 	BOSS_STATE _before_state;
 	Vector _target_pos; 
 	double _boss_damage_hp;
+	int _boss_fly_time;
 	double _attack_range[ BOSS_ATTACK_PATTERN_MAX ];
-	bool _on_damage;
-	bool _has_damage_motion;
 	bool _has_entry;
 	int _attack_pattern;
 };

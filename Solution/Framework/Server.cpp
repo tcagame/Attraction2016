@@ -104,6 +104,9 @@ void Server::executeNetData( const SERVERDATA& data ) {
 		_data.player[ data.value[ 0 ] ].x = data.value[ 1 ];
 		_data.player[ data.value[ 0 ] ].y = data.value[ 2 ];
 		break;
+	case COMMAND_STATUS_ACTION:
+		_data.player[ data.value[ 0 ] ].action = data.value[ 1 ];
+		break;
 	}
 }
 

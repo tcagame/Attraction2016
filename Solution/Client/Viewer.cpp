@@ -447,8 +447,8 @@ void Viewer::drawBossMapModel( ) {
 	int x = Ground::BOSS_X;
 	int y = Ground::BOSS_Y;
 	Vector pos =  Vector(  x * Ground::CHIP_WIDTH, y * Ground::CHIP_HEIGHT, 0 );
-	Vector max_pos = pos + Vector( Ground::BOSS_X, Ground::BOSS_X, 0 );
-	Vector min_pos = pos - Vector( Ground::BOSS_X, Ground::BOSS_X, 0 );
+	Vector max_pos = pos + Vector( Ground::BOSS_CHIP_WIDTH, Ground::BOSS_CHIP_HEIGHT, 0 );
+	Vector min_pos = pos - Vector( Ground::BOSS_CHIP_WIDTH, Ground::BOSS_CHIP_HEIGHT, 0 );
 	PlayerPtr player = app->getPlayerMine( );
 	if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
 		return;

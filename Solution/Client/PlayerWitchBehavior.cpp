@@ -1,7 +1,6 @@
 #include "PlayerWitchBehavior.h"
 #include "Animation.h"
 #include "Character.h"
-#include "Device.h"
 #include "App.h"
 #include "BulletBeam.h"
 #include "BulletBubble.h"
@@ -10,27 +9,37 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
+#include "Client.h"
 
-PlayerWitchBehavior::PlayerWitchBehavior( ) :
-PlayerBehavior( PLAYER_WITCH ) {
+PlayerWitchBehavior::PlayerWitchBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_WITCH, player_id ) {
 }
 
 PlayerWitchBehavior::~PlayerWitchBehavior( ) {
 }
 
-void PlayerWitchBehavior::attack( ) {
-	DevicePtr device = Device::getTask( );
+void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	player->addSP( 100 );
 	//溜めモーション
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
+		
+		if ( _controll ) {
+			ClientPtr client = Client::getTask( );
+			SERVERDATA data;
+			data.command = COMMAND_STATUS_ACTION;
+			data.value[ 0 ] = _player_id;
+			data.value[ 1 ] = ACTION_DEATHBLOW;
+			client->send( data );	
+		}
 	}
 	//溜め持続
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && !_animation->isEndAnimation( ) ) {
@@ -49,7 +58,7 @@ void PlayerWitchBehavior::attack( ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
 		//攻撃中
@@ -73,6 +82,32 @@ void PlayerWitchBehavior::attack( ) {
 				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 			}
 			_player_state = PLAYER_STATE_ATTACK;
+		}
+	}
+
+	
+	if ( _controll ) {
+		ClientPtr client = Client::getTask( );
+		CLIENTDATA status = client->getClientData( );
+		switch ( controll.action ) {
+		case CONTROLL::NONE:
+			if ( status.player[ _player_id ].action != ACTION_NONE ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_NONE;
+				client->send( data );	
+			}
+			break;
+		case CONTROLL::ATTACK:
+			if ( status.player[ _player_id ].action != ACTION_ATTACK ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_ATTACK;
+				client->send( data );	
+			}
+			break;
 		}
 	}
 }
@@ -130,7 +165,7 @@ void PlayerWitchBehavior::animationUpdate( ) {
 	}
 	if ( _player_state == PLAYER_STATE_DEATHBLOW ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_DEATHBLOW ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_DEATHBLOW ) );
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_DEATHBLOW, 0.5 ) );
 		}
 	}
 	if ( _player_state == PLAYER_STATE_DEAD ) {

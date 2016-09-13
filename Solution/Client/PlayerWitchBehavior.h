@@ -5,10 +5,10 @@ PTR( PlayerWitchBehavior );
 
 class PlayerWitchBehavior : public PlayerBehavior {
 public:
-	PlayerWitchBehavior( );
+	PlayerWitchBehavior( unsigned char player_id );
 	virtual ~PlayerWitchBehavior( );
 private:
-	void attack( );
+	void attack( const CONTROLL& controll );
 	void animationUpdate( );
 };
 

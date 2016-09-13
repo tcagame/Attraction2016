@@ -3,17 +3,20 @@
 #include "Effect.h"
 
 const int WAIT_TIME = 5;
-const int VANISH_TIME = 20 + WAIT_TIME;
+const int CASTING_TIME = 5 + WAIT_TIME;
+const int VANISH_TIME = 10 + WAIT_TIME;
 const double BULLET_SCALE = 0.3;
-const int POWER = 500;
-const int SPEED = 1;
+const int POWER = 100;
+const double SPEED = 0.5;
+const int CIRCLE_PARTICLE = 6;
+const int RADIUS = 3;
+const int LENGTH_PARTICLE = 5;
 
 BulletExcalibur::BulletExcalibur( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_EXCALIBUR ) {
 	_pos = pos + Vector( 0, 0, 0.5 );
 	_dir = dir.normalize( );
 	_power = POWER;
-	_speed = SPEED;
 	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_EXCARIBUR );
@@ -33,9 +36,21 @@ bool BulletExcalibur::update( ) {
 		return false;
 	}
 	// ˆÚ“®
-	_pos += _dir * _speed;
+	if ( _exist_time < CASTING_TIME ) {
+		_pos += _dir * SPEED;
+	}
 	attackEnemy( _pos, POWER );
-	Effect effect;
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
+	//Œ•‚Ì‰J
+	if ( _exist_time > CASTING_TIME ) {
+		Vector radius = Vector( 0, 1, 0 );
+		Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), PI2 / CIRCLE_PARTICLE );
+		for ( int i = 0; i < CIRCLE_PARTICLE; i++ ) {
+			radius = mat.multiply( radius );
+			for ( int j = 1; j < LENGTH_PARTICLE + 1; j++ ) {
+				Vector p = _pos + radius * ( RADIUS / j );
+				attackEnemy( p, POWER );
+			}
+		}
+	}
 	return true;
 }

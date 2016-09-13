@@ -29,20 +29,34 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 	}
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	player->addSP( 100 );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
-	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
-		Effect effect;
-		int id = effect.setEffect( Effect::EFFECT_PLAYER_MONK_STORE );
-		effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
-		_player_state = PLAYER_STATE_STORE;
+	
+	if ( _before_state == PLAYER_STATE_WAIT ||
+		 _before_state == PLAYER_STATE_WALK ||
+		 _before_state == PLAYER_STATE_ATTACK ) {
+
+		bool enabled = false;
+		if ( controll.action == CONTROLL::DEATHBLOW && player->isFulledSP( ) ) {
+			enabled = true;
+		}
+		if ( controll.action == CONTROLL::MUSTDEATHBLOW ) {
+			enabled = true;
+		}
+		if ( enabled ) {
+			Effect effect;
+			int id = effect.setEffect( Effect::EFFECT_PLAYER_MONK_STORE );
+			effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
+			_player_state = PLAYER_STATE_STORE;
 		
-		if ( _controll ) {
-			ClientPtr client = Client::getTask( );
-			SERVERDATA data;
-			data.command = COMMAND_STATUS_ACTION;
-			data.value[ 0 ] = _player_id;
-			data.value[ 1 ] = ACTION_DEATHBLOW;
-			client->send( data );	
+			if ( _controll ) {
+				ClientPtr client = Client::getTask( );
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_DEATHBLOW;
+				client->send( data );	
+			}
 		}
 	}
 	//—­‚ß‘±
@@ -73,7 +87,23 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
+		bool in_attack = controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK;
+		bool next_attack = false;
+		//UŒ‚’†
+		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_JAB || 
+				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT || 
+				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_UPPER ) ) {
+			if ( !_animation->isEndAnimation( ) ) {
+				_player_state = PLAYER_STATE_ATTACK;
+			}
+			if ( _animation->getEndAnimTime( ) - 15 < _animation->getAnimTime( ) && controll.action == CONTROLL::ATTACK ) {
+				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
+				_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_WAIT ) );//ˆê’U‚v‚`‚h‚s‚É‚µ‚Ä‚¨‚­
+				next_attack = true;
+			}
+		}
+
+		if ( in_attack || next_attack ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
@@ -87,16 +117,6 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 			}
 			weapon->add( bullet );
 			_player_state = PLAYER_STATE_ATTACK;
-		}
-		//UŒ‚’†
-		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_JAB || 
-				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT || 
-				_animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_ATTACK_UPPER ) ) {
-			if ( !_animation->isEndAnimation( ) ) {
-				_player_state = PLAYER_STATE_ATTACK;
-			} else {
-				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
-			}
 		}
 	}
 
@@ -161,15 +181,13 @@ void PlayerMonkBehavior::animationUpdate( ) {
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_JAB, 1.5 ) );
 					break;
 				case 1:
-					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT, 1.5 ) );
+					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_IMPACT ) );
+					_animation->setAnimationTime( 10 );
 					break;
 				case 2:
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_MONK_ATTACK_UPPER, 1.5 ) );
+					_animation->setAnimationTime( 15 );
 					break;
-			}
-		} else {
-			if ( _animation->isEndAnimation( ) ) {
-				_animation->setAnimationTime( 0 );
 			}
 		}
 	}

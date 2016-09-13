@@ -13,7 +13,7 @@ BulletImpact::BulletImpact( const Vector& pos, const Vector& dir )
 	_dir = dir;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_IMPACT );
-	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos + dir, dir );
+	effect.drawEffect( _effect_handle, Vector( 0.3, 0.3, 0.3 ), pos + Vector( 0, 0, -0.2 ), dir );
 }
 
 BulletImpact::~BulletImpact( ) {

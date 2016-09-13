@@ -19,6 +19,7 @@ public:
 	void addSP( unsigned int value );
 	void resetSP( );
 	int getSP( ) const;
+	bool isFulledSP( ) const;
 private:
 	int _sp;
 };

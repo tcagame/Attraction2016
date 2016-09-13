@@ -6,10 +6,10 @@ PTR( PlayerHunterBehavior );
 
 class PlayerHunterBehavior : public PlayerBehavior {
 public:
-	PlayerHunterBehavior( );
+	PlayerHunterBehavior( unsigned char player_id );
 	virtual ~PlayerHunterBehavior( );
 private:
-	void attack( );
+	void attack( const CONTROLL& controll );
 	void animationUpdate( );
 };
 

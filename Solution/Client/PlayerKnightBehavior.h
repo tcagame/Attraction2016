@@ -6,9 +6,9 @@ PTR( PlayerKnightBehavior );
 
 class PlayerKnightBehavior : public PlayerBehavior {
 public:
-	PlayerKnightBehavior( );
+	PlayerKnightBehavior( unsigned char player_id );
 	virtual ~PlayerKnightBehavior( );
 private:
-	void attack( );
+	void attack( const CONTROLL& controll );
 	void animationUpdate( );
 };

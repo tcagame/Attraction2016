@@ -1,7 +1,6 @@
 #include "PlayerWitchBehavior.h"
 #include "Animation.h"
 #include "Character.h"
-#include "Device.h"
 #include "App.h"
 #include "BulletBeam.h"
 #include "BulletBubble.h"
@@ -11,15 +10,14 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerWitchBehavior::PlayerWitchBehavior( ) :
-PlayerBehavior( PLAYER_WITCH ) {
+PlayerWitchBehavior::PlayerWitchBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_WITCH, player_id ) {
 }
 
 PlayerWitchBehavior::~PlayerWitchBehavior( ) {
 }
 
-void PlayerWitchBehavior::attack( ) {
-	DevicePtr device = Device::getTask( );
+void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -27,7 +25,7 @@ void PlayerWitchBehavior::attack( ) {
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	player->addSP( 100 );
 	//ó≠ÇﬂÉÇÅ[ÉVÉáÉì
-	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
+	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
@@ -50,7 +48,7 @@ void PlayerWitchBehavior::attack( ) {
 	}
 
 	if ( !isDeathblow( ) ) {
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		if ( controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
 		//çUåÇíÜ

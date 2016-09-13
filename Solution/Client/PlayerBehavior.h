@@ -1,7 +1,8 @@
 #pragma once
+
 #include "Behavior.h"
 #include "smart_ptr.h"
-
+#include "mathmatics.h"
 
 PTR( PlayerBehavior );
 PTR( Camera );
@@ -18,7 +19,7 @@ public:
 		PLAYER_STATE_DEAD,
 	};
 public:
-	PlayerBehavior( unsigned char player_id );
+	PlayerBehavior( unsigned char player_id, unsigned char player_controll_id );
 	virtual ~PlayerBehavior( );
 public:
 	void update( );
@@ -27,10 +28,23 @@ public:
 	//void pickupItem( );
 	void pickupCrystal( );
 protected:
-	virtual void attack( ) = 0;//攻撃などの外の行動
+	struct CONTROLL {
+		Vector move;
+		enum ACTION {
+			NONE,
+			ATTACK,
+			DEATHBLOW,
+			MUSTDEATHBLOW,
+		} action;
+	};
+protected:
+	virtual void attack( const CONTROLL& controll ) = 0;//攻撃などの外の行動
+	void walk( const CONTROLL& controll );
+	CONTROLL makeControll( );
 protected:
 	const int MAX_ATTACK_PATTERN;
 	const int _player_id;
+	const bool _controll;
 	PLAYER_STATE _player_state;
 	PLAYER_STATE _before_state;
 	int _attack_pattern;

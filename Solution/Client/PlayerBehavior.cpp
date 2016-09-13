@@ -20,9 +20,10 @@
 
 const int CRYSTAL_LENGTH = 2;
 
-PlayerBehavior::PlayerBehavior( unsigned char player_id ) :
+PlayerBehavior::PlayerBehavior( unsigned char player_id, unsigned char player_controll_id ) :
 MAX_ATTACK_PATTERN( 3 ),
-_player_id( player_id ) {
+_player_id( player_id ),
+_controll( player_id == player_controll_id ) {
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
@@ -31,6 +32,72 @@ PlayerBehavior::~PlayerBehavior( ) {
 void PlayerBehavior::update( ) {
 	//何もしなかったら待機
 	_player_state = PLAYER_STATE_WAIT;
+	
+	CONTROLL controll = makeControll( );
+
+	walk( controll );
+	attack( controll );
+
+	if ( _parent->getStatus( ).hp <= 0 ) {
+		_player_state = PLAYER_STATE_DEAD;
+		AppPtr app = App::getTask( );
+
+		app->setState( App::STATE_DEAD );
+		ClientPtr client = Client::getTask( );
+		SERVERDATA data;
+		data.command = COMMAND_STATUS_POS;
+		data.value[ 0 ] = _player_id;
+		data.value[ 1 ] = 0;
+		data.value[ 2 ] = 0;
+		client->send( data );
+	}
+
+	_before_state = _player_state;
+}
+
+void PlayerBehavior::walk( const CONTROLL& controll ) {
+	if ( _before_state != PLAYER_STATE_ATTACK &&
+		 _before_state != PLAYER_STATE_DEAD &&
+		 !isDeathblow( ) ) {
+
+		if ( controll.move.getLength( ) > 0.0 ) {
+			//進める場合移動
+			_parent->move( controll.move );
+
+			if ( _controll ) {
+				Vector pos = _parent->getPos( );
+				int x = ( int )pos.x;
+				int y = ( int )pos.y;
+				ClientPtr client = Client::getTask( );
+				CLIENTDATA status = client->getClientData( );
+				if ( status.player[ _player_id ].x != x ||
+					 status.player[ _player_id ].y != y ) {
+
+					SERVERDATA data;
+					data.command = COMMAND_STATUS_POS;
+					data.value[ 0 ] = _player_id;
+					data.value[ 1 ] = x;
+					data.value[ 2 ] = y;
+					client->send( data );	
+				}
+			}
+			_player_state = PLAYER_STATE_WALK;
+		}
+
+		bool long_wait = ( _player_state == PLAYER_STATE_WAIT && _animation->getAnimTime( ) > 10 );
+		if ( _player_state == PLAYER_STATE_WALK || long_wait ) {
+			_attack_pattern = 0;
+		}
+
+		pickupCrystal( );
+	}
+}
+
+PlayerBehavior::CONTROLL PlayerBehavior::makeControll( ) {
+	PlayerBehavior::CONTROLL controll;
+
+	DevicePtr device = Device::getTask( );
+	unsigned char button = device->getButton( );
 
 	CameraPtr camera = Camera::getTask( );
 	PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
@@ -38,37 +105,16 @@ void PlayerBehavior::update( ) {
 	Character::STATUS status = _parent->getStatus( );
 	move_vec *= status.speed;//プレイヤーの進行ベクトル
 
-	AppPtr app = App::getTask( );
-	if ( _before_state != PLAYER_STATE_ATTACK && _before_state != PLAYER_STATE_DEAD && !isDeathblow( ) ) {
-		if ( move_vec.getLength( ) > 0.0 ) {
-			//進める場合移動
-			if ( !_parent->move( move_vec ) ) {
-				// チップが変わった
-				// ※このキャラクターがメインの場合のみ
-				Vector pos = _parent->getPos( );
-				ClientPtr client = Client::getTask( );
-				SERVERDATA data;
-				data.command = COMMAND_STATUS_POS;
-				data.value[ 0 ] = _player_id;
-				data.value[ 1 ] = ( int )pos.x;
-				data.value[ 2 ] = ( int )pos.y;
-				client->send( data );
-			}
-			_player_state = PLAYER_STATE_WALK;
-		}
-		bool long_wait = ( _player_state == PLAYER_STATE_WAIT && _animation->getAnimTime( ) > 10 );
-		if ( _player_state == PLAYER_STATE_WALK || long_wait ) {
-			_attack_pattern = 0;
-		}
-		//pickupItem( );
-		pickupCrystal( );
+	controll.move = move_vec;
+	if ( button & BUTTON_D ) {
+		controll.action = CONTROLL::DEATHBLOW;
+	} else if ( button & BUTTON_A ) {
+		controll.action = CONTROLL::ATTACK;
+	} else {
+		controll.action = CONTROLL::NONE;
 	}
-	attack( );
-	if ( _parent->getStatus( ).hp <= 0 ) {
-		_player_state = PLAYER_STATE_DEAD;
-		app->setState( App::STATE_DEAD );
-	}
-	_before_state = _player_state;
+
+	return controll;
 }
 
 bool PlayerBehavior::isDeathblow( ) {

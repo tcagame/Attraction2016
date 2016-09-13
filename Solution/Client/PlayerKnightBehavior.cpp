@@ -26,11 +26,12 @@ void PlayerKnightBehavior::attack( ) {
 	
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	player->addSP( 100 );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( device->getButton( ) == BUTTON_D && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
-		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
+		effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
 	}
 	//—­‚ß‘±
@@ -51,7 +52,22 @@ void PlayerKnightBehavior::attack( ) {
 
 	if ( !isDeathblow( ) ) {
 		//UŒ‚‚É“ü‚éuŠÔ
-		if ( device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK ) {
+		bool in_attack = device->getButton( ) == BUTTON_A && _before_state != PLAYER_STATE_ATTACK;
+		bool next_attack = false;
+		//UŒ‚’†
+		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH ||
+			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ||
+			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB ) ) {
+			if ( !_animation->isEndAnimation( ) ) {
+				_player_state = PLAYER_STATE_ATTACK;
+			}
+			if ( _animation->getEndAnimTime( ) - 15 < _animation->getAnimTime( ) && device->getButton( ) == BUTTON_A ) {
+				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
+				_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_WAIT ) );//ˆê’U‚v‚`‚h‚s‚É‚µ‚Ä‚¨‚­
+				next_attack = true;
+			}
+		}
+		if ( in_attack || next_attack ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
@@ -65,16 +81,6 @@ void PlayerKnightBehavior::attack( ) {
 			}
 			weapon->add( bullet );
 			_player_state = PLAYER_STATE_ATTACK;
-		}
-		//UŒ‚’†
-		if ( ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SLASH ||
-			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ||
-			  _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB ) ) {
-			if ( !_animation->isEndAnimation( ) ) {
-				_player_state = PLAYER_STATE_ATTACK;
-			} else {
-				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
-			}
 		}
 	}
 }
@@ -113,14 +119,12 @@ void PlayerKnightBehavior::animationUpdate( ) {
 					break;
 				case 1:
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_SWORD ) );
+					_animation->setAnimationTime( 10 );
 					break;
 				case 2:
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_KNIGHT_ATTACK_STAB, 2.0 ) );
+					_animation->setAnimationTime( 10 );
 					break;
-			}
-		} else {
-			if ( _animation->isEndAnimation( ) ) {
-				_animation->setAnimationTime( 0 );
 			}
 		}
 	}

@@ -12,4 +12,3 @@ private:
 	void attack( );
 	void animationUpdate( );
 };
-

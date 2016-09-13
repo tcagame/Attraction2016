@@ -309,6 +309,7 @@ void Viewer::drawPlayer( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
+		drawer->drawString( 2, 2, "x: %d y: %d", pos.x, pos.y );
 
 		//—d¸
 		Effect effect;
@@ -330,7 +331,10 @@ void Viewer::drawEnemy( ) {
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
-
+		bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+		if ( !in_screen ) {
+			continue;
+		}
 		AnimationPtr animation = enemy->getAnimation( );
 		int motion = animation->getMotion( );
 		double time = animation->getAnimTime( );
@@ -355,6 +359,10 @@ void Viewer::drawShadow( ) {
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
+		bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+		if ( !in_screen ) {
+			continue;
+		}
 		Vector pos = enemy->getPos( );
 		pos.z = MODEL_SHADOW_HEIGTH;
 		drawer->setShadow( pos );
@@ -370,6 +378,9 @@ void Viewer::drawShadow( ) {
 	}
 	EnemyPtr boss = cohort->getBoss( );
 	Vector boss_pos = boss->getPos( );
+	if( !boss->isInScreen( boss_pos ) ){
+		return;
+	}
 	boss_pos.z = MODEL_SHADOW_HEIGTH;
 	drawer->setShadow( boss_pos );
 }
@@ -380,6 +391,10 @@ void Viewer::drawBoss( ) {
 	
 	EnemyPtr enemy = cohort->getBoss( );
 	if ( !enemy->isExpired( ) ) {
+		return;
+	}
+	bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+	if ( !in_screen ) {
 		return;
 	}
 
@@ -410,6 +425,13 @@ void Viewer::drawGroundModel( ) {
 			if ( type == MODEL_MDL_NONE ) {
 				continue;
 			}
+			Vector pos =  Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 );
+			Vector max_pos = pos + Vector( Ground::CHIP_WIDTH, Ground::CHIP_HEIGHT, 0 );
+			Vector min_pos = pos - Vector( Ground::CHIP_WIDTH, Ground::CHIP_HEIGHT, 0 );
+			PlayerPtr player = app->getPlayerMine( );
+			if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
+				continue;
+			}
 			Drawer::ModelMDL model_mdl = Drawer::ModelMDL( Vector(  i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ), type );
 			drawer->setModelMDL( model_mdl );
 		}
@@ -433,7 +455,13 @@ void Viewer::drawBossMapModel( ) {
 
 	int x = Ground::BOSS_X;
 	int y = Ground::BOSS_Y;
-
+	Vector pos =  Vector(  x * Ground::CHIP_WIDTH, y * Ground::CHIP_HEIGHT, 0 );
+	Vector max_pos = pos + Vector( Ground::BOSS_X, Ground::BOSS_X, 0 );
+	Vector min_pos = pos - Vector( Ground::BOSS_X, Ground::BOSS_X, 0 );
+	PlayerPtr player = app->getPlayerMine( );
+	if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
+		return;
+	}
 	Drawer::ModelMDL model = Drawer::ModelMDL( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ), MODEL_MDL_BOSS );
 	drawer->setModelMDL( model );
 }
@@ -448,7 +476,12 @@ void Viewer::drawCrystal( ) {
 		if ( !crystal ) {
 			continue;
 		}
-		Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_CRYSTAL );
+		Vector pos = crystal->getPos( );
+		PlayerPtr player = app->getPlayerMine( );
+		if ( !player->isInScreen( pos ) ) {
+			continue;
+		}
+		Drawer::ModelMDL model = Drawer::ModelMDL(pos, MODEL_MDL_CRYSTAL );
 		drawer->setModelMDL( model );
 	}
 }
@@ -462,6 +495,11 @@ void Viewer::drawBigCrystal( ) {
 		return;
 	}
 	if ( !crystal->isExpired( ) ) {
+		return;
+	}
+	Vector pos = crystal->getPos( );
+	PlayerPtr player = app->getPlayerMine( );
+	if ( !player->isInScreen( pos ) ) {
 		return;
 	}
 	Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_BIG_CRYSTAL );

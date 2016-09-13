@@ -13,7 +13,7 @@ const double EFFECT_SCALE = 0.5;
 const double ATTACK_TIME[ ] = {
 	27.0,
 	10.0,
-	160.0,
+	140.0,
 	23.0
 };
 
@@ -94,8 +94,6 @@ void EnemyBossBehavior::switchStatus( ) {
 			if ( range <= _attack_range[i] && _before_state != BOSS_STATE_ATTACK ) {
 				_boss_state = BOSS_STATE_ATTACK;
 				_attack_pattern = i;
-				_parent->move( ( _target_pos - pos ).normalize( ) * 0.0001 );
-			
 				break;
 			}
 		}
@@ -107,7 +105,7 @@ void EnemyBossBehavior::switchStatus( ) {
 			_boss_state = BOSS_STATE_ENTRY;
 		
 			Vector pos = _parent->getPos( );
-			_parent->move( ( _target_pos - pos ).normalize( ) * 0.0001 );
+			_parent->move( ( Vector( 0, -1, 0 ) ) );
 		}
 		break;
 	case BOSS_STATE_ENTRY:
@@ -244,6 +242,7 @@ void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	Effect effect;
 	if ( _attack_pattern == BOSS_ATTACK_PATTERN_FIRE ) {
 		int effect_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_FIRE );
-		effect.drawEffect( effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos + ( ( _target_pos - pos ).normalize( ) * 5 ), ( pos - _target_pos ).normalize( ) );
+		Vector effect_dir = ( pos - _target_pos ).normalize( );
+		effect.drawEffect( effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos + ( ( _target_pos - pos ).normalize( ) * 2 ), effect_dir );
 	}
 }

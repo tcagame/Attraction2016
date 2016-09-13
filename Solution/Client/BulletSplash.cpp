@@ -23,7 +23,7 @@ BulletSplash::BulletSplash( const Vector& pos, const Vector& dir )
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH );
 	Vector effect_pos = pos + EFFECT_DIFF_POS;
-	effect.drawEffect( _effect_handle, Vector( 0.7, 0.7, 0.7 ), effect_pos, dir );
+	effect.drawEffect( _effect_handle, Vector( 0.1, 0.1, 0.1 ), effect_pos, dir );
 }
 
 BulletSplash::~BulletSplash( ) {

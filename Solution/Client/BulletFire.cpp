@@ -15,8 +15,6 @@ BulletFire::BulletFire( const Vector& pos, const Vector& dir )
 	_speed = SPEED;
 	_exist_time = 0;
 	Effect effect;
-	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE );
-	effect.drawEffect( _effect_handle, Vector( 0.1, 0.1, 0.1 ), _pos, _dir  );
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );
 }

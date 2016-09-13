@@ -4,7 +4,8 @@
 #include "App.h"
 #include "Effect.h"
 
-const int VANISH_TIME = 50;
+const int WAIT_TIME = 10; 
+const int VANISH_TIME = 50 + WAIT_TIME;
 const int RAPID_TIME = 10;
 const int POWER = 1;
 const double SPEED = 1;
@@ -22,8 +23,6 @@ BulletRapidFire::BulletRapidFire( const Vector& pos, const Vector& dir )
 		_bullet_pos[ i ] = _pos + BULLET_POS[ i ];
 	}
 	Effect effect;
-	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_RAPID_FIRE );
-	effect.drawEffect( _effect_handle, Vector( 0.1, 0.1, 0.1 ), _pos, _dir  );
 	_bullet_effect_handle[ 0 ] = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 	_exist_bullet[ 0 ] = true;
 	_exist_bullet[ 1 ] = false;
@@ -38,6 +37,9 @@ BulletRapidFire::~BulletRapidFire( ) {
 
 bool BulletRapidFire::update( ) {
 	_exist_time++;
+	if ( _exist_time < WAIT_TIME  ) {
+		return true;
+	}
 	if ( _exist_time >= VANISH_TIME  ) {
 		return false;
 	}

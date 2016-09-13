@@ -5,7 +5,7 @@
 #include "Effect.h"
 
 const int VANISH_TIME = 50;
-const int WAIT_TIME = 20;
+const int WAIT_TIME = 40;
 const double BULLET_SCALE = 1;
 const int POWER = 100;
 const int SPEED = 1;
@@ -18,8 +18,7 @@ BulletShot::BulletShot( const Vector& pos, const Vector& dir )
 	_speed = SPEED;
 	_exist_time = 0;
 	Effect effect;
-	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SHOT );
-	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), _pos, _dir  );
+	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos, _dir  );
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 }
 

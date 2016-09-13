@@ -9,7 +9,6 @@
 
 Bullet::Bullet( TYPE type )
 : _type( type ) {
-	_hit_pos = Vector( 0, 0, 0 );
 }
 
 
@@ -26,10 +25,6 @@ Vector Bullet::getPos( ) const {
 
 Vector Bullet::getDir( ) const {
 	return _dir;
-}
-
-Vector Bullet::getHitPos( ) const {
-	return _hit_pos;
 }
 
 void Bullet::attackEnemy( const Vector& pos, int power ) {
@@ -49,7 +44,7 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 			status = enemy->getStatus( );
 			PlayerPtr player = app->getPlayerMine( );
 			if ( !isDeathBlow( ) ) {
-				player->addSP( 10 );
+				player->addSP( 1 );
 			}
 		}
 	}

@@ -12,7 +12,6 @@ class Character : public Object {
 public:
 	struct STATUS {
 		int hp;
-		int sp;
 		unsigned int power;
 		double speed;
 		double width;
@@ -44,6 +43,7 @@ public:
 	void dead( );
 	void damage( unsigned int power );
 
+	bool isInScreen( Vector pos );
 	bool move( const Vector& vec );
 	Vector getPos( ) const;
 	Vector getDir( ) const;

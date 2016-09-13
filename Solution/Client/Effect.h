@@ -43,5 +43,6 @@ public:
 public:
 	int setEffect( EFFECT effect );
 	void drawEffect(int playing_handle, Vector scale, Vector pos, Vector dir);
+	void deletEffect( int effect_handle );
 };
 

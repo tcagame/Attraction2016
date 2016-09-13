@@ -4,6 +4,20 @@
     <Name>Root</Name>
     <Children>
       <Node>
+        <LocationValues>
+          <Fixed>
+            <Location>
+              <Y>5</Y>
+            </Location>
+          </Fixed>
+        </LocationValues>
+        <RotationValues>
+          <Fixed>
+            <Rotation>
+              <X>45</X>
+            </Rotation>
+          </Fixed>
+        </RotationValues>
         <DrawingValues>
           <Type>0</Type>
         </DrawingValues>

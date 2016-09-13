@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "Player.h"
 #include "Behavior.h"
 #include "App.h"
 #include "Field.h"
@@ -7,7 +8,9 @@
 #include "Enemy.h"
 #include "PlayerBehavior.h"
 
-Vector START_DIR = Vector( 0, 1, 0 );
+const Vector START_DIR = Vector( 0, 1, 0 );
+const double SCREEN_RENGTH = 800.0;
+
 
 Character::Character( TYPE type, BehaviorPtr behavior, Character::STATUS status, std::string character_name ) :
 CHARACTER_TYPE( type ) {
@@ -25,21 +28,33 @@ Character::~Character( ) {
 }
 
 void Character::update( ) {
+	if ( !isInScreen( getPos( ) ) ) {
+		return;
+	}
 	if ( _expired ) {
 		_behavior->mainLoop( );
 	}
 }
 
+bool Character::isInScreen( Vector pos ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayerMine( );
+	double length = ( player->getPos( ) - pos ).getLength2( );
+	if ( length > SCREEN_RENGTH ) {
+		return false;
+	}
+	return true;
+}
+
 void Character::reset( ){
 	_status = _origin_status;
 	_expired = false;
-	AppPtr app = App::getTask();
-	FieldPtr field = app->getField();
+	AppPtr app = App::getTask( );
+	FieldPtr field = app->getField( );
 	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 }
 
 bool Character::move( const Vector& vec ) {
-
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}

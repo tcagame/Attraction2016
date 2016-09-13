@@ -12,6 +12,7 @@ CameraPtr Camera::getTask( ) {
 Camera::Camera( ) :
 _pos( START_CAMERA_POS ),
 _target( START_TARGET_POS ) {
+
 }
 
 

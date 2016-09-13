@@ -16,5 +16,6 @@ public:
 private:
 	Vector _store_mouse_pos;
 	double _max_lenght;
+	double _min_lenght;
 };
 

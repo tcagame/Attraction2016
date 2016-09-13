@@ -51,7 +51,7 @@ public:
 	int getStartCountMax( ) const;
 	int convertCSVtoMap( int type );
 private:
-	static const int MAX_MAP_DATA_NUM = 5;
+	static const int MAX_MAP_DATA_NUM = 12;
 private:
 	void loadToGround( );
 	void updateStateReady( );

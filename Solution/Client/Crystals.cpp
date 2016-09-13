@@ -3,14 +3,14 @@
 #include "BigCrystal.h"
 
 Vector CRYSTAL_POS[ Crystals::MAX_CRYSTAL_NUM ] {
-	Vector( 1 * 7 + 3, 31 * 4 + 2, 0.05 ),
-	Vector( 17 * 7 + 3, 20 * 4 + 2, 0.15 ),
-	Vector( 17 * 7 + 3, 23 * 4 + 2, 0.20 ),
+	Vector( 2 * 7 - 1, 33 * 4 + 2, 0.05 ),
+	Vector( 126, 85, 0.15 ),
+	Vector( 76, 13, 0.20 ),
 };
 
 
 
-const Vector BIG_CRYSTAL_POS = Vector( 23 * 7, 21 * 4, 0 ); 
+const Vector BIG_CRYSTAL_POS = Vector( 76, 93, 0 ); 
 
 Crystals::Crystals( ) {
 	for( int i = 0; i < MAX_CRYSTAL_NUM; i++ ){

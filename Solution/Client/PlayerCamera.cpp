@@ -5,6 +5,7 @@
 
 PlayerCamera::PlayerCamera( ) {
 	_max_lenght = 40;
+	_min_lenght = 35;
 }
 
 
@@ -50,7 +51,11 @@ void PlayerCamera::update( ) {
 	while ( vec.getLength( ) > _max_lenght ) {
 		vec -= vec.normalize( );
 	}
-	
+	while ( vec.getLength( ) < _min_lenght ) {
+		vec += vec.normalize( );
+	}
+	vec.z = 20;
+
 	MousePtr mouse = Mouse::getTask( );
 	Vector mouse_pos = mouse->getPos( );
 	const double RATIO = 0.01;
@@ -69,7 +74,6 @@ void PlayerCamera::update( ) {
 	
 	// _camera_pos‚ğ•ÏX
 	_pos = _target + vec;
-	
 
 }
 

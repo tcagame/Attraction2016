@@ -308,7 +308,7 @@ void Viewer::drawPlayer( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
-		drawer->drawString( 2, 2, "x: %d y: %d", pos.x, pos.y );
+		//drawer->drawString( 2, 2, "x: %lf y: %lf", pos.x, pos.y );
 
 		//ódê∏
 		Effect effect;

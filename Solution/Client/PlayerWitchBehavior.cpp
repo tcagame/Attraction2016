@@ -9,6 +9,7 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
+#include "Client.h"
 
 PlayerWitchBehavior::PlayerWitchBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_WITCH, player_id ) {
@@ -24,11 +25,33 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//溜めモーション
-	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
-		Effect effect;
-		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
-		effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
-		_player_state = PLAYER_STATE_STORE;
+	
+	if ( _before_state == PLAYER_STATE_WAIT ||
+		 _before_state == PLAYER_STATE_WALK ||
+		 _before_state == PLAYER_STATE_ATTACK ) {
+
+		bool enabled = false;
+		if ( controll.action == CONTROLL::DEATHBLOW && player->isFulledSP( ) ) {
+			enabled = true;
+		}
+		if ( controll.action == CONTROLL::MUSTDEATHBLOW ) {
+			enabled = true;
+		}
+		if ( enabled ) {
+			Effect effect;
+			int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+			effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
+			_player_state = PLAYER_STATE_STORE;
+		
+			if ( _controll ) {
+				ClientPtr client = Client::getTask( );
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_DEATHBLOW;
+				client->send( data );	
+			}
+		}
 	}
 	//溜め持続
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && !_animation->isEndAnimation( ) ) {
@@ -71,6 +94,32 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 				_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更
 			}
 			_player_state = PLAYER_STATE_ATTACK;
+		}
+	}
+
+	
+	if ( _controll ) {
+		ClientPtr client = Client::getTask( );
+		CLIENTDATA status = client->getClientData( );
+		switch ( controll.action ) {
+		case CONTROLL::NONE:
+			if ( status.player[ _player_id ].action != ACTION_NONE ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_NONE;
+				client->send( data );	
+			}
+			break;
+		case CONTROLL::ATTACK:
+			if ( status.player[ _player_id ].action != ACTION_ATTACK ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_ATTACK;
+				client->send( data );	
+			}
+			break;
 		}
 	}
 }

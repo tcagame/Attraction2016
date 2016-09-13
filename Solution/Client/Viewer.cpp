@@ -33,7 +33,6 @@ enum MODEL_MDL {
 	MODEL_MDL_CRYSTAL,
 	MODEL_MDL_BIG_CRYSTAL,
 	MODEL_MDL_BACK_GROUND
-
 };
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
@@ -42,29 +41,31 @@ const int END_FAIRY_TIME = 150;
 //UI描画
 const int STATUS_POS_OFFSET = 5;
 
-const int STATUS_WINDOW_WIDTH = 714;
-const int STATUS_WINDOW_HEIGHT = 288;
+const int STATUS_BASE_WIDTH = 714;
+const int STATUS_BASE_HEIGHT = 229;
 
 const int STATUS_NAME_WIDTH = 495;
 const int STATUS_NAME_HEIGHT = 148;
 
-const int STATUS_HP_GAUGE_WIDTH = 596;
-const int STATUS_HP_GAUGE_HEIGHT = 30;
+const double STATUS_GAUSGE_OFFSET = 6.7;
 
-const int STATUS_GAUGE_FRAME_WIDTH = 636;
-const int STATUS_GAUGE_FRAME_HEIGHT = 95;
-
-const int STATUS_HP_NUMBER_WIDTH = 20;
-const int STATUS_HP_NUMBER_HEIGHT = 20;
+const int STATUS_HP_GAUGE_WIDTH = 636;
+const int STATUS_HP_GAUGE_HEIGHT = 109;
 
 const int STATUS_SP_GAUGE_WIDTH = STATUS_HP_GAUGE_WIDTH;
 const int STATUS_SP_GAUGE_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 
-const int BOSS_HP_FRAME_WIDTH = 1804;
-const int BOSS_HP_FRAME_HEIGHT = 98;
+const int STATUS_GAUGE_FRAME_WIDTH = STATUS_HP_GAUGE_WIDTH;
+const int STATUS_GAUGE_FRAME_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 
-const int BOSS_HP_GAUGE_WIDTH = 1624;
-const int BOSS_HP_GAUGE_HEIGHT = 59;
+const int STATUS_GAUGE_BACKGROUND_WIDTH = STATUS_HP_GAUGE_WIDTH;
+const int STATUS_GAUGE_BACKGROUND_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
+
+const int BOSS_HP_FRAME_WIDTH = 1230;
+const int BOSS_HP_FRAME_HEIGHT = 91;
+
+const int BOSS_HP_GAUGE_WIDTH = BOSS_HP_FRAME_WIDTH;
+const int BOSS_HP_GAUGE_HEIGHT = BOSS_HP_FRAME_HEIGHT;
 
 const int STATUS_READY_STRING_WIDTH = 779;
 const int STATUS_READY_STRING_HEIGHT = 273;
@@ -182,24 +183,14 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_UI_NAME_HUNTER,			"UI/name_plate_hunter.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_MONK,			"UI/name_plate_monk.png" );
 	drawer->loadGraph( GRAPHIC_UI_NAME_WITCH,			"UI/name_plate_witch.png" );
-	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_KNIGHT,	"UI/background_knight.png" );
-	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_HUNTER,	"UI/background_hunter.png" );
-	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_MONK,		"UI/background_monk.png" );
-	drawer->loadGraph( GRAPHIC_UI_BACKGROUND_WITCH,		"UI/background_witch.png" );
-	drawer->loadGraph( GRAPHIC_UI_WINDOW,				"UI/player_window.png" ); 
-	drawer->loadGraph( GRAPHIC_UI_HP_GAUGE,				"UI/player_hp_gauge.png" );
-	drawer->loadGraph( GRAPHIC_UI_SP_GAUGE,				"UI/player_sp_gauge.png" );
-	drawer->loadGraph( GRAPHIC_UI_GAUGE_FRAME,			"UI/player_gauge_frame.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_0,			"UI/hpnumber0.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_1,			"UI/hpnumber1.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_2,			"UI/hpnumber2.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_3,			"UI/hpnumber3.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_4,			"UI/hpnumber4.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_5,			"UI/hpnumber5.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_6,			"UI/hpnumber6.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_7,			"UI/hpnumber7.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_8,			"UI/hpnumber8.png" );
-	drawer->loadGraph( GRAPHIC_UI_HP_NUMBER_9,			"UI/hpnumber9.png" );
+	drawer->loadGraph( GRAPHIC_UI_BASE_KNIGHT,			"UI/status_base_knight.png" );
+	drawer->loadGraph( GRAPHIC_UI_BASE_HUNTER,			"UI/status_base_hunter.png" );
+	drawer->loadGraph( GRAPHIC_UI_BASE_MONK,			"UI/status_base_monk.png" );
+	drawer->loadGraph( GRAPHIC_UI_BASE_WITCH,			"UI/status_base_witch.png" );
+	drawer->loadGraph( GRAPHIC_UI_HP_GAUGE,				"UI/status_hp_gauge.png" );
+	drawer->loadGraph( GRAPHIC_UI_SP_GAUGE,				"UI/status_sp_gauge.png" );
+	drawer->loadGraph( GRAPHIC_UI_GAUGE_FRAME,			"UI/status_gauge_frame.png" );
+	drawer->loadGraph( GRAPHIC_UI_GAUGE_BACKGROUND,     "UI/status_gauge_background.png" );
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_GAUGE,		"UI/boss_hp_gauge.png" );
 	drawer->loadGraph( GRAPHIC_UI_BOSS_HP_FRAME,		"UI/boss_hp_frame.png" );
 	drawer->loadGraph( GRAPHIC_READY_STRING,			"UI/ready_string.png" );
@@ -530,71 +521,52 @@ void Viewer::drawUI( ) {
 	//プレイヤーUI描画
 	{
 		//ステータスウィンドウ
-		int status_window_x = window_width / 2 - STATUS_WINDOW_WIDTH / 2;
-		int status_window_y = window_height - STATUS_WINDOW_HEIGHT - STATUS_POS_OFFSET * 3;
-		int background_x = status_window_x + STATUS_POS_OFFSET * 5;
-		int background_y = status_window_y + STATUS_POS_OFFSET * 5;
+		int status_base_x = window_width / 2 - STATUS_BASE_WIDTH / 2;
+		int status_base_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
 
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
 			if ( i == ( int )app->getPlayerId( ) ) {
-				Drawer::Transform background_transform = Drawer::Transform( background_x, background_y );
-				Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, i + ( int )GRAPHIC_UI_BACKGROUND_KNIGHT, Drawer::BLEND_NONE, 0 );
-				drawer->setSprite( background_sprite );
+				Drawer::Transform base_transform = Drawer::Transform( status_base_x, status_base_y );
+				Drawer::Sprite base_sprite = Drawer::Sprite( base_transform, i + ( int )GRAPHIC_UI_BASE_KNIGHT, Drawer::BLEND_NONE, 0 );
+				drawer->setSprite( base_sprite );
 			}
 		}
-		Drawer::Transform window_transform = Drawer::Transform( status_window_x, status_window_y );
-		Drawer::Sprite window_sprite = Drawer::Sprite( window_transform, GRAPHIC_UI_WINDOW, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( window_sprite );
-		
+
+		//ゲージ下地
+		int status_gauge_background_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
+		int status_gauge_background_y = status_base_y + STATUS_POS_OFFSET * 15;
+		Drawer::Transform background_transform = Drawer::Transform( status_gauge_background_x, status_gauge_background_y );
+		Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( background_sprite );
+
 		//HPゲージ
 		Player::STATUS status = player->getStatus( );
 		double hp = ( double )status.hp;
 		double max_hp = ( double )player->getMaxHp( );
 		double hp_percentage = hp / max_hp;
-		double hp_tw = STATUS_HP_GAUGE_WIDTH * hp_percentage;
+		double hp_tw = ( ( double )STATUS_HP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET ) * hp_percentage;
 		
-		int status_hp_gauge_x = status_window_x + STATUS_WINDOW_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
-		int status_hp_gauge_y = status_window_y + STATUS_POS_OFFSET * 30;
+		int status_hp_gauge_x = status_gauge_background_x;
+		int status_hp_gauge_y = status_gauge_background_y;
 		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, 0, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 		
-		//HP数値
-		int digit = ( int )log10( ( double )hp ) + 1;
-		if ( hp > 0 ) {
-			for ( int i = 0; i < digit; i++ ) {
-				int status_number_x = status_hp_gauge_x + STATUS_HP_GAUGE_WIDTH / 2;
-				int status_number_y = status_window_y + STATUS_POS_OFFSET * 10;
-				Drawer::Transform num_transform = Drawer::Transform( status_number_x - STATUS_HP_NUMBER_WIDTH * i, status_number_y );
-				int num = ( int )hp % 10;
-				hp /= 10;
-				int res = num + ( int )GRAPHIC_UI_HP_NUMBER_0;
-				Drawer::Sprite num_sprite =  Drawer::Sprite( num_transform, res, Drawer::BLEND_NONE, 0 );
-				drawer->setSprite( num_sprite );
-			}
-		} else {
-			int status_number_x = status_hp_gauge_x + STATUS_HP_GAUGE_WIDTH + STATUS_POS_OFFSET * 5;
-			int status_number_y = status_hp_gauge_y;
-			Drawer::Transform num_transform = Drawer::Transform( status_number_x, status_number_y );
-			Drawer::Sprite num_sprite = Drawer::Sprite( num_transform, GRAPHIC_UI_HP_NUMBER_0, Drawer::BLEND_NONE, 0 );
-			drawer->setSprite( num_sprite );
-		}
-		
 		//SPゲージ
 		double sp = ( double )player->getSP( );
 		double sp_percentage = sp / 100;
-		double sp_tx = STATUS_SP_GAUGE_WIDTH * sp_percentage;
+		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET ) * sp_percentage;
 		
 		int status_sp_gauge_x = status_hp_gauge_x;
-		int status_sp_gauge_y = status_hp_gauge_y + STATUS_HP_GAUGE_HEIGHT  +STATUS_POS_OFFSET;
+		int status_sp_gauge_y = status_hp_gauge_y;
 		
-		Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, 0, 0, ( int )sp_tx, STATUS_SP_GAUGE_HEIGHT );
+		Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, 0, 0, ( int )sp_tw, STATUS_SP_GAUGE_HEIGHT );
 		Drawer::Sprite sp_sprite = Drawer::Sprite( sp_transform, GRAPHIC_UI_SP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sp_sprite );
 
 		//ゲージフレーム
-		int status_gauge_frame_x = status_hp_gauge_x - ( STATUS_GAUGE_FRAME_WIDTH - STATUS_HP_GAUGE_WIDTH ) / 2;
-		int status_gauge_frame_y = status_hp_gauge_y - STATUS_POS_OFFSET * 2;
+		int status_gauge_frame_x = status_hp_gauge_x;
+		int status_gauge_frame_y = status_hp_gauge_y;
 		
 		Drawer::Transform gauge_frame_transform = Drawer::Transform( status_gauge_frame_x, status_gauge_frame_y );
 		Drawer::Sprite gauge_frame_sprite = Drawer::Sprite( gauge_frame_transform, GRAPHIC_UI_GAUGE_FRAME, Drawer::BLEND_NONE, 0 );
@@ -604,8 +576,8 @@ void Viewer::drawUI( ) {
 		//ネームタグ
 		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
 			if ( i == ( int )app->getPlayerId( ) ) {
-				int status_name_x = status_window_x + STATUS_WINDOW_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
-				int status_name_y = status_window_y - STATUS_POS_OFFSET * 10;
+				int status_name_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
+				int status_name_y = status_base_y - STATUS_POS_OFFSET * 10;
 				Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
 				Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, i + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
 				drawer->setSprite( name_sprite );
@@ -620,8 +592,8 @@ void Viewer::drawUI( ) {
 			return;
 		}
 
-		int status_window_x = window_width / 2 - STATUS_WINDOW_WIDTH / 2;
-		int status_window_y = window_height - STATUS_WINDOW_HEIGHT - STATUS_POS_OFFSET * 3;
+		int status_window_x = window_width / 2 - STATUS_BASE_WIDTH / 2;
+		int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
 
 
 		//HP計算

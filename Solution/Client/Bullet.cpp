@@ -44,7 +44,7 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 			status = enemy->getStatus( );
 			PlayerPtr player = app->getPlayerMine( );
 			if ( !isDeathBlow( ) ) {
-				player->addSP( 1 );
+				player->addSP( 20 );
 			}
 		}
 	}

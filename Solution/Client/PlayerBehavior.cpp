@@ -20,9 +20,10 @@
 
 const int CRYSTAL_LENGTH = 2;
 
-PlayerBehavior::PlayerBehavior( unsigned char player_id ) :
+PlayerBehavior::PlayerBehavior( unsigned char player_id, unsigned char player_controll_id ) :
 MAX_ATTACK_PATTERN( 3 ),
-_player_id( player_id ) {
+_player_id( player_id ),
+_controll( player_id == player_controll_id ) {
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
@@ -32,14 +33,17 @@ void PlayerBehavior::update( ) {
 	//何もしなかったら待機
 	_player_state = PLAYER_STATE_WAIT;
 
-	CameraPtr camera = Camera::getTask( );
-	PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
-	Vector move_vec = p_camera->getConvertDeviceVec( );
-	Character::STATUS status = _parent->getStatus( );
-	move_vec *= status.speed;//プレイヤーの進行ベクトル
-
 	AppPtr app = App::getTask( );
-	if ( _before_state != PLAYER_STATE_ATTACK && _before_state != PLAYER_STATE_DEAD && !isDeathblow( ) ) {
+	if ( _before_state != PLAYER_STATE_ATTACK &&
+		 _before_state != PLAYER_STATE_DEAD &&
+		 !isDeathblow( ) ) {
+
+		CameraPtr camera = Camera::getTask( );
+		PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
+		Vector move_vec = p_camera->getConvertDeviceVec( );
+		Character::STATUS status = _parent->getStatus( );
+		move_vec *= status.speed;//プレイヤーの進行ベクトル
+
 		if ( move_vec.getLength( ) > 0.0 ) {
 			//進める場合移動
 			if ( !_parent->move( move_vec ) ) {

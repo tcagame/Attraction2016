@@ -6,7 +6,7 @@ PTR( PlayerMonkBehavior );
 
 class PlayerMonkBehavior : public PlayerBehavior {
 public:
-	PlayerMonkBehavior( );
+	PlayerMonkBehavior( unsigned char player_id );
 	virtual ~PlayerMonkBehavior( );
 private:
 	void attack( );

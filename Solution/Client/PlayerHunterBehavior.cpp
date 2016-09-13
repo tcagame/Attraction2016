@@ -11,8 +11,8 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerHunterBehavior::PlayerHunterBehavior( ) :
-PlayerBehavior( PLAYER_HUNTER ) {
+PlayerHunterBehavior::PlayerHunterBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_HUNTER, player_id ) {
 }
 
 

@@ -11,8 +11,8 @@
 #include "Player.h"
 #include "Effect.h"
 
-PlayerKnightBehavior::PlayerKnightBehavior( ) :
-PlayerBehavior( PLAYER_KNIGHT ) {
+PlayerKnightBehavior::PlayerKnightBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_KNIGHT, player_id ) {
 }
 
 PlayerKnightBehavior::~PlayerKnightBehavior( ) {

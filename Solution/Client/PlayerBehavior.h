@@ -18,7 +18,7 @@ public:
 		PLAYER_STATE_DEAD,
 	};
 public:
-	PlayerBehavior( unsigned char player_id );
+	PlayerBehavior( unsigned char player_id, unsigned char player_controll_id );
 	virtual ~PlayerBehavior( );
 public:
 	void update( );
@@ -31,6 +31,7 @@ protected:
 protected:
 	const int MAX_ATTACK_PATTERN;
 	const int _player_id;
+	const bool _controll;
 	PLAYER_STATE _player_state;
 	PLAYER_STATE _before_state;
 	int _attack_pattern;

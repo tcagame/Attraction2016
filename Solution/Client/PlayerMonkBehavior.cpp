@@ -12,8 +12,8 @@
 #include "Field.h"
 #include "Effect.h"
 
-PlayerMonkBehavior::PlayerMonkBehavior( ) :
-PlayerBehavior( PLAYER_MONK ) {
+PlayerMonkBehavior::PlayerMonkBehavior( unsigned char player_id ) :
+PlayerBehavior( PLAYER_MONK, player_id ) {
 }
 
 

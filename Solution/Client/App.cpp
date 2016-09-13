@@ -144,71 +144,28 @@ void App::updateStateDead( ) {
 
 }
 
-/*
-void App::update( ) {
-	for ( int i = 0; i < PLAYER_NUM; i++ ) {
-		if ( !_player[ i ] ) {
-			continue;
-		}
-		_player[ i ]->update( );
-	}
-
-	_cohort->update( );
-	_crystals->updata( );
-	if ( _weapon ) {
-		_weapon->update( );
-	}
-
-	DevicePtr device = Device::getTask( );
-	CameraPtr camera = Camera::getTask( );
-	camera->setTarget( _player[ _player_id ]->getPos( ) );
-	//プレイヤーリセットコマンド
-	bool reset_flag = _push_reset_count >= 30;
-	if ( device->getButton( ) == BUTTON_A + BUTTON_B + BUTTON_C + BUTTON_D ) {
-		_push_reset_count +=1;
-	} else if( reset_flag && device->getButton( ) == 0 ) {
-		_push_reset_count = 0;
-	}
-	if( reset_flag ) {
-		reset( );
-	}
-
-	if ( ( device->getButton( ) > 0 ) && ( _state == STATE_READY ) ) {
-		_push_start_count += 1;
-	}
-	bool pop_player = _push_start_count >= 30;
-	pop_player = pop_player & !_player[ _player_id ]->isExpired( );
-	if ( pop_player && !reset_flag ) {
-		Vector player_pos = Vector( START_POS_X, START_POS_Y, 0 );
-		_player[ _player_id ]->create( player_pos );
-		setState( STATE_PLAY );
-		_push_start_count = 0;
-	}
-}
-*/
-
 void App::initialize( ) {
 
 	{ //Knight
-		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerKnightBehavior());
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerKnightBehavior( _player_id ));
 		_player[ PLAYER_KNIGHT ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_KNIGHT));
 		behavior->setParent(_player[ PLAYER_KNIGHT ]);
 	}
 	
 	{ //Monk
-		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerMonkBehavior());
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerMonkBehavior( _player_id ));
 		_player[ PLAYER_MONK ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_MONK));
 		behavior->setParent(_player[ PLAYER_MONK ]);
 	}
 	
 	{ //Hunter
-		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerHunterBehavior());
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerHunterBehavior( _player_id ));
 		_player[ PLAYER_HUNTER ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_HUNTER));
 		behavior->setParent(_player[ PLAYER_HUNTER ]);
 	}
 	
 	{ //Witch
-		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerWitchBehavior());
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerWitchBehavior( _player_id ));
 		_player[ PLAYER_WITCH ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, 0.3), Player::PLAYER_TYPE_WITCH));
 		behavior->setParent(_player[ PLAYER_WITCH ]);
 	}

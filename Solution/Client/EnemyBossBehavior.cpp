@@ -10,11 +10,12 @@ const double MOTION_SPEED = 1;
 const double BOSS_DAMAGE_HP = 100;
 const double MAX_BOSS_FLIGHT_ALTITUDE = 5;
 const double EFFECT_SCALE = 0.5;
+const double BOSS_MAX_FLY_TIME = 80;
 const double ATTACK_TIME[ ] = {
 	27.0,
 	10.0,
 	140.0,
-	23.0
+	70.0
 };
 
 const Effect::EFFECT BOSS_EFFCT[ ] = {
@@ -42,8 +43,8 @@ EnemyBossBehavior::EnemyBossBehavior() {
 	_attack_range[ BOSS_ATTACK_PATTERN_BITE ] = 5.0;
 	_attack_range[ BOSS_ATTACK_PATTERN_FIRE ] = 7.0;
 	_attack_pattern = BOSS_ATTACK_PATTERN_MAX;
-	_on_damage = false;
 	_has_entry = false;
+	_boss_fly_time = 0;
 	_boss_state = BOSS_STATE_WAIT;
 	_boss_damage_hp = BOSS_DAMAGE_HP;
 }
@@ -59,18 +60,7 @@ void EnemyBossBehavior::update( ) {
 	} else {
 		_target.reset( );
 	}
-	if ( _boss_state == BOSS_STATE_FLY ) {
-		Vector move_lenght = Vector( 0, 0, 0.05 );
-		_parent->move( move_lenght );
-	}
-	if ( _boss_state == BOSS_STATE_DESCENT ) {
-		Vector move_lenght = Vector( 0, 0, -0.05 );
-		_parent->move( move_lenght );
-	}
-	if ( _boss_state == BOSS_STATE_DESCENT && _parent->getPos( ).z <= 0 ) {
-		Vector pos = Vector( 0, 0.0001, 0 );
-		_parent->move( pos );
-	}
+
 	switchStatus( );
 	_before_state = _boss_state;
 }
@@ -84,7 +74,6 @@ void EnemyBossBehavior::switchStatus( ) {
 	_target_pos = player->getPos( );
 	Vector stance = _target_pos - _parent->getPos( );
 	Vector pos = _parent->getPos( );
-
 	double range = stance.getLength();
 	AppPtr app = App::getTask();
 	CrystalsPtr crystals = app->getCrystals();
@@ -125,17 +114,16 @@ void EnemyBossBehavior::switchStatus( ) {
 		}
 		break;
 	case BOSS_STATE_FLY:
-		if ( pos.z >= MAX_BOSS_FLIGHT_ALTITUDE ) {
-			_boss_state = BOSS_STATE_BOMBING;
-		}
-		break;
-	case BOSS_STATE_BOMBING:
-		if ( _animation->isEndAnimation( ) ) {
+		if ( _animation->isEndAnimation( ) &&  _boss_fly_time < BOSS_MAX_FLY_TIME ) {
+			_boss_state = BOSS_STATE_FLY;
+			_boss_fly_time++;
+			_animation->setAnimationTime( _animation->getAnimTime( ) );
+		} else {
 			_boss_state = BOSS_STATE_DESCENT;
 		}
 		break;
 	case BOSS_STATE_DESCENT:
-		if ( pos.z <= 0 ) {
+		if ( _animation->isEndAnimation( ) ) {
 			_boss_state = BOSS_STATE_WAIT;
 		}
 		break;

@@ -33,7 +33,7 @@ BulletLay::BulletLay( const Vector& pos, const Vector& dir )
 	}
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_LAY );
-	Vector effect_pos = _pos + EFFECT_DIFF_POS;
+	Vector effect_pos = pos - dir * 2.4 + EFFECT_DIFF_POS;
 	effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), effect_pos, dir );
 }
 

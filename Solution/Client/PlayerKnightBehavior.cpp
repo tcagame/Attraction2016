@@ -24,7 +24,6 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 	
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
-	player->addSP( 100 );
 	//溜めモーション
 	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;

@@ -3,11 +3,11 @@
 
 const int POWER = 500;
 
-const double RADIUS = 3.0;
+const double RADIUS = 2.0;
 const double LENGTH = 15.0;
 const int PARTICLE = 4;
-const double WAIT_TIME = 30.0;
-const double END_TIME = 90.0;
+const double WAIT_TIME = 50.0;
+const double END_TIME = 30.0 + WAIT_TIME;
 const Vector EFFECT_DIFF_POS = Vector( 0, 0, -0.4 );
 
 BulletSplash::BulletSplash( const Vector& pos, const Vector& dir )
@@ -23,7 +23,7 @@ BulletSplash::BulletSplash( const Vector& pos, const Vector& dir )
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SPLASH );
 	Vector effect_pos = pos + EFFECT_DIFF_POS;
-	effect.drawEffect( _effect_handle, Vector( 0.7, 0.7, 0.7 ), effect_pos, dir );
+	effect.drawEffect( _effect_handle, Vector( 0.2, 0.2, 0.2 ), effect_pos, dir );
 }
 
 BulletSplash::~BulletSplash( ) {

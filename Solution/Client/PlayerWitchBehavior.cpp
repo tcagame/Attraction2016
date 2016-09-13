@@ -23,6 +23,7 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 	BulletPtr bullet;
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	player->addSP( 100 );
 	//溜めモーション
 	if ( controll.action == CONTROLL::DEATHBLOW && ( _before_state == PLAYER_STATE_WAIT || _before_state == PLAYER_STATE_WALK || _before_state == PLAYER_STATE_ATTACK ) && player->getSP( ) == 100 ) {
 		Effect effect;
@@ -128,7 +129,7 @@ void PlayerWitchBehavior::animationUpdate( ) {
 	}
 	if ( _player_state == PLAYER_STATE_DEATHBLOW ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_WITCH_DEATHBLOW ) {
-			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_DEATHBLOW ) );
+			_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_WITCH_DEATHBLOW, 0.5 ) );
 		}
 	}
 	if ( _player_state == PLAYER_STATE_DEAD ) {

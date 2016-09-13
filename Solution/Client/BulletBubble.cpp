@@ -16,7 +16,7 @@ Bullet( Bullet::TYPE_BUBBLE ) {
 	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE );
-	Vector effect_pos = _pos + EFFECT_DIFF_POS;
+	Vector effect_pos = _pos - _dir * 1.3 + EFFECT_DIFF_POS;
 	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), effect_pos, dir );
 }
 

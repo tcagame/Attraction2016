@@ -96,24 +96,52 @@ void PlayerBehavior::walk( const CONTROLL& controll ) {
 PlayerBehavior::CONTROLL PlayerBehavior::makeControll( ) {
 	PlayerBehavior::CONTROLL controll;
 
-	DevicePtr device = Device::getTask( );
-	unsigned char button = device->getButton( );
+	if ( _controll ) {
+		// 自分で動かす
+		DevicePtr device = Device::getTask( );
+		unsigned char button = device->getButton( );
 
-	CameraPtr camera = Camera::getTask( );
-	PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
-	Vector move_vec = p_camera->getConvertDeviceVec( );
-	Character::STATUS status = _parent->getStatus( );
-	move_vec *= status.speed;//プレイヤーの進行ベクトル
+		CameraPtr camera = Camera::getTask( );
+		PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
+		Vector move_vec = p_camera->getConvertDeviceVec( );
+		Character::STATUS status = _parent->getStatus( );
+		move_vec = move_vec.normalize( ) * status.speed;//プレイヤーの進行ベクトル
 
-	controll.move = move_vec;
-	if ( button & BUTTON_D ) {
-		controll.action = CONTROLL::DEATHBLOW;
-	} else if ( button & BUTTON_A ) {
-		controll.action = CONTROLL::ATTACK;
+		controll.move = move_vec;
+		if ( button & BUTTON_D ) {
+			controll.action = CONTROLL::DEATHBLOW;
+		} else if ( button & BUTTON_A ) {
+			controll.action = CONTROLL::ATTACK;
+		} else {
+			controll.action = CONTROLL::NONE;
+		}	
 	} else {
-		controll.action = CONTROLL::NONE;
-	}
+		// ネットから動かす
+		ClientPtr client = Client::getTask( );
+		CLIENTDATA data = client->getClientData( );
 
+		Vector target;
+		target.x = data.player[ _player_id ].x;
+		target.y = data.player[ _player_id ].y;
+		Vector vec = target - _parent->getPos( );
+		Character::STATUS status = _parent->getStatus( );
+		if ( vec.getLength( ) > status.speed * 2 ) {
+			vec = vec.normalize( ) * status.speed;
+			controll.move = vec;
+		}
+		switch ( data.player[ _player_id ].action ) {
+		case ACTION_NONE:
+			controll.action = CONTROLL::NONE;
+			break;
+		case ACTION_ATTACK:
+			controll.action = CONTROLL::ATTACK;
+			break;
+		case ACTION_DEATHBLOW:
+			controll.action = CONTROLL::MUSTDEATHBLOW;
+			break;
+		}
+
+	}
 	return controll;
 }
 

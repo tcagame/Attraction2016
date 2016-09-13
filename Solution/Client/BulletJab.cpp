@@ -2,9 +2,9 @@
 #include "Effect.h"
 
 const int POWER = 10;
-const int ANIMATION_TIME = 2;
+const int ANIMATION_TIME = 5;
 const int WAIT_TIME = 8;
-const double RANGE = 2;
+const double RANGE = 1;
 
 BulletJab::BulletJab( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_JAB )
@@ -32,7 +32,7 @@ bool BulletJab::update( ) {
 		return false;
 	}
 
-	int range = ( int )getLength( );
+	double range = getLength( );
 	Vector pos = getPos( ) + _dir * range;
 	attackEnemy( pos, POWER );
 	return true;

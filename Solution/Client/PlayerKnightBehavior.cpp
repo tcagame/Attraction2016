@@ -9,6 +9,7 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
+#include "Client.h"
 
 PlayerKnightBehavior::PlayerKnightBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_KNIGHT, player_id ) {
@@ -30,6 +31,15 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 		int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 		effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 		_player_state = PLAYER_STATE_STORE;
+		
+		if ( _controll ) {
+			ClientPtr client = Client::getTask( );
+			SERVERDATA data;
+			data.command = COMMAND_STATUS_ACTION;
+			data.value[ 0 ] = _player_id;
+			data.value[ 1 ] = ACTION_DEATHBLOW;
+			client->send( data );	
+		}
 	}
 	//—­‚ß‘±
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && !_animation->isEndAnimation( ) ) {
@@ -78,6 +88,31 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 			}
 			weapon->add( bullet );
 			_player_state = PLAYER_STATE_ATTACK;
+		}
+	}
+	
+	if ( _controll ) {
+		ClientPtr client = Client::getTask( );
+		CLIENTDATA status = client->getClientData( );
+		switch ( controll.action ) {
+		case CONTROLL::NONE:
+			if ( status.player[ _player_id ].action != ACTION_NONE ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_NONE;
+				client->send( data );	
+			}
+			break;
+		case CONTROLL::ATTACK:
+			if ( status.player[ _player_id ].action != ACTION_ATTACK ) {
+				SERVERDATA data;
+				data.command = COMMAND_STATUS_ACTION;
+				data.value[ 0 ] = _player_id;
+				data.value[ 1 ] = ACTION_ATTACK;
+				client->send( data );	
+			}
+			break;
 		}
 	}
 }

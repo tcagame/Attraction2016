@@ -625,7 +625,7 @@ void Viewer::drawUI( ) {
 		
 		//SPƒQ[ƒW
 		double sp = ( double )player->getSP( );
-		double sp_percentage = sp / 100;
+		double sp_percentage = sp / ( double )Player::FULL_SP_NUM;
 		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
 		
 		int status_sp_gauge_x = status_gauge_background_x;

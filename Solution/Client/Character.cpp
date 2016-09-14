@@ -8,6 +8,7 @@
 #include "Cohort.h"
 #include "Enemy.h"
 #include "PlayerBehavior.h"
+#include "Adventure.h"
 #include "Camera.h"
 
 const Vector START_DIR = Vector( 0, 1, 0 );
@@ -147,6 +148,27 @@ void Character::dead( ) {
 	FieldPtr field = app->getField();
 	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 	_expired = false;
+	if ( CHARACTER_TYPE != TYPE_PLAYER ) {
+		return;
+	}
+	AdventurePtr adventure = app->getAdventure( );
+	for ( int i = 0; i < PLAYER_ETUDE_RED; i++ ) {
+		if ( ( i != app->getPlayerId( ) ) ) {
+			adventure->start( Adventure::TYPE_COMMON_ANOTHER_PLAYER_DEAD );
+			if ( app->getPlayerId( ) == PLAYER_KNIGHT ) {
+				adventure->start( Adventure::TYPE_KNIGHT_ANOTHER_DEAD );
+			}
+			if ( app->getPlayerId( ) == PLAYER_HUNTER ) {
+				adventure->start( Adventure::TYPE_HUNTER_ANOTHER_DEAD );
+			}
+			if ( app->getPlayerId( ) == PLAYER_MONK ) {
+				adventure->start( Adventure::TYPE_MONK_ANOTHER_DEAD );
+			}
+			if ( app->getPlayerId( ) == PLAYER_WITCH ) {
+				adventure->start( Adventure::TYPE_WITCH_ANOTHER_DEAD );
+			}
+		}
+	}
 	SoundPtr sound = Sound::getTask( );
 	sound->playSE( Sound::SE_PLAYER_DEAD );
 }

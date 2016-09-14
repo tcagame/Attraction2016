@@ -30,13 +30,13 @@ const std::string MODEL_NAME_LIST [] {
 };
 
 const Vector START_POS[ PLAYER_NUM ] = {
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_KNIGHT
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_HUNTER
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_MONK
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_WITCH
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_RED
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_GREEN
-	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_BLUE
+	Vector( 10 * Ground::CHIP_WIDTH, 24 * Ground::CHIP_HEIGHT ),//PLAYER_KNIGHT
+	Vector( 11 * Ground::CHIP_WIDTH, 25 * Ground::CHIP_HEIGHT ),//PLAYER_HUNTER
+	Vector( 10 * Ground::CHIP_WIDTH, 25 * Ground::CHIP_HEIGHT ),//PLAYER_MONK
+	Vector( 11 * Ground::CHIP_WIDTH, 26 * Ground::CHIP_HEIGHT ),//PLAYER_WITCH
+	Vector(  2 * Ground::CHIP_WIDTH, 33 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_RED
+	Vector( 19 * Ground::CHIP_WIDTH, 21 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_GREEN
+	Vector( 11 * Ground::CHIP_WIDTH,  4 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_BLUE
 };
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;

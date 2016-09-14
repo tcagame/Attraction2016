@@ -2,9 +2,8 @@
 #include "Effect.h"
 
 const int POWER = 10;
-const int ANIMATION_TIME = 5;
-const int WAIT_TIME = 8;
-const double RANGE = 1;
+const int ANIMATION_TIME = 7;
+const double SPEED = 0.5;
 
 BulletDash::BulletDash( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_DASH )
@@ -17,21 +16,17 @@ BulletDash::~BulletDash( ) {
 }
 
 double BulletDash::getLength( ) const {
-	return RANGE * ( _count - WAIT_TIME ) / ANIMATION_TIME;
+	return SPEED;
 }
 
 bool BulletDash::update( ) {
 	_count++;
-	if ( _count < WAIT_TIME ) {
-		return true;
-	}
-	if ( _count >= WAIT_TIME + ANIMATION_TIME ) {
+	if ( _count >= ANIMATION_TIME ) {
 		return false;
 	}
-
-	double range = getLength( );
-	Vector pos = getPos( ) + _dir * range;
-	attackPlayer( pos, POWER );
+	double speed = getLength( );
+	_pos += _dir * speed;
+	attackPlayer( _pos, POWER );
 
 	return true;
 }

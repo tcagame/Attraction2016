@@ -35,6 +35,9 @@ void EtudeBehavior::attack( const CONTROLL& controll ) {
 		if ( !_animation->isEndAnimation( ) ) {
 			_player_state = PLAYER_STATE_ATTACK;
 		}
+		if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DASH && _animation->getEndAnimTime( ) - 40 > _animation->getAnimTime( ) ) {
+			_parent->move( _parent->getDir( ) * 0.5 );
+		}
 		if ( _animation->getEndAnimTime( ) - 15 < _animation->getAnimTime( ) && controll.action == CONTROLL::ATTACK ) {
 			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//UŒ‚ƒpƒ^[ƒ“‚Ì•ÏX
 			_animation = AnimationPtr( new Animation( Animation::MOTION_MINOTAUR_WAIT ) );//ˆê’U‚v‚`‚h‚s‚É‚µ‚Ä‚¨‚­

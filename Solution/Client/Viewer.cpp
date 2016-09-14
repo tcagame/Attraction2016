@@ -804,7 +804,7 @@ void Viewer::drawAdv( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 	//バストアップ描画	
 	int character_x = fw->getWindowWidth( ) / 4 * 3 - CHARACTER_WIDTH[ adv->getCharacter( type ) ] / 2;
-	int character_y = fw->getWindowHeight( ) / 4 * 3 - CHARACTER_HEIGHT / 2;
+	int character_y = fw->getWindowHeight( ) / 2 - CHARACTER_HEIGHT / 2;
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( character_sprite );

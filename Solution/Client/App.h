@@ -29,7 +29,6 @@ public:
 		STATE_PLAY,
 		STATE_CLEAR,
 		STATE_DEAD,
-		STATE_LIVE,
 		STATE_MAX
 	};
 public:
@@ -62,7 +61,6 @@ private:
 	void updateStateClear( );
 	void updateStateDead( );
 	void updateReset( );
-	void updateStateLive( );
 private:
 	GroundPtr _ground;
 	std::array< PlayerPtr, PLAYER_NUM > _player;

@@ -54,6 +54,7 @@ App::~App( ) {
 
 void App::update( ) {
 	updateReset( );
+
 	switch ( _state ) {
 	case STATE_READY:
 		updateStateReady( );
@@ -67,10 +68,8 @@ void App::update( ) {
 	case STATE_DEAD:
 		updateStateDead( );
 		break;
-	case STATE_LIVE:
-		updateStateLive( );
-		break;
 	}
+
 }
 
 void App::updateReset( ) {
@@ -93,9 +92,9 @@ void App::updateReset( ) {
 		_player[ i ]->resetSP( );
 	}
 	_state = STATE_READY;
-	_cohort->reset( );
+	if ( _cohort ) _cohort->reset( );
 	_weapon->reset( );
-	_crystals->reset( );
+	if ( _crystals ) _crystals->reset( );
 	
 	CameraPtr camera = Camera::getTask( );
 	camera->initialize( );
@@ -179,10 +178,6 @@ void App::updateStateDead( ) {
 
 }
 
-void App::updateStateLive( ) {
-	updateStatePlay( );
-}
-
 void App::initialize( ) {
 
 	{ //Knight
@@ -230,19 +225,20 @@ void App::initialize( ) {
 
 
 	std::string filepath = DIRECTORY + "CSV/";
-	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
-	_ground_model = GroundModelPtr( new GroundModel( ) );
-	_field = FieldPtr( new Field( ) );
-	_cohort = CohortPtr( new Cohort( ) );
-	_weapon = WeaponPtr( new Weapon( ) );
-	_crystals = CrystalsPtr( new Crystals( ) );
-	_adventure = AdventurePtr( new Adventure( ) );
-	loadToGround( );//GroundModelとCohortのデータ読み込み
-	_cohort->init( );
-	
-	if ( _player_id == PLAYER_NONE ) {
-		_state = STATE::STATE_LIVE;
+	_ground = GroundPtr(new Ground(filepath + "map.csv"));//マップデータ
+	_ground_model = GroundModelPtr(new GroundModel());
+	_field = FieldPtr(new Field());
+	_weapon = WeaponPtr(new Weapon());
+	if ( _player_id == PLAYER_KNIGHT ||
+		 _player_id == PLAYER_MONK ||
+		 _player_id == PLAYER_WITCH ||
+		 _player_id == PLAYER_HUNTER ) {
+		_cohort = CohortPtr(new Cohort());
+		_crystals = CrystalsPtr(new Crystals());
+		_cohort->init();
 	}
+	_adventure = AdventurePtr( new Adventure( ) );
+	loadToGround();//GroundModelとCohortのデータ読み込み
 }
 
 void App::finalize( ) {
@@ -329,14 +325,17 @@ void App::loadToGround( ) {
 			}
 			_map_convert[ type ] = model_type;
 
-			std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
-			_cohort->loadBlockEnemyData( idx, enemy_file_path );
 			if ( model_type == 0 ) {
 				continue;
 			}
+
 			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ model_type ] + ".mdl";
 			_ground_model->loadModelData( j, i, model_file_path );
 
+			if ( _cohort ) {
+				std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
+				_cohort->loadBlockEnemyData( idx, enemy_file_path );
+			}
 		}
 	}
 }

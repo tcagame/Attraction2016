@@ -1,33 +1,48 @@
 #pragma once
-#include <vector>
+
+#include "Sound.h"
+#include <array>
 
 class Adventure {
-	enum CHARACTER {
+public:
+	enum TYPE {
+		TYPE_NONE,
+		TYPE_KNIGHT_CREATE,
+		MAX_TYPE
+	};
+		enum CHARACTER {
 		CHARACTER_KNIGHT,
 		CHARACTER_HUNTER,
 		CHARACTER_MONK,
 		CHARACTER_WITCH,
 		CHARACTER_FAIRY,
-		CHARACTER_MINOTAULER,
+		CHARACTER_MINOTAUR,
 		CHARACTER_MAX
-	};
-	enum WORDS {
-		WORDS_TEST,
-		WORDS_MAX
-	};
-	struct AdvContent {
-		CHARACTER character;
-		WORDS word;
-		AdvContent( );
-		AdvContent( CHARACTER character_, WORDS word_ );
 	};
 public:
 	Adventure( );
 	virtual ~Adventure( );
 public:
-	void setAdv( AdvContent adv );
+	void update( );
+	void start( TYPE type );
+	CHARACTER getCharacter( Adventure::TYPE type );
+	std::string getWord( Adventure::TYPE type );
+	TYPE getType( );
 private:
-	std::vector< AdvContent > _adv;
-	char *_words[ WORDS_MAX ];
+	struct Content {
+		CHARACTER character;
+		std::string word;
+		Sound::VOICE voice;
+		Content( ) { }
+		Content( CHARACTER chara_,  std::string word_, Sound::VOICE voice_ ) {
+			character = chara_;
+			word = word_;
+			voice = voice_;
+		}
+		virtual ~Content( ) { }
+	};
+private:
+	std::array< Content, MAX_TYPE > _contents;
+	TYPE _type;
 };
 

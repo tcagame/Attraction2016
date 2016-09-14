@@ -254,6 +254,10 @@ CrystalsPtr App::getCrystals( ) const {
 	return _crystals;
 }
 
+AdventurePtr App::getAdventure( ) {
+	return _adventure;
+}
+
 void App::loadToGround( ) {
 	int width = _ground->getWidth( );
 	int height = _ground->getHeight( );

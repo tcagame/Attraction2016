@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "Animation.h"
+#include "Adventure.h"
 #include "Device.h"
 #include "Mouse.h"
 #include "Effect.h"
@@ -205,6 +206,7 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
+	drawer->loadGraph( GRAPHIC_ADV_TEXT,				"UI/adventure_text_base.png" );
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -700,4 +702,20 @@ void Viewer::drawResult( ) {
 		Drawer::Sprite sprite = Drawer::Sprite( transform, res, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
+}
+
+void Viewer::drawAdv( ) {
+	AppPtr app = App::getTask( );
+	AdventurePtr adv = app->getAdventure( );
+
+	Adventure::TYPE type = adv->getType( );
+	if ( type == Adventure::TYPE_NONE ) {
+		return;
+	}
+
+	//バストアップ描画
+
+	//吹き出し描画
+
+	//テキスト描画
 }

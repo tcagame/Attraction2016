@@ -119,11 +119,13 @@ void App::updateStateReady( ) {
 	_player[ _player_id ]->create( player_pos );
 	setState( STATE_PLAY );
 	_push_start_count = 0;
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_GAME_START ); 
 
 }
 
 void App::updateStatePlay( ) {
-	//_adventure->update( );
+	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -141,14 +143,14 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+						_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
 
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
-					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+					_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
 
 				}
 			}

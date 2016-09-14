@@ -46,6 +46,12 @@ private:
 		GRAPHIC_RESULT_BACK,
 		GRAPHIC_ADV_TEXT,
 		GRAPHIC_ADV_KNIGHT,
+		GRAPHIC_ADV_MONK,
+		GRAPHIC_ADV_HUNTER,
+		GRAPHIC_ADV_WITCH,
+		GRAPHIC_ADV_MINOTAUR,
+		GRAPHIC_ADV_FAIRY,
+
 		GRAPHIC_MAX
 	};
 	
@@ -63,6 +69,7 @@ private:
 	void drawReady( );
 	void drawResult( );
 	void drawAdv( );
+	void drawLiveUI( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );

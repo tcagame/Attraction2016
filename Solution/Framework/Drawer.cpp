@@ -8,6 +8,7 @@
 static const int REFRESH_COUNT = 60;	//•½‹Ï‚ğæ‚éƒTƒ“ƒvƒ‹”
 static const int FPS = 30;
 static const double SHADOW_RADIUS = 0.5;
+static const int FONT_SIZE = 32;
 const char* SHADOW_TEXTURE_PATH = "../Resource/Images/Shadow/shadow.png";
 
 Drawer::Transform::Transform( ) :
@@ -114,6 +115,7 @@ void Drawer::initialize( ) {
 	for ( int i = 0; i < MODEL_ID_NUM; i++ ) {
 		_model_id[ i ].body = -1;
 	}
+	SetFontSize( FONT_SIZE );
 	_sprite_idx = 0;
 	_model_mv1_idx = 0;
 	_billboard_idx = 0;

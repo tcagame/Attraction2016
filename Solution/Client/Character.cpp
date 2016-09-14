@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Behavior.h"
 #include "App.h"
+#include "Sound.h"
 #include "Field.h"
 #include "GroundModel.h"
 #include "Cohort.h"
@@ -51,7 +52,8 @@ bool Character::move( const Vector& vec ) {
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}
-
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_PLAYER_MOVE );
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
 	

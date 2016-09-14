@@ -16,6 +16,7 @@
 #include "PlayerCamera.h"
 #include "Device.h"
 #include "Sound.h"
+#include "LiveScene.h"
 #include "Framework.h"
 #include "Client.h"
 #include <stdio.h>
@@ -127,11 +128,13 @@ void App::updateStateReady( ) {
 	_player[ _player_id ]->create( player_pos );
 	setState( STATE_PLAY );
 	_push_start_count = 0;
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_GAME_START ); 
 
 }
 
 void App::updateStatePlay( ) {
-	//_adventure->update( );
+	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -149,14 +152,14 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+						_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
 
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
-					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+					_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
 
 				}
 			}
@@ -191,10 +194,6 @@ void App::updateStateLive( ) {
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
-		/*if ( !_player[ i ] ) {
-			continue;
-		}
-		_player[ i ]->update( );*/
 		if ( _player_id != i ) {
 			Vector pos( data.player[ i ].x, data.player[ i ].y );
 			if ( _player[ i ]->isExpired( ) ) {
@@ -205,15 +204,11 @@ void App::updateStateLive( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
-
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
-					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
-
 				}
 			}
 		}
@@ -228,7 +223,9 @@ void App::updateStateLive( ) {
 	if ( _weapon ) {
 		_weapon->update( );
 	}
-
+	if ( _live_scene ) {
+		_live_scene->update( );
+	}
 	
 	//CameraPtr camera = Camera::getTask( );
 	//camera->setTarget( _player[ _player_id ]->getPos( ) );
@@ -299,6 +296,7 @@ void App::initialize( ) {
 		_crystals = CrystalsPtr(new Crystals());
 	}
 	_adventure = AdventurePtr( new Adventure( ) );
+	_live_scene = LiveScenePtr( new LiveScene( ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	if ( _cohort ) {
 		_cohort->init();
@@ -350,6 +348,11 @@ CrystalsPtr App::getCrystals( ) const {
 AdventurePtr App::getAdventure( ) {
 	return _adventure;
 }
+
+LiveScenePtr App::getLiveScene( ) const {
+	return _live_scene;
+}
+
 
 void App::loadToGround( ) {
 	int width = _ground->getWidth( );

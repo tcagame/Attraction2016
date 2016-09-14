@@ -15,6 +15,7 @@
 #include "Ground.h"
 #include "Drawer.h"
 #include "Camera.h"
+#include "LiveScene.h"
 #include "Model.h"
 #include "Animation.h"
 #include "Adventure.h"
@@ -50,6 +51,13 @@ const int STATUS_BASE_HEIGHT = 229;
 const int STATUS_NAME_WIDTH = 495;
 const int STATUS_NAME_HEIGHT = 148;
 
+const int TEXT_WINDOW_WIDTH  = 1800;
+const int TEXT_WINDOW_HEIGHT = 347;
+
+const int CHARACTER_WIDTH = 617;
+const int CHARACTER_HEIGHT = 1000;
+
+
 const double STATUS_GAUSGE_OFFSET = 6.7;
 
 const int STATUS_HP_GAUGE_WIDTH = 636;
@@ -82,12 +90,15 @@ const int STATUS_CLEAR_STRING_HEIGHT = 198;
 const int STATUS_GAMEOVER_STRING_WIDTH = 834;
 const int STATUS_GAMEOVER_STRING_HEIGHT = 194;
 
-const int STATUS_READY_GAUGE_WIDTH = 1300;
-const int STATUS_READY_GAUGE_HEIGHT = 925;
+const int TITLE_WIDTH = 1300;
+const int TITLE_HEIGHT = 925;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
 const double MODEL_SCALE_ALL = 0.4;
+
+const int TEXT_WORD_X = 70;
+const int TEXT_WORD_Y = 73;
 
 const double MODEL_SHADOW_HEIGTH = 0.002;
 
@@ -206,6 +217,15 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
+	//Adventure
+	drawer->loadGraph( GRAPHIC_ADV_TEXT,				"Adventure/adventure_text_base.png" );
+	drawer->loadGraph( GRAPHIC_ADV_KNIGHT,				"Adventure/Knight.png" );
+	drawer->loadGraph( GRAPHIC_ADV_HUNTER,				"Adventure/Hunter.png" );
+	drawer->loadGraph( GRAPHIC_ADV_MONK,				"Adventure/Monk.png" );
+	drawer->loadGraph( GRAPHIC_ADV_WITCH,				"Adventure/Witch.png" );
+	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
+	drawer->loadGraph( GRAPHIC_ADV_FAIRY,			    "Adventure/Fairy.png" );
+
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -293,6 +313,7 @@ void Viewer::update( ) {
 		drawBossMapModel( );
 		drawBigCrystal( );
 		drawCrystal( );
+		drawLiveUI( );
 		updateCamera( );
 	}
 }
@@ -692,10 +713,10 @@ void Viewer::drawReady( ) {
 	if ( app->getStartCount( ) > 0 ) {
 		int gauge_count = app->getStartCount( );
 		double percentage = ( double )gauge_count / app->getStartCountMax( );
-		double now_gauge = ( double )STATUS_READY_GAUGE_HEIGHT * percentage;
-		int gauge_x = fw->getWindowWidth( ) / 2 - STATUS_READY_GAUGE_WIDTH / 2;
-		int gauge_y = fw->getWindowHeight( ) / 2 - STATUS_READY_GAUGE_HEIGHT / 2;
-		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge , 0, STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge, STATUS_READY_GAUGE_WIDTH, ( int )now_gauge );
+		double now_gauge = ( double )TITLE_HEIGHT * percentage;
+		int gauge_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+		int gauge_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + TITLE_HEIGHT - ( int )now_gauge , 0, TITLE_HEIGHT - ( int )now_gauge, TITLE_WIDTH, ( int )now_gauge );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 	} else {
@@ -742,6 +763,27 @@ void Viewer::drawResult( ) {
 	}
 }
 
+void Viewer::drawLiveUI( ) {
+	AppPtr app = App::getTask( );
+	LiveScenePtr live_scene = app->getLiveScene( );
+	DrawerPtr drawer = Drawer::getTask( );
+
+	if ( live_scene->getScene( ) == LiveScene::SCENE_TITLE ) {
+		Drawer::Transform transform = Drawer::Transform( -10, -10 );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_RESULT_BACK, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+
+		FrameworkPtr fw = Framework::getInstance( );
+		int title_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+		int title_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+
+		Drawer::Transform title_transform = Drawer::Transform( title_x, title_y );
+		Drawer::Sprite title_sprite = Drawer::Sprite( title_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( title_sprite );
+	}
+}
+
+
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );
 	AdventurePtr adv = app->getAdventure( );
@@ -751,9 +793,20 @@ void Viewer::drawAdv( ) {
 		return;
 	}
 
-	//バストアップ描画
-
+	FrameworkPtr fw = Framework::getInstance( );
+	DrawerPtr drawer = Drawer::getTask( );
+	//バストアップ描画	
+	int character_x = ( fw->getWindowWidth( ) - CHARACTER_WIDTH );
+	int character_y = fw->getWindowHeight( ) - CHARACTER_HEIGHT;
+	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
+	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( character_sprite );
 	//吹き出し描画
-
+	int text_window_x = ( fw->getWindowWidth( ) - TEXT_WINDOW_WIDTH )/ 2;
+	int text_window_y = fw->getWindowHeight( ) - TEXT_WINDOW_HEIGHT;
+	Drawer::Transform text_window_transform = Drawer::Transform( text_window_x, text_window_y );
+	Drawer::Sprite popup_sprite = Drawer::Sprite( text_window_transform, ( int )GRAPHIC_ADV_TEXT, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( popup_sprite );
 	//テキスト描画
+	drawer->drawString( text_window_x + TEXT_WORD_X, text_window_y + TEXT_WORD_Y, adv->getWord( type ).c_str( ) );
 }

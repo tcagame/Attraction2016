@@ -297,10 +297,12 @@ void App::initialize( ) {
 		 _player_id == PLAYER_HUNTER ) {
 		_cohort = CohortPtr(new Cohort());
 		_crystals = CrystalsPtr(new Crystals());
-		_cohort->init();
 	}
 	_adventure = AdventurePtr( new Adventure( ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
+	if ( _cohort ) {
+		_cohort->init();
+	}
 }
 
 void App::finalize( ) {
@@ -387,6 +389,10 @@ void App::loadToGround( ) {
 			}
 			_map_convert[ type ] = model_type;
 
+			if ( _cohort ) {
+				std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
+				_cohort->loadBlockEnemyData( idx, enemy_file_path );
+			}
 			if ( model_type == 0 ) {
 				continue;
 			}
@@ -394,10 +400,6 @@ void App::loadToGround( ) {
 			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ model_type ] + ".mdl";
 			_ground_model->loadModelData( j, i, model_file_path );
 
-			if ( _cohort ) {
-				std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
-				_cohort->loadBlockEnemyData( idx, enemy_file_path );
-			}
 		}
 	}
 }

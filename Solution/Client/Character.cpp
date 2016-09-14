@@ -13,10 +13,10 @@ const Vector START_DIR = Vector( 0, 1, 0 );
 
 
 Character::Character( TYPE type, BehaviorPtr behavior, Character::STATUS status, std::string character_name ) :
-CHARACTER_TYPE( type ) {
+CHARACTER_TYPE( type ),
+_origin_status( status ) {
 	_behavior = behavior;
 	_status = status;
-	_origin_status = _status;
 	_character_name = character_name;
 	_expired = false;
 	_max_hp = status.hp;
@@ -40,6 +40,7 @@ void Character::update( ) {
 
 void Character::reset( ){
 	_status = _origin_status;
+	_behavior->reset( );
 	_expired = false;
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );

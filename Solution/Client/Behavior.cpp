@@ -3,7 +3,7 @@
 #include <assert.h>
 
 Behavior::Behavior( ) {
-	_animation = AnimationPtr( new Animation( ) );
+	reset( );
 }
 
 Behavior::~Behavior( ) {
@@ -21,4 +21,8 @@ AnimationPtr Behavior::getAnimation( ) const {
 
 void Behavior::setParent( CharacterPtr parent ) {
 	_parent = parent;
+}
+
+void Behavior::reset( ) {
+	_animation = AnimationPtr( new Animation );
 }

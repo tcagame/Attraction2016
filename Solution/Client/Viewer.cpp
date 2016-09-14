@@ -89,6 +89,11 @@ const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
 const double MODEL_SCALE_ALL = 0.4;
 
+
+const int TEXT_WORD_X = 63;
+const int TEXT_WORD_Y = 73;
+
+
 const double MODEL_SHADOW_HEIGTH = 0.002;
 
 
@@ -206,7 +211,9 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
-	drawer->loadGraph( GRAPHIC_ADV_TEXT,				"UI/adventure_text_base.png" );
+	//Adventure
+	drawer->loadGraph( GRAPHIC_ADV_TEXT,				"Adventure/adventure_text_base.png" );
+	drawer->loadGraph( GRAPHIC_ADV_KNIGHT,				"Adventure/Knight.png" );
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -277,6 +284,7 @@ void Viewer::update( ) {
 		drawCrystal( );
 		drawUI( );
 		updateCamera( );
+		drawAdv( );
 		break;
 	case App::STATE_CLEAR:
 	case App::STATE_DEAD:
@@ -715,9 +723,20 @@ void Viewer::drawAdv( ) {
 		return;
 	}
 
-	//バストアップ描画
-
+	FrameworkPtr fw = Framework::getInstance( );
+	DrawerPtr drawer = Drawer::getTask( );
+	//バストアップ描画	
+	int character_x = 0;
+	int character_y = 0;
+	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
+	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( character_sprite );
 	//吹き出し描画
-
+	int popup_x = 0;
+	int popup_y = 0;
+	Drawer::Transform popup_transform = Drawer::Transform( popup_x, popup_y );
+	Drawer::Sprite popup_sprite = Drawer::Sprite( popup_transform, ( int )GRAPHIC_ADV_TEXT, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( popup_sprite );
 	//テキスト描画
+	drawer->drawString( TEXT_WORD_X, TEXT_WORD_Y, adv->getWord( type ).c_str( ) );
 }

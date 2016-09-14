@@ -2,8 +2,7 @@
 
 Adventure::Adventure( ) {
 	_type = TYPE_NONE;
-	_contents[ TYPE_KNIGHT_CREATE ] = Content( CHARACTER_KNIGHT, "", Sound::VOICE_KNIGHT_LOGIN );
-	
+	_contents[ TYPE_KNIGHT_CREATE ] = Content( CHARACTER_KNIGHT, "Ç≥Ç†Ç¢Ç±Ç§Åcê¢äEÇÃÇΩÇﬂÇ…ÅI", Sound::VOICE_KNIGHT_LOGIN );
 }
 
 
@@ -11,6 +10,9 @@ Adventure::~Adventure( ) {
 }
 
 void Adventure::start( Adventure::TYPE type ) {
+	if ( type == TYPE_NONE ) {
+		return;
+	}
 	_type = type;
 
 	// ëŒâûvoiceÇó¨Ç∑
@@ -19,7 +21,6 @@ void Adventure::start( Adventure::TYPE type ) {
 }
 
 void Adventure::update( ) {
-
 	if ( _type == TYPE_NONE ) {
 		return;
 	}

@@ -6,9 +6,10 @@ const int WAIT_TIME = 8;
 const int ANIMATION_TIME = 8;
 const double RANGE = 1.2;
 
-BulletImpact::BulletImpact( const Vector& pos, const Vector& dir )
+BulletImpact::BulletImpact( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_IMPACT )
 , _count( 0 ) {
+	_power = POWER * power;
 	_pos = pos;
 	_dir = dir;
 	Effect effect;
@@ -34,6 +35,6 @@ bool BulletImpact::update( ) {
 
 	double range = getLength( );
 	Vector pos = getPos( ) + _dir * range;
-	attackEnemy( pos, POWER );
+	attackEnemy( pos, _power );
 	return true;
 }

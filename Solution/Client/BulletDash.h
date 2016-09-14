@@ -5,7 +5,7 @@ PTR( BulletDash );
 
 class BulletDash : public Bullet {
 public:
-	BulletDash( const Vector& pos, const Vector& dir );
+	BulletDash( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletDash( );
 public:
 	virtual bool update( );

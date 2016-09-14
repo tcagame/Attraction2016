@@ -6,7 +6,7 @@ PTR( BulletSword );
 
 class BulletSword : public Bullet {
 public:
-	BulletSword( const Vector& pos, double dir_x, double dir_y );
+	BulletSword( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletSword( );
 public:
 	virtual bool update( );

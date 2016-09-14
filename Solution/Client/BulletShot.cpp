@@ -10,11 +10,11 @@ const double BULLET_SCALE = 1;
 const int POWER = 100;
 const int SPEED = 1;
 
-BulletShot::BulletShot( const Vector& pos, const Vector& dir )
+BulletShot::BulletShot( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_FIRE ) {
 	_dir = dir.normalize( );
 	_pos = pos + Vector( 0, 0, 0.5 );
-	_power = POWER;
+	_power = POWER * power;
 	_speed = SPEED;
 	_exist_time = 0;
 	Effect effect;
@@ -37,7 +37,7 @@ bool BulletShot::update( ) {
 	}
 
 	_pos += _dir * _speed;
-	attackEnemy( _pos, POWER );
+	attackEnemy( _pos, _power );
 
 	Effect effect;
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );

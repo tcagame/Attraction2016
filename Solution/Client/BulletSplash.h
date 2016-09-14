@@ -6,7 +6,7 @@ PTR( BulletSplash );
 
 class BulletSplash : public Bullet {
 public:
-	BulletSplash( const Vector& pos, const Vector& dir );
+	BulletSplash( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletSplash( );
 public:
 	virtual bool update( );
@@ -18,6 +18,5 @@ private:
 	bool _expired;
 	double _radius;
 	double _length;
-	int _power;
 	double _time;
 };

@@ -6,7 +6,7 @@ PTR( BulletSlash );
 
 class BulletSlash : public Bullet {
 public:
-	BulletSlash( const Vector& pos, double dir_x, double dir_y );
+	BulletSlash( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletSlash( );
 public:
 	virtual bool update( );

@@ -5,7 +5,7 @@ PTR( BulletFire );
 
 class BulletFire : public Bullet {
 public:
-	BulletFire( const Vector& pos, const Vector& dir );
+	BulletFire( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletFire( );
 public:
 	virtual bool update( );

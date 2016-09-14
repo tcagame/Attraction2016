@@ -5,12 +5,11 @@ PTR( BulletSmash );
 
 class BulletSmash : public Bullet {
 public:
-	BulletSmash( const Vector& pos, const Vector& dir );
+	BulletSmash( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletSmash( );
 public:
 	virtual bool update( );
 private:
-	int _power;
 	double _speed;
 	int _exist_time;
 };

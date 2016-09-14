@@ -5,7 +5,7 @@ PTR( BulletJab );
 
 class BulletJab : public Bullet {
 public:
-	BulletJab( const Vector& pos, const Vector& dir );
+	BulletJab( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletJab( );
 public:
 	virtual bool update( );

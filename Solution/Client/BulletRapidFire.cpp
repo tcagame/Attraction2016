@@ -14,11 +14,10 @@ const Vector BULLET_POS[ 2 ] = {
 	Vector( 0, -0.2, 0 )
 };
 
-BulletRapidFire::BulletRapidFire( const Vector& pos, const Vector& dir )
+BulletRapidFire::BulletRapidFire( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_FIRE ) {
 	_pos = pos + Vector( 0, 0, 0.5 );
 	_dir = dir.normalize( );
-
 	for ( int i = 0; i < BULLET_NUM; i++ ) {
 		_bullet_pos[ i ] = _pos + BULLET_POS[ i ];
 	}
@@ -26,7 +25,7 @@ BulletRapidFire::BulletRapidFire( const Vector& pos, const Vector& dir )
 	_bullet_effect_handle[ 0 ] = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 	_exist_bullet[ 0 ] = true;
 	_exist_bullet[ 1 ] = false;
-	_power = POWER;
+	_power = POWER * power;
 	_speed = SPEED;
 	_exist_time = 0;
 }
@@ -57,7 +56,7 @@ bool BulletRapidFire::update( ) {
 		// ˆÚ“®
 		_bullet_pos[ i ] += _dir * _speed;
 
-		attackEnemy( _bullet_pos[ i ], POWER );
+		attackEnemy( _bullet_pos[ i ], _power );
 
 		Effect effect;
 		

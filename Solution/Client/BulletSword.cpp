@@ -10,14 +10,15 @@ const int PARTICLE = 5;
 const int SWORD_PARTICLE = 3;
 const double BULLET_SCALE = 0.05;
 
-BulletSword::BulletSword( const Vector& pos, double dir_x, double dir_y ) 
+BulletSword::BulletSword( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_SWORD ) {
 	_pos = pos + Vector( 0, 0, 0.3 );
-	_dir = Vector( dir_x, dir_y ).normalize( );
+	_dir = dir.normalize( );
+	_power = SWORD_POWER * power;
 	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, Vector( dir_x, dir_y, 0 ) );
+	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
 }
 
 

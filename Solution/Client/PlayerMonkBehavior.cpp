@@ -35,6 +35,7 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 	}
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	int power = _parent->getStatus( ).power;
 	//溜めモーション
 	
 	if ( _before_state == PLAYER_STATE_WAIT ||
@@ -83,7 +84,7 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 		isEnemy = character->getType( ) == Character::TYPE_ENEMY;
 	}
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && _animation->isEndAnimation( ) && isEnemy ) {
-		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ) ) );
+		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ), power ) );
 		weapon->add( bullet );
 		player->resetSP( );
 		sound->playSE( Sound::SE_MONK_ATTACK_2 );
@@ -121,15 +122,15 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					sound->playSE( Sound::SE_MONK_ATTACK_1 );
-					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 					break;																									 
 				case 1:					
 					sound->playSE( Sound::SE_MONK_ATTACK_2 );
-					bullet = BulletImpactPtr( new BulletImpact( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+					bullet = BulletImpactPtr( new BulletImpact( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 					break;																									 
 				case 2:										
 					sound->playSE( Sound::SE_MONK_ATTACK_3 );
-					bullet = BulletUpperPtr( new BulletUpper( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+					bullet = BulletUpperPtr( new BulletUpper( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 					break;
 			}
 			weapon->add( bullet );

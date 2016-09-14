@@ -74,9 +74,10 @@ void App::update( ) {
 		break;
 	case STATE_DEAD:
 		updateStateDead( );
+	case STATE_LIVE:
+		updateStateLive( );
 		break;
 	}
-
 }
 
 void App::updateReset( ) {
@@ -185,6 +186,54 @@ void App::updateStateDead( ) {
 
 }
 
+void App::updateStateLive( ) {
+	//_adventure->update( );
+	ClientPtr client = Client::getTask( );
+	CLIENTDATA data = client->getClientData( );
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		/*if ( !_player[ i ] ) {
+			continue;
+		}
+		_player[ i ]->update( );*/
+		if ( _player_id != i ) {
+			Vector pos( data.player[ i ].x, data.player[ i ].y );
+			if ( _player[ i ]->isExpired( ) ) {
+				if ( pos.isOrijin( ) ) {
+					_player[ i ]->dead( );
+				} else {
+					Vector vec = _player[ i ]->getPos( ) - pos;
+					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
+						_player[ i ]->dead( );
+						_player[ i ]->create( pos );
+						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+
+					}
+				}
+			} else {
+				if ( !pos.isOrijin( ) ) {
+					_player[ i ]->create( pos );
+					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+
+				}
+			}
+		}
+	}
+	
+	if ( _cohort ) {
+		_cohort->update( );
+	}
+	if ( _crystals ) {
+		_crystals->updata( );
+	}
+	if ( _weapon ) {
+		_weapon->update( );
+	}
+
+	
+	//CameraPtr camera = Camera::getTask( );
+	//camera->setTarget( _player[ _player_id ]->getPos( ) );
+}
+
 void App::initialize( ) {
 
 	{ //Knight
@@ -228,7 +277,13 @@ void App::initialize( ) {
 		_player[ PLAYER_ETUDE_BLUE ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
 		behavior->setParent(_player[ PLAYER_ETUDE_BLUE ]);
 	}
-	_state = STATE_READY;
+
+	if ( _player_id == PLAYER_NONE ) {
+		_state = STATE_LIVE;
+	} else {
+		_state = STATE_READY;
+	}
+
 
 
 	std::string filepath = DIRECTORY + "CSV/";

@@ -60,9 +60,9 @@ void PlayerCamera::update( ) {
 
 	// _camera_pos‚ğ•ÏX
 	_pos = _target + vec;
-
 }
 
 void PlayerCamera::setPos( Vector pos ) {
 	_pos = pos;
 }
+

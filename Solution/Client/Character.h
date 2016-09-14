@@ -43,7 +43,6 @@ public:
 	void dead( );
 	void damage( unsigned int power );
 
-	bool isInScreen( Vector pos );
 	bool move( const Vector& vec );
 	Vector getPos( ) const;
 	Vector getDir( ) const;

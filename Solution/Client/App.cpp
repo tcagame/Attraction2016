@@ -204,8 +204,10 @@ void App::updateStatePlay( ) {
 	}
 	*/
 
-	CameraPtr camera = Camera::getTask( );
-	camera->setTarget( _player[ _player_id ]->getPos( ) );
+	if ( _player_id != PLAYER_NONE ) {
+		CameraPtr camera = Camera::getTask( );
+		camera->setTarget( _player[ _player_id ]->getPos( ) );
+	}
 }
 
 void App::updateStateClear( ) {
@@ -337,6 +339,9 @@ PlayerPtr App::getPlayer( unsigned char player_id ) const {
 }
 
 PlayerPtr App::getPlayerMine( ) const {
+	if ( _player_id == PLAYER_NONE ) {
+		return _player[ 0 ];
+	}
 	return _player[ _player_id ];
 }
 

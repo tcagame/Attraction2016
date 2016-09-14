@@ -1,5 +1,6 @@
 #include "Live.h"
 #include "Framework.h"
+#include "Viewer.h"
 
 LivePtr Live::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
@@ -22,5 +23,6 @@ void Live::finalize( ) {
 }
 
 void Live::update( ) {
-
+	ViewerPtr viewer = Viewer::getTask( );
+	viewer->drawTitle( );
 }

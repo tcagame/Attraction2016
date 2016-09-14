@@ -570,6 +570,9 @@ void Viewer::drawUI( ) {
 
 	//プレイヤー
 	PlayerPtr player = app->getPlayerMine( );
+	if ( !player ) { 
+		return;
+	}
 	if ( !player->isExpired( ) ) {
 		return;
 	}
@@ -781,4 +784,15 @@ void Viewer::drawAdv( ) {
 	drawer->setSprite( popup_sprite );
 	//テキスト描画
 	drawer->drawString( text_window_x + TEXT_WORD_X, text_window_y + TEXT_WORD_Y, adv->getWord( type ).c_str( ) );
+}
+
+void Viewer::drawTitle( ) {
+	FrameworkPtr fw = Framework::getInstance( );
+	DrawerPtr drawer = Drawer::getTask( );
+	drawer->setBack( );
+	int gauge_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+	int gauge_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+	Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y, 0, 0, TITLE_WIDTH, TITLE_HEIGHT );
+	Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( gauge_sprite );
 }

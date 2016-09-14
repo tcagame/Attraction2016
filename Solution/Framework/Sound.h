@@ -59,6 +59,7 @@ public:
 		SE_MAX,
 	};
 	enum BGM {
+		BGM_NONE,
 		BGM_1,
 		BGM_2,
 		BGM_3,
@@ -198,7 +199,6 @@ public:
 public:
 	void initialize( );
 	void finalize( );
-
 public:
 	void update( );
 	void playSE( SE tag );
@@ -212,5 +212,6 @@ protected:
 	std::array< std::string, BGM_MAX > _bgm_file_path;
 	int _bgm_handle;
 	int _voice_handle;
+	BGM _playing_bgm;
 };
 

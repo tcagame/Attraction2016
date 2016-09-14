@@ -32,15 +32,18 @@ bool BulletFireBall::update( ) {
 
 	//UŒ‚
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
-	Vector player_pos = player->getPos( );
-	Vector distance = _pos - player_pos;
-	double length = distance.getLength( );
-	Effect effect;
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
-	if ( length <= 1.0 ) {
-		player->damage( _power );
-		return false;
+
+	for ( int i = 0; i < 4; i++ ) {
+		PlayerPtr player = app->getPlayer( i );
+		Vector player_pos = player->getPos( );
+		Vector distance = _pos - player_pos;
+		double length = distance.getLength( );
+		Effect effect;
+		effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
+		if ( length <= 1.0 ) {
+			player->damage( _power );
+			return false;
+		}
 	}
 	return true;
 }

@@ -96,6 +96,9 @@ public:
 	void drawLine( int x1, int y1, int x2, int y2 );
 
 	void setPlayEffect( bool play_flag );
+
+	bool _back;
+	void setBack( ) { _back = true; };
 private:
 	void drawModelMV1( );
 	void drawModelMDL( );

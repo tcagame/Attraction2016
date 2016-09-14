@@ -55,6 +55,7 @@ const char* SE_FILE_PATH[ Sound::SE_MAX ] {
 	"SE/sceneswitch2.mp3"
 };
 const char* BGM_FILE_PATH[ Sound::BGM_MAX ] {
+	"",
 	"BGM/DD_BGM_dotyu_1_harada.mp3",
 	"BGM/DD_bgm_camp_imin.mp3",
 	"BGM/takeuchiBGM2.wav",
@@ -206,6 +207,7 @@ void Sound::initialize( ) {
 		_bgm_file_path[ i ] = DIRECTORY;
 		_bgm_file_path[ i ] += BGM_FILE_PATH[ i ];
 	}
+	_playing_bgm = BGM_NONE;
 	
 
 	//VOICE
@@ -253,12 +255,23 @@ void Sound::playSE( SE tag ) {
 }
 
 void Sound::playBGM( BGM tag ) {
+	// ‚·‚Å‚ÉÄ¶’†
+	if ( _playing_bgm == tag ) {
+		return;
+	}
+
+	// ‘O‰ñ‚Ì‚a‚f‚l‚ğíœ
 	if ( _bgm_handle > -1 ) {
 		StopSoundMem( _bgm_handle );
 		DeleteSoundMem( _bgm_handle );
 	}
-	_bgm_handle = LoadSoundMem( _bgm_file_path[ tag ].c_str( ) );
-	PlaySoundMem( _bgm_handle, DX_PLAYTYPE_LOOP );
+
+	// V‚µ‚¢‚a‚f‚l‚ğÄ¶
+	_playing_bgm = tag;
+	if ( tag != BGM_NONE ) {
+		_bgm_handle = LoadSoundMem( _bgm_file_path[ tag ].c_str( ) );
+		PlaySoundMem( _bgm_handle, DX_PLAYTYPE_LOOP );
+	}
 }
 
 

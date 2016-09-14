@@ -21,6 +21,8 @@ public:
 public:
 	void update( );
 	void initialize( );
+public:
+	void drawTitle( );
 private:
 	enum GRAPHIC {
 		GRAPHIC_UI_NAME_KNIGHT,

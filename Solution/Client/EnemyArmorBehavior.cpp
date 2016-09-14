@@ -26,7 +26,9 @@ EnemyArmorBehavior::~EnemyArmorBehavior( ) {
 void EnemyArmorBehavior::update( ) {
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayerMine( );
-	if ( player->isExpired( ) ) {
+	if ( !player ) {
+		_target.reset( );
+	} else if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
 		_target.reset( );
@@ -147,5 +149,7 @@ void EnemyArmorBehavior::onAttack( ) {
 	//SoundPtr sound = Sound::getTask( );
 	//sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
-	player->damage( _parent->getStatus( ).power );
+	if ( player ) {
+		player->damage( _parent->getStatus( ).power );
+	}
 }

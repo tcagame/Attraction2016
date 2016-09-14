@@ -198,6 +198,15 @@ void Drawer::drawModelMV1( ) {
 }
 
 void Drawer::drawSprite( ) {
+	if ( _back ) {
+		FrameworkPtr fw = Framework::getInstance( );
+		DrawBox( 0, 0,
+			fw->getWindowWidth( ),
+			fw->getWindowHeight( ),
+			GetColor( 0, 0, 0 ), TRUE );
+	}
+	_back = false;
+
 	for ( int i = 0; i < _sprite_idx; i++ ) {
 		const Sprite& sprite = _sprite[ i ];
 

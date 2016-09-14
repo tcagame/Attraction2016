@@ -16,6 +16,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Adventure.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Behavior.cpp" />
@@ -54,7 +55,6 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GroundModel.cpp" />
-    <ClCompile Include="LiveCamera.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
@@ -68,6 +68,7 @@
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Adventure.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Behavior.h" />
@@ -106,7 +107,6 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundModel.h" />
-    <ClInclude Include="LiveCamera.h" />
     <ClInclude Include="MapType.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />

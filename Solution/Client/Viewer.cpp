@@ -72,7 +72,7 @@ const int STATUS_GAUGE_FRAME_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 const int STATUS_GAUGE_BACKGROUND_WIDTH = STATUS_HP_GAUGE_WIDTH;
 const int STATUS_GAUGE_BACKGROUND_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 
-const int BOSS_HP_FRAME_WIDTH = 1230;
+const int BOSS_HP_FRAME_WIDTH = 1796;
 const int BOSS_HP_FRAME_HEIGHT = 91;
 
 const int BOSS_HP_GAUGE_WIDTH = BOSS_HP_FRAME_WIDTH;
@@ -626,7 +626,7 @@ void Viewer::drawUI( ) {
 		
 		//SPƒQ[ƒW
 		double sp = ( double )player->getSP( );
-		double sp_percentage = sp / 100;
+		double sp_percentage = sp / ( double )Player::FULL_SP_NUM;
 		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
 		
 		int status_sp_gauge_x = status_gauge_background_x;

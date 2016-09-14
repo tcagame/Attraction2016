@@ -8,8 +8,6 @@ const std::string PLAYER_NAME_LIST[] = {
 	"PLAYER_ETUDE"
 };
 
-const int FULL_SP_NUM = 100;
-
 Player::Player( BehaviorPtr behavior, Character::STATUS status, Player::PLAYER_TYPE player_type ) :
 Character( TYPE_PLAYER, behavior, status, PLAYER_NAME_LIST[ player_type ] ) {
 }
@@ -19,8 +17,8 @@ Player::~Player( ) {
 
 void Player::addSP( unsigned int value ) {
 	_sp += value;
-	if ( _sp > 100 ) {
-		_sp = 100;
+	if ( _sp > FULL_SP_NUM ) {
+		_sp = FULL_SP_NUM;
 	}
 }
 

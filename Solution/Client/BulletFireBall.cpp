@@ -4,7 +4,7 @@
 #include "App.h"
 
 const int VANISH_TIME = 50;
-const double BULLET_SCALE = 2.0;
+const double BULLET_SCALE = 1.0;
 
 void BulletFireBall::initialize( ) {
 	_power = 100;

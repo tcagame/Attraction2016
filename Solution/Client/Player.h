@@ -14,6 +14,7 @@ public:
 		PLAYER_TYPE_ETUDE,
 		PLAYER_TYPE_MAX
 	};
+	static const int FULL_SP_NUM = 10000;
 public:
 	Player( BehaviorPtr behavior, Character::STATUS status, PLAYER_TYPE player_type );
 	virtual ~Player( );

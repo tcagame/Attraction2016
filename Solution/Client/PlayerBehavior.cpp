@@ -18,6 +18,7 @@
 #include "PlayerCamera.h"
 #include "Sound.h"
 #include "Client.h"
+#include "Player.h"
 
 const int CRYSTAL_LENGTH = 2;
 
@@ -53,8 +54,10 @@ void PlayerBehavior::update( ) {
 		data.value[ 1 ] = 0;
 		data.value[ 2 ] = 0;
 		client->send( data );
+	} else {
+		PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+		player->addSP( 1 );
 	}
-
 	_before_state = _player_state;
 }
 

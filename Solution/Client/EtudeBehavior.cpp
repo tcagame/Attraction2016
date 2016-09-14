@@ -25,7 +25,7 @@ void EtudeBehavior::attack( const CONTROLL& controll ) {
 	WeaponPtr weapon = app->getWeapon( );
 	SoundPtr sound = Sound::getTask( );
 	BulletPtr bullet;
-
+	int power = _parent->getStatus( ).power;
 	//UŒ‚‚É“ü‚éuŠÔ
 	bool in_attack = controll.action == CONTROLL::ATTACK && _before_state != PLAYER_STATE_ATTACK;
 	bool next_attack = false;
@@ -49,14 +49,14 @@ void EtudeBehavior::attack( const CONTROLL& controll ) {
 		switch ( _attack_pattern ) {
 			case 0:
 				sound->playSE( Sound::SE_MINOTAUR_ATTACK_1 );
-				bullet = BulletPtr( new BulletDash( _parent->getPos( ), _parent->getDir( ) ) );
+				bullet = BulletPtr( new BulletDash( _parent->getPos( ), _parent->getDir( ), power ) );
 				break;
 			case 1:
 				sound->playSE( Sound::SE_MINOTAUR_ATTACK_1 );
-				bullet = BulletPtr( new BulletSmash( _parent->getPos( ), _parent->getDir( ) ) );
+				bullet = BulletPtr( new BulletSmash( _parent->getPos( ), _parent->getDir( ), power ) );
 				break;
 			case 2:
-				bullet = BulletPtr( new BulletCleave( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+				bullet = BulletPtr( new BulletCleave( _parent->getPos( ), _parent->getDir( ), power ) );
 				break;
 		}
 		weapon->add( bullet );

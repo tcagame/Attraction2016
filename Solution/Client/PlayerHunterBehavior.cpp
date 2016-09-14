@@ -32,6 +32,7 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 	BulletPtr bullet;
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	int power = _parent->getStatus( ).power;
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( _before_state == PLAYER_STATE_WAIT ||
 		 _before_state == PLAYER_STATE_WALK ||
@@ -68,7 +69,7 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 	}
 	//•KE‹Z‚ğ‚¤‚Â
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ) ) );
+		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ), power ) );
 		weapon->add( bullet );
 		player->resetSP( );
 		AdventurePtr adventure = app->getAdventure( );
@@ -97,15 +98,15 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 				switch ( _attack_pattern ) {
 						case 0:
 							sound->playSE( Sound::SE_HUNTER_ATTACK_1 );
-							bullet = BulletFirePtr( new BulletFire( _parent->getPos( ), _parent->getDir( ) ) );
+							bullet = BulletFirePtr( new BulletFire( _parent->getPos( ), _parent->getDir( ), power ) );
 							break;
 						case 1:
 							sound->playSE( Sound::SE_HUNTER_ATTACK_1 );
-							bullet = BulletRapidFirePtr( new BulletRapidFire( _parent->getPos( ), _parent->getDir( ) ) );
+							bullet = BulletRapidFirePtr( new BulletRapidFire( _parent->getPos( ), _parent->getDir( ), power ) );
 							break;
 						case 2:
 							sound->playSE( Sound::SE_HUNTER_ATTACK_2 );
-							bullet = BulletShotPtr( new BulletShot( _parent->getPos( ), _parent->getDir( ) ) );
+							bullet = BulletShotPtr( new BulletShot( _parent->getPos( ), _parent->getDir( ), power ) );
 							break;
 					}
 					weapon->add( bullet );

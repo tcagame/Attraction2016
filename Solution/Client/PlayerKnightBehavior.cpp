@@ -29,6 +29,7 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 	SoundPtr sound = Sound::getTask( );
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	int power = _parent->getStatus( ).power;
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	if ( _before_state == PLAYER_STATE_WAIT ||
 		 _before_state == PLAYER_STATE_WALK ||
@@ -65,7 +66,7 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 	}
 	//•KE‹Z‚ğ‚¤‚Â
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletExcalibur( _parent->getPos( ), _parent->getDir( ) ) );
+		bullet = BulletPtr( new BulletExcalibur( _parent->getPos( ), _parent->getDir( ), power ) );
 		weapon->add( bullet );
 		player->resetSP( );
 		AdventurePtr adventure = app->getAdventure( );
@@ -102,15 +103,15 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					sound->playSE( Sound::SE_KNIGHT_ATTACK_1 );
-					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ), _parent->getDir( ), power ) );
 					break;
 				case 1:
 					sound->playSE( Sound::SE_KNIGHT_ATTACK_2 );
-					bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+					bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ), _parent->getDir( ), power ) );
 					break;
 				case 2:
 					sound->playSE( Sound::SE_KNIGHT_ATTACK_3 );
-					bullet = BulletStabPtr( new BulletStab( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
+					bullet = BulletStabPtr( new BulletStab( _parent->getPos( ), _parent->getDir( ), power ) );
 					break;
 			}
 			weapon->add( bullet );

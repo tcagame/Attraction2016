@@ -6,7 +6,7 @@ PTR( BulletLay );
 
 class BulletLay : public Bullet {
 public:
-	BulletLay( const Vector& pos, const Vector& dir );
+	BulletLay( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletLay( );
 public:
 	virtual bool update( );
@@ -18,5 +18,4 @@ private:
 	bool _expired;
 	double _radius;
 	double _length;
-	int _power;
 };

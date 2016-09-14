@@ -5,9 +5,10 @@ const int POWER = 10;
 const int ANIMATION_TIME = 7;
 const double SPEED = 0.5;
 
-BulletDash::BulletDash( const Vector& pos, const Vector& dir )
+BulletDash::BulletDash( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_DASH )
 , _count( 0 ) {
+	_power = POWER * power;
 	_pos = pos + Vector( 0, 0, 0.5 );
 	_dir = dir;
 }
@@ -26,7 +27,7 @@ bool BulletDash::update( ) {
 	}
 	double speed = getLength( );
 	_pos += _dir * speed;
-	attackPlayer( _pos, POWER );
+	attackPlayer( _pos, _power );
 
 	return true;
 }

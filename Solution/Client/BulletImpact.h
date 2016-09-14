@@ -6,7 +6,7 @@ PTR( BulletImpact );
 
 class BulletImpact : public Bullet {
 public:
-	BulletImpact( const Vector& pos, const Vector& dir );
+	BulletImpact( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletImpact( );
 public:
 	virtual bool update( );

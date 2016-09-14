@@ -12,11 +12,11 @@ const int CIRCLE_PARTICLE = 6;
 const int RADIUS = 3;
 const int LENGTH_PARTICLE = 5;
 
-BulletExcalibur::BulletExcalibur( const Vector& pos, const Vector& dir )
+BulletExcalibur::BulletExcalibur( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_EXCALIBUR ) {
 	_pos = pos + Vector( 0, 0, 0.5 );
 	_dir = dir.normalize( );
-	_power = POWER;
+	_power = POWER * power;
 	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_EXCARIBUR );
@@ -48,7 +48,7 @@ bool BulletExcalibur::update( ) {
 			radius = mat.multiply( radius );
 			for ( int j = 1; j < LENGTH_PARTICLE + 1; j++ ) {
 				Vector p = _pos + radius * ( RADIUS / j );
-				attackEnemy( p, POWER );
+				attackEnemy( p, _power );
 			}
 		}
 	}

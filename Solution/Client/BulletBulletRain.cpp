@@ -11,11 +11,11 @@ const int PARTICLE = 12;
 const int POWER = 50;
 const int SPEED = 1;
 
-BulletBulletRain::BulletBulletRain( const Vector& pos, const Vector& dir )
+BulletBulletRain::BulletBulletRain( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_BULLET_RAIN ) {
 	_pos = pos + Vector( 0, 0, 0.5 ) + dir * RANGE;
 	_dir = dir.normalize( );
-	_power = POWER;
+	_power = POWER * power;
 	_speed = SPEED;
 	_exist_time = 0;
 	Effect effect;
@@ -41,7 +41,7 @@ bool BulletBulletRain::update( ) {
 		radius_dir = mat.multiply( radius_dir );
 		for ( int j = 1; j < RADIUS + 1; j++ ) {
 			Vector pos = _pos + radius_dir * j;
-			attackEnemy( pos, POWER );
+			attackEnemy( pos, _power );
 		}
 	}
 	return true;

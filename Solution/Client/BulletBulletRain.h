@@ -5,12 +5,11 @@ PTR( BulletBulletRain );
 
 class BulletBulletRain : public Bullet {
 public:
-	BulletBulletRain( const Vector& pos, const Vector& dir );
+	BulletBulletRain( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletBulletRain( );
 public:
 	virtual bool update( );
 private:
-	int _power;
 	double _speed;
 	int _exist_time;
 };

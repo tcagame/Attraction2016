@@ -29,6 +29,7 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 	BulletPtr bullet;
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	int power = _parent->getStatus( ).power;
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
 	
 	if ( _before_state == PLAYER_STATE_WAIT ||
@@ -66,7 +67,7 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 	}
 	//•KE‹Z‚ğ‚¤‚Â
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_WITCH_STORE && _animation->isEndAnimation( ) ) {
-		bullet = BulletPtr( new BulletSplash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+		bullet = BulletPtr( new BulletSplash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 		player->resetSP( );
 		weapon->add( bullet );
 		sound->playSE( Sound::SE_WITCH_DEATHBLOW );
@@ -92,15 +93,15 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 				switch ( _attack_pattern ) {
 					case 0:
 						sound->playSE( Sound::SE_WITCH_ATTACK_1 );
-						bullet = BulletBeamPtr( new BulletBeam( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+						bullet = BulletBeamPtr( new BulletBeam( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 						break;
 					case 1:
 						sound->playSE( Sound::SE_WITCH_ATTACK_2 );
-						bullet = BulletBubblePtr( new BulletBubble( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+						bullet = BulletBubblePtr( new BulletBubble( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 						break;
 					case 2:
 						sound->playSE( Sound::SE_WITCH_ATTACK_3 );
-						bullet = BulletLayPtr( new BulletLay( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
+						bullet = BulletLayPtr( new BulletLay( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ), power ) );
 						break;
 				}
 				weapon->add( bullet );	

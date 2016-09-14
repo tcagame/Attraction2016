@@ -48,4 +48,5 @@ protected:
 	int _attack_pattern;
 	bool _is_tutorial_sence;
 	bool _is_conntact_minotaur;
+	Vector _keep_pos;
 };

@@ -5,12 +5,11 @@ PTR( BulletExcalibur );
 
 class BulletExcalibur : public Bullet {
 public:
-	BulletExcalibur( const Vector& pos, const Vector& dir );
+	BulletExcalibur( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletExcalibur( );
 public:
 	virtual bool update( );
 private:
-	int _power;
 	int _exist_time;
 };
 

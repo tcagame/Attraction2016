@@ -10,14 +10,15 @@ const int PARTICLE = 5;
 const int CLEAVE_PARTICLE = 3;
 const double BULLET_SCALE = 0.1;
 
-BulletCleave::BulletCleave( const Vector& pos, double dir_x, double dir_y ) 
+BulletCleave::BulletCleave( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_CLEAVE ) {
 	_pos = pos + Vector( 0, 0, 0.3 );
-	_dir = Vector( dir_x, dir_y ).normalize( );
+	_dir = dir.normalize( );
+	_power = POWER * power;
 	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_CLEAVE );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, Vector( dir_x, dir_y, 0 ) );
+	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
 }
 
 
@@ -55,7 +56,7 @@ bool BulletCleave::update( ) {
 		dir = mat.multiply( dir );
 		for ( int j = 0; j < CLEAVE_PARTICLE; j++ ) {
 			Vector p = _pos + dir * ( getLength( ) / j );
-			attackPlayer( p, POWER );
+			attackPlayer( p, _power );
 		}
 	}
 	return false;

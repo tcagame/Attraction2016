@@ -80,6 +80,7 @@ void PlayerBehavior::update( ) {
 			_is_conntact_minotaur = true;
 		}
 	}
+	_keep_pos = _parent->getPos( );
 }
 
 void PlayerBehavior::walk( const CONTROLL& controll ) {
@@ -202,7 +203,7 @@ void PlayerBehavior::pickupCrystal( const CONTROLL& controll ) {
 					PlayerCameraPtr p_camera = std::dynamic_pointer_cast< PlayerCamera >( camera );
 					Vector boss_map_pos = Vector( Ground::BOSS_X * Ground::CHIP_WIDTH + 2, Ground::BOSS_Y * Ground::CHIP_HEIGHT + 2, 0 );
 					p_camera->setPos( Vector( boss_map_pos.x, boss_map_pos.y - 250, 20 ) );
-					boss_map_pos -= _parent->getPos( );
+					boss_map_pos -= _keep_pos;
 					_parent->move( boss_map_pos );
 				}
 				crystal->pickup( );

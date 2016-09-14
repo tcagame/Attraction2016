@@ -9,10 +9,11 @@ const double BUBBLE_SPEED = 0.5;
 const Vector EFFECT_DIFF_POS = Vector( 0, 0, -1 );
 
 
-BulletBubble::BulletBubble( const Vector& pos, const Vector& dir ) :
+BulletBubble::BulletBubble( const Vector& pos, const Vector& dir, int power ) :
 Bullet( Bullet::TYPE_BUBBLE ) {
 	_pos = pos;
 	_dir = dir;
+	_power = BUBBLE_POWER * power;
 	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE );

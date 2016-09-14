@@ -6,9 +6,10 @@ const int ANIMATION_TIME = 5;
 const int WAIT_TIME = 8;
 const double RANGE = 1;
 
-BulletJab::BulletJab( const Vector& pos, const Vector& dir )
+BulletJab::BulletJab( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_JAB )
 , _count( 0 ) {
+	_power = POWER * power;
 	_pos = pos;
 	_dir = dir;
 	Effect effect;
@@ -34,6 +35,6 @@ bool BulletJab::update( ) {
 
 	double range = getLength( );
 	Vector pos = getPos( ) + _dir * range;
-	attackEnemy( pos, POWER );
+	attackEnemy( pos, _power );
 	return true;
 }

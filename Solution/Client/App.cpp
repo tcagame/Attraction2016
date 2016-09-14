@@ -257,46 +257,46 @@ void App::updateStateLive( ) {
 }
 
 void App::initialize( ) {
-
+	//現在プレイヤーの攻撃力は各攻撃の倍率になっています。
 	{ //Knight
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerKnightBehavior( _player_id ));
-		_player[ PLAYER_KNIGHT ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_KNIGHT));
+		_player[ PLAYER_KNIGHT ] = PlayerPtr(new Player(behavior, Character::STATUS( 9999, 1, SPEED), Player::PLAYER_TYPE_KNIGHT));
 		behavior->setParent(_player[ PLAYER_KNIGHT ]);
 	}
 	
 	{ //Monk
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerMonkBehavior( _player_id ));
-		_player[ PLAYER_MONK ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_MONK));
+		_player[ PLAYER_MONK ] = PlayerPtr(new Player(behavior, Character::STATUS( 9999, 1, SPEED), Player::PLAYER_TYPE_MONK));
 		behavior->setParent(_player[ PLAYER_MONK ]);
 	}
 	
 	{ //Hunter
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerHunterBehavior( _player_id ));
-		_player[ PLAYER_HUNTER ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_HUNTER));
+		_player[ PLAYER_HUNTER ] = PlayerPtr(new Player(behavior, Character::STATUS( 9999, 1, SPEED), Player::PLAYER_TYPE_HUNTER));
 		behavior->setParent(_player[ PLAYER_HUNTER ]);
 	}
 	
 	{ //Witch
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new PlayerWitchBehavior( _player_id ));
-		_player[ PLAYER_WITCH ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_WITCH));
+		_player[ PLAYER_WITCH ] = PlayerPtr(new Player(behavior, Character::STATUS( 9999, 1, SPEED), Player::PLAYER_TYPE_WITCH));
 		behavior->setParent(_player[ PLAYER_WITCH ]);
 	}
 
 	{ //エチュード赤
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new EtudeBehavior( PLAYER_ETUDE_RED, _player_id ));
-		_player[ PLAYER_ETUDE_RED ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
+		_player[ PLAYER_ETUDE_RED ] = PlayerPtr(new Player(behavior, Character::STATUS( 3000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
 		behavior->setParent(_player[ PLAYER_ETUDE_RED ]);
 	}
 
 	{ //エチュード緑
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new EtudeBehavior( PLAYER_ETUDE_GREEN, _player_id ));
-		_player[ PLAYER_ETUDE_GREEN ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
+		_player[ PLAYER_ETUDE_GREEN ] = PlayerPtr(new Player(behavior, Character::STATUS( 3000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
 		behavior->setParent(_player[ PLAYER_ETUDE_GREEN ]);
 	}
 	
 	{ //エチュード青
 		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new EtudeBehavior( PLAYER_ETUDE_BLUE, _player_id ));
-		_player[ PLAYER_ETUDE_BLUE ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
+		_player[ PLAYER_ETUDE_BLUE ] = PlayerPtr(new Player(behavior, Character::STATUS( 3000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
 		behavior->setParent(_player[ PLAYER_ETUDE_BLUE ]);
 	}
 

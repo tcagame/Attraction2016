@@ -108,7 +108,7 @@ public:
 	std::string getWord( Adventure::TYPE type );
 	TYPE getType( );
 private:
-	static const int MAX_BUF = 100;
+	static const int MAX_BUF = 1000;
 private:
 	struct Content {
 		CHARACTER character;

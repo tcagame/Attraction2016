@@ -45,7 +45,7 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_COMMON_PLAYER_DEAD ]          = Content( CHARACTER_FAIRY, "ウソ…あなたが倒れてしまっては誰がこの世界を救うの…？ダメ！目を覚まして―！"                                                  , Sound::VOICE_FAIRY_PLAYER_DEAD );
 	_contents[ TYPE_COMMON_ANOTHER_PLAYER_LOGIN ] = Content( CHARACTER_FAIRY, "あなたの活躍を見て仲間がこの世界に召喚されたみたい！"                                                                          , Sound::VOICE_FAIRY_ANOTHER_PLAYER_LOGIN );
 	_contents[ TYPE_COMMON_LIVE_MONITOR ]         = Content( CHARACTER_FAIRY, "あなたの活躍が認められたみたい！大きなモニターに映っているから、頑張って！！"                                                  , Sound::VOICE_FAIRY_LIVEMONITOR );
-	_contents[ TYPE_COMMON_ANOTHER_PLAYER_DEAD ]  = Content( CHARACTER_FAIRY, "あちゃ～味方やられちゃったみたい。ここからは残った勇者でドラゴンを倒すしかないわ！"                                            , Sound::VOICE_FAIRY_ANOTHER_PLAYER_DEAD );
+	_contents[ TYPE_COMMON_ANOTHER_PLAYER_DEAD ]  = Content( CHARACTER_FAIRY, "あちゃ～味方やられちゃったみたい。ここからは残の勇者でドラゴンを倒すしかないわ！"                                            , Sound::VOICE_FAIRY_ANOTHER_PLAYER_DEAD );
 	_contents[ TYPE_COMMON_ARMOR_CONTACT ]        = Content( CHARACTER_FAIRY, "あのゴブリンいつもと違うわ、赤いだけじゃなくて…強そうで…なんか気持ち悪いわね"                                                , Sound::VOICE_FAIRY_ARMOR_CONTACT );
 	_contents[ TYPE_COMMON_CYCLOPS_CONTACT ]      = Content( CHARACTER_FAIRY, "あわわ～ゴブリンより強そうなのが現れたわ、気を付けて戦うのよ！"                                                                , Sound::VOICE_FAIRY_CYCLOPS_CONTACT );
 	_contents[ TYPE_COMMON_GHOST_CONTACT ]        = Content( CHARACTER_FAIRY, "なんだか火の塊みたいのが現れたわ！あれにあたってしまったら大ダメージよ！"                                                      , Sound::VOICE_FAIRY_GHOST_CONTACT );
@@ -91,7 +91,6 @@ void Adventure::set( TYPE type ) {
 		return;
 	}
 	_set[ _set_idx ] = type;
-	_set_idx++;
 }
 
 void Adventure::start( Adventure::TYPE type ) {

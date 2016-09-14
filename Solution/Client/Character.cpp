@@ -149,37 +149,6 @@ void Character::dead( ) {
 		adventure->set( Adventure::TYPE_COMMON_MINOTAUR_DEAD );
 		adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_DEAD );
 	}
-	for ( int i = 0; i < PLAYER_ETUDE_RED; i++ ) {
-		if ( ( i != app->getPlayerId( ) ) ) {
-			adventure->set( Adventure::TYPE_COMMON_ANOTHER_PLAYER_DEAD );
-			if ( app->getPlayerId( ) == PLAYER_KNIGHT ) {
-				adventure->set( Adventure::TYPE_KNIGHT_ANOTHER_DEAD );
-			}
-			if ( app->getPlayerId( ) == PLAYER_HUNTER ) {
-				adventure->set( Adventure::TYPE_HUNTER_ANOTHER_DEAD );
-			}
-			if ( app->getPlayerId( ) == PLAYER_MONK ) {
-				adventure->set( Adventure::TYPE_MONK_ANOTHER_DEAD );
-			}
-			if ( app->getPlayerId( ) == PLAYER_WITCH ) {
-				adventure->set( Adventure::TYPE_WITCH_ANOTHER_DEAD );
-			}
-		} else {
-			adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
-			if ( app->getPlayerId( ) == PLAYER_KNIGHT ) {
-				adventure->set( Adventure::TYPE_KNIGHT_DEAD );
-			}
-			if ( app->getPlayerId( ) == PLAYER_HUNTER ) {
-				adventure->set( Adventure::TYPE_HUNTER_DEAD );
-			}
-			if ( app->getPlayerId( ) == PLAYER_MONK ) {
-				adventure->set( Adventure::TYPE_MONK_DEAD );
-			}
-			if ( app->getPlayerId( ) == PLAYER_WITCH ) {
-				adventure->set( Adventure::TYPE_WITCH_DEAD );
-			}
-		}
-	}
 	SoundPtr sound = Sound::getTask( );
 	sound->playSE( Sound::SE_PLAYER_DEAD );
 }

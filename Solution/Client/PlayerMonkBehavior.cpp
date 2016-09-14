@@ -165,15 +165,19 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 }
 
 void PlayerMonkBehavior::animationUpdate( ) {
+	AppPtr app = App::getTask( );
+	AdventurePtr adventure = app->getAdventure( );
 	if ( _wait_time > WAIT_MAX && _controll ) {
-		AppPtr app = App::getTask( );
-		AdventurePtr adventure = app->getAdventure( );
 		adventure->set( Adventure::TYPE_MONK_WAIT );
 		_wait_time = 0;
 	}
 
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
+		if ( _controll ) {
+			adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
+			adventure->set( Adventure::TYPE_MONK_DEAD );
+		}
 		return;
 	}
 

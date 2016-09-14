@@ -11,7 +11,7 @@ const double ATTACK_TIME = 27.0;
 const double DAMAGE_SCALE = 0.5;
 
 EnemyCyclopsBehavior::EnemyCyclopsBehavior() {
-	_attack_range = 2.0;
+	_attack_range = 1.0;
 	_move_range =7.5;
 	_on_damage = false;
 
@@ -152,7 +152,7 @@ void EnemyCyclopsBehavior::onAttack( ) {
 	Vector attack_pos = pos +  dir * 1.5;
 	Vector smash_dis = attack_pos - player_pos;
 
-	if ( smash_dis.getLength( ) < 1.0 ) {
+	if ( smash_dis.getLength( ) < 0.5 ) {
 		player->damage( _parent->getStatus( ).power );
 	}
 }

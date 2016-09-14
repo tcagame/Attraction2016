@@ -285,6 +285,7 @@ void Viewer::update( ) {
 		break;
 	case App::STATE_PLAY:
 		drawer->setPlayEffect( true );		//エフェクト描画ON
+		drawAdv( );
 		drawBackGround( );
 		drawPlayer( );
 		drawEnemy( );
@@ -796,7 +797,7 @@ void Viewer::drawAdv( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	DrawerPtr drawer = Drawer::getTask( );
 	//バストアップ描画	
-	int character_x = ( fw->getWindowWidth( ) - CHARACTER_WIDTH );
+	int character_x = 0;
 	int character_y = fw->getWindowHeight( ) - CHARACTER_HEIGHT;
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );

@@ -6,6 +6,7 @@
 #include "PlayerMonkBehavior.h"
 #include "PlayerHunterBehavior.h"
 #include "PlayerWitchBehavior.h"
+#include "EtudeBehavior.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -196,7 +197,23 @@ void App::initialize( ) {
 		behavior->setParent(_player[ PLAYER_WITCH ]);
 	}
 
+	{ //エチュード赤
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new EtudeBehavior( PLAYER_ETUDE_RED, _player_id ));
+		_player[ PLAYER_ETUDE_RED ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
+		behavior->setParent(_player[ PLAYER_ETUDE_RED ]);
+	}
 
+	{ //エチュード緑
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new EtudeBehavior( PLAYER_ETUDE_GREEN, _player_id ));
+		_player[ PLAYER_ETUDE_GREEN ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
+		behavior->setParent(_player[ PLAYER_ETUDE_GREEN ]);
+	}
+	
+	{ //エチュード青
+		PlayerBehaviorPtr behavior = PlayerBehaviorPtr(new EtudeBehavior( PLAYER_ETUDE_BLUE, _player_id ));
+		_player[ PLAYER_ETUDE_BLUE ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
+		behavior->setParent(_player[ PLAYER_ETUDE_BLUE ]);
+	}
 	_state = STATE_READY;
 
 

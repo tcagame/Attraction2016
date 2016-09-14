@@ -223,8 +223,8 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_ADV_HUNTER,				"Adventure/Hunter.png" );
 	drawer->loadGraph( GRAPHIC_ADV_MONK,				"Adventure/Monk.png" );
 	drawer->loadGraph( GRAPHIC_ADV_WITCH,				"Adventure/Witch.png" );
-	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
 	drawer->loadGraph( GRAPHIC_ADV_FAIRY,			    "Adventure/Fairy.png" );
+	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
 
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );

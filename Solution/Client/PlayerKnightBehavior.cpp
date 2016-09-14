@@ -13,7 +13,7 @@
 #include "Adventure.h"
 #include "Client.h"
 
-const int WAIT_MAX = 300;
+const int WAIT_MAX = 600;
 
 PlayerKnightBehavior::PlayerKnightBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_KNIGHT, player_id ) {

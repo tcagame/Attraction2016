@@ -14,7 +14,7 @@
 #include "Client.h"
 #include "Adventure.h"
 
-const int WAIT_MAX = 300;
+const int WAIT_MAX = 600;
 
 PlayerMonkBehavior::PlayerMonkBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_MONK, player_id ) {

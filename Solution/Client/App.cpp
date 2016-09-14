@@ -7,6 +7,7 @@
 #include "PlayerHunterBehavior.h"
 #include "PlayerWitchBehavior.h"
 #include "EtudeBehavior.h"
+#include "Adventure.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -122,6 +123,7 @@ void App::updateStateReady( ) {
 }
 
 void App::updateStatePlay( ) {
+	//_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -139,11 +141,15 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
+						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
+					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+
 				}
 			}
 		}
@@ -159,6 +165,7 @@ void App::updateStatePlay( ) {
 		_weapon->update( );
 	}
 
+	
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );
 }
@@ -230,8 +237,8 @@ void App::initialize( ) {
 		_crystals = CrystalsPtr(new Crystals());
 		_cohort->init();
 	}
+	_adventure = AdventurePtr( new Adventure( ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚İ‚İ
-	
 }
 
 void App::finalize( ) {
@@ -274,6 +281,10 @@ DeedBoxesPtr App::getDeedBoxes( ) const{
 
 CrystalsPtr App::getCrystals( ) const {
 	return _crystals;
+}
+
+AdventurePtr App::getAdventure( ) {
+	return _adventure;
 }
 
 void App::loadToGround( ) {

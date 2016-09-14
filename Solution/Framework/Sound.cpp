@@ -14,8 +14,126 @@ const char* BGM_FILE_PATH[ Sound::BGM_MAX ] {
 	"BGM/test2.mp3",
 };
 const char* VOICE_FILE_PATH[ Sound::VOICE_MAX ] {
-	"VOICE/test1.wav",
-	"VOICE/test2.wav",
+	"VOICE/KNI0010.wav",
+	"VOICE/KNI0020.wav",
+	"VOICE/KNI0030.wav",
+	"VOICE/KNI0040.wav",
+	"VOICE/KNI0050.wav",
+	"VOICE/KNI0060.wav",
+	"VOICE/KNI0070.wav",
+	"VOICE/KNI0080.wav",
+	"VOICE/KNI0090.wav",
+	"VOICE/KNI0100.wav",
+	"VOICE/KNI0110.wav",
+	"VOICE/KNI0120.wav",
+
+	"VOICE/MON0010.wav",
+	"VOICE/MON0020.wav",
+	"VOICE/MON0030.wav",
+	"VOICE/MON0040.wav",
+	"VOICE/MON0050.wav",
+	"VOICE/MON0060.wav",
+	"VOICE/MON0070.wav",
+	"VOICE/MON0080.wav",
+	"VOICE/MON0090.wav",
+	"VOICE/MON0100.wav",
+	"VOICE/MON0110.wav",
+	"VOICE/MON0120.wav",
+
+	"VOICE/HUN0010.wav",
+	"VOICE/HUN0020.wav",
+	"VOICE/HUN0030.wav",
+	"VOICE/HUN0040.wav",
+	"VOICE/HUN0050.wav",
+	"VOICE/HUN0060.wav",
+	"VOICE/HUN0070.wav",
+	"VOICE/HUN0080.wav",
+	"VOICE/HUN0090.wav",
+	"VOICE/HUN0100.wav",
+	"VOICE/HUN0110.wav",
+	"VOICE/HUN0120.wav",
+
+	"VOICE/WIT0010.wav",
+	"VOICE/WIT0020.wav",
+	"VOICE/WIT0030.wav",
+	"VOICE/WIT0040.wav",
+	"VOICE/WIT0050.wav",
+	"VOICE/WIT0060.wav",
+	"VOICE/WIT0070.wav",
+	"VOICE/WIT0080.wav",
+	"VOICE/WIT0090.wav",
+	"VOICE/WIT0100.wav",
+	"VOICE/WIT0110.wav",
+	"VOICE/WIT0120.wav",
+
+	"VOICE/MIN0010.wav",
+	"VOICE/MIN0020.wav",
+	"VOICE/MIN0030.wav",
+	"VOICE/MIN0040.wav",
+	"VOICE/MIN0050.wav",
+	"VOICE/MIN0060.wav",
+	"VOICE/MIN0070.wav",
+	"VOICE/MIN0080.wav",
+	"VOICE/MIN0090.wav",
+	"VOICE/MIN0100.wav",
+	"VOICE/MIN0110.wav",
+	"VOICE/MIN0120.wav",
+
+	"VOICE/DRA0010.wav",
+	"VOICE/DRA0020.wav",
+	"VOICE/DRA0030.wav",
+	"VOICE/DRA0040.wav",
+	"VOICE/DRA0050.wav",
+	"VOICE/DRA0060.wav",
+	"VOICE/DRA0070.wav",
+	"VOICE/DRA0080.wav",
+	"VOICE/DRA0090.wav",
+	"VOICE/DRA0100.wav",
+	"VOICE/DRA0110.wav",
+	"VOICE/DRA0120.wav",
+	"VOICE/DRA0130.wav",
+	"VOICE/DRA0140.wav",
+	"VOICE/DRA0150.wav",
+	"VOICE/DRA0160.wav",
+	"VOICE/DRA0170.wav",
+
+	"VOICE/FAI0010.wav",
+	"VOICE/FAI0020.wav",
+	"VOICE/FAI0030.wav",
+	"VOICE/FAI0040.wav",
+	"VOICE/FAI0050.wav",
+	"VOICE/FAI0060.wav",
+	"VOICE/FAI0070.wav",
+	"VOICE/FAI0080.wav",
+	"VOICE/FAI0090.wav",
+	"VOICE/FAI0100.wav",
+	"VOICE/FAI0110.wav",
+	"VOICE/FAI0120.wav",
+	"VOICE/FAI0130.wav",
+	"VOICE/FAI0140.wav",
+	"VOICE/FAI0150.wav",
+	"VOICE/FAI0160.wav",
+	"VOICE/FAI0170.wav",
+	"VOICE/FAI0180.wav",
+	"VOICE/FAI0190.wav",
+	"VOICE/FAI0200.wav",
+	"VOICE/FAI0210.wav",
+	"VOICE/FAI0220.wav",
+	"VOICE/FAI0230.wav",
+	"VOICE/FAI0240.wav",
+	"VOICE/FAI0250.wav",
+	"VOICE/FAI0260.wav",
+	"VOICE/FAI0270.wav",
+	"VOICE/FAI0280.wav",
+	"VOICE/FAI0290.wav",
+	"VOICE/FAI0300.wav",
+	"VOICE/FAI0310.wav",
+	"VOICE/FAI0320.wav",
+	"VOICE/FAI0330.wav",
+	"VOICE/FAI0340.wav",
+	"VOICE/FAI0350.wav",
+	"VOICE/FAI0360.wav",
+
 };
 
 SoundPtr Sound::getTask( ) {
@@ -105,13 +223,9 @@ void Sound::playVoice( VOICE tag ) {
 	PlaySoundMem( _voice_handle, DX_PLAYTYPE_BACK );
 }
 
-bool Sound::isVoiceEnd( ) {
+bool Sound::isPlayingVoice( ) {
 	if ( _voice_handle < -1 ) {
-		return true;
-	}
-	bool is_playing = CheckSoundMem( _voice_handle ) && 1;
-	if ( is_playing ) {
 		return false;
 	}
-	return true;
+	return CheckSoundMem( _voice_handle ) == 1;
 }

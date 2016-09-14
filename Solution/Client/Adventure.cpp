@@ -1,24 +1,44 @@
 #include "Adventure.h"
 
-
 Adventure::Adventure( ) {
-	_words[ WORDS_TEST ] = "テスト";
+	_type = TYPE_NONE;
+	_contents[ TYPE_KNIGHT_CREATE ] = Content( CHARACTER_KNIGHT, "さあいこう…世界のために！", Sound::VOICE_KNIGHT_LOGIN );
 }
 
 
 Adventure::~Adventure( ) {
 }
 
-Adventure::AdvContent::AdvContent( ) :
-character( CHARACTER_MAX ),
-word( WORDS_MAX ) {
+void Adventure::start( Adventure::TYPE type ) {
+	if ( type == TYPE_NONE ) {
+		return;
+	}
+	_type = type;
+
+	// 対応voiceを流す
+	SoundPtr sound = Sound::getTask( );
+	sound->playVoice( _contents[ _type ].voice );
 }
 
-Adventure::AdvContent::AdvContent( CHARACTER character_, WORDS word_ ) :
-character( character_ ),
-word( word_ ) {
+void Adventure::update( ) {
+	if ( _type == TYPE_NONE ) {
+		return;
+	}
+	SoundPtr sound = Sound::getTask( );
+	// 亜サウンド
+	if ( !sound->isPlayingVoice( ) ) {
+		_type = TYPE_NONE;
+	}
 }
 
-void Adventure::setAdv( AdvContent adv ) {
-	_adv.push_back( adv );
+Adventure::CHARACTER Adventure::getCharacter( Adventure::TYPE type ) {
+	return _contents[ type ].character;
+}
+
+std::string Adventure::getWord( Adventure::TYPE type ) {
+	return _contents[ type ].word;
+}
+
+Adventure::TYPE Adventure::getType( ) {
+	return _type;
 }

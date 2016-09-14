@@ -17,6 +17,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "Animation.h"
+#include "Adventure.h"
 #include "Device.h"
 #include "Mouse.h"
 #include "Effect.h"
@@ -628,8 +629,8 @@ void Viewer::drawUI( ) {
 		int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
 
 		//下地
-		int boss_background_x = window_width / 3 * 2 - BOSS_HP_FRAME_WIDTH / 2 + STATUS_POS_OFFSET * 6;
-		int boss_background_y = STATUS_POS_OFFSET * 3;
+		int boss_background_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
+		int boss_background_y = window_height - BOSS_BACKGROUND_HEIGHT - STATUS_POS_OFFSET;
 		Drawer::Transform boss_hp_background_transform = Drawer::Transform( boss_background_x, boss_background_y );
 		Drawer::Sprite boss_hp_background_sprite = Drawer::Sprite( boss_hp_background_transform, GRAPHIC_UI_BOSS_BACKGROUND, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_background_sprite );
@@ -724,4 +725,20 @@ void Viewer::drawResult( ) {
 		Drawer::Sprite sprite = Drawer::Sprite( transform, res, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sprite );
 	}
+}
+
+void Viewer::drawAdv( ) {
+	AppPtr app = App::getTask( );
+	AdventurePtr adv = app->getAdventure( );
+
+	Adventure::TYPE type = adv->getType( );
+	if ( type == Adventure::TYPE_NONE ) {
+		return;
+	}
+
+	//バストアップ描画
+
+	//吹き出し描画
+
+	//テキスト描画
 }

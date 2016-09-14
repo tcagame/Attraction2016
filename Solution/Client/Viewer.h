@@ -44,6 +44,8 @@ private:
 		GRAPHIC_RESULT_STRING_CLEAR,
 		GRAPHIC_RESULT_STRING_GAMEOVER,
 		GRAPHIC_RESULT_BACK,
+		GRAPHIC_ADV_TEXT,
+		GRAPHIC_ADV_KNIGHT,
 		GRAPHIC_MAX
 	};
 	
@@ -60,6 +62,7 @@ private:
 	void drawUI( );
 	void drawReady( );
 	void drawResult( );
+	void drawAdv( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
@@ -68,4 +71,3 @@ private:
 	int _fairy_handle;
 	int _fairy_time;
 };
-

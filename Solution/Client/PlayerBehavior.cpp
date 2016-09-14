@@ -45,7 +45,7 @@ void PlayerBehavior::update( ) {
 
 		app->setState( App::STATE_DEAD );
 		SoundPtr sound = Sound::getTask( );
-		sound->playSE( Sound::SE_GAME_CLEAR );
+		sound->playSE( Sound::SE_GAME_OVER );
 		ClientPtr client = Client::getTask( );
 		SERVERDATA data;
 		data.command = COMMAND_STATUS_POS;

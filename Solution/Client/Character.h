@@ -64,7 +64,7 @@ private:
 	bool _expired;
 
 	STATUS _status;
-	STATUS _origin_status;
+	const STATUS _origin_status;
 	int _max_hp;
 
 	BehaviorPtr _behavior;

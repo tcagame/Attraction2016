@@ -1,6 +1,6 @@
 #include "LiveScene.h"
 
-const int SWITCH_SCENE_COUNT = 60;
+const int SWITCH_SCENE_COUNT = 90;
 
 LiveScene::LiveScene( ) {
 	_switch_count = 0;

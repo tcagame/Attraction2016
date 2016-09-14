@@ -29,8 +29,16 @@ const std::string MODEL_NAME_LIST [] {
 	"path03"
 };
 
-const int START_POS_X = 11 * Ground::CHIP_WIDTH;
-const int START_POS_Y = 34 * Ground::CHIP_HEIGHT;
+const Vector START_POS[ PLAYER_NUM ]  = {
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_KNIGHT     
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_HUNTER     
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_MONK       
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_WITCH      
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_ETUDE_RED  
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_ETUDE_GREEN
+	Vector( 11 * Ground::CHIP_WIDTH, 34 * Ground::CHIP_HEIGHT, 0 ),//PLAYER_ETUDE_BLUE 
+};
+
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 const int STRING_BUF = 256;
@@ -115,7 +123,7 @@ void App::updateStateReady( ) {
 		return;
 	}
 
-	Vector player_pos = Vector( START_POS_X, START_POS_Y, 0 );
+	Vector player_pos = START_POS[ _player_id ];
 	_player[ _player_id ]->create( player_pos );
 	setState( STATE_PLAY );
 	_push_start_count = 0;

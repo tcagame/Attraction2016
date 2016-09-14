@@ -91,6 +91,7 @@ void Adventure::set( TYPE type ) {
 		return;
 	}
 	_set[ _set_idx ] = type;
+	_set_idx++;
 }
 
 void Adventure::start( Adventure::TYPE type ) {

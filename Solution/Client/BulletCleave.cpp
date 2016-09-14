@@ -3,7 +3,7 @@
 
 const double RADIUS = PI * 0.6;
 
-const int POWER = 10;
+const int POWER = 50;
 const int WAIT_TIME = 10;
 const double LENGTH = 1.5;
 const int PARTICLE = 5;

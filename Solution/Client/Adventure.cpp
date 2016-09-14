@@ -22,8 +22,8 @@ Adventure::Adventure( ) {
 											      																						                                                                      
 	_contents[ TYPE_HUNTER_CREATE ]               = Content( CHARACTER_HUNTER, "今日もひと狩りいきますか！"				                                                                                      , Sound::VOICE_HUNTER_LOGIN         );
 	_contents[ TYPE_HUNTER_WAIT ]                 = Content( CHARACTER_HUNTER, "速くしようぜ、金が逃げちまう！"                                                                                               , Sound::VOICE_HUNTER_WAIT		  );
-	_contents[ TYPE_HUNTER_STORE ]                = Content( CHARACTER_HUNTER, "俺の銃弾から、避けられるかい？"                                                                                               , Sound::VOICE_HUNTER_STORE         );
-	_contents[ TYPE_HUNTER_DEATHBLOW ]            = Content( CHARACTER_HUNTER, "まぁ、無理だけどね"																				                              , Sound::VOICE_HUNTER_DEATHBLOW     );
+	_contents[ TYPE_HUNTER_STORE ]                = Content( CHARACTER_HUNTER, "俺の銃弾、避けられるかい？"                                                                                               , Sound::VOICE_HUNTER_STORE         );
+	_contents[ TYPE_HUNTER_DEATHBLOW ]            = Content( CHARACTER_HUNTER, "まぁ、無理だと思うけどね"																				                              , Sound::VOICE_HUNTER_DEATHBLOW     );
 	_contents[ TYPE_HUNTER_ANOTHER_DEAD ]         = Content( CHARACTER_HUNTER, "せっかく大儲けしていたのに、ここでハズレを引くとは…もったいない…"                                                           , Sound::VOICE_HUNTER_ANOTHER_DEATH );
 	_contents[ TYPE_HUNTER_PINCH ]                = Content( CHARACTER_HUNTER, "やべぇな…金で何とかならないか？"                                                                                             , Sound::VOICE_HUNTER_PINCH         );
 	_contents[ TYPE_HUNTER_DEAD ]                 = Content( CHARACTER_HUNTER, "クッ…こんなところで金に逃げられるとは…な…"                                                                                 , Sound::VOICE_HUNTER_CLEAR         );
@@ -79,11 +79,18 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_LIVEMONITOR_WELCOME_1 ]       = Content( CHARACTER_FAIRY, "誰か助けて～、（汗）あ、そこの君！ちょっと待って…待ってってばー！"                                                            , Sound::VOICE_FAIRY_PROLOGUE_1 );
 	_contents[ TYPE_LIVEMONITOR_WELCOME_2 ]       = Content( CHARACTER_FAIRY, "この世界はドラゴンを倒さないと滅びてしまうの！だから助けて！！"                                                                , Sound::VOICE_FAIRY_PROLOGUE_2 );
 	_contents[ TYPE_LIVEMONITOR_WELCOME_3 ]       = Content( CHARACTER_FAIRY, "現在、この世界にドラゴンが出現中。至急勇者様は目の前のコントローラをとって討伐に向かってください…こんなのでほんとにくるの～？", Sound::VOICE_FAIRY_PROLOGUE_3 );
-
+	_set_idx = 0;
 }
 
 
 Adventure::~Adventure( ) {
+}
+
+void Adventure::set( TYPE type ) {
+	if ( type == TYPE_NONE ) {
+		return;
+	}
+	_set[ _set_idx ] = type;
 }
 
 void Adventure::start( Adventure::TYPE type ) {
@@ -98,13 +105,22 @@ void Adventure::start( Adventure::TYPE type ) {
 }
 
 void Adventure::update( ) {
-	if ( _type == TYPE_NONE ) {
-		return;
-	}
+
 	SoundPtr sound = Sound::getTask( );
 	// 亜サウンド
 	if ( !sound->isPlayingVoice( ) ) {
 		_type = TYPE_NONE;
+		for ( int i = 0; i < _set_idx; i++ ) {
+			if ( _set[ i ] != TYPE_NONE ) {
+				start( _set[ i ] );
+				_set[ i ] = TYPE_NONE;
+				break;
+			}
+			if ( i == _set_idx - 1 ) {
+				_set_idx = 0;
+			}
+		}
+		
 	}
 }
 

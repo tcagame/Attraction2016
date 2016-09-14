@@ -193,8 +193,10 @@ void App::updateStatePlay( ) {
 	}
 
 	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 2 )  {
-		_adventure->start( ADV_CONTENC[ _adv_idx ] );
-		_adv_idx++;
+		if ( _player_id < PLAYER_ETUDE_RED ) {
+			_adventure->start( ADV_CONTENC[ _adv_idx ] );
+			_adv_idx++;
+		}
 	}
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );

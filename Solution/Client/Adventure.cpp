@@ -23,7 +23,7 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_HUNTER_CREATE ]               = Content( CHARACTER_HUNTER, "今日もひと狩りいきますか！"				                                                                                      , Sound::VOICE_HUNTER_LOGIN         );
 	_contents[ TYPE_HUNTER_WAIT ]                 = Content( CHARACTER_HUNTER, "速くしようぜ、金が逃げちまう！"                                                                                               , Sound::VOICE_HUNTER_WAIT		  );
 	_contents[ TYPE_HUNTER_STORE ]                = Content( CHARACTER_HUNTER, "俺の銃弾から、避けられるかい？"                                                                                               , Sound::VOICE_HUNTER_STORE         );
-	_contents[ TYPE_HUNTER_DEATHBLOW ]            = Content( CHARACTER_HUNTER, "俺の銃弾から、避けられるかい？"                                                                                               , Sound::VOICE_HUNTER_DEATHBLOW     );
+	_contents[ TYPE_HUNTER_DEATHBLOW ]            = Content( CHARACTER_HUNTER, "まぁ、無理だけどね"																				                              , Sound::VOICE_HUNTER_DEATHBLOW     );
 	_contents[ TYPE_HUNTER_ANOTHER_DEAD ]         = Content( CHARACTER_HUNTER, "せっかく大儲けしていたのに、ここでハズレを引くとは…もったいない…"                                                           , Sound::VOICE_HUNTER_ANOTHER_DEATH );
 	_contents[ TYPE_HUNTER_PINCH ]                = Content( CHARACTER_HUNTER, "やべぇな…金で何とかならないか？"                                                                                             , Sound::VOICE_HUNTER_PINCH         );
 	_contents[ TYPE_HUNTER_DEAD ]                 = Content( CHARACTER_HUNTER, "クッ…こんなところで金に逃げられるとは…な…"                                                                                 , Sound::VOICE_HUNTER_CLEAR         );

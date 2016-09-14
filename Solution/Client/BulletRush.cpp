@@ -27,11 +27,12 @@ const int POP_TIME[ BulletRush::BLOW_NUM ] {
 	15
 };
 
-BulletRush::BulletRush( const Vector& pos, const Vector& dir )
+BulletRush::BulletRush( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_RUSH )
 , _count( 0 ) {
 	_pos = pos + Vector( 0, 0, 0.5);
 	_dir = dir.normalize( );
+	_power = POWER * power;
 	//各ブロウの位置設定
 	double angle = BASE_DIR.angle( dir );
 	Vector axis = BASE_DIR.cross( dir );
@@ -59,7 +60,7 @@ bool BulletRush::update( ) {
 		if ( _count - POP_TIME[ i ] > VANISH_TIME ) {
 			continue;
 		}
-		attackEnemy( _blow[ i ], POWER );
+		attackEnemy( _blow[ i ], _power );
 		_blow[ i ] += _dir;
 	}
 	_count++;

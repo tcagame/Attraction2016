@@ -6,7 +6,7 @@ PTR( BulletStab );
 
 class BulletStab : public Bullet {
 public:
-	BulletStab( const Vector& pos, double dir_x, double dir_y );
+	BulletStab( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletStab( );
 public:
 	virtual bool update( );

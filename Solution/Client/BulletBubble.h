@@ -5,7 +5,7 @@ PTR( BulletBubble );
 
 class BulletBubble : public Bullet {
 public:
-	BulletBubble( const Vector& pos, const Vector& dir );
+	BulletBubble( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletBubble( );
 public:
 	virtual bool update( );

@@ -9,8 +9,9 @@ const double LENGTH = 10.0;
 const int PARTICLE = 8;
 const Vector EFFECT_DIFF_POS = Vector( 0, 0, -2 );
 
-BulletLay::BulletLay( const Vector& pos, const Vector& dir )
+BulletLay::BulletLay( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_LAY ) {
+	_power = LAY_POWER * power;
 	_pos = pos;
 	_dir = dir.normalize( );
 	_expired = true;

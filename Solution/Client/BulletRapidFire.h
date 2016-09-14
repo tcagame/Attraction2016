@@ -5,7 +5,7 @@ PTR( BulletRapidFire );
 
 class BulletRapidFire : public Bullet {
 public:
-	BulletRapidFire( const Vector& pos, const Vector& dir );
+	BulletRapidFire( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletRapidFire( );
 public:
 	virtual bool update( );
@@ -14,7 +14,6 @@ private:
 	Vector _bullet_pos[ BULLET_NUM ];
 	int _bullet_effect_handle[ BULLET_NUM ];
 	bool _exist_bullet[ BULLET_NUM ];
-	int _power;
 	double _speed;
 	int _exist_time;
 };

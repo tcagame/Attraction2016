@@ -10,13 +10,13 @@ const double WAIT_TIME = 50.0;
 const double END_TIME = 30.0 + WAIT_TIME;
 const Vector EFFECT_DIFF_POS = Vector( 0, 0, -0.4 );
 
-BulletSplash::BulletSplash( const Vector& pos, const Vector& dir )
+BulletSplash::BulletSplash( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_SPLASH ) {
 	_pos = pos;
 	_dir = dir.normalize( );
 	_expired = true;
 	_radius = RADIUS;
-	_power = POWER;
+	_power = POWER * power;
 	_length = 0;
 	_time = 0;
 

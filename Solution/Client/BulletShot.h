@@ -5,12 +5,11 @@ PTR( BulletShot );
 
 class BulletShot : public Bullet {
 public:
-	BulletShot( const Vector& pos, const Vector& dir );
+	BulletShot( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletShot( );
 public:
 	virtual bool update( );
 private:
-	int _power;
 	double _speed;
 	int _exist_time;
 };

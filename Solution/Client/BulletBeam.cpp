@@ -1,21 +1,21 @@
 #include "BulletBeam.h"
 #include "Effect.h"
 
-const int BEAM_POWER = 100;
 
+const int BEAM_POWER = 100;
 const double SPEED = 0.05;
 const double RADIUS = 0.3;
 const double LENGTH = 6.0;
 const Vector EFFECT_DIFF_POS = Vector( 0, 0, 0 );
 const int PARTICLE = 8;
 
-BulletBeam::BulletBeam( const Vector& pos, const Vector& dir ) 
+BulletBeam::BulletBeam( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_BEAM ) {
 	_pos = pos;
 	_dir = dir.normalize( );
 	_expired = true;
 	_radius = RADIUS;
-	_power = BEAM_POWER;
+	_power = BEAM_POWER * power;
 	_length = 0;
 	
 

@@ -6,7 +6,7 @@ PTR( BulletUpper );
 
 class BulletUpper : public Bullet {
 public:
-	BulletUpper( const Vector& pos, const Vector& dir );
+	BulletUpper( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletUpper( );
 public:
 	virtual bool update( );

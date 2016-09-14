@@ -11,7 +11,6 @@ public:
 public:
 	virtual bool update( );
 private:
-	int _power;
 	double _speed;
 	int _exist_time;
 };

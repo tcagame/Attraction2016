@@ -47,6 +47,7 @@ private:
 protected:
 	Vector _pos;
 	Vector _dir;
+	int _power;
 	int _effect_handle;
 private:
 	const TYPE _type;

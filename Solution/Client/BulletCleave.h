@@ -6,7 +6,7 @@ PTR( BulletCleave );
 
 class BulletCleave : public Bullet {
 public:
-	BulletCleave( const Vector& pos, double dir_x, double dir_y );
+	BulletCleave( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletCleave( );
 public:
 	virtual bool update( );

@@ -79,19 +79,10 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_LIVEMONITOR_WELCOME_1 ]       = Content( CHARACTER_FAIRY, "誰か助けて～、（汗）あ、そこの君！ちょっと待って…待ってってばー！"                                                            , Sound::VOICE_FAIRY_PROLOGUE_1 );
 	_contents[ TYPE_LIVEMONITOR_WELCOME_2 ]       = Content( CHARACTER_FAIRY, "この世界はドラゴンを倒さないと滅びてしまうの！だから助けて！！"                                                                , Sound::VOICE_FAIRY_PROLOGUE_2 );
 	_contents[ TYPE_LIVEMONITOR_WELCOME_3 ]       = Content( CHARACTER_FAIRY, "現在、この世界にドラゴンが出現中。至急勇者様は目の前のコントローラをとって討伐に向かってください…こんなのでほんとにくるの～？", Sound::VOICE_FAIRY_PROLOGUE_3 );
-	_set_idx = 0;
 }
 
 
 Adventure::~Adventure( ) {
-}
-
-void Adventure::set( TYPE type ) {
-	if ( type == TYPE_NONE ) {
-		return;
-	}
-	_set[ _set_idx ] = type;
-	_set_idx++;
 }
 
 void Adventure::start( Adventure::TYPE type ) {
@@ -108,26 +99,9 @@ void Adventure::start( Adventure::TYPE type ) {
 void Adventure::update( ) {
 
 	SoundPtr sound = Sound::getTask( );
-	// 亜サウンド
 	if ( !sound->isPlayingVoice( ) ) {
 		_type = TYPE_NONE;
-		for ( int i = 0; i < _set_idx; i++ ) {
-			if ( _set[ i ] != TYPE_NONE ) {
-				start( _set[ i ] );
-				_set[ i ] = TYPE_NONE;
-				break;
-			}
-			if ( i == _set_idx - 1 ) {
-				_set_idx = 0;
-			}
-		}
-		
 	}
-}
-
-bool Adventure::isPlaying( ) {
-	SoundPtr sound = Sound::getTask( );
-	return sound->isPlayingVoice( );
 }
 
 Adventure::CHARACTER Adventure::getCharacter( Adventure::TYPE type ) {

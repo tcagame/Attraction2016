@@ -44,10 +44,9 @@ void PlayerBehavior::update( ) {
 	walk( controll );
 	attack( controll );
 	AppPtr app = App::getTask( );
+
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_player_state = PLAYER_STATE_DEAD;
-
-		app->setState( App::STATE_DEAD );
 		SoundPtr sound = Sound::getTask( );
 		sound->playSE( Sound::SE_GAME_OVER );
 		ClientPtr client = Client::getTask( );
@@ -57,6 +56,10 @@ void PlayerBehavior::update( ) {
 		data.value[ 1 ] = 0;
 		data.value[ 2 ] = 0;
 		client->send( data );
+
+		if ( _controll ) {
+			app->setState( App::STATE_DEAD );
+		}
 	} else {
 		PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 		player->addSP( 1 );
@@ -64,9 +67,9 @@ void PlayerBehavior::update( ) {
 	_before_state = _player_state;
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	int sp = player->getSP( );
-	AdventurePtr adventure = app->getAdventure( );
+	//AdventurePtr adventure = app->getAdventure( );
 	if ( ( !_is_tutorial_sence ) && ( sp == Player::FULL_SP_NUM ) && _controll ) {
-		adventure->set( Adventure::TYPE_COMMON_TUTORIAL_3 );
+		//adventure->set( Adventure::TYPE_COMMON_TUTORIAL_3 );
 		_is_tutorial_sence = true;
 	}
 	for ( int i = PLAYER_ETUDE_RED; i <= PLAYER_ETUDE_BLUE; i++ ) {
@@ -75,8 +78,8 @@ void PlayerBehavior::update( ) {
 			( _player_id < PLAYER_ETUDE_RED ) && 
 			( pos.getLength( ) < CONNTACT_MINOTAUR_LENGTH ) &&
 			_controll ) {
-			adventure->set( Adventure::TYPE_COMMON_CYCLOPS_CONTACT );
-			adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_ENTRY );
+			//adventure->set( Adventure::TYPE_COMMON_CYCLOPS_CONTACT );
+			//adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_ENTRY );
 			_is_conntact_minotaur = true;
 		}
 	}

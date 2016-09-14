@@ -19,6 +19,11 @@ Client::Client( ) {
 	_tcp_handle = -1;
 	_udp_handle = MakeUDPSocket( UDP_PORT_NUM );
 
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		_status.player[ i ].x = 0;
+		_status.player[ i ].y = 0;
+		_status.player[ i ].action = ACTION_NONE;
+	}
 }
 
 Client::~Client( ) {

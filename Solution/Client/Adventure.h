@@ -102,13 +102,9 @@ public:
 public:
 	void update( );
 	void start( TYPE type );
-	void set( TYPE type );
-	bool isPlaying( );
 	CHARACTER getCharacter( Adventure::TYPE type );
 	std::string getWord( Adventure::TYPE type );
 	TYPE getType( );
-private:
-	static const int MAX_BUF = 1000;
 private:
 	struct Content {
 		CHARACTER character;
@@ -125,7 +121,5 @@ private:
 private:
 	std::array< Content, MAX_TYPE > _contents;
 	TYPE _type;
-	std::array< TYPE, MAX_BUF >_set;
-	int _set_idx;
 };
 

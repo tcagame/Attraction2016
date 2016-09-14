@@ -51,8 +51,8 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 			effect.drawEffect( id, Vector( 0.5, 0.5, 0.5 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
-			AdventurePtr adventure = app->getAdventure( );
-			adventure->set( Adventure::TYPE_HUNTER_STORE );
+			//AdventurePtr adventure = app->getAdventure( );
+			//adventure->set( Adventure::TYPE_HUNTER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -72,8 +72,8 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ), power ) );
 		weapon->add( bullet );
 		player->resetSP( );
-		AdventurePtr adventure = app->getAdventure( );
-		adventure->set( Adventure::TYPE_HUNTER_DEATHBLOW );
+		//AdventurePtr adventure = app->getAdventure( );
+		//adventure->set( Adventure::TYPE_HUNTER_DEATHBLOW );
 		sound->playSE( Sound::SE_HUNTER_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
@@ -174,16 +174,16 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 
 void PlayerHunterBehavior::animationUpdate( ) {
 	AppPtr app = App::getTask( );
-	AdventurePtr adventure = app->getAdventure( );
+	//AdventurePtr adventure = app->getAdventure( );
 	if ( _wait_time > WAIT_MAX && _controll ) {
-		adventure->set( Adventure::TYPE_HUNTER_WAIT );
+		//adventure->set( Adventure::TYPE_HUNTER_WAIT );
 		_wait_time = 0;
 	}
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
 		if ( _controll ) {
-			adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
-			adventure->set( Adventure::TYPE_HUNTER_DEAD );
+			//adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
+			//adventure->set( Adventure::TYPE_HUNTER_DEAD );
 		}
 		return;
 	}

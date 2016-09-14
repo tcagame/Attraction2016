@@ -15,7 +15,6 @@
 #include "Ground.h"
 #include "Drawer.h"
 #include "Camera.h"
-#include "LiveScene.h"
 #include "Model.h"
 #include "Animation.h"
 #include "Adventure.h"
@@ -310,19 +309,6 @@ void Viewer::update( ) {
 		drawResult( );
 		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		break;
-	case App::STATE_LIVE:
-		drawer->setPlayEffect( true );		//エフェクト描画ON
-		drawBackGround( );
-		drawPlayer( );
-		drawEnemy( );
-		drawShadow( );
-		drawBoss( );
-		drawGroundModel( );
-		drawBossMapModel( );
-		drawBigCrystal( );
-		drawCrystal( );
-		drawLiveUI( );
-		updateCamera( );
 	}
 }
 
@@ -769,27 +755,6 @@ void Viewer::drawResult( ) {
 		drawer->setSprite( sprite );
 	}
 }
-
-void Viewer::drawLiveUI( ) {
-	AppPtr app = App::getTask( );
-	LiveScenePtr live_scene = app->getLiveScene( );
-	DrawerPtr drawer = Drawer::getTask( );
-
-	if ( live_scene->getScene( ) == LiveScene::SCENE_TITLE ) {
-		Drawer::Transform transform = Drawer::Transform( -10, -10 );
-		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_RESULT_BACK, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( sprite );
-
-		FrameworkPtr fw = Framework::getInstance( );
-		int title_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
-		int title_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
-
-		Drawer::Transform title_transform = Drawer::Transform( title_x, title_y );
-		Drawer::Sprite title_sprite = Drawer::Sprite( title_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( title_sprite );
-	}
-}
-
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );

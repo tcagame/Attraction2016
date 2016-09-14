@@ -144,10 +144,10 @@ void Character::dead( ) {
 	if ( CHARACTER_TYPE != TYPE_PLAYER ) {
 		return;
 	}
-	AdventurePtr adventure = app->getAdventure( );
+	//AdventurePtr adventure = app->getAdventure( );
 	if ( app->getPlayerId( ) >= PLAYER_ETUDE_RED ) {
-		adventure->set( Adventure::TYPE_COMMON_MINOTAUR_DEAD );
-		adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_DEAD );
+		//adventure->set( Adventure::TYPE_COMMON_MINOTAUR_DEAD );
+		//adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_DEAD );
 	}
 	SoundPtr sound = Sound::getTask( );
 	sound->playSE( Sound::SE_PLAYER_DEAD );

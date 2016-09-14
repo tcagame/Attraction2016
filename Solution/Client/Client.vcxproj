@@ -59,8 +59,6 @@
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GroundModel.cpp" />
-    <ClCompile Include="LiveCamera.cpp" />
-    <ClCompile Include="LiveScene.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBehavior.cpp" />
@@ -117,8 +115,6 @@
     <ClInclude Include="Field.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundModel.h" />
-    <ClInclude Include="LiveCamera.h" />
-    <ClInclude Include="LiveScene.h" />
     <ClInclude Include="MapType.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Player.h" />

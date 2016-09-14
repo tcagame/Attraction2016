@@ -21,6 +21,7 @@ void LiveCamera::initialize( ) {
 }
 
 void LiveCamera::update( ) {
+	/*
 	AppPtr app = App::getTask( );
 	LiveScenePtr live_scene = app->getLiveScene( );
 
@@ -32,6 +33,7 @@ void LiveCamera::update( ) {
 		sceneViewCenter( );
 		break;
 	}
+	*/
 }
 
 void LiveCamera::sceneTitle( ) {

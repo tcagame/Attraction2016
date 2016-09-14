@@ -55,8 +55,8 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 			effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
-			AdventurePtr adventure = app->getAdventure( );
-			adventure->set( Adventure::TYPE_MONK_STORE );
+			//AdventurePtr adventure = app->getAdventure( );
+			//adventure->set( Adventure::TYPE_MONK_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -89,8 +89,8 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 		player->resetSP( );
 		sound->playSE( Sound::SE_MONK_ATTACK_2 );
 		sound->playSE( Sound::SE_MONK_ATTACK_1 );
-		AdventurePtr adventure = app->getAdventure( );
-		adventure->set( Adventure::TYPE_MONK_DEATHBLOW );
+		//AdventurePtr adventure = app->getAdventure( );
+		//adventure->set( Adventure::TYPE_MONK_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
@@ -167,17 +167,17 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 
 void PlayerMonkBehavior::animationUpdate( ) {
 	AppPtr app = App::getTask( );
-	AdventurePtr adventure = app->getAdventure( );
+	//AdventurePtr adventure = app->getAdventure( );
 	if ( _wait_time > WAIT_MAX && _controll ) {
-		adventure->set( Adventure::TYPE_MONK_WAIT );
+		//adventure->set( Adventure::TYPE_MONK_WAIT );
 		_wait_time = 0;
 	}
 
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
 		if ( _controll ) {
-			adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
-			adventure->set( Adventure::TYPE_MONK_DEAD );
+			//adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
+			//adventure->set( Adventure::TYPE_MONK_DEAD );
 		}
 		return;
 	}

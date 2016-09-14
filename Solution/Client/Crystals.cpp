@@ -49,7 +49,7 @@ CrystalPtr Crystals::getBigCrystal( ) {
 
 void Crystals::updata( ) {
 	AppPtr app = App::getTask( );
-	AdventurePtr adventure = app->getAdventure( );
+	//AdventurePtr adventure = app->getAdventure( );
 	for ( int i = 0; i < MAX_CRYSTAL_NUM; i++ ) {
 		if ( !_crystal[ i ] ) {
 			continue;
@@ -58,13 +58,13 @@ void Crystals::updata( ) {
 			_crystal[ i ].reset( );
 			_get_crystal_num++;
 			if ( _get_crystal_num == 1 ) {
-				adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_1 );
+				//adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_1 );
 			}
 			if ( _get_crystal_num == 2 ) {
-				adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_2 );
+				//adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_2 );
 			}
 			if ( _get_crystal_num == 3 ) {
-				adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_3 );
+				//adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_3 );
 			}
 			continue;
 		}

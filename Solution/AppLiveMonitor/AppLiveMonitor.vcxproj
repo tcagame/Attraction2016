@@ -92,7 +92,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Live.cpp" />
+    <ClCompile Include="LiveCamera.cpp" />
+    <ClCompile Include="LiveScene.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Live.h" />
+    <ClInclude Include="LiveCamera.h" />
+    <ClInclude Include="LiveScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

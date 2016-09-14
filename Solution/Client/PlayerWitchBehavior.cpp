@@ -49,8 +49,8 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 			effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
-			AdventurePtr adventure = app->getAdventure( );
-			adventure->set( Adventure::TYPE_WITCH_STORE );
+			//AdventurePtr adventure = app->getAdventure( );
+			//adventure->set( Adventure::TYPE_WITCH_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -71,8 +71,8 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 		player->resetSP( );
 		weapon->add( bullet );
 		sound->playSE( Sound::SE_WITCH_DEATHBLOW );
-		AdventurePtr adventure = app->getAdventure( );
-		adventure->set( Adventure::TYPE_WITCH_DEATHBLOW );
+		//AdventurePtr adventure = app->getAdventure( );
+		//adventure->set( Adventure::TYPE_WITCH_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
@@ -141,16 +141,16 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 
 void PlayerWitchBehavior::animationUpdate( ) {
 	AppPtr app = App::getTask( );
-	AdventurePtr adventure = app->getAdventure( );
+	//AdventurePtr adventure = app->getAdventure( );
 	if ( _wait_time > WAIT_MAX && _controll ) {
-		adventure->set( Adventure::TYPE_WITCH_WAIT );
+		//adventure->set( Adventure::TYPE_WITCH_WAIT );
 		_wait_time = 0;
 	}
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
 		if ( _controll ) {
-			adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
-			adventure->set( Adventure::TYPE_WITCH_DEAD );
+			//adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
+			//adventure->set( Adventure::TYPE_WITCH_DEAD );
 		}
 		return;
 	}

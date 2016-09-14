@@ -16,7 +16,6 @@
 #include "PlayerCamera.h"
 #include "Device.h"
 #include "Sound.h"
-#include "LiveScene.h"
 #include "Framework.h"
 #include "Client.h"
 #include <stdio.h>
@@ -84,13 +83,15 @@ void App::update( ) {
 		break;
 	case STATE_DEAD:
 		updateStateDead( );
-	case STATE_LIVE:
-		updateStateLive( );
 		break;
 	}
 }
 
 void App::updateReset( ) {
+	if ( _player_id == PLAYER_NONE ) {
+		return;
+	}
+
 	DevicePtr device = Device::getTask( );
 	if ( device->getButton( ) == BUTTON_A + BUTTON_B + BUTTON_C + BUTTON_D ) {
 		_push_reset_count += 1;
@@ -134,16 +135,16 @@ void App::updateStateReady( ) {
 	}
 
 	if ( _player_id == PLAYER_KNIGHT ) {
-		_adventure->set( Adventure::TYPE_KNIGHT_CREATE );
+		//_adventure->set( Adventure::TYPE_KNIGHT_CREATE );
 	}
 	if ( _player_id == PLAYER_MONK ) {
-		_adventure->set( Adventure::TYPE_MONK_CREATE );
+		//_adventure->set( Adventure::TYPE_MONK_CREATE );
 	}
 	if ( _player_id == PLAYER_HUNTER ) {
-		_adventure->set( Adventure::TYPE_HUNTER_CREATE );
+		//_adventure->set( Adventure::TYPE_HUNTER_CREATE );
 	}
 	if ( _player_id == PLAYER_WITCH ) {
-		_adventure->set( Adventure::TYPE_WITCH_CREATE );
+		//_adventure->set( Adventure::TYPE_WITCH_CREATE );
 	}
 	Vector player_pos = START_POS[ _player_id ];
 	_player[ _player_id ]->create( player_pos );
@@ -194,13 +195,15 @@ void App::updateStatePlay( ) {
 		_weapon->update( );
 	}
 
+	/*
 	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 3 )  {
 		if ( _player_id < PLAYER_ETUDE_RED ) {
-			_adventure->set( ADV_CONTENC[ _adv_idx ] );
+			//_adventure->set( ADV_CONTENC[ _adv_idx ] );
 			_adv_idx++;
 		}
 	}
-	
+	*/
+
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );
 }
@@ -248,12 +251,6 @@ void App::updateStateLive( ) {
 	if ( _weapon ) {
 		_weapon->update( );
 	}
-	if ( _live_scene ) {
-		_live_scene->update( );
-	}
-	
-	//CameraPtr camera = Camera::getTask( );
-	//camera->setTarget( _player[ _player_id ]->getPos( ) );
 }
 
 void App::initialize( ) {
@@ -301,7 +298,7 @@ void App::initialize( ) {
 	}
 
 	if ( _player_id == PLAYER_NONE ) {
-		_state = STATE_LIVE;
+		_state = STATE_PLAY;
 	} else {
 		_state = STATE_READY;
 	}
@@ -321,7 +318,6 @@ void App::initialize( ) {
 		_crystals = CrystalsPtr(new Crystals());
 	}
 	_adventure = AdventurePtr( new Adventure( ) );
-	_live_scene = LiveScenePtr( new LiveScene( ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	if ( _cohort ) {
 		_cohort->init();
@@ -373,11 +369,6 @@ CrystalsPtr App::getCrystals( ) const {
 AdventurePtr App::getAdventure( ) {
 	return _adventure;
 }
-
-LiveScenePtr App::getLiveScene( ) const {
-	return _live_scene;
-}
-
 
 void App::loadToGround( ) {
 	int width = _ground->getWidth( );

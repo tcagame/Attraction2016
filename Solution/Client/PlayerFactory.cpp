@@ -6,13 +6,12 @@
 #include "Mouse.h"
 #include "Client.h"
 #include "PlayerCamera.h"
-#include "LiveCamera.h"
 #include "Sound.h"
 #include "Viewer.h"
 #include "App.h"
 
 
-PlayerFactory::PlayerFactory( const unsigned char player_id ) {
+PlayerFactory::PlayerFactory( const unsigned char player_id, CameraPtr camera ) {
 	FrameworkPtr fw = Framework::getInstance ( );
 	DevicePtr device = DevicePtr( new Device );
 	KeyboardPtr keyboad = KeyboardPtr( new Keyboard );
@@ -21,13 +20,10 @@ PlayerFactory::PlayerFactory( const unsigned char player_id ) {
 	AppPtr app = AppPtr( new App( player_id )  );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
-	CameraPtr camera;
-	if ( player_id == PLAYER_NONE ) {
-		camera = LiveCameraPtr( new LiveCamera );
-	} else {
+	SoundPtr sound = SoundPtr( new Sound( ) );
+	if ( !camera ) {
 		camera = PlayerCameraPtr( new PlayerCamera );
 	}
-	SoundPtr sound = SoundPtr( new Sound( ) );
 
 	fw->addTask( Device::getTag( ), device );
 	fw->addTask( Keyboard::getTag( ), keyboad );

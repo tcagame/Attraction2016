@@ -49,7 +49,7 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
 			AdventurePtr adventure = app->getAdventure( );
-			adventure->start( Adventure::TYPE_KNIGHT_STORE );
+			adventure->set( Adventure::TYPE_KNIGHT_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -70,7 +70,7 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 		weapon->add( bullet );
 		player->resetSP( );
 		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_KNIGHT_DEATHBLOW );
+		adventure->set( Adventure::TYPE_KNIGHT_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 		sound->playSE( Sound::SE_KNIGHT_DEATHBLOW );
 	}
@@ -149,7 +149,7 @@ void PlayerKnightBehavior::animationUpdate( ) {
 	if ( _wait_time > WAIT_MAX && _controll ) {
 		AppPtr app = App::getTask( );
 		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_KNIGHT_WAIT );
+		adventure->set( Adventure::TYPE_KNIGHT_WAIT );
 		_wait_time = 0;
 	}
 

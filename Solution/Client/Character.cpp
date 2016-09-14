@@ -22,7 +22,6 @@ _origin_status( status ) {
 	_character_name = character_name;
 	_expired = false;
 	_max_hp = status.hp;
-	
 }
 
 Character::~Character( ) {
@@ -53,12 +52,6 @@ bool Character::move( const Vector& vec ) {
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}
-	/*SoundPtr sound = Sound::getTask( );
-	if ( _se_time >= SE_TIME ) {
-		sound->playSE( Sound::SE_PLAYER_MOVE );
-		_se_time = 0;
-	}
-	_se_time++;*/
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
 	
@@ -152,9 +145,13 @@ void Character::dead( ) {
 		return;
 	}
 	AdventurePtr adventure = app->getAdventure( );
+	if ( app->getPlayerId( ) >= PLAYER_ETUDE_RED ) {
+		adventure->set( Adventure::TYPE_COMMON_MINOTAUR_DEAD );
+		adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_DEAD );
+	}
 	for ( int i = 0; i < PLAYER_ETUDE_RED; i++ ) {
 		if ( ( i != app->getPlayerId( ) ) ) {
-			adventure->start( Adventure::TYPE_COMMON_ANOTHER_PLAYER_DEAD );
+			adventure->set( Adventure::TYPE_COMMON_ANOTHER_PLAYER_DEAD );
 			if ( app->getPlayerId( ) == PLAYER_KNIGHT ) {
 				adventure->set( Adventure::TYPE_KNIGHT_ANOTHER_DEAD );
 			}
@@ -168,7 +165,7 @@ void Character::dead( ) {
 				adventure->set( Adventure::TYPE_WITCH_ANOTHER_DEAD );
 			}
 		} else {
-			adventure->start( Adventure::TYPE_COMMON_PLAYER_DEAD );
+			adventure->set( Adventure::TYPE_COMMON_PLAYER_DEAD );
 			if ( app->getPlayerId( ) == PLAYER_KNIGHT ) {
 				adventure->set( Adventure::TYPE_KNIGHT_DEAD );
 			}

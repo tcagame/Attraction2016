@@ -56,7 +56,7 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
 			AdventurePtr adventure = app->getAdventure( );
-			adventure->start( Adventure::TYPE_MONK_STORE );
+			adventure->set( Adventure::TYPE_MONK_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -90,7 +90,7 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 		sound->playSE( Sound::SE_MONK_ATTACK_2 );
 		sound->playSE( Sound::SE_MONK_ATTACK_1 );
 		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_MONK_DEATHBLOW );
+		adventure->set( Adventure::TYPE_MONK_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
@@ -169,7 +169,7 @@ void PlayerMonkBehavior::animationUpdate( ) {
 	if ( _wait_time > WAIT_MAX && _controll ) {
 		AppPtr app = App::getTask( );
 		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_MONK_WAIT );
+		adventure->set( Adventure::TYPE_MONK_WAIT );
 		_wait_time = 0;
 	}
 

@@ -141,8 +141,8 @@ void EnemyCyclopsBehavior::animationUpdate( ) {
 
 void EnemyCyclopsBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	SoundPtr sound = Sound::getTask( );
-	sound->playSE( Sound::SE_ENEMY_ATTACK );
+	//SoundPtr sound = Sound::getTask( );
+	//sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
 
 	Vector player_pos = player->getPos( );
@@ -152,7 +152,7 @@ void EnemyCyclopsBehavior::onAttack( ) {
 	Vector attack_pos = pos +  dir * 1.5;
 	Vector smash_dis = attack_pos - player_pos;
 
-	if ( smash_dis.getLength( ) < 0.5 ) {
+	if ( smash_dis.getLength( ) < 1.0 ) {
 		player->damage( _parent->getStatus( ).power );
 	}
 }

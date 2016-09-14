@@ -47,4 +47,5 @@ protected:
 	PLAYER_STATE _before_state;
 	int _attack_pattern;
 	bool _is_tutorial_sence;
+	bool _is_conntact_minotaur;
 };

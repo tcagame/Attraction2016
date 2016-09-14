@@ -52,7 +52,7 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
 			AdventurePtr adventure = app->getAdventure( );
-			adventure->start( Adventure::TYPE_HUNTER_STORE );
+			adventure->set( Adventure::TYPE_HUNTER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -73,7 +73,7 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 		weapon->add( bullet );
 		player->resetSP( );
 		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_HUNTER_DEATHBLOW );
+		adventure->set( Adventure::TYPE_HUNTER_DEATHBLOW );
 		sound->playSE( Sound::SE_HUNTER_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
@@ -176,7 +176,7 @@ void PlayerHunterBehavior::animationUpdate( ) {
 	if ( _wait_time > WAIT_MAX && _controll ) {
 		AppPtr app = App::getTask( );
 		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_HUNTER_WAIT );
+		adventure->set( Adventure::TYPE_HUNTER_WAIT );
 		_wait_time = 0;
 	}
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {

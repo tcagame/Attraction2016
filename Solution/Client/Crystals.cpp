@@ -1,4 +1,6 @@
 #include "Crystals.h"
+#include "App.h"
+#include "Adventure.h"
 #include "Crystal.h"
 #include "BigCrystal.h"
 
@@ -46,14 +48,24 @@ CrystalPtr Crystals::getBigCrystal( ) {
 
 
 void Crystals::updata( ) {
-	_get_crystal_num = 0;
+	AppPtr app = App::getTask( );
+	AdventurePtr adventure = app->getAdventure( );
 	for ( int i = 0; i < MAX_CRYSTAL_NUM; i++ ) {
 		if ( !_crystal[ i ] ) {
-			_get_crystal_num++;
 			continue;
 		}
 		if ( !_crystal[ i ]->isExpired( ) ) {
 			_crystal[ i ].reset( );
+			_get_crystal_num++;
+			if ( _get_crystal_num == 1 ) {
+				adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_1 );
+			}
+			if ( _get_crystal_num == 2 ) {
+				adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_2 );
+			}
+			if ( _get_crystal_num == 3 ) {
+				adventure->set( Adventure::TYPE_COMMON_HAVE_CRYSTAL_3 );
+			}
 			continue;
 		}
 		_crystal[ i ]->update( );

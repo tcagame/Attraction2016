@@ -117,7 +117,7 @@ void App::updateReset( ) {
 
 	_push_reset_count = 0;
 	_push_start_count = 0;
-	
+	_adv_idx = 0;
 }
 
 void App::updateStateReady( ) {

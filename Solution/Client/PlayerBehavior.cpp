@@ -61,7 +61,8 @@ void PlayerBehavior::update( ) {
 		player->addSP( 1 );
 	}
 	_before_state = _player_state;
-	if ( !_is_tutorial_sence ) {
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+	if ( !_is_tutorial_sence && player->getSP( ) >= 100 ) {
 		AppPtr app = App::getTask( );
 		AdventurePtr adventure = app->getAdventure( );
 		adventure->start( Adventure::TYPE_COMMON_TUTORIAL_3 );

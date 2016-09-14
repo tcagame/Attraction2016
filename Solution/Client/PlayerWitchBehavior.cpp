@@ -48,6 +48,8 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 			effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
+			AdventurePtr adventure = app->getAdventure( );
+			adventure->start( Adventure::TYPE_WITCH_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -68,7 +70,8 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 		player->resetSP( );
 		weapon->add( bullet );
 		sound->playSE( Sound::SE_WITCH_DEATHBLOW );
-
+		AdventurePtr adventure = app->getAdventure( );
+		adventure->start( Adventure::TYPE_WITCH_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//必殺技終了まで必殺技モーション

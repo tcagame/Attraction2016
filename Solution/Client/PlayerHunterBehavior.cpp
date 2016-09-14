@@ -89,7 +89,7 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 			  _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ||
 			  _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_ATTACK_SHOT ) ) {
 			if ( !_animation->isEndAnimation( ) ) {
-				if ( _animation->getAnimTime( ) == 40.0 ) {
+				if ( _animation->getAnimTime( ) == 30.0 ) {
 				switch ( _attack_pattern ) {
 						case 0:
 							sound->playSE( Sound::SE_HUNTER_ATTACK_1 );
@@ -207,7 +207,7 @@ void PlayerHunterBehavior::animationUpdate( ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_FIRE ) );
-					_animation->setAnimationTime( 10 );
+					_animation->setAnimationTime( 20 );
 					break;
 				case 1:
 					_animation = AnimationPtr( new Animation( Animation::MOTION_PLAYER_HUNTER_ATTACK_RAPIDFIRE ) );

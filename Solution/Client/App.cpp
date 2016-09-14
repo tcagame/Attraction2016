@@ -7,6 +7,7 @@
 #include "PlayerHunterBehavior.h"
 #include "PlayerWitchBehavior.h"
 #include "EtudeBehavior.h"
+#include "Adventure.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -122,6 +123,7 @@ void App::updateStateReady( ) {
 }
 
 void App::updateStatePlay( ) {
+	//_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -139,11 +141,15 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
+						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
+					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+
 				}
 			}
 		}
@@ -159,6 +165,7 @@ void App::updateStatePlay( ) {
 		_weapon->update( );
 	}
 
+	
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );
 }
@@ -218,14 +225,15 @@ void App::initialize( ) {
 
 
 	std::string filepath = DIRECTORY + "CSV/";
-	_ground = GroundPtr(new Ground(filepath + "map.csv"));//マップデータ
-	_ground_model = GroundModelPtr(new GroundModel());
-	_field = FieldPtr(new Field());
-	_cohort = CohortPtr(new Cohort());
-	_weapon = WeaponPtr(new Weapon());
-	_crystals = CrystalsPtr(new Crystals());
-	loadToGround();//GroundModelとCohortのデータ読み込み
-	_cohort->init();
+	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
+	_ground_model = GroundModelPtr( new GroundModel( ) );
+	_field = FieldPtr( new Field( ) );
+	_cohort = CohortPtr( new Cohort( ) );
+	_weapon = WeaponPtr( new Weapon( ) );
+	_crystals = CrystalsPtr( new Crystals( ) );
+	_adventure = AdventurePtr( new Adventure( ) );
+	loadToGround( );//GroundModelとCohortのデータ読み込み
+	_cohort->init( );
 	
 }
 

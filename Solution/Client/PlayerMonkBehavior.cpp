@@ -12,9 +12,13 @@
 #include "Field.h"
 #include "Effect.h"
 #include "Client.h"
+#include "Adventure.h"
+
+const int WAIT_MAX = 300;
 
 PlayerMonkBehavior::PlayerMonkBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_MONK, player_id ) {
+	_wait_time = 0;
 }
 
 
@@ -157,6 +161,13 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 }
 
 void PlayerMonkBehavior::animationUpdate( ) {
+	if ( _wait_time > WAIT_MAX && _controll ) {
+		AppPtr app = App::getTask( );
+		AdventurePtr adventure = app->getAdventure( );
+		adventure->start( Adventure::TYPE_MONK_WAIT );
+		_wait_time = 0;
+	}
+
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
 		return;
@@ -170,6 +181,9 @@ void PlayerMonkBehavior::animationUpdate( ) {
 				_animation->setAnimationTime( 0 );
 			}
 		}
+		_wait_time++;
+	} else {
+		_wait_time = 0;
 	}
 	if ( _player_state == PLAYER_STATE_WALK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_MONK_WALK ) {

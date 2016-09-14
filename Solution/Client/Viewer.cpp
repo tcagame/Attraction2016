@@ -72,7 +72,7 @@ const int STATUS_GAUGE_FRAME_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 const int STATUS_GAUGE_BACKGROUND_WIDTH = STATUS_HP_GAUGE_WIDTH;
 const int STATUS_GAUGE_BACKGROUND_HEIGHT = STATUS_HP_GAUGE_HEIGHT;
 
-const int BOSS_HP_FRAME_WIDTH = 1230;
+const int BOSS_HP_FRAME_WIDTH = 1796;
 const int BOSS_HP_FRAME_HEIGHT = 91;
 
 const int BOSS_HP_GAUGE_WIDTH = BOSS_HP_FRAME_WIDTH;
@@ -286,6 +286,7 @@ void Viewer::update( ) {
 		break;
 	case App::STATE_PLAY:
 		drawer->setPlayEffect( true );		//エフェクト描画ON
+		drawAdv( );
 		drawBackGround( );
 		drawPlayer( );
 		drawEnemy( );
@@ -796,7 +797,7 @@ void Viewer::drawAdv( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	DrawerPtr drawer = Drawer::getTask( );
 	//バストアップ描画	
-	int character_x = ( fw->getWindowWidth( ) - CHARACTER_WIDTH );
+	int character_x = 0;
 	int character_y = fw->getWindowHeight( ) - CHARACTER_HEIGHT;
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );

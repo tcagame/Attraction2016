@@ -11,4 +11,6 @@ public:
 private:
 	void attack( const CONTROLL& controll );
 	void animationUpdate( );
+private:
+	int _wait_time;
 };

@@ -13,4 +13,5 @@ private:
 	void animationUpdate( );
 private:
 	CharacterWeakPtr _target;
+	int _wait_time;
 };

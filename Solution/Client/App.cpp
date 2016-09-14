@@ -191,7 +191,7 @@ void App::updateStateDead( ) {
 }
 
 void App::updateStateLive( ) {
-	//_adventure->update( );
+	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -205,6 +205,20 @@ void App::updateStateLive( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
+						if ( _player_id == i ) {
+							if ( _player_id == PLAYER_KNIGHT ) {
+								_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+							}
+							if ( _player_id == PLAYER_MONK ) {
+								_adventure->start( Adventure::TYPE_MONK_CREATE );
+							}
+							if ( _player_id == PLAYER_HUNTER ) {
+								_adventure->start( Adventure::TYPE_HUNTER_CREATE );
+							}
+							if ( _player_id == PLAYER_WITCH ) {
+								_adventure->start( Adventure::TYPE_WITCH_CREATE );
+							}
+						}
 					}
 				}
 			} else {

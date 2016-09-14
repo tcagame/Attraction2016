@@ -10,10 +10,14 @@
 #include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
+#include "Adventure.h"
 #include "Client.h"
+
+const int WAIT_MAX = 300;
 
 PlayerHunterBehavior::PlayerHunterBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_HUNTER, player_id ) {
+	_wait_time = 0;
 }
 
 
@@ -164,6 +168,12 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 }
 
 void PlayerHunterBehavior::animationUpdate( ) {
+	if ( _wait_time > WAIT_MAX && _controll ) {
+		AppPtr app = App::getTask( );
+		AdventurePtr adventure = app->getAdventure( );
+		adventure->start( Adventure::TYPE_HUNTER_WAIT );
+		_wait_time = 0;
+	}
 	if ( _player_state == PLAYER_STATE_DEAD && _animation->isEndAnimation( ) ) {
 		_parent->dead( );
 		return;
@@ -177,6 +187,9 @@ void PlayerHunterBehavior::animationUpdate( ) {
 				_animation->setAnimationTime( 0 );
 			}
 		}
+		_wait_time++;
+	} else {
+		_wait_time = 0;
 	}
 	if ( _player_state == PLAYER_STATE_WALK ) {
 		if ( _animation->getMotion( ) != Animation::MOTION_PLAYER_HUNTER_WALK ) {

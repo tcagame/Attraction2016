@@ -41,11 +41,29 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 		Character::STATUS status = enemy->getStatus();
 		if ( status.hp > 0 ) {
 			enemy->damage( power );
-			status = enemy->getStatus( );
 			PlayerPtr player = app->getPlayerMine( );
 			if ( !isDeathBlow( ) ) {
 				player->addSP( 20 );
 			}
+		}
+	}
+}
+
+void Bullet::attackPlayer( const Vector& pos, int power ) {
+	AppPtr app = App::getTask( );
+	FieldPtr field = app->getField( );
+	ObjectPtr object = field->getTarget( ( int )pos.x, ( int )pos.y );
+	PlayerPtr player = std::dynamic_pointer_cast< Player >( object );
+	if ( !player ) {
+		return;
+	}
+
+	double bottom = player->getPos().z;
+	double top = bottom + 2;
+	if ( pos.z > bottom && pos.z < top ) {
+		Character::STATUS status = player->getStatus();
+		if ( status.hp > 0 ) {
+			player->damage( power );
 		}
 	}
 }

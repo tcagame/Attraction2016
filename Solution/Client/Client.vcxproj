@@ -24,6 +24,8 @@
     <ClCompile Include="BulletBeam.cpp" />
     <ClCompile Include="BulletBubble.cpp" />
     <ClCompile Include="BulletBulletRain.cpp" />
+    <ClCompile Include="BulletCleave.cpp" />
+    <ClCompile Include="BulletDash.cpp" />
     <ClCompile Include="BulletExcalibur.cpp" />
     <ClCompile Include="BulletFire.cpp" />
     <ClCompile Include="BulletFireBall.cpp" />
@@ -34,6 +36,7 @@
     <ClCompile Include="BulletRush.cpp" />
     <ClCompile Include="BulletShot.cpp" />
     <ClCompile Include="BulletSlash.cpp" />
+    <ClCompile Include="BulletSmash.cpp" />
     <ClCompile Include="BulletSplash.cpp" />
     <ClCompile Include="BulletStab.cpp" />
     <ClCompile Include="BulletSword.cpp" />
@@ -52,6 +55,7 @@
     <ClCompile Include="EnemyGhostBehavior.cpp" />
     <ClCompile Include="EnemyGoblinBehavior.cpp" />
     <ClCompile Include="EnemyMinotaurBehavior.cpp" />
+    <ClCompile Include="EtudeBehavior.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GroundModel.cpp" />
@@ -76,6 +80,8 @@
     <ClInclude Include="BulletBeam.h" />
     <ClInclude Include="BulletBubble.h" />
     <ClInclude Include="BulletBulletRain.h" />
+    <ClInclude Include="BulletCleave.h" />
+    <ClInclude Include="BulletDash.h" />
     <ClInclude Include="BulletExcalibur.h" />
     <ClInclude Include="BulletFire.h" />
     <ClInclude Include="BulletFireBall.h" />
@@ -86,6 +92,7 @@
     <ClInclude Include="BulletRush.h" />
     <ClInclude Include="BulletShot.h" />
     <ClInclude Include="BulletSlash.h" />
+    <ClInclude Include="BulletSmash.h" />
     <ClInclude Include="BulletSplash.h" />
     <ClInclude Include="BulletStab.h" />
     <ClInclude Include="BulletSword.h" />
@@ -104,6 +111,7 @@
     <ClInclude Include="EnemyGhostBehavior.h" />
     <ClInclude Include="EnemyGoblinBehavior.h" />
     <ClInclude Include="EnemyMinotaurBehavior.h" />
+    <ClInclude Include="EtudeBehavior.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundModel.h" />

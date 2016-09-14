@@ -14,6 +14,7 @@ PTR( Weapon );
 PTR( DeedBoxes );
 PTR( Crystals );
 PTR( Field );
+PTR( Adventure );
 
 class App : public Task {
 public:
@@ -43,6 +44,7 @@ public:
 	WeaponPtr getWeapon( ) const;
 	DeedBoxesPtr getDeedBoxes( ) const;
 	CrystalsPtr getCrystals( ) const;
+	AdventurePtr getAdventure( );
 	STATE getState( ) const;
 	FieldPtr getField( ) const;
 	void setState( STATE state );
@@ -67,6 +69,7 @@ private:
 	WeaponPtr _weapon;
 	DeedBoxesPtr _deed_boxes;
 	CrystalsPtr _crystals;
+	AdventurePtr _adventure;
 	STATE _state;
 	FieldPtr _field;
 	std::array< int , MAX_MAP_DATA_NUM > _map_convert;

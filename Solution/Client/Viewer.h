@@ -44,6 +44,7 @@ private:
 		GRAPHIC_RESULT_STRING_CLEAR,
 		GRAPHIC_RESULT_STRING_GAMEOVER,
 		GRAPHIC_RESULT_BACK,
+		GRAPHIC_ADV_TEXT,
 		GRAPHIC_MAX
 	};
 	
@@ -54,29 +55,18 @@ private:
 	void drawGroundModel( );
 	void drawBossMapModel( );
 	void drawBackGround( );
-//	void drawBullet( );
 	void drawCrystal( );
 	void drawShadow( );
 	void drawBigCrystal( );
 	void drawUI( );
 	void drawReady( );
 	void drawResult( );
+	void drawAdv( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
 	void deleteEffect( );
 private:
-/*	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
-	ModelPtr _boss_map_model;
-	ModelPtr _item_model;
-	ModelPtr _crystal_model;
-	ModelPtr _big_crystal_model;
-	int _boss_map_tex_hadle;
-	int _floor_tex_handle;
-	int _path_tex_handle;
-	int _item_tex_handle;
-	int _crystal_tex_handle;
-	*/
 	int _fairy_handle;
 	int _fairy_time;
 };

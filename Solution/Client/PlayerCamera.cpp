@@ -1,10 +1,8 @@
 #include "PlayerCamera.h"
-#include "Mouse.h"
 #include "Device.h"
 
-
-const int MAX_LENGHT = 40;
-const int MIN_LENGHT = 35;
+const int MAX_LENGTH = 40;
+const int MIN_LENGTH = 35;
 
 PlayerCamera::PlayerCamera( ) {
 
@@ -50,30 +48,16 @@ void PlayerCamera::update( ) {
 
 
 	Vector vec = _pos - _target;
-	if( vec.getLength( ) > MAX_LENGHT) {
-		vec -= vec.normalize( ) * ( vec.getLength( ) - MAX_LENGHT );
+	vec.z = 0;
+
+	if( vec.getLength( ) > MAX_LENGTH) {
+		vec = vec.normalize( ) * MAX_LENGTH;
 	}
-	if ( vec.getLength( ) < MIN_LENGHT ) {
-		vec += vec.normalize( ) * ( MIN_LENGHT - vec.getLength( ) );
+	if ( vec.getLength( ) < MIN_LENGTH ) {
+		vec = vec.normalize( ) * MIN_LENGTH;
 	}
 	vec.z = 15;
-	/*
-	MousePtr mouse = Mouse::getTask( );
-	Vector mouse_pos = mouse->getPos( );
-	const double RATIO = 0.01;
-	//YAW軸回転
-	double rad_yaw = ( mouse_pos.x - _store_mouse_pos.x ) * RATIO;
-	Matrix mat_yaw = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), rad_yaw );
-	vec = mat_yaw.multiply( vec );
 
-	// PITCH軸回転
-	double rad_pitch = ( mouse_pos.y - _store_mouse_pos.y ) * RATIO;
-	Vector axis = Vector( 0, 0, 1 ).cross( vec );
-	Matrix mat_pitch = Matrix::makeTransformRotation( axis, rad_pitch );
-	vec = mat_pitch.multiply( vec );
-	// マウスの位置を記憶
-	_store_mouse_pos = mouse_pos;
-	*/
 	// _camera_posを変更
 	_pos = _target + vec;
 

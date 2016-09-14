@@ -282,6 +282,18 @@ void Viewer::update( ) {
 		drawResult( );
 		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		break;
+	case App::STATE_LIVE:
+		drawer->setPlayEffect( true );		//エフェクト描画ON
+		drawBackGround( );
+		drawPlayer( );
+		drawEnemy( );
+		drawShadow( );
+		drawBoss( );
+		drawGroundModel( );
+		drawBossMapModel( );
+		drawBigCrystal( );
+		drawCrystal( );
+		updateCamera( );
 	}
 }
 
@@ -339,7 +351,8 @@ void Viewer::drawEnemy( ) {
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
-		bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+		CameraPtr camera = Camera::getTask( );
+		bool in_screen = camera->isInScreen( enemy->getPos( ) );
 		if ( !in_screen ) {
 			continue;
 		}
@@ -358,7 +371,7 @@ void Viewer::drawEnemy( ) {
 void Viewer::drawShadow( ) {
 	AppPtr app = App::getTask( );
 	DrawerPtr drawer = Drawer::getTask( );
-
+	CameraPtr camera = Camera::getTask( );
 	CohortPtr cohort = app->getCohort( );
 	if ( cohort ) {
 		for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
@@ -369,7 +382,8 @@ void Viewer::drawShadow( ) {
 			if ( !enemy->isExpired( ) ) {
 				continue;
 			}
-			bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+			
+			bool in_screen = camera->isInScreen( enemy->getPos( ) );
 			if ( !in_screen ) {
 				continue;
 			}
@@ -380,7 +394,7 @@ void Viewer::drawShadow( ) {
 
 		EnemyPtr boss = cohort->getBoss( );
 		Vector boss_pos = boss->getPos( );
-		if( !boss->isInScreen( boss_pos ) ){
+		if( !camera->isInScreen( boss_pos ) ){
 			return;
 		}
 		boss_pos.z = MODEL_SHADOW_HEIGTH;
@@ -407,7 +421,8 @@ void Viewer::drawBoss( ) {
 	if ( !enemy->isExpired( ) ) {
 		return;
 	}
-	bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+	CameraPtr camera = Camera::getTask( );
+	bool in_screen = camera->isInScreen( enemy->getPos( ) );
 	if ( !in_screen ) {
 		return;
 	}
@@ -442,8 +457,8 @@ void Viewer::drawGroundModel( ) {
 			Vector pos =  Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 );
 			Vector max_pos = pos + Vector( Ground::CHIP_WIDTH, Ground::CHIP_HEIGHT, 0 );
 			Vector min_pos = pos - Vector( Ground::CHIP_WIDTH, Ground::CHIP_HEIGHT, 0 );
-			PlayerPtr player = app->getPlayerMine( );
-			if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
+			CameraPtr camera = Camera::getTask( );
+			if ( !camera->isInScreen( max_pos ) && !camera->isInScreen( min_pos ) ) {
 				continue;
 			}
 			Drawer::ModelMDL model_mdl = Drawer::ModelMDL( Vector(  i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ), type );
@@ -472,8 +487,8 @@ void Viewer::drawBossMapModel( ) {
 	Vector pos =  Vector(  x * Ground::CHIP_WIDTH, y * Ground::CHIP_HEIGHT, 0 );
 	Vector max_pos = pos + Vector( Ground::BOSS_CHIP_WIDTH, Ground::BOSS_CHIP_HEIGHT, 0 );
 	Vector min_pos = pos - Vector( Ground::BOSS_CHIP_WIDTH, Ground::BOSS_CHIP_HEIGHT, 0 );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
+	CameraPtr camera = Camera::getTask( );
+	if ( !camera->isInScreen( max_pos ) && !camera->isInScreen( min_pos ) ) {
 		return;
 	}
 	Drawer::ModelMDL model = Drawer::ModelMDL( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ), MODEL_MDL_BOSS );
@@ -495,8 +510,8 @@ void Viewer::drawCrystal( ) {
 			continue;
 		}
 		Vector pos = crystal->getPos( );
-		PlayerPtr player = app->getPlayerMine( );
-		if ( !player->isInScreen( pos ) ) {
+		CameraPtr camera = Camera::getTask( );
+		if ( !camera->isInScreen( pos ) ) {
 			continue;
 		}
 		Drawer::ModelMDL model = Drawer::ModelMDL(pos, MODEL_MDL_CRYSTAL );
@@ -520,8 +535,8 @@ void Viewer::drawBigCrystal( ) {
 	}
 
 	Vector pos = crystal->getPos( );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( !player->isInScreen( pos ) ) {
+	CameraPtr camera = Camera::getTask( );
+	if ( !camera->isInScreen( pos ) ) {
 		return;
 	}
 

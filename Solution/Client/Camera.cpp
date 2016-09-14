@@ -4,6 +4,8 @@
 const Vector START_CAMERA_POS = Vector( 50, 50, 20 );
 const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 
+const double SCREEN_RENGTH = 800.0;
+
 CameraPtr Camera::getTask( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	return std::dynamic_pointer_cast< Camera >( fw->getTask( Camera::getTag( ) ) );
@@ -37,4 +39,12 @@ Vector Camera::getStartPos( ) const {
 
 Vector Camera::getStartTargetPos( ) const {
 	return START_TARGET_POS;
+}
+
+bool Camera::isInScreen( Vector pos ) {
+	double length = ( _target - pos ).getLength2( );
+	if ( length > SCREEN_RENGTH ) {
+		return false;
+	}
+	return true;
 }

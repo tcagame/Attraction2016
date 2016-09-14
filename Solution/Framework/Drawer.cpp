@@ -423,7 +423,7 @@ void Drawer::drawString( int x, int y, const char* string, ... ) {
 	va_list ap;
 	va_start( ap, string );
 	vsprintf_s( buf, 1024, string, ap );
-	DrawString( x, y, buf, 0xFFFFFF );
+	DrawString( x, y, buf, 0x000000 );
 	va_end( ap );
 }
 

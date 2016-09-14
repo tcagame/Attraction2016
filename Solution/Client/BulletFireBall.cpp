@@ -6,18 +6,13 @@
 const int VANISH_TIME = 50;
 const double BULLET_SCALE = 1.0;
 
-void BulletFireBall::initialize( ) {
-	_power = 100;
-	_speed = 1;
-	_exist_time = 0;
-}
-
-
-BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir ) 
+BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_FIRE_BALL ) {
 	_pos = pos;
 	_dir = dir.normalize( );
-	initialize( );
+	_power = power;
+	_speed = 1;
+	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );

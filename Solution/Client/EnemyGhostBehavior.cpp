@@ -144,6 +144,7 @@ void EnemyGhostBehavior::onAttack( ) {
 
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
-	BulletFireBallPtr bullet = BulletFireBallPtr ( new BulletFireBall( pos + Vector( 0, 0, 0.5 ), dir ) );
+	int power = _parent->getStatus( ).power;
+	BulletFireBallPtr bullet = BulletFireBallPtr ( new BulletFireBall( pos + Vector( 0, 0, 0.5 ), dir, power ) );
 	weapon->add( bullet );
 }

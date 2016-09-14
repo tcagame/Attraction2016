@@ -6,9 +6,7 @@ PTR( BulletFireBall );
 
 class BulletFireBall : public Bullet {
 public:
-	void initialize( );
-public:
-	BulletFireBall( const Vector& pos, const Vector& dir );
+	BulletFireBall( const Vector& pos, const Vector& dir, int power );
 	virtual ~BulletFireBall( );
 public:
 	virtual bool update( );

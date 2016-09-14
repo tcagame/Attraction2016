@@ -155,7 +155,7 @@ void Cohort::putEnemy( const Vector& pos, std::string enemy_name ) {
 		add( enemy, pos );
 	}
 	if ( enemy_name == "ƒS[ƒXƒg"  ) {
-		status = Character::STATUS( 200, 1, 0.005 );
+		status = Character::STATUS( 200, 100, 0.005 );
 		EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
 		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_GHOST ) );
 		behavior->setParent( enemy );

@@ -13,7 +13,7 @@
 #include "Adventure.h"
 #include "Client.h"
 
-const int WAIT_MAX = 300;
+const int WAIT_MAX = 600;
 
 PlayerKnightBehavior::PlayerKnightBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_KNIGHT, player_id ) {
@@ -47,6 +47,8 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 			effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
+			AdventurePtr adventure = app->getAdventure( );
+			adventure->start( Adventure::TYPE_KNIGHT_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -66,6 +68,8 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 		bullet = BulletPtr( new BulletExcalibur( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		player->resetSP( );
+		AdventurePtr adventure = app->getAdventure( );
+		adventure->start( Adventure::TYPE_KNIGHT_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 		sound->playSE( Sound::SE_KNIGHT_DEATHBLOW );
 	}

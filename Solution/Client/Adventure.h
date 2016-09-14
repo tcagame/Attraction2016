@@ -44,7 +44,7 @@ public:
 		TYPE_COMMON_AFTER_LOGIN,
 		TYPE_COMMON_TUTORIAL_1,
 		TYPE_COMMON_TUTORIAL_2,
-		TYPE_COMMON_TUTPRIAL_3,
+		TYPE_COMMON_TUTORIAL_3,
 		TYPE_COMMON_PLAYER_DEAD,
 		TYPE_COMMON_ANOTHER_PLAYER_LOGIN,
 		TYPE_COMMON_LIVE_MONITOR,
@@ -102,6 +102,7 @@ public:
 public:
 	void update( );
 	void start( TYPE type );
+	bool isPlaying( );
 	CHARACTER getCharacter( Adventure::TYPE type );
 	std::string getWord( Adventure::TYPE type );
 	TYPE getType( );

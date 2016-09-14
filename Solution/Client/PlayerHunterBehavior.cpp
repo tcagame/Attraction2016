@@ -13,7 +13,7 @@
 #include "Adventure.h"
 #include "Client.h"
 
-const int WAIT_MAX = 300;
+const int WAIT_MAX = 600;
 
 PlayerHunterBehavior::PlayerHunterBehavior( unsigned char player_id ) :
 PlayerBehavior( PLAYER_HUNTER, player_id ) {
@@ -50,6 +50,8 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 			effect.drawEffect( id, Vector( 0.5, 0.5, 0.5 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );
+			AdventurePtr adventure = app->getAdventure( );
+			adventure->start( Adventure::TYPE_HUNTER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -69,6 +71,8 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		player->resetSP( );
+		AdventurePtr adventure = app->getAdventure( );
+		adventure->start( Adventure::TYPE_HUNTER_DEATHBLOW );
 		sound->playSE( Sound::SE_HUNTER_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}

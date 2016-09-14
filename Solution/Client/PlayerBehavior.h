@@ -46,4 +46,5 @@ protected:
 	PLAYER_STATE _player_state;
 	PLAYER_STATE _before_state;
 	int _attack_pattern;
+	bool _is_tutorial_sence;
 };

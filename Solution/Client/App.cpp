@@ -39,6 +39,12 @@ const Vector START_POS[ PLAYER_NUM ] = {
 	Vector( 19 * Ground::CHIP_WIDTH, 21 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_GREEN
 	Vector( 11 * Ground::CHIP_WIDTH,  4 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_BLUE
 };
+
+const Adventure::TYPE ADV_CONTENC [  ]{
+	Adventure::TYPE_COMMON_AFTER_LOGIN,
+	Adventure::TYPE_COMMON_TUTORIAL_1,
+	Adventure::TYPE_COMMON_TUTORIAL_2,
+};
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 const int STRING_BUF = 256;
@@ -53,6 +59,7 @@ App::App( unsigned char player_id ) :
 _player_id( player_id ) {
 	_push_reset_count = 0;
 	_push_start_count = 0;
+	_adv_idx = 0;
 }
 
 App::~App( ) {
@@ -110,7 +117,7 @@ void App::updateReset( ) {
 
 	_push_reset_count = 0;
 	_push_start_count = 0;
-	
+	_adv_idx = 0;
 }
 
 void App::updateStateReady( ) {
@@ -124,8 +131,21 @@ void App::updateStateReady( ) {
 		return;
 	}
 
+	if ( _player_id == PLAYER_KNIGHT ) {
+		_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+	}
+	if ( _player_id == PLAYER_MONK ) {
+		_adventure->start( Adventure::TYPE_MONK_CREATE );
+	}
+	if ( _player_id == PLAYER_HUNTER ) {
+		_adventure->start( Adventure::TYPE_HUNTER_CREATE );
+	}
+	if ( _player_id == PLAYER_WITCH ) {
+		_adventure->start( Adventure::TYPE_WITCH_CREATE );
+	}
 	Vector player_pos = START_POS[ _player_id ];
 	_player[ _player_id ]->create( player_pos );
+	
 	setState( STATE_PLAY );
 	_push_start_count = 0;
 	SoundPtr sound = Sound::getTask( );
@@ -152,15 +172,11 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
-
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
-					_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
-
 				}
 			}
 		}
@@ -176,7 +192,10 @@ void App::updateStatePlay( ) {
 		_weapon->update( );
 	}
 
-	
+	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 2 )  {
+		_adventure->start( ADV_CONTENC[ _adv_idx ] );
+		_adv_idx++;
+	}
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );
 }
@@ -205,20 +224,6 @@ void App::updateStateLive( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						if ( _player_id == i ) {
-							if ( _player_id == PLAYER_KNIGHT ) {
-								_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
-							}
-							if ( _player_id == PLAYER_MONK ) {
-								_adventure->start( Adventure::TYPE_MONK_CREATE );
-							}
-							if ( _player_id == PLAYER_HUNTER ) {
-								_adventure->start( Adventure::TYPE_HUNTER_CREATE );
-							}
-							if ( _player_id == PLAYER_WITCH ) {
-								_adventure->start( Adventure::TYPE_WITCH_CREATE );
-							}
-						}
 					}
 				}
 			} else {

@@ -1,8 +1,10 @@
 #include "BulletFireBall.h"
 #include "Player.h"
+#include "Effect.h"
 #include "App.h"
 
 const int VANISH_TIME = 50;
+const double BULLET_SCALE = 2.0;
 
 void BulletFireBall::initialize( ) {
 	_power = 100;
@@ -16,6 +18,9 @@ BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir )
 	_pos = pos;
 	_dir = dir.normalize( );
 	initialize( );
+	Effect effect;
+	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
+	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );
 }
 
 
@@ -36,6 +41,8 @@ bool BulletFireBall::update( ) {
 	Vector player_pos = player->getPos( );
 	Vector distance = _pos - player_pos;
 	double length = distance.getLength( );
+	Effect effect;
+	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
 	if ( length <= 1.0 ) {
 		player->damage( _power );
 		return false;

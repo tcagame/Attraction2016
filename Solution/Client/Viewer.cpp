@@ -677,17 +677,18 @@ void Viewer::drawUI( ) {
 		if ( cohort ) {
 			EnemyPtr boss = cohort->getBoss( );
 			int hp = boss->getStatus( ).hp;
-			int max_hp = boss->getMaxHp( );
-			double percentage = ( double )hp / ( double )max_hp;
-			double tw = BOSS_HP_GAUGE_WIDTH * percentage;
+			if ( hp > 0 ) {
+				int max_hp = boss->getMaxHp( );
+				double percentage = ( double )hp / ( double )max_hp;
+				double tw = BOSS_HP_GAUGE_WIDTH * percentage;
 
-			//HP•`‰æ
-			int boss_hp_gauge_x = boss_background_x;
-			int boss_hp_gauge_y = boss_background_y;
-			Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
-			Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
-			drawer->setSprite( boss_hp_gauge_sprite );
-
+				//HP•`‰æ
+				int boss_hp_gauge_x = boss_background_x;
+				int boss_hp_gauge_y = boss_background_y;
+				Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
+				Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+				drawer->setSprite( boss_hp_gauge_sprite );
+			}
 			//HPƒtƒŒ[ƒ€
 			int boss_hp_gauge_frame_x = boss_background_x;
 			int boss_hp_gauge_frame_y = boss_background_y;

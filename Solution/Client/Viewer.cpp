@@ -206,7 +206,6 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_CLEAR,		"UI/result_clear_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_STRING_GAMEOVER,	"UI/result_gameover_string.png" );
 	drawer->loadGraph( GRAPHIC_RESULT_BACK,				"UI/result_back.png" );
-	drawer->loadGraph( GRAPHIC_ADV_TEXT,				"UI/adventure_text_base.png" );
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -611,8 +610,8 @@ void Viewer::drawUI( ) {
 		int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
 
 		//下地
-		int boss_background_x = window_width / 3 * 2 - BOSS_HP_FRAME_WIDTH / 2 + STATUS_POS_OFFSET * 6;
-		int boss_background_y = STATUS_POS_OFFSET * 3;
+		int boss_background_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
+		int boss_background_y = window_height - BOSS_BACKGROUND_HEIGHT - STATUS_POS_OFFSET;
 		Drawer::Transform boss_hp_background_transform = Drawer::Transform( boss_background_x, boss_background_y );
 		Drawer::Sprite boss_hp_background_sprite = Drawer::Sprite( boss_hp_background_transform, GRAPHIC_UI_BOSS_BACKGROUND, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_background_sprite );

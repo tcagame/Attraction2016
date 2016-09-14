@@ -36,6 +36,8 @@ enum MODEL_MDL {
 };
 const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
+
+const bool EXPIRED_FAIRY = true;
 const int END_FAIRY_TIME = 150;
 
 //UIï`âÊ
@@ -309,15 +311,16 @@ void Viewer::drawPlayer( ) {
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
 		//drawer->drawString( 2, 2, "x: %lf y: %lf", pos.x, pos.y );
-
-		//ódê∏
-		Effect effect;
-		if ( _fairy_time >= END_FAIRY_TIME ) {//effectÇà€éùÇ≥ÇπÇÈÇΩÇﬂ
-			_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
-			_fairy_time = 0;
+		if ( EXPIRED_FAIRY ) {
+			//ódê∏
+			Effect effect;
+			if ( _fairy_time >= END_FAIRY_TIME ) {//effectÇà€éùÇ≥ÇπÇÈÇΩÇﬂ
+				_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
+				_fairy_time = 0;
+			}
+			effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
+			_fairy_time++;
 		}
-		effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
-		_fairy_time++;
 	}
 }
 

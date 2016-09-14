@@ -29,7 +29,6 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 	}
 	//必殺技の構え
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
-	player->addSP( 100 );
 	//溜めモーション
 	
 	if ( _before_state == PLAYER_STATE_WAIT ||

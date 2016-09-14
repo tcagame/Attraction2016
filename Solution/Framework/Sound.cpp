@@ -5,13 +5,61 @@
 
 const char* DIRECTORY = "../Resource/Sound/";
 
-const char* SE_FILE_PATH[ Sound::SE_MAX ] {
-	"SE/test1.mp3",
-	"SE/test2.mp3",
+const char* SE_FILE_PATH[ Sound::SE_MAX ] {	
+	"SE/DD_SE_start_harada.mp3",	
+	"SE/DD_SE_gameclear=hatakeyama.mp3",
+	"SE/DD_SE_gameover_harada.mp3",
+	"SE/magicstart2.mp3",
+	"SE/landing.wav",
+	"SE/dead.wav",
+	"SE/player_damage.wav",
+
+	"SE/sword-slash3.mp3",
+	"SE/sword-slash4.mp3",
+	"SE/katana-slash4.mp3",
+	"SE/iainuki1.mp3",
+	"SE/sword-clash3.mp3",
+
+	"SE/punch-middle2.mp3",
+	"SE/punch-high1.mp3",
+	"SE/kick-middle1.mp3",
+	"SE/punch-high2.mp3",
+
+	"SE/gun2.mp3",
+	"SE/tm2r_bom34.wav",
+	"SE/tm2r_bom31_b.wav",
+	"SE/machinegun1.mp3",
+
+	"SE/se_maoudamashii_element_ice05.wav",
+	"SE/se_maoudamashii_element_ice01.wav",
+	"SE/se_maoudamashii_element_ice04.wav",
+	"SE/beamgun3.mp3",
+
+	"SE/sen_ge_panchi06.mp3",
+	"SE/enemy_damage.wav",
+
+	"SE/kick-high1.mp3",
+
+	"SE/hito_ge_beta.mp3",
+	"SE/sword-slash3.mp3",
+	"SE/down1.mp3",
+
+	"SE/monster-growl1.mp3",
+	"SE/nori_ge_jet_sukuran01.mp3",
+	"SE/magic-flame2.mp3",
+	"SE/sen_ge_taoreru06.mp3",
+	"SE/wing1.mp3",
+	"SE/sen_ge_bom16.mp3",
+	"SE/sen_ge_bom17.mp3",
+
+	"SE/sceneswitch2.mp3"
 };
 const char* BGM_FILE_PATH[ Sound::BGM_MAX ] {
-	"BGM/test1.mp3",
-	"BGM/test2.mp3",
+	"BGM/DD_BGM_dotyu_1_harada.mp3",
+	"BGM/DD_bgm_camp_imin.mp3",
+	"BGM/takeuchiBGM2.wav",
+	"BGM/DD_BGM_boss_1_harada.mp3",
+	"BGM/DD_BGM_boss_2_harada"
 };
 const char* VOICE_FILE_PATH[ Sound::VOICE_MAX ] {
 	"VOICE/KNI0010.wav",

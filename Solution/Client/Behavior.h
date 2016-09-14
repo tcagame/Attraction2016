@@ -13,6 +13,7 @@ public:
 	void mainLoop( );
 	AnimationPtr getAnimation( ) const;
 	void setParent( CharacterPtr parent );
+	void reset( );
 protected:
 	virtual void update( ) = 0;
 	virtual void animationUpdate( ) = 0;

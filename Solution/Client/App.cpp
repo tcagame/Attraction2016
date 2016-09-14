@@ -128,11 +128,13 @@ void App::updateStateReady( ) {
 	_player[ _player_id ]->create( player_pos );
 	setState( STATE_PLAY );
 	_push_start_count = 0;
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_GAME_START ); 
 
 }
 
 void App::updateStatePlay( ) {
-	//_adventure->update( );
+	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -150,14 +152,14 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+						_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
 
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
-					//_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
+					_adventure->start( Adventure::TYPE_KNIGHT_CREATE );
 
 				}
 			}
@@ -292,11 +294,13 @@ void App::initialize( ) {
 		 _player_id == PLAYER_HUNTER ) {
 		_cohort = CohortPtr(new Cohort());
 		_crystals = CrystalsPtr(new Crystals());
-		_cohort->init();
 	}
 	_adventure = AdventurePtr( new Adventure( ) );
 	_live_scene = LiveScenePtr( new LiveScene( ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
+	if ( _cohort ) {
+		_cohort->init();
+	}
 }
 
 void App::finalize( ) {
@@ -388,6 +392,10 @@ void App::loadToGround( ) {
 			}
 			_map_convert[ type ] = model_type;
 
+			if ( _cohort ) {
+				std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
+				_cohort->loadBlockEnemyData( idx, enemy_file_path );
+			}
 			if ( model_type == 0 ) {
 				continue;
 			}
@@ -395,10 +403,6 @@ void App::loadToGround( ) {
 			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ model_type ] + ".mdl";
 			_ground_model->loadModelData( j, i, model_file_path );
 
-			if ( _cohort ) {
-				std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
-				_cohort->loadBlockEnemyData( idx, enemy_file_path );
-			}
 		}
 	}
 }

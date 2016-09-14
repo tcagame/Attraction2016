@@ -1,5 +1,6 @@
 #pragma once
 #include "Task.h"
+#include "Network.h"
 #include "MapType.h"
 #include "mathmatics.h"
 #include <string>
@@ -75,6 +76,6 @@ private:
 	Vector covertInputDirXZ( );
 	void deleteEffect( );
 private:
-	int _fairy_handle;
-	int _fairy_time;
+	int _fairy_handle[ PLAYER_NUM ];
+	int _fairy_time[ PLAYER_NUM ];
 };

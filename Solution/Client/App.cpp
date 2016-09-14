@@ -16,6 +16,7 @@
 #include "PlayerCamera.h"
 #include "Device.h"
 #include "Sound.h"
+#include "LiveScene.h"
 #include "Framework.h"
 #include "Client.h"
 #include <stdio.h>
@@ -29,8 +30,15 @@ const std::string MODEL_NAME_LIST [] {
 	"path03"
 };
 
-const int START_POS_X = 11 * Ground::CHIP_WIDTH;
-const int START_POS_Y = 34 * Ground::CHIP_HEIGHT;
+const Vector START_POS[ PLAYER_NUM ] = {
+	Vector( 10 * Ground::CHIP_WIDTH, 24 * Ground::CHIP_HEIGHT ),//PLAYER_KNIGHT
+	Vector( 11 * Ground::CHIP_WIDTH, 25 * Ground::CHIP_HEIGHT ),//PLAYER_HUNTER
+	Vector( 10 * Ground::CHIP_WIDTH, 25 * Ground::CHIP_HEIGHT ),//PLAYER_MONK
+	Vector( 11 * Ground::CHIP_WIDTH, 26 * Ground::CHIP_HEIGHT ),//PLAYER_WITCH
+	Vector(  2 * Ground::CHIP_WIDTH, 33 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_RED
+	Vector( 19 * Ground::CHIP_WIDTH, 21 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_GREEN
+	Vector( 11 * Ground::CHIP_WIDTH,  4 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_BLUE
+};
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 const int STRING_BUF = 256;
@@ -67,9 +75,10 @@ void App::update( ) {
 		break;
 	case STATE_DEAD:
 		updateStateDead( );
+	case STATE_LIVE:
+		updateStateLive( );
 		break;
 	}
-
 }
 
 void App::updateReset( ) {
@@ -92,9 +101,9 @@ void App::updateReset( ) {
 		_player[ i ]->resetSP( );
 	}
 	_state = STATE_READY;
-	_cohort->reset( );
+	if ( _cohort ) _cohort->reset( );
 	_weapon->reset( );
-	_crystals->reset( );
+	if ( _crystals ) _crystals->reset( );
 	
 	CameraPtr camera = Camera::getTask( );
 	camera->initialize( );
@@ -115,7 +124,7 @@ void App::updateStateReady( ) {
 		return;
 	}
 
-	Vector player_pos = Vector( START_POS_X, START_POS_Y, 0 );
+	Vector player_pos = START_POS[ _player_id ];
 	_player[ _player_id ]->create( player_pos );
 	setState( STATE_PLAY );
 	_push_start_count = 0;
@@ -180,6 +189,48 @@ void App::updateStateDead( ) {
 
 }
 
+void App::updateStateLive( ) {
+	//_adventure->update( );
+	ClientPtr client = Client::getTask( );
+	CLIENTDATA data = client->getClientData( );
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		if ( _player_id != i ) {
+			Vector pos( data.player[ i ].x, data.player[ i ].y );
+			if ( _player[ i ]->isExpired( ) ) {
+				if ( pos.isOrijin( ) ) {
+					_player[ i ]->dead( );
+				} else {
+					Vector vec = _player[ i ]->getPos( ) - pos;
+					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
+						_player[ i ]->dead( );
+						_player[ i ]->create( pos );
+					}
+				}
+			} else {
+				if ( !pos.isOrijin( ) ) {
+					_player[ i ]->create( pos );
+				}
+			}
+		}
+	}
+	
+	if ( _cohort ) {
+		_cohort->update( );
+	}
+	if ( _crystals ) {
+		_crystals->updata( );
+	}
+	if ( _weapon ) {
+		_weapon->update( );
+	}
+	if ( _live_scene ) {
+		_live_scene->update( );
+	}
+	
+	//CameraPtr camera = Camera::getTask( );
+	//camera->setTarget( _player[ _player_id ]->getPos( ) );
+}
+
 void App::initialize( ) {
 
 	{ //Knight
@@ -223,20 +274,31 @@ void App::initialize( ) {
 		_player[ PLAYER_ETUDE_BLUE ] = PlayerPtr(new Player(behavior, Character::STATUS(60000, 1, SPEED), Player::PLAYER_TYPE_ETUDE));
 		behavior->setParent(_player[ PLAYER_ETUDE_BLUE ]);
 	}
-	_state = STATE_READY;
+
+	if ( _player_id == PLAYER_NONE ) {
+		_state = STATE_LIVE;
+	} else {
+		_state = STATE_READY;
+	}
+
 
 
 	std::string filepath = DIRECTORY + "CSV/";
-	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
-	_ground_model = GroundModelPtr( new GroundModel( ) );
-	_field = FieldPtr( new Field( ) );
-	_cohort = CohortPtr( new Cohort( ) );
-	_weapon = WeaponPtr( new Weapon( ) );
-	_crystals = CrystalsPtr( new Crystals( ) );
+	_ground = GroundPtr(new Ground(filepath + "map.csv"));//マップデータ
+	_ground_model = GroundModelPtr(new GroundModel());
+	_field = FieldPtr(new Field());
+	_weapon = WeaponPtr(new Weapon());
+	if ( _player_id == PLAYER_KNIGHT ||
+		 _player_id == PLAYER_MONK ||
+		 _player_id == PLAYER_WITCH ||
+		 _player_id == PLAYER_HUNTER ) {
+		_cohort = CohortPtr(new Cohort());
+		_crystals = CrystalsPtr(new Crystals());
+		_cohort->init();
+	}
 	_adventure = AdventurePtr( new Adventure( ) );
-	loadToGround( );//GroundModelとCohortのデータ読み込み
-	_cohort->init( );
-	
+	_live_scene = LiveScenePtr( new LiveScene( ) );
+	loadToGround();//GroundModelとCohortのデータ読み込み
 }
 
 void App::finalize( ) {
@@ -285,6 +347,11 @@ AdventurePtr App::getAdventure( ) {
 	return _adventure;
 }
 
+LiveScenePtr App::getLiveScene( ) const {
+	return _live_scene;
+}
+
+
 void App::loadToGround( ) {
 	int width = _ground->getWidth( );
 	int height = _ground->getHeight( );
@@ -323,14 +390,17 @@ void App::loadToGround( ) {
 			}
 			_map_convert[ type ] = model_type;
 
-			std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
-			_cohort->loadBlockEnemyData( idx, enemy_file_path );
 			if ( model_type == 0 ) {
 				continue;
 			}
+
 			std::string model_file_path = DIRECTORY + "MapModel/" + MODEL_NAME_LIST[ model_type ] + ".mdl";
 			_ground_model->loadModelData( j, i, model_file_path );
 
+			if ( _cohort ) {
+				std::string enemy_file_path = DIRECTORY + "EnemyData/" + name[ 1 ] + ".ene";
+				_cohort->loadBlockEnemyData( idx, enemy_file_path );
+			}
 		}
 	}
 }

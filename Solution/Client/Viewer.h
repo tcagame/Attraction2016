@@ -69,6 +69,7 @@ private:
 	void drawReady( );
 	void drawResult( );
 	void drawAdv( );
+	void drawLiveUI( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
@@ -77,4 +78,3 @@ private:
 	int _fairy_handle;
 	int _fairy_time;
 };
-

@@ -8,9 +8,9 @@
 #include "Cohort.h"
 #include "Enemy.h"
 #include "PlayerBehavior.h"
+#include "Camera.h"
 
 const Vector START_DIR = Vector( 0, 1, 0 );
-const double SCREEN_RENGTH = 800.0;
 
 
 Character::Character( TYPE type, BehaviorPtr behavior, Character::STATUS status, std::string character_name ) :
@@ -29,7 +29,8 @@ Character::~Character( ) {
 }
 
 void Character::update( ) {
-	if ( !isInScreen( getPos( ) ) ) {
+	CameraPtr camera = Camera::getTask( );
+	if ( !camera->isInScreen( getPos( ) ) ) {
 		return;
 	}
 	if ( _expired ) {
@@ -37,15 +38,6 @@ void Character::update( ) {
 	}
 }
 
-bool Character::isInScreen( Vector pos ) {
-	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
-	double length = ( player->getPos( ) - pos ).getLength2( );
-	if ( length > SCREEN_RENGTH ) {
-		return false;
-	}
-	return true;
-}
 
 void Character::reset( ){
 	_status = _origin_status;
@@ -102,6 +94,9 @@ void Character::damage( unsigned int power ) {
 	bool is_unrivaled  = isPlayer && player_behavior->isDeathblow( );
 	if ( !is_unrivaled ) {
 		_status.hp -= power;
+		if ( _status.hp < 0 ) {
+			_status.hp = 0;
+		}
 	}
 }
 

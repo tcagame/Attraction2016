@@ -2,13 +2,13 @@
 #include "Animation.h"
 #include "Character.h"
 #include "App.h"
-#include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
 #include "Client.h"
 #include "BulletDash.h"
 #include "BulletCleave.h"
 #include "BulletSmash.h"
+#include "Weapon.h"
 
 EtudeBehavior::EtudeBehavior( unsigned char etude_type, unsigned char player_id ) :
 PlayerBehavior( etude_type, player_id ) {
@@ -22,6 +22,7 @@ EtudeBehavior::~EtudeBehavior()
 void EtudeBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
+
 	BulletPtr bullet;
 
 	//攻撃に入る瞬間
@@ -33,6 +34,9 @@ void EtudeBehavior::attack( const CONTROLL& controll ) {
 			_animation->getMotion( ) == Animation::MOTION_MINOTAUR_DASH ) ) {
 		if ( !_animation->isEndAnimation( ) ) {
 			_player_state = PLAYER_STATE_ATTACK;
+		}
+		if ( _animation->getMotion( ) == Animation::MOTION_MINOTAUR_DASH && _animation->getEndAnimTime( ) - 40 > _animation->getAnimTime( ) ) {
+			_parent->move( _parent->getDir( ) * 0.5 );
 		}
 		if ( _animation->getEndAnimTime( ) - 15 < _animation->getAnimTime( ) && controll.action == CONTROLL::ATTACK ) {
 			_attack_pattern = ( _attack_pattern + 1 ) % MAX_ATTACK_PATTERN;//攻撃パターンの変更

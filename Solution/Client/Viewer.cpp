@@ -15,6 +15,7 @@
 #include "Ground.h"
 #include "Drawer.h"
 #include "Camera.h"
+#include "LiveScene.h"
 #include "Model.h"
 #include "Animation.h"
 #include "Adventure.h"
@@ -89,8 +90,8 @@ const int STATUS_CLEAR_STRING_HEIGHT = 198;
 const int STATUS_GAMEOVER_STRING_WIDTH = 834;
 const int STATUS_GAMEOVER_STRING_HEIGHT = 194;
 
-const int STATUS_READY_GAUGE_WIDTH = 1300;
-const int STATUS_READY_GAUGE_HEIGHT = 925;
+const int TITLE_WIDTH = 1300;
+const int TITLE_HEIGHT = 925;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
@@ -98,7 +99,6 @@ const double MODEL_SCALE_ALL = 0.4;
 
 const int TEXT_WORD_X = 70;
 const int TEXT_WORD_Y = 73;
-
 
 const double MODEL_SHADOW_HEIGTH = 0.002;
 
@@ -226,7 +226,6 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
 	drawer->loadGraph( GRAPHIC_ADV_FAIRY,			    "Adventure/Fairy.png" );
 
-
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -297,13 +296,25 @@ void Viewer::update( ) {
 		drawCrystal( );
 		drawUI( );
 		updateCamera( );
-		drawAdv( );
 		break;
 	case App::STATE_CLEAR:
 	case App::STATE_DEAD:
 		drawResult( );
 		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		break;
+	case App::STATE_LIVE:
+		drawer->setPlayEffect( true );		//エフェクト描画ON
+		drawBackGround( );
+		drawPlayer( );
+		drawEnemy( );
+		drawShadow( );
+		drawBoss( );
+		drawGroundModel( );
+		drawBossMapModel( );
+		drawBigCrystal( );
+		drawCrystal( );
+		drawLiveUI( );
+		updateCamera( );
 	}
 }
 
@@ -352,13 +363,17 @@ void Viewer::drawPlayer( ) {
 void Viewer::drawEnemy( ) {
 	AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
+	if ( !cohort ) {
+		return;
+	}
 	int max_num = cohort->getMaxNum( );
 	for ( int i = 0; i < max_num; i++ ) {
 		EnemyPtr enemy = cohort->getEnemy( i );
 		if ( !enemy->isExpired( ) ) {
 			continue;
 		}
-		bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+		CameraPtr camera = Camera::getTask( );
+		bool in_screen = camera->isInScreen( enemy->getPos( ) );
 		if ( !in_screen ) {
 			continue;
 		}
@@ -376,23 +391,35 @@ void Viewer::drawEnemy( ) {
 
 void Viewer::drawShadow( ) {
 	AppPtr app = App::getTask( );
-	CohortPtr cohort = app->getCohort( );
 	DrawerPtr drawer = Drawer::getTask( );
-	for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
-		EnemyPtr enemy = cohort->getEnemy( i );
-		if ( !enemy ) {
-			continue;
+	CameraPtr camera = Camera::getTask( );
+	CohortPtr cohort = app->getCohort( );
+	if ( cohort ) {
+		for ( int i = 0; i < cohort->getMaxNum( ); i++ ) {
+			EnemyPtr enemy = cohort->getEnemy( i );
+			if ( !enemy ) {
+				continue;
+			}
+			if ( !enemy->isExpired( ) ) {
+				continue;
+			}
+			
+			bool in_screen = camera->isInScreen( enemy->getPos( ) );
+			if ( !in_screen ) {
+				continue;
+			}
+			Vector pos = enemy->getPos( );
+			pos.z = MODEL_SHADOW_HEIGTH;
+			drawer->setShadow( pos );
 		}
-		if ( !enemy->isExpired( ) ) {
-			continue;
+
+		EnemyPtr boss = cohort->getBoss( );
+		Vector boss_pos = boss->getPos( );
+		if( !camera->isInScreen( boss_pos ) ){
+			return;
 		}
-		bool in_screen = enemy->isInScreen( enemy->getPos( ) );
-		if ( !in_screen ) {
-			continue;
-		}
-		Vector pos = enemy->getPos( );
-		pos.z = MODEL_SHADOW_HEIGTH;
-		drawer->setShadow( pos );
+		boss_pos.z = MODEL_SHADOW_HEIGTH;
+		drawer->setShadow( boss_pos );
 	}
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
 		PlayerPtr player = app->getPlayer( i );
@@ -403,24 +430,20 @@ void Viewer::drawShadow( ) {
 		player_pos.z = MODEL_SHADOW_HEIGTH;
 		drawer->setShadow( player_pos );
 	}
-	EnemyPtr boss = cohort->getBoss( );
-	Vector boss_pos = boss->getPos( );
-	if( !boss->isInScreen( boss_pos ) ){
-		return;
-	}
-	boss_pos.z = MODEL_SHADOW_HEIGTH;
-	drawer->setShadow( boss_pos );
 }
 
 void Viewer::drawBoss( ) {
 	AppPtr app = App::getTask( );
 	CohortPtr cohort = app->getCohort( );
-	
+	if ( !cohort ) {
+		return;
+	}
 	EnemyPtr enemy = cohort->getBoss( );
 	if ( !enemy->isExpired( ) ) {
 		return;
 	}
-	bool in_screen = enemy->isInScreen( enemy->getPos( ) );
+	CameraPtr camera = Camera::getTask( );
+	bool in_screen = camera->isInScreen( enemy->getPos( ) );
 	if ( !in_screen ) {
 		return;
 	}
@@ -455,8 +478,8 @@ void Viewer::drawGroundModel( ) {
 			Vector pos =  Vector( i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 );
 			Vector max_pos = pos + Vector( Ground::CHIP_WIDTH, Ground::CHIP_HEIGHT, 0 );
 			Vector min_pos = pos - Vector( Ground::CHIP_WIDTH, Ground::CHIP_HEIGHT, 0 );
-			PlayerPtr player = app->getPlayerMine( );
-			if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
+			CameraPtr camera = Camera::getTask( );
+			if ( !camera->isInScreen( max_pos ) && !camera->isInScreen( min_pos ) ) {
 				continue;
 			}
 			Drawer::ModelMDL model_mdl = Drawer::ModelMDL( Vector(  i *  Ground::CHIP_WIDTH, j *  Ground::CHIP_HEIGHT, 0 ), type );
@@ -485,8 +508,8 @@ void Viewer::drawBossMapModel( ) {
 	Vector pos =  Vector(  x * Ground::CHIP_WIDTH, y * Ground::CHIP_HEIGHT, 0 );
 	Vector max_pos = pos + Vector( Ground::BOSS_CHIP_WIDTH, Ground::BOSS_CHIP_HEIGHT, 0 );
 	Vector min_pos = pos - Vector( Ground::BOSS_CHIP_WIDTH, Ground::BOSS_CHIP_HEIGHT, 0 );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( !player->isInScreen( max_pos ) && !player->isInScreen( min_pos ) ) {
+	CameraPtr camera = Camera::getTask( );
+	if ( !camera->isInScreen( max_pos ) && !camera->isInScreen( min_pos ) ) {
 		return;
 	}
 	Drawer::ModelMDL model = Drawer::ModelMDL( Vector( x *  Ground::CHIP_WIDTH, y *  Ground::CHIP_HEIGHT, 0 ), MODEL_MDL_BOSS );
@@ -496,6 +519,10 @@ void Viewer::drawBossMapModel( ) {
 void Viewer::drawCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
+	if ( !crystals ) {
+		return;
+	}
+
 	DrawerPtr drawer = Drawer::getTask( );
 	
 	for ( int i = 0; i < Crystals::MAX_CRYSTAL_NUM; i++ ) {
@@ -504,8 +531,8 @@ void Viewer::drawCrystal( ) {
 			continue;
 		}
 		Vector pos = crystal->getPos( );
-		PlayerPtr player = app->getPlayerMine( );
-		if ( !player->isInScreen( pos ) ) {
+		CameraPtr camera = Camera::getTask( );
+		if ( !camera->isInScreen( pos ) ) {
 			continue;
 		}
 		Drawer::ModelMDL model = Drawer::ModelMDL(pos, MODEL_MDL_CRYSTAL );
@@ -516,19 +543,25 @@ void Viewer::drawCrystal( ) {
 void Viewer::drawBigCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
+	if ( !crystals ) {
+		return;
+	}
+	
 	CrystalPtr crystal = crystals->getBigCrystal( );
-	DrawerPtr drawer = Drawer::getTask( );
 	if ( !crystal ) {
 		return;
 	}
 	if ( !crystal->isExpired( ) ) {
 		return;
 	}
+
 	Vector pos = crystal->getPos( );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( !player->isInScreen( pos ) ) {
+	CameraPtr camera = Camera::getTask( );
+	if ( !camera->isInScreen( pos ) ) {
 		return;
 	}
+
+	DrawerPtr drawer = Drawer::getTask( );
 	Drawer::ModelMDL model = Drawer::ModelMDL( crystal->getPos( ), MODEL_MDL_BIG_CRYSTAL );
 	drawer->setModelMDL( model );
 	/*
@@ -555,18 +588,19 @@ void Viewer::drawUI( ) {
 	int window_height = fw->getWindowHeight( );
 
 	//プレイヤーUI描画
-	{
+	int id = app->getPlayerId( );
+	if ( id == PLAYER_KNIGHT ||
+			id == PLAYER_MONK ||
+			id == PLAYER_WITCH ||
+			id == PLAYER_HUNTER ) {
+
 		//ステータスウィンドウ
 		int status_base_x = STATUS_POS_OFFSET;
 		int status_base_y = STATUS_POS_OFFSET * 8;
 
-		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
-			if ( i == ( int )app->getPlayerId( ) ) {
-				Drawer::Transform base_transform = Drawer::Transform( status_base_x, status_base_y );
-				Drawer::Sprite base_sprite = Drawer::Sprite( base_transform, i + ( int )GRAPHIC_UI_BASE_KNIGHT, Drawer::BLEND_NONE, 0 );
-				drawer->setSprite( base_sprite );
-			}
-		}
+		Drawer::Transform base_transform = Drawer::Transform( status_base_x, status_base_y );
+		Drawer::Sprite base_sprite = Drawer::Sprite( base_transform, id + ( int )GRAPHIC_UI_BASE_KNIGHT, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( base_sprite );
 
 		//ゲージ下地
 		int status_gauge_background_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
@@ -610,20 +644,19 @@ void Viewer::drawUI( ) {
 
 		
 		//ネームタグ
-		for ( int i = 0; i < Player::PLAYER_TYPE_MAX; i++ ) {
-			if ( i == ( int )app->getPlayerId( ) ) {
-				int status_name_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
-				int status_name_y = status_base_y - STATUS_POS_OFFSET * 9;
-				Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
-				Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, i + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
-				drawer->setSprite( name_sprite );
-			}
-		}
+		int status_name_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
+		int status_name_y = status_base_y - STATUS_POS_OFFSET * 9;
+		Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
+		Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, id + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( name_sprite );
 	}
 
 	//ボス
 	{
 		CrystalsPtr crystals = app->getCrystals( );
+		if ( !crystals ) {
+			return;
+		}
 		if ( !crystals->isGetBigCrystal( ) ) {
 			return;
 		}
@@ -632,32 +665,35 @@ void Viewer::drawUI( ) {
 		int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
 
 		//下地
-		int boss_background_x = window_width / 3 * 2 - BOSS_HP_FRAME_WIDTH / 2 + STATUS_POS_OFFSET * 6;
-		int boss_background_y = STATUS_POS_OFFSET * 3;
+		int boss_background_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
+		int boss_background_y = window_height - BOSS_BACKGROUND_HEIGHT - STATUS_POS_OFFSET;
 		Drawer::Transform boss_hp_background_transform = Drawer::Transform( boss_background_x, boss_background_y );
 		Drawer::Sprite boss_hp_background_sprite = Drawer::Sprite( boss_hp_background_transform, GRAPHIC_UI_BOSS_BACKGROUND, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( boss_hp_background_sprite );
 
-		//HP計算
-		CohortPtr cohort = app->getCohort( );
-		EnemyPtr boss = cohort->getBoss( );
-		int hp = boss->getStatus( ).hp;
-		int max_hp = boss->getMaxHp( );
-		double percentage = ( double )hp / ( double )max_hp;
-		double tw = BOSS_HP_GAUGE_WIDTH * percentage;
 		//HP描画
-		int boss_hp_gauge_x = boss_background_x;
-		int boss_hp_gauge_y = boss_background_y;
-		Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
-		Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( boss_hp_gauge_sprite );
+		CohortPtr cohort = app->getCohort( );
+		if ( cohort ) {
+			EnemyPtr boss = cohort->getBoss( );
+			int hp = boss->getStatus( ).hp;
+			int max_hp = boss->getMaxHp( );
+			double percentage = ( double )hp / ( double )max_hp;
+			double tw = BOSS_HP_GAUGE_WIDTH * percentage;
 
-		//HPフレーム
-		int boss_hp_gauge_frame_x = boss_background_x;
-		int boss_hp_gauge_frame_y = boss_background_y;
-		Drawer::Transform boss_hp_frame_transform = Drawer::Transform( boss_hp_gauge_frame_x, boss_hp_gauge_frame_y );
-		Drawer::Sprite boss_hp_frame_sprite = Drawer::Sprite( boss_hp_frame_transform, GRAPHIC_UI_BOSS_HP_FRAME, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( boss_hp_frame_sprite );
+			//HP描画
+			int boss_hp_gauge_x = boss_background_x;
+			int boss_hp_gauge_y = boss_background_y;
+			Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
+			Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+			drawer->setSprite( boss_hp_gauge_sprite );
+
+			//HPフレーム
+			int boss_hp_gauge_frame_x = boss_background_x;
+			int boss_hp_gauge_frame_y = boss_background_y;
+			Drawer::Transform boss_hp_frame_transform = Drawer::Transform( boss_hp_gauge_frame_x, boss_hp_gauge_frame_y );
+			Drawer::Sprite boss_hp_frame_sprite = Drawer::Sprite( boss_hp_frame_transform, GRAPHIC_UI_BOSS_HP_FRAME, Drawer::BLEND_NONE, 0 );
+			drawer->setSprite( boss_hp_frame_sprite );
+		}
 	}
 }
 
@@ -677,10 +713,10 @@ void Viewer::drawReady( ) {
 	if ( app->getStartCount( ) > 0 ) {
 		int gauge_count = app->getStartCount( );
 		double percentage = ( double )gauge_count / app->getStartCountMax( );
-		double now_gauge = ( double )STATUS_READY_GAUGE_HEIGHT * percentage;
-		int gauge_x = fw->getWindowWidth( ) / 2 - STATUS_READY_GAUGE_WIDTH / 2;
-		int gauge_y = fw->getWindowHeight( ) / 2 - STATUS_READY_GAUGE_HEIGHT / 2;
-		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge , 0, STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge, STATUS_READY_GAUGE_WIDTH, ( int )now_gauge );
+		double now_gauge = ( double )TITLE_HEIGHT * percentage;
+		int gauge_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+		int gauge_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + TITLE_HEIGHT - ( int )now_gauge , 0, TITLE_HEIGHT - ( int )now_gauge, TITLE_WIDTH, ( int )now_gauge );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 	} else {
@@ -726,6 +762,27 @@ void Viewer::drawResult( ) {
 		drawer->setSprite( sprite );
 	}
 }
+
+void Viewer::drawLiveUI( ) {
+	AppPtr app = App::getTask( );
+	LiveScenePtr live_scene = app->getLiveScene( );
+	DrawerPtr drawer = Drawer::getTask( );
+
+	if ( live_scene->getScene( ) == LiveScene::SCENE_TITLE ) {
+		Drawer::Transform transform = Drawer::Transform( -10, -10 );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_RESULT_BACK, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+
+		FrameworkPtr fw = Framework::getInstance( );
+		int title_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+		int title_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+
+		Drawer::Transform title_transform = Drawer::Transform( title_x, title_y );
+		Drawer::Sprite title_sprite = Drawer::Sprite( title_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( title_sprite );
+	}
+}
+
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );

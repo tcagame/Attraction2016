@@ -20,6 +20,7 @@ public:
 	void setTarget( Vector target );
 	virtual void update( ) = 0;
 	virtual void initialize( ) { };
+	bool isInScreen( Vector pos );
 protected:
 	Vector getStartPos( ) const;
 	Vector getStartTargetPos( ) const;

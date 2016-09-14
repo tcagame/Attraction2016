@@ -1,26 +1,20 @@
 #pragma once
 
 #include "smart_ptr.h"
-#include <array>
+#include <list>
 
 PTR( Weapon );
 PTR( Bullet );
 
 class Weapon {
 public:
-	static const int MAX_BULLET_NUM = 10000;
-public:
 	Weapon( );
 	virtual ~Weapon( );
 public:
 	void reset( );
-	virtual void update( );
-	int getWeaponMaxNum( ) const;
-	BulletPtr getBullet( int idx );
-
-public:
+	void update( );
 	void add( BulletPtr bullet );
 private:
-	std::array< BulletPtr, MAX_BULLET_NUM > _bullet;
+	std::list< BulletPtr> _list_bullet;
 };
 

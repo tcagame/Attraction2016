@@ -152,7 +152,7 @@ void EnemyCyclopsBehavior::onAttack( ) {
 	Vector attack_pos = pos +  dir * 1.5;
 	Vector smash_dis = attack_pos - player_pos;
 
-	if ( smash_dis.getLength( ) < 0.5 ) {
+	if ( smash_dis.getLength( ) < 1.0 ) {
 		player->damage( _parent->getStatus( ).power );
 	}
 }

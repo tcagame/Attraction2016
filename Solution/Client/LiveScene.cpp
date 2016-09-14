@@ -4,14 +4,11 @@ const int SWITCH_SCENE_COUNT = 60;
 
 LiveScene::LiveScene( ) {
 	_switch_count = 0;
+	_scene = SCENE_TITLE;
 }
 
 
 LiveScene::~LiveScene( ) {
-}
-
-void LiveScene::init( ) {
-	_scene = SCENE_TITLE;
 }
 
 void LiveScene::update( ) {
@@ -24,4 +21,8 @@ void LiveScene::update( ) {
 		_switch_count = 0;
 	}
 	_switch_count++;
+}
+
+LiveScene::SCENE LiveScene::getScene( ) {
+	return _scene;
 }

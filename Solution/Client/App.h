@@ -15,6 +15,7 @@ PTR( DeedBoxes );
 PTR( Crystals );
 PTR( Field );
 PTR( Adventure );
+PTR( LiveScene );
 
 class App : public Task {
 public:
@@ -48,6 +49,7 @@ public:
 	AdventurePtr getAdventure( );
 	STATE getState( ) const;
 	FieldPtr getField( ) const;
+	LiveScenePtr getLiveScene( ) const;
 	void setState( STATE state );
 	unsigned char getPlayerId( ) const;
 	int getStartCount( ) const;
@@ -74,6 +76,7 @@ private:
 	AdventurePtr _adventure;
 	STATE _state;
 	FieldPtr _field;
+	LiveScenePtr _live_scene;
 	std::array< int , MAX_MAP_DATA_NUM > _map_convert;
 	int _push_reset_count;
 	int _push_start_count;

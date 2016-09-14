@@ -63,6 +63,7 @@ private:
 	void drawReady( );
 	void drawResult( );
 	void drawAdv( );
+	void drawLiveUI( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );

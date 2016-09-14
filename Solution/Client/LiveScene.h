@@ -1,4 +1,8 @@
 #pragma once
+#include "smart_ptr.h"
+
+PTR( LiveScene );
+
 class LiveScene {
 public:
 	enum SCENE {
@@ -12,6 +16,7 @@ public:
 public:
 	void init( );
 	void update( );
+	SCENE getScene( );
 private:
 	SCENE _scene;
 	int _switch_count;

@@ -15,6 +15,7 @@
 #include "Ground.h"
 #include "Drawer.h"
 #include "Camera.h"
+#include "LiveScene.h"
 #include "Model.h"
 #include "Animation.h"
 #include "Adventure.h"
@@ -82,8 +83,8 @@ const int STATUS_CLEAR_STRING_HEIGHT = 198;
 const int STATUS_GAMEOVER_STRING_WIDTH = 834;
 const int STATUS_GAMEOVER_STRING_HEIGHT = 194;
 
-const int STATUS_READY_GAUGE_WIDTH = 1300;
-const int STATUS_READY_GAUGE_HEIGHT = 925;
+const int TITLE_WIDTH = 1300;
+const int TITLE_HEIGHT = 925;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
@@ -293,6 +294,7 @@ void Viewer::update( ) {
 		drawBossMapModel( );
 		drawBigCrystal( );
 		drawCrystal( );
+		drawLiveUI( );
 		updateCamera( );
 	}
 }
@@ -692,10 +694,10 @@ void Viewer::drawReady( ) {
 	if ( app->getStartCount( ) > 0 ) {
 		int gauge_count = app->getStartCount( );
 		double percentage = ( double )gauge_count / app->getStartCountMax( );
-		double now_gauge = ( double )STATUS_READY_GAUGE_HEIGHT * percentage;
-		int gauge_x = fw->getWindowWidth( ) / 2 - STATUS_READY_GAUGE_WIDTH / 2;
-		int gauge_y = fw->getWindowHeight( ) / 2 - STATUS_READY_GAUGE_HEIGHT / 2;
-		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge , 0, STATUS_READY_GAUGE_HEIGHT - ( int )now_gauge, STATUS_READY_GAUGE_WIDTH, ( int )now_gauge );
+		double now_gauge = ( double )TITLE_HEIGHT * percentage;
+		int gauge_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+		int gauge_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+		Drawer::Transform gauge_transform = Drawer::Transform( gauge_x, gauge_y + TITLE_HEIGHT - ( int )now_gauge , 0, TITLE_HEIGHT - ( int )now_gauge, TITLE_WIDTH, ( int )now_gauge );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( gauge_sprite );
 	} else {
@@ -741,6 +743,27 @@ void Viewer::drawResult( ) {
 		drawer->setSprite( sprite );
 	}
 }
+
+void Viewer::drawLiveUI( ) {
+	AppPtr app = App::getTask( );
+	LiveScenePtr live_scene = app->getLiveScene( );
+	DrawerPtr drawer = Drawer::getTask( );
+
+	if ( live_scene->getScene( ) == LiveScene::SCENE_TITLE ) {
+		Drawer::Transform transform = Drawer::Transform( -10, -10 );
+		Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_RESULT_BACK, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( sprite );
+
+		FrameworkPtr fw = Framework::getInstance( );
+		int title_x = fw->getWindowWidth( ) / 2 - TITLE_WIDTH / 2;
+		int title_y = fw->getWindowHeight( ) / 2 - TITLE_HEIGHT / 2;
+
+		Drawer::Transform title_transform = Drawer::Transform( title_x, title_y );
+		Drawer::Sprite title_sprite = Drawer::Sprite( title_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( title_sprite );
+	}
+}
+
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );

@@ -6,6 +6,7 @@
 #include "Mouse.h"
 #include "Client.h"
 #include "PlayerCamera.h"
+#include "LiveCamera.h"
 #include "Sound.h"
 #include "Viewer.h"
 #include "App.h"
@@ -20,7 +21,12 @@ PlayerFactory::PlayerFactory( const unsigned char player_id ) {
 	AppPtr app = AppPtr( new App( player_id )  );
 	ViewerPtr viewer = ViewerPtr( new Viewer );
 	DrawerPtr drawer = DrawerPtr( new Drawer( "../Resource" ) );
-	CameraPtr camera = PlayerCameraPtr( new PlayerCamera );
+	CameraPtr camera;
+	if ( player_id == PLAYER_NONE ) {
+		camera = LiveCameraPtr( new LiveCamera );
+	} else {
+		camera = PlayerCameraPtr( new PlayerCamera );
+	}
 	SoundPtr sound = SoundPtr( new Sound( ) );
 
 	fw->addTask( Device::getTag( ), device );

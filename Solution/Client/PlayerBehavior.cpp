@@ -22,11 +22,13 @@
 #include "Player.h"
 
 const int CRYSTAL_LENGTH = 2;
+const int CONNTACT_MINOTAUR_LENGTH = 100;
 
 PlayerBehavior::PlayerBehavior( unsigned char player_id, unsigned char player_controll_id ) :
 MAX_ATTACK_PATTERN( 3 ),
 _player_id( player_id ),
 _controll( player_id == player_controll_id ) {
+	_is_conntact_minotaur = false;
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
@@ -41,10 +43,9 @@ void PlayerBehavior::update( ) {
 
 	walk( controll );
 	attack( controll );
-
+	AppPtr app = App::getTask( );
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_player_state = PLAYER_STATE_DEAD;
-		AppPtr app = App::getTask( );
 
 		app->setState( App::STATE_DEAD );
 		SoundPtr sound = Sound::getTask( );
@@ -63,11 +64,20 @@ void PlayerBehavior::update( ) {
 	_before_state = _player_state;
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	int sp = player->getSP( );
+	AdventurePtr adventure = app->getAdventure( );
 	if ( ( !_is_tutorial_sence ) && ( sp == Player::FULL_SP_NUM ) ) {
-		AppPtr app = App::getTask( );
-		AdventurePtr adventure = app->getAdventure( );
-		adventure->start( Adventure::TYPE_COMMON_TUTORIAL_3 );
+		adventure->set( Adventure::TYPE_COMMON_TUTORIAL_3 );
 		_is_tutorial_sence = true;
+	}
+	for ( int i = PLAYER_ETUDE_RED; i <= PLAYER_ETUDE_BLUE; i++ ) {
+		Vector pos = _parent->getPos( ) - app->getPlayer( i )->getPos( );
+		if ( !_is_conntact_minotaur && 
+			( _player_id < PLAYER_ETUDE_RED ) && 
+			( pos.getLength( ) < CONNTACT_MINOTAUR_LENGTH ) ) {
+			adventure->set( Adventure::TYPE_COMMON_CYCLOPS_CONTACT );
+			adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_ENTRY );
+			_is_conntact_minotaur = true;
+		}
 	}
 }
 

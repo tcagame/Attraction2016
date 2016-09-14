@@ -54,10 +54,6 @@ const int STATUS_NAME_HEIGHT = 148;
 const int TEXT_WINDOW_WIDTH  = 1800;
 const int TEXT_WINDOW_HEIGHT = 347;
 
-const int CHARACTER_WIDTH = 617;
-const int CHARACTER_HEIGHT = 1000;
-
-
 const double STATUS_GAUSGE_OFFSET = 6.7;
 
 const int STATUS_HP_GAUGE_WIDTH = 636;
@@ -101,6 +97,16 @@ const int TEXT_WORD_X = 70;
 const int TEXT_WORD_Y = 73;
 
 const double MODEL_SHADOW_HEIGTH = 0.002;
+
+const int CHARACTER_WIDTH[ Adventure::CHARACTER_MAX ] = {
+	617,
+	444,
+	887,
+	646,
+	800,
+	1372
+};
+const int CHARACTER_HEIGHT = 1000;
 
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
@@ -797,8 +803,8 @@ void Viewer::drawAdv( ) {
 	FrameworkPtr fw = Framework::getInstance( );
 	DrawerPtr drawer = Drawer::getTask( );
 	//バストアップ描画	
-	int character_x = 0;
-	int character_y = fw->getWindowHeight( ) - CHARACTER_HEIGHT;
+	int character_x = fw->getWindowWidth( ) / 4 * 3 - CHARACTER_WIDTH[ adv->getCharacter( type ) ] / 2;
+	int character_y = fw->getWindowHeight( ) / 4 * 3 - CHARACTER_HEIGHT / 2;
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( character_sprite );

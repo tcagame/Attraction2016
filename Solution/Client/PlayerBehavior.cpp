@@ -89,7 +89,7 @@ void PlayerBehavior::walk( const CONTROLL& controll ) {
 			_attack_pattern = 0;
 		}
 
-		pickupCrystal( );
+		pickupCrystal( controll );
 	}
 }
 
@@ -151,13 +151,14 @@ bool PlayerBehavior::isDeathblow( ) {
 	return on_store || on_deathblow;
 }
 
-void PlayerBehavior::pickupCrystal( ) {
-	KeyboardPtr keyboard = Keyboard::getTask( );
-	DevicePtr device = Device::getTask( );
-
-	if ( keyboard->isPushKey( "B" ) || device->getButton( ) == BUTTON_B ) {
+void PlayerBehavior::pickupCrystal( const CONTROLL& controll ) {
+	AppPtr app = App::getTask();
+	CrystalsPtr crystals = app->getCrystals();
+	if ( !crystals ) {
+		return;
+	}
+	if ( controll.action == ACTION_ATTACK ) {
 		int crystal_num = 0;
-		AppPtr app = App::getTask();
 		FieldPtr field = app->getField( );
 		Vector pos = _parent->getPos( );
 		for ( int i = -CRYSTAL_LENGTH; i < CRYSTAL_LENGTH; i++ ) {
@@ -167,7 +168,7 @@ void PlayerBehavior::pickupCrystal( ) {
 				if ( !crystal ) {
 					continue;
 				}
-				CrystalsPtr crystals = app->getCrystals();
+
 				//‘å‚«‚¢ƒNƒŠƒXƒ^ƒ‹‚ð‚Æ‚Á‚½‚ç
 				if ( crystals->getCrystalNum( ) >= Crystals::MAX_CRYSTAL_NUM ) {
 					CameraPtr camera = Camera::getTask();

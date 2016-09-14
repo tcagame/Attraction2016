@@ -32,5 +32,6 @@ bool BulletDash::update( ) {
 	double range = getLength( );
 	Vector pos = getPos( ) + _dir * range;
 	attackPlayer( pos, POWER );
+
 	return true;
 }

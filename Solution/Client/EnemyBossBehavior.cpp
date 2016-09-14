@@ -88,6 +88,11 @@ void EnemyBossBehavior::update( ) {
 
 
 void EnemyBossBehavior::switchStatus( ) {
+	AppPtr app = App::getTask();
+	CrystalsPtr crystals = app->getCrystals();
+	if ( !crystals ) {
+		return;
+	}
 	if ( _target.expired( ) ) {
 		return;
 	}
@@ -96,8 +101,6 @@ void EnemyBossBehavior::switchStatus( ) {
 	Vector stance = _target_pos - _parent->getPos( );
 	Vector pos = _parent->getPos( );
 	double range = stance.getLength();
-	AppPtr app = App::getTask();
-	CrystalsPtr crystals = app->getCrystals();
 	int hp = _parent->getStatus( ).hp;
 	switch ( _boss_state ) {
 	case BOSS_STATE_WAIT:

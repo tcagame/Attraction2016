@@ -8,6 +8,7 @@
 #include "BulletExcalibur.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Sound.h"
 #include "Effect.h"
 #include "Client.h"
 
@@ -22,7 +23,7 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
-	
+	SoundPtr sound = Sound::getTask( );
 	//•KE‹Z‚Ì\‚¦
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	//—­‚ßƒ‚[ƒVƒ‡ƒ“
@@ -42,7 +43,7 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 			int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 			effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
-		
+			sound->playSE( Sound::SE_PLAYER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -63,10 +64,14 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 		weapon->add( bullet );
 		player->resetSP( );
 		_player_state = PLAYER_STATE_DEATHBLOW;
+		sound->playSE( Sound::SE_KNIGHT_DEATHBLOW );
 	}
 	//•KE‹ZI—¹‚Ü‚Å•KE‹Zƒ‚[ƒVƒ‡ƒ“
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && !_animation->isEndAnimation( ) ) {
 		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_KNIGHT_DEATHBLOW && _animation->isEndAnimation( ) ) {
+		sound->playSE( Sound::SE_KNIGHT_DEATHBLOW_FINISH );
 	}
 
 	if ( !isDeathblow( ) ) {
@@ -89,12 +94,15 @@ void PlayerKnightBehavior::attack( const CONTROLL& controll ) {
 		if ( in_attack || next_attack ) {
 			switch ( _attack_pattern ) {
 				case 0:
+					sound->playSE( Sound::SE_KNIGHT_ATTACK_1 );
 					bullet = BulletSlashPtr( new BulletSlash( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 					break;
 				case 1:
+					sound->playSE( Sound::SE_KNIGHT_ATTACK_2 );
 					bullet = BulletSwordPtr( new BulletSword( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 					break;
 				case 2:
+					sound->playSE( Sound::SE_KNIGHT_ATTACK_3 );
 					bullet = BulletStabPtr( new BulletStab( _parent->getPos( ), _parent->getDir( ).x, _parent->getDir( ).y ) );
 					break;
 			}

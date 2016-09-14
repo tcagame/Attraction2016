@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Effect.h"
 #include "App.h"
+#include "Sound.h"
 #include "Player.h"
 
 const double MOTION_SPEED = 1;
@@ -140,6 +141,8 @@ void EnemyCyclopsBehavior::animationUpdate( ) {
 
 void EnemyCyclopsBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

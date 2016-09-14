@@ -11,7 +11,7 @@
 #include "Camera.h"
 
 const Vector START_DIR = Vector( 0, 1, 0 );
-
+const int SE_TIME = 15;
 
 Character::Character( TYPE type, BehaviorPtr behavior, Character::STATUS status, std::string character_name ) :
 CHARACTER_TYPE( type ) {
@@ -52,7 +52,11 @@ bool Character::move( const Vector& vec ) {
 		_dir = vec.normalize( );
 	}
 	SoundPtr sound = Sound::getTask( );
-	sound->playSE( Sound::SE_PLAYER_MOVE );
+	if ( _se_time >= SE_TIME ) {
+		sound->playSE( Sound::SE_PLAYER_MOVE );
+		_se_time = 0;
+	}
+	_se_time++;
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
 	
@@ -98,6 +102,8 @@ void Character::damage( unsigned int power ) {
 			_status.hp = 0;
 		}
 	}
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_PLAYER_DAMAGE );
 }
 
 Vector Character::getPos( ) const {
@@ -140,4 +146,6 @@ void Character::dead( ) {
 	FieldPtr field = app->getField();
 	field->delTarget( ( int )_pos.x, ( int )_pos.y, getThis( ) );
 	_expired = false;
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_PLAYER_DEAD );
 }

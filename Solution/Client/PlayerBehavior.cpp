@@ -16,6 +16,7 @@
 #include "Keyboard.h"
 #include "Device.h"
 #include "PlayerCamera.h"
+#include "Sound.h"
 #include "Client.h"
 
 const int CRYSTAL_LENGTH = 2;
@@ -43,6 +44,8 @@ void PlayerBehavior::update( ) {
 		AppPtr app = App::getTask( );
 
 		app->setState( App::STATE_DEAD );
+		SoundPtr sound = Sound::getTask( );
+		sound->playSE( Sound::SE_GAME_CLEAR );
 		ClientPtr client = Client::getTask( );
 		SERVERDATA data;
 		data.command = COMMAND_STATUS_POS;

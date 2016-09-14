@@ -2,10 +2,10 @@
 #include "App.h"
 #include "Effect.h"
 
-const int VANISH_TIME = 50;
+const int VANISH_TIME = 20;
 const double BULLET_SCALE = 0.3;
 const int POWER = 1;
-const int SPEED = 1;
+const double SPEED = 1;
 
 BulletFire::BulletFire( const Vector& pos, const Vector& dir )
 : Bullet( Bullet::TYPE_FIRE ) {
@@ -25,11 +25,11 @@ BulletFire::~BulletFire( ) {
 
 bool BulletFire::update( ) {
 	// ˆÚ“®
-	_pos += _dir * _speed;
 	_exist_time++;
 	if ( _exist_time >= VANISH_TIME  ) {
 		return false;
 	}
+	_pos += _dir * _speed;
 	attackEnemy( _pos, POWER );
 	Effect effect;
 	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );

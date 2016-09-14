@@ -155,11 +155,11 @@ void Viewer::initialize( ) {
 	drawer->loadMV1Model( Animation::MOTION_GHOST_DEAD,			    "EnemyModel/ghost/enemy_ghost_dead.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GHOST_ATTACK,		    "EnemyModel/ghost/enemy_ghost_attack.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
 	
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT,			    "EnemyModel/armor/enemy_armor_wait.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK,			    "EnemyModel/armor/enemy_armor_walk.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK,		    "EnemyModel/armor/enemy_armor_attack.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE,		    "EnemyModel/armor/enemy_armor_damage.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
-	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD,			    "EnemyModel/armor/enemy_armor_dead.mv1", MODEL_SCALE_2015 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WAIT,			    "EnemyModel/redgoblin/enemy_redgoblin_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_WALK,			    "EnemyModel/redgoblin/enemy_redgoblin_walk.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_ATTACK,		    "EnemyModel/redgoblin/enemy_redgoblin_attack.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DAMAGE,		    "EnemyModel/redgoblin/enemy_redgoblin_damage.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
+	drawer->loadMV1Model( Animation::MOTION_ARMOR_DEAD,			    "EnemyModel/redgoblin/enemy_redgoblin_dead.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WAIT,		    "EnemyModel/goblin/enemy_goblin_wait.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GOBLIN_WALK,		    "EnemyModel/goblin/enemy_goblin_walk.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );
 	drawer->loadMV1Model( Animation::MOTION_GOBLIN_ATTACK,		    "EnemyModel/goblin/enemy_goblin_attack.mv1", MODEL_SCALE_2016 * MODEL_SCALE_ALL );

@@ -263,6 +263,7 @@ void Viewer::update( ) {
 		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		drawReady( );
 		break;
+	case App::STATE_LIVE:
 	case App::STATE_PLAY:
 		drawer->setPlayEffect( true );		//エフェクト描画ON
 		drawBackGround( );

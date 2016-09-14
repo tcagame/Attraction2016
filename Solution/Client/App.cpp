@@ -54,7 +54,6 @@ App::~App( ) {
 
 void App::update( ) {
 	updateReset( );
-
 	switch ( _state ) {
 	case STATE_READY:
 		updateStateReady( );
@@ -68,8 +67,10 @@ void App::update( ) {
 	case STATE_DEAD:
 		updateStateDead( );
 		break;
+	case STATE_LIVE:
+		updateStateLive( );
+		break;
 	}
-
 }
 
 void App::updateReset( ) {
@@ -178,6 +179,10 @@ void App::updateStateDead( ) {
 
 }
 
+void App::updateStateLive( ) {
+	updateStatePlay( );
+}
+
 void App::initialize( ) {
 
 	{ //Knight
@@ -235,6 +240,9 @@ void App::initialize( ) {
 	loadToGround( );//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	_cohort->init( );
 	
+	if ( _player_id == PLAYER_NONE ) {
+		_state = STATE::STATE_LIVE;
+	}
 }
 
 void App::finalize( ) {

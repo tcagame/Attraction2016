@@ -2,7 +2,7 @@
 
 Adventure::Adventure( ) {
 	_type = TYPE_NONE;
-	_contents[ TYPE_KNIGHT_CREATE ] = Content( CHARACTER_KNIGHT, "", Sound::VOICE_TEST_1 );
+	_contents[ TYPE_KNIGHT_CREATE ] = Content( CHARACTER_KNIGHT, "", Sound::VOICE_KNIGHT_LOGIN );
 	
 }
 
@@ -25,7 +25,7 @@ void Adventure::update( ) {
 	}
 	SoundPtr sound = Sound::getTask( );
 	// ˆŸƒTƒEƒ“ƒh
-	if ( !sound->isVoiceEnd( ) ) {
+	if ( !sound->isPlayingVoice( ) ) {
 		_type = TYPE_NONE;
 	}
 }

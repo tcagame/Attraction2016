@@ -144,5 +144,15 @@ void EnemyCyclopsBehavior::onAttack( ) {
 	SoundPtr sound = Sound::getTask( );
 	sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
-	player->damage( _parent->getStatus( ).power );
+
+	Vector player_pos = player->getPos( );
+	Vector pos = _parent->getPos( );
+	Vector vec = player_pos - pos;
+	Vector dir = vec.normalize( );
+	Vector attack_pos = pos +  dir * 1.5;
+	Vector smash_dis = attack_pos - player_pos;
+
+	if ( smash_dis.getLength( ) < 1.0 ) {
+		player->damage( _parent->getStatus( ).power );
+	}
 }

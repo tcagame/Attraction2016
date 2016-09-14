@@ -22,7 +22,7 @@
 #include "Player.h"
 
 const int CRYSTAL_LENGTH = 2;
-const int CONNTACT_MINOTAUR_LENGTH = 100;
+const int CONNTACT_MINOTAUR_LENGTH = 10;
 
 PlayerBehavior::PlayerBehavior( unsigned char player_id, unsigned char player_controll_id ) :
 MAX_ATTACK_PATTERN( 3 ),
@@ -65,7 +65,7 @@ void PlayerBehavior::update( ) {
 	PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
 	int sp = player->getSP( );
 	AdventurePtr adventure = app->getAdventure( );
-	if ( ( !_is_tutorial_sence ) && ( sp == Player::FULL_SP_NUM ) ) {
+	if ( ( !_is_tutorial_sence ) && ( sp == Player::FULL_SP_NUM ) && _controll ) {
 		adventure->set( Adventure::TYPE_COMMON_TUTORIAL_3 );
 		_is_tutorial_sence = true;
 	}
@@ -73,7 +73,8 @@ void PlayerBehavior::update( ) {
 		Vector pos = _parent->getPos( ) - app->getPlayer( i )->getPos( );
 		if ( !_is_conntact_minotaur && 
 			( _player_id < PLAYER_ETUDE_RED ) && 
-			( pos.getLength( ) < CONNTACT_MINOTAUR_LENGTH ) ) {
+			( pos.getLength( ) < CONNTACT_MINOTAUR_LENGTH ) &&
+			_controll ) {
 			adventure->set( Adventure::TYPE_COMMON_CYCLOPS_CONTACT );
 			adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_ENTRY );
 			_is_conntact_minotaur = true;

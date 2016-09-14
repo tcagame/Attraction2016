@@ -52,12 +52,6 @@ bool Character::move( const Vector& vec ) {
 	if ( vec.getLength( ) > 0 ) {
 		_dir = vec.normalize( );
 	}
-	/*SoundPtr sound = Sound::getTask( );
-	if ( _se_time >= SE_TIME ) {
-		sound->playSE( Sound::SE_PLAYER_MOVE );
-		_se_time = 0;
-	}
-	_se_time++;*/
 	AppPtr app = App::getTask( );
 	FieldPtr field = app->getField( );
 	

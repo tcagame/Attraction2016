@@ -144,8 +144,8 @@ void EnemyArmorBehavior::animationUpdate( ) {
 
 void EnemyArmorBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	SoundPtr sound = Sound::getTask( );
-	sound->playSE( Sound::SE_ENEMY_ATTACK );
+	//SoundPtr sound = Sound::getTask( );
+	//sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

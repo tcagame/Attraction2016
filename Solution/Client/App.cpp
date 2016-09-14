@@ -44,6 +44,8 @@ const Adventure::TYPE ADV_CONTENC [  ]{
 	Adventure::TYPE_COMMON_AFTER_LOGIN,
 	Adventure::TYPE_COMMON_TUTORIAL_1,
 	Adventure::TYPE_COMMON_TUTORIAL_2,
+	Adventure::TYPE_COMMON_TUTORIAL_4,
+
 };
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
@@ -172,13 +174,11 @@ void App::updateStatePlay( ) {
 					if ( vec.getLength2( ) > 3.0 * 3.0 ) {
 						_player[ i ]->dead( );
 						_player[ i ]->create( pos );
-						_adventure->set( Adventure::TYPE_COMMON_ANOTHER_PLAYER_LOGIN );
 					}
 				}
 			} else {
 				if ( !pos.isOrijin( ) ) {
 					_player[ i ]->create( pos );
-					_adventure->set( Adventure::TYPE_COMMON_ANOTHER_PLAYER_LOGIN );
 				}
 			}
 		}
@@ -194,12 +194,13 @@ void App::updateStatePlay( ) {
 		_weapon->update( );
 	}
 
-	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 2 )  {
+	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 3 )  {
 		if ( _player_id < PLAYER_ETUDE_RED ) {
 			_adventure->set( ADV_CONTENC[ _adv_idx ] );
 			_adv_idx++;
 		}
 	}
+	
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( _player[ _player_id ]->getPos( ) );
 }

@@ -54,6 +54,7 @@ void EnemyMinotaurBehavior::switchStatus( ) {
 	if ( _target.expired( ) ) {
 		return;
 	}
+
 	PlayerPtr player = _target.lock( );
 	Vector target_pos = player->getPos( );
 	Vector stance = target_pos - _parent->getPos( );
@@ -134,7 +135,15 @@ void EnemyMinotaurBehavior::animationUpdate( ) {
 }
 
 void EnemyMinotaurBehavior::onAttack( ) {
+
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayerMine( );
-	player->damage( _parent->getStatus( ).power );
+	Vector target_pos = player->getPos( );
+	Vector stance = target_pos - _parent->getPos( );
+
+	double range = stance.getLength( );
+	
+	if ( range <= _attack_range ) {
+		player->damage( _parent->getStatus( ).power );
+	}
 }

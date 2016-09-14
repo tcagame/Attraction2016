@@ -2,13 +2,13 @@
 #include "Animation.h"
 #include "Character.h"
 #include "App.h"
-#include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
 #include "Client.h"
 #include "BulletDash.h"
 #include "BulletCleave.h"
 #include "BulletSmash.h"
+#include "Weapon.h"
 
 EtudeBehavior::EtudeBehavior( unsigned char etude_type, unsigned char player_id ) :
 PlayerBehavior( etude_type, player_id ) {
@@ -22,6 +22,7 @@ EtudeBehavior::~EtudeBehavior()
 void EtudeBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
+
 	BulletPtr bullet;
 
 	//UŒ‚‚É“ü‚éuŠÔ

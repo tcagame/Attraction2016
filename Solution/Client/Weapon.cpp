@@ -12,38 +12,26 @@ Weapon::~Weapon( ) {
 }
 
 void Weapon::reset( ) {
-	for (int i = 0; i < MAX_BULLET_NUM; i++) {
-		_bullet[ i ].reset( );
-	}
+	_list_bullet.clear( );
 }
 
 void Weapon::update( ) {
-	for ( int i = 0; i < MAX_BULLET_NUM; i++ ) {
-		BulletPtr bullet = _bullet[ i ];
+	std::list<BulletPtr>::iterator it = _list_bullet.begin( );
+	while ( it != _list_bullet.end( ) ) {
+		BulletPtr bullet = *it;
 		if ( !bullet ) {
+			it = _list_bullet.erase( it );
 			continue;
 		}
-		if ( !_bullet[ i ]->update( ) ) {
-			_bullet[ i ].reset( );
-			_bullet[ i ] = NULL;
+
+		if ( !bullet->update( ) ) {
+			it = _list_bullet.erase( it );
+		} else {
+			it++;
 		}
 	}
-}
-
-int Weapon::getWeaponMaxNum( ) const {
-	return MAX_BULLET_NUM;
-}
-
-BulletPtr Weapon::getBullet( int idx ) {
-	return _bullet[ idx ];
 }
 
 void Weapon::add( BulletPtr bullet ) {
-	for ( int i = 0; i < MAX_BULLET_NUM; i++ ) {
-		BulletPtr check = _bullet[ i ];
-		if ( !check ) {
-			_bullet[ i ] = bullet;
-			break;
-		}
-	}
+	_list_bullet.push_back( bullet );
 }

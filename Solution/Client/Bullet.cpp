@@ -57,15 +57,11 @@ void Bullet::attackPlayer( const Vector& pos, int power ) {
 	if ( !player ) {
 		return;
 	}
-
-	double bottom = player->getPos().z;
-	double top = bottom + 2;
-	if ( pos.z > bottom && pos.z < top ) {
-		Character::STATUS status = player->getStatus();
-		if ( status.hp > 0 ) {
-			player->damage( power );
-		}
+	if ( player->getCharacterName( ) == "PLAYER_ETUDE" ) {
+		return;
 	}
+
+	player->damage( power );
 }
 
 bool Bullet::isDeathBlow( ) {

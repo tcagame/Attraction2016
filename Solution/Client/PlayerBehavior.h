@@ -24,9 +24,6 @@ public:
 public:
 	void update( );
 	bool isDeathblow( );
-	//void pickupDeedBox( );
-	//void pickupItem( );
-	void pickupCrystal( );
 protected:
 	struct CONTROLL {
 		Vector move;
@@ -40,6 +37,7 @@ protected:
 protected:
 	virtual void attack( const CONTROLL& controll ) = 0;//çUåÇÇ»Ç«ÇÃäOÇÃçsìÆ
 	void walk( const CONTROLL& controll );
+	void pickupCrystal( const CONTROLL& controll );
 	CONTROLL makeControll( );
 protected:
 	const int MAX_ATTACK_PATTERN;

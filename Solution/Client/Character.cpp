@@ -100,6 +100,9 @@ void Character::damage( unsigned int power ) {
 	bool is_unrivaled  = isPlayer && player_behavior->isDeathblow( );
 	if ( !is_unrivaled ) {
 		_status.hp -= power;
+		if ( _status.hp < 0 ) {
+			_status.hp = 0;
+		}
 	}
 }
 

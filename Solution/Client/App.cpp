@@ -13,6 +13,7 @@
 #include "Ground.h"
 #include "PlayerCamera.h"
 #include "Device.h"
+#include "Sound.h"
 #include "Framework.h"
 #include "Client.h"
 #include <stdio.h>
@@ -98,6 +99,7 @@ void App::updateReset( ) {
 
 	_push_reset_count = 0;
 	_push_start_count = 0;
+	
 }
 
 void App::updateStateReady( ) {
@@ -115,6 +117,7 @@ void App::updateStateReady( ) {
 	_player[ _player_id ]->create( player_pos );
 	setState( STATE_PLAY );
 	_push_start_count = 0;
+
 }
 
 void App::updateStatePlay( ) {
@@ -206,7 +209,7 @@ void App::initialize( ) {
 	_crystals = CrystalsPtr(new Crystals());
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	_cohort->init();
-
+	
 }
 
 void App::finalize( ) {

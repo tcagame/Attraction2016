@@ -6,6 +6,7 @@
 #include "BulletRapidFire.h"
 #include "BulletShot.h"
 #include "BulletBulletRain.h"
+#include "Sound.h"
 #include "Weapon.h"
 #include "Player.h"
 #include "Effect.h"
@@ -20,6 +21,8 @@ PlayerHunterBehavior::~PlayerHunterBehavior( ) {
 }
 
 void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
+	SoundPtr sound = Sound::getTask( );
+
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -42,7 +45,7 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 			int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 			effect.drawEffect( id, Vector( 0.5, 0.5, 0.5 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
-		
+			sound->playSE( Sound::SE_PLAYER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -62,11 +65,15 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 		bullet = BulletPtr( new BulletBulletRain( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		player->resetSP( );
+		sound->playSE( Sound::SE_HUNTER_DEATHBLOW );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_DEATHBLOW && !_animation->isEndAnimation( ) ) {
 		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_HUNTER_DEATHBLOW && _animation->isEndAnimation( ) ) {
+		sound->playSE( Sound::SE_HUNTER_DEATHBLOW_FINISH );
 	}
 
 	if ( !isDeathblow( ) ) {
@@ -81,12 +88,15 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 				if ( _animation->getAnimTime( ) == 40.0 ) {
 				switch ( _attack_pattern ) {
 						case 0:
+							sound->playSE( Sound::SE_HUNTER_ATTACK_1 );
 							bullet = BulletFirePtr( new BulletFire( _parent->getPos( ), _parent->getDir( ) ) );
 							break;
 						case 1:
+							sound->playSE( Sound::SE_HUNTER_ATTACK_1 );
 							bullet = BulletRapidFirePtr( new BulletRapidFire( _parent->getPos( ), _parent->getDir( ) ) );
 							break;
 						case 2:
+							sound->playSE( Sound::SE_HUNTER_ATTACK_2 );
 							bullet = BulletShotPtr( new BulletShot( _parent->getPos( ), _parent->getDir( ) ) );
 							break;
 					}

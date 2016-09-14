@@ -1,6 +1,7 @@
 #include "EnemyGoblinBehavior.h"
 #include "Character.h"
 #include "Animation.h"
+#include "Sound.h"
 #include "Effect.h"
 #include "App.h"
 #include "Player.h"
@@ -139,6 +140,8 @@ void EnemyGoblinBehavior::animationUpdate( ) {
 
 void EnemyGoblinBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
 	player->damage( _parent->getStatus( ).power );
 }

@@ -40,7 +40,7 @@ const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
 
 const bool EXPIRED_FAIRY = true;
-const int END_FAIRY_TIME = 150;
+const int END_FAIRY_TIME = 160;
 
 //UIï`âÊ
 const int STATUS_POS_OFFSET = 5;
@@ -350,11 +350,11 @@ void Viewer::drawPlayer( ) {
 		if ( EXPIRED_FAIRY ) {
 			//ódê∏
 			Effect effect;
-			if ( _fairy_time >= END_FAIRY_TIME ) {//effectÇà€éùÇ≥ÇπÇÈÇΩÇﬂ
+			if ( _fairy_time >= END_FAIRY_TIME ) {//effectÇà€éùÇ≥ÇπÇÈÇΩ
 				_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
 				_fairy_time = 0;
 			}
-			effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
+			effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 0.5 ), dir );
 			_fairy_time++;
 		}
 	}

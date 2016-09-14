@@ -8,6 +8,7 @@
 #include "BulletDash.h"
 #include "BulletCleave.h"
 #include "BulletSmash.h"
+#include "Sound.h"
 #include "Weapon.h"
 
 EtudeBehavior::EtudeBehavior( unsigned char etude_type, unsigned char player_id ) :
@@ -22,7 +23,7 @@ EtudeBehavior::~EtudeBehavior()
 void EtudeBehavior::attack( const CONTROLL& controll ) {
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
-
+	SoundPtr sound = Sound::getTask( );
 	BulletPtr bullet;
 
 	//UŒ‚‚É“ü‚éuŠÔ
@@ -47,9 +48,11 @@ void EtudeBehavior::attack( const CONTROLL& controll ) {
 	if ( in_attack || next_attack ) {
 		switch ( _attack_pattern ) {
 			case 0:
+				sound->playSE( Sound::SE_MINOTAUR_ATTACK_1 );
 				bullet = BulletPtr( new BulletDash( _parent->getPos( ), _parent->getDir( ) ) );
 				break;
 			case 1:
+				sound->playSE( Sound::SE_MINOTAUR_ATTACK_1 );
 				bullet = BulletPtr( new BulletSmash( _parent->getPos( ), _parent->getDir( ) ) );
 				break;
 			case 2:

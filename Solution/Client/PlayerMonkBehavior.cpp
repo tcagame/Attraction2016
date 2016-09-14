@@ -8,6 +8,7 @@
 #include "BulletRush.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Sound.h"
 #include "Field.h"
 #include "Effect.h"
 #include "Client.h"
@@ -21,6 +22,7 @@ PlayerMonkBehavior::~PlayerMonkBehavior( ) {
 }
 
 void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
+	SoundPtr sound = Sound::getTask( );
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -47,7 +49,7 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 			int id = effect.setEffect( Effect::EFFECT_PLAYER_MONK_STORE );
 			effect.drawEffect( id, Vector( 0.3, 0.3, 0.3 ), _parent->getPos( ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
-		
+			sound->playSE( Sound::SE_PLAYER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -78,11 +80,16 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ) ) );
 		weapon->add( bullet );
 		player->resetSP( );
+		sound->playSE( Sound::SE_MONK_ATTACK_2 );
+		sound->playSE( Sound::SE_MONK_ATTACK_1 );
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_DEATHBLOW && !_animation->isEndAnimation( ) ) {
 		_player_state = PLAYER_STATE_DEATHBLOW;
+	}
+	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_DEATHBLOW && _animation->isEndAnimation( ) ) {
+		sound->playSE( Sound::SE_MONK_DEATHBLOW_FINISH );
 	}
 
 	if ( !isDeathblow( ) ) {
@@ -105,12 +112,15 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 		if ( in_attack || next_attack ) {
 			switch ( _attack_pattern ) {
 				case 0:
+					sound->playSE( Sound::SE_MONK_ATTACK_1 );
 					bullet = BulletJabPtr( new BulletJab( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 					break;																									 
-				case 1:																										 
+				case 1:					
+					sound->playSE( Sound::SE_MONK_ATTACK_2 );
 					bullet = BulletImpactPtr( new BulletImpact( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 					break;																									 
-				case 2:																										 
+				case 2:										
+					sound->playSE( Sound::SE_MONK_ATTACK_3 );
 					bullet = BulletUpperPtr( new BulletUpper( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 					break;
 			}

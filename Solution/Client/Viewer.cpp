@@ -616,7 +616,7 @@ void Viewer::drawUI( ) {
 		double hp_percentage = hp / max_hp;
 		double hp_tw = ( ( double )STATUS_HP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * hp_percentage + STATUS_GAUSGE_OFFSET;
 		
-		int status_hp_gauge_x = status_gauge_background_x;
+		int status_hp_gauge_x = status_gauge_background_x + STATUS_POS_OFFSET;
 		int status_hp_gauge_y = status_gauge_background_y;
 		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
 		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
@@ -627,16 +627,16 @@ void Viewer::drawUI( ) {
 		double sp_percentage = sp / 100;
 		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
 		
-		int status_sp_gauge_x = status_hp_gauge_x;
-		int status_sp_gauge_y = status_hp_gauge_y;
+		int status_sp_gauge_x = status_gauge_background_x;
+		int status_sp_gauge_y = status_gauge_background_y;
 		
 		Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )sp_tw, STATUS_SP_GAUGE_HEIGHT );
 		Drawer::Sprite sp_sprite = Drawer::Sprite( sp_transform, GRAPHIC_UI_SP_GAUGE, Drawer::BLEND_NONE, 0 );
 		drawer->setSprite( sp_sprite );
 
 		//ゲージフレーム
-		int status_gauge_frame_x = status_hp_gauge_x;
-		int status_gauge_frame_y = status_hp_gauge_y;
+		int status_gauge_frame_x = status_gauge_background_x;
+		int status_gauge_frame_y = status_gauge_background_y;
 		
 		Drawer::Transform gauge_frame_transform = Drawer::Transform( status_gauge_frame_x, status_gauge_frame_y );
 		Drawer::Sprite gauge_frame_sprite = Drawer::Sprite( gauge_frame_transform, GRAPHIC_UI_GAUGE_FRAME, Drawer::BLEND_NONE, 0 );

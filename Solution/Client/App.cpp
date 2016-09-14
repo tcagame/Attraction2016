@@ -186,7 +186,8 @@ void App::updateStateClear( ) {
 }
 
 void App::updateStateDead( ) {
-
+	SoundPtr sound = Sound::getTask( );
+	sound->playSE( Sound::SE_GAME_OVER );
 }
 
 void App::updateStateLive( ) {

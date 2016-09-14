@@ -8,6 +8,7 @@
 #include "BulletSplash.h"
 #include "Weapon.h"
 #include "Player.h"
+#include "Sound.h"
 #include "Effect.h"
 #include "Client.h"
 
@@ -19,6 +20,7 @@ PlayerWitchBehavior::~PlayerWitchBehavior( ) {
 }
 
 void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
+	SoundPtr sound = Sound::getTask( );
 	AppPtr app = App::getTask( );
 	WeaponPtr weapon = app->getWeapon( );
 	BulletPtr bullet;
@@ -42,7 +44,7 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 			int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
 			effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
-		
+			sound->playSE( Sound::SE_PLAYER_STORE );
 			if ( _controll ) {
 				ClientPtr client = Client::getTask( );
 				SERVERDATA data;
@@ -62,6 +64,8 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 		bullet = BulletPtr( new BulletSplash( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 		player->resetSP( );
 		weapon->add( bullet );
+		sound->playSE( Sound::SE_WITCH_DEATHBLOW );
+
 		_player_state = PLAYER_STATE_DEATHBLOW;
 	}
 	//•KŽE‹ZI—¹‚Ü‚Å•KŽE‹Zƒ‚[ƒVƒ‡ƒ“
@@ -81,12 +85,15 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 			if ( _animation->getAnimTime( ) == 20.0 ) {
 				switch ( _attack_pattern ) {
 					case 0:
+						sound->playSE( Sound::SE_WITCH_ATTACK_1 );
 						bullet = BulletBeamPtr( new BulletBeam( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 						break;
 					case 1:
+						sound->playSE( Sound::SE_WITCH_ATTACK_2 );
 						bullet = BulletBubblePtr( new BulletBubble( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 						break;
 					case 2:
+						sound->playSE( Sound::SE_WITCH_ATTACK_3 );
 						bullet = BulletLayPtr( new BulletLay( _parent->getPos( ) + Vector( 0, 0, 0.5 ), _parent->getDir( ) ) );
 						break;
 				}

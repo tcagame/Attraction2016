@@ -57,6 +57,7 @@ public:
 private:
 	const TYPE CHARACTER_TYPE;
 private:
+	int _se_time;
 	Vector _pos;
 	Vector _dir;
 	std::string _character_name;

@@ -18,6 +18,8 @@
 #include "PlayerCamera.h"
 #include "Sound.h"
 #include "Client.h"
+#include "Adventure.h"
+#include "Player.h"
 
 const int CRYSTAL_LENGTH = 2;
 
@@ -28,6 +30,7 @@ _controll( player_id == player_controll_id ) {
 }
 
 PlayerBehavior::~PlayerBehavior( ) {
+	_is_tutorial_sence = false;
 }
 
 void PlayerBehavior::update( ) {
@@ -53,9 +56,17 @@ void PlayerBehavior::update( ) {
 		data.value[ 1 ] = 0;
 		data.value[ 2 ] = 0;
 		client->send( data );
+	} else {
+		PlayerPtr player = std::dynamic_pointer_cast< Player >( _parent );
+		player->addSP( 1 );
 	}
-
 	_before_state = _player_state;
+	if ( !_is_tutorial_sence ) {
+		AppPtr app = App::getTask( );
+		AdventurePtr adventure = app->getAdventure( );
+		adventure->start( Adventure::TYPE_COMMON_TUTORIAL_3 );
+		_is_tutorial_sence = true;
+	}
 }
 
 void PlayerBehavior::walk( const CONTROLL& controll ) {

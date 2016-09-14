@@ -41,7 +41,7 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_COMMON_AFTER_LOGIN ]          = Content( CHARACTER_FAIRY, "あなたが勇者様？私の力であなたを強くするからこの世界を一緒に救って！"                                                          , Sound::VOICE_FAIRY_PLAYER_LOGIN );
 	_contents[ TYPE_COMMON_TUTORIAL_1 ]           = Content( CHARACTER_FAIRY, "操作方法は簡単！左スティックでキャラクターを移動させることができるわ"                                                          , Sound::VOICE_FAIRY_TUTORIAL_1 );
 	_contents[ TYPE_COMMON_TUTORIAL_2 ]           = Content( CHARACTER_FAIRY, "左ボタンで攻撃ができるわ！ 敵をガンガン倒しちゃって！！"                                                                       , Sound::VOICE_FAIRY_TUTORIAL_2 );
-	_contents[ TYPE_COMMON_TUTPRIAL_3 ]           = Content( CHARACTER_FAIRY, "必殺技を使えるようになったね、右ボタンで必殺技を発動して敵を薙ぎ払っちゃえ！"                                                  , Sound::VOICE_FAIRY_TUTORIAL_4 );
+	_contents[ TYPE_COMMON_TUTORIAL_3 ]           = Content( CHARACTER_FAIRY, "必殺技を使えるようになったね、右ボタンで必殺技を発動して敵を薙ぎ払っちゃえ！"                                                  , Sound::VOICE_FAIRY_TUTORIAL_4 );
 	_contents[ TYPE_COMMON_PLAYER_DEAD ]          = Content( CHARACTER_FAIRY, "ウソ…あなたが倒れてしまっては誰がこの世界を救うの…？ダメ！目を覚まして―！"                                                  , Sound::VOICE_FAIRY_PLAYER_DEAD );
 	_contents[ TYPE_COMMON_ANOTHER_PLAYER_LOGIN ] = Content( CHARACTER_FAIRY, "あなたの活躍を見て仲間がこの世界に召喚されたみたい！"                                                                          , Sound::VOICE_FAIRY_ANOTHER_PLAYER_LOGIN );
 	_contents[ TYPE_COMMON_LIVE_MONITOR ]         = Content( CHARACTER_FAIRY, "あなたの活躍が認められたみたい！大きなモニターに映っているから、頑張って！！"                                                  , Sound::VOICE_FAIRY_LIVEMONITOR );
@@ -106,6 +106,11 @@ void Adventure::update( ) {
 	if ( !sound->isPlayingVoice( ) ) {
 		_type = TYPE_NONE;
 	}
+}
+
+bool Adventure::isPlaying( ) {
+	SoundPtr sound = Sound::getTask( );
+	return sound->isPlayingVoice( );
 }
 
 Adventure::CHARACTER Adventure::getCharacter( Adventure::TYPE type ) {

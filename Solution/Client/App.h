@@ -81,4 +81,5 @@ private:
 	int _push_reset_count;
 	int _push_start_count;
 	unsigned char _player_id;
+	int _adv_idx;
 };

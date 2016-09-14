@@ -229,8 +229,8 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_ADV_HUNTER,				"Adventure/Hunter.png" );
 	drawer->loadGraph( GRAPHIC_ADV_MONK,				"Adventure/Monk.png" );
 	drawer->loadGraph( GRAPHIC_ADV_WITCH,				"Adventure/Witch.png" );
-	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
 	drawer->loadGraph( GRAPHIC_ADV_FAIRY,			    "Adventure/Fairy.png" );
+	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
 
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
@@ -632,7 +632,7 @@ void Viewer::drawUI( ) {
 		
 		//SPゲージ
 		double sp = ( double )player->getSP( );
-		double sp_percentage = sp / 100;
+		double sp_percentage = sp / ( double )Player::FULL_SP_NUM;
 		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
 		
 		int status_sp_gauge_x = status_gauge_background_x;

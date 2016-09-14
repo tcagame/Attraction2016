@@ -172,7 +172,7 @@ void PlayerBehavior::pickupCrystal( const CONTROLL& controll ) {
 	if ( !crystals ) {
 		return;
 	}
-	if ( controll.action == ACTION_ATTACK ) {
+	if ( controll.action == CONTROLL::ATTACK ) {
 		int crystal_num = 0;
 		FieldPtr field = app->getField( );
 		Vector pos = _parent->getPos( );

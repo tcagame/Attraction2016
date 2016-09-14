@@ -40,7 +40,7 @@ const Vector CRYSTAL_ROT = Vector ( 0, 0, -1 );
 const double CRYSTAL_ROT_SPEED = 0.05;
 
 const bool EXPIRED_FAIRY = true;
-const int END_FAIRY_TIME = 150;
+const int END_FAIRY_TIME = 132;
 
 //UIï`âÊ
 const int STATUS_POS_OFFSET = 5;
@@ -270,8 +270,9 @@ void Viewer::initialize( ) {
 	drawer->loadMDLModel( MODEL_MDL_BIG_CRYSTAL, "object/item/crystal.mdl", "object/item/crystal.jpg", matrix );
 	drawer->loadMDLModel( MODEL_MDL_BACK_GROUND, "MapModel/bg.mdl", "MapModel/bg01_DM.jpg" );
 
-
-	_fairy_time = END_FAIRY_TIME;
+	for ( int i = 0; i < PLAYER_NUM; i++ ) {
+		_fairy_time[ i ] = END_FAIRY_TIME + 1;
+	}
 }
 
 void Viewer::update( ) {
@@ -351,12 +352,12 @@ void Viewer::drawPlayer( ) {
 		if ( EXPIRED_FAIRY ) {
 			//ódê∏
 			Effect effect;
-			if ( _fairy_time >= END_FAIRY_TIME ) {//effectÇà€éùÇ≥ÇπÇÈÇΩÇﬂ
-				_fairy_handle = effect.setEffect( Effect::EFFECT_FAIRY );
-				_fairy_time = 0;
+			if ( _fairy_time[ i ] >= END_FAIRY_TIME ) {//effectÇà€éùÇ≥ÇπÇÈÇΩ
+				_fairy_handle[ i ] = effect.setEffect( Effect::EFFECT_FAIRY );
+				_fairy_time[ i ] = 0;
 			}
-			effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.5 ), dir );
-			_fairy_time++;
+			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.0 ), dir * -1 );
+			_fairy_time[ i ]++;
 		}
 	}
 }
@@ -677,17 +678,18 @@ void Viewer::drawUI( ) {
 		if ( cohort ) {
 			EnemyPtr boss = cohort->getBoss( );
 			int hp = boss->getStatus( ).hp;
-			int max_hp = boss->getMaxHp( );
-			double percentage = ( double )hp / ( double )max_hp;
-			double tw = BOSS_HP_GAUGE_WIDTH * percentage;
+			if ( hp > 0 ) {
+				int max_hp = boss->getMaxHp( );
+				double percentage = ( double )hp / ( double )max_hp;
+				double tw = BOSS_HP_GAUGE_WIDTH * percentage;
 
-			//HPï`âÊ
-			int boss_hp_gauge_x = boss_background_x;
-			int boss_hp_gauge_y = boss_background_y;
-			Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
-			Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
-			drawer->setSprite( boss_hp_gauge_sprite );
-
+				//HPï`âÊ
+				int boss_hp_gauge_x = boss_background_x;
+				int boss_hp_gauge_y = boss_background_y;
+				Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
+				Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+				drawer->setSprite( boss_hp_gauge_sprite );
+			}
 			//HPÉtÉåÅ[ÉÄ
 			int boss_hp_gauge_frame_x = boss_background_x;
 			int boss_hp_gauge_frame_y = boss_background_y;
@@ -731,8 +733,6 @@ void Viewer::drawReady( ) {
 }
 
 void Viewer::drawResult( ) {
-	Effect effect;
-	effect.drawEffect( _fairy_handle, Vector( 0.5, 0.5, 0.5 ), Vector ( 100, 100, 100 ) + Vector( 0, 0, 1.5 ), Vector( 0, 1, 0 ) );
 	DrawerPtr drawer = Drawer::getTask( );
 	{//resultâÊñ îwåi
 		Drawer::Transform transform = Drawer::Transform( -10, -10 );

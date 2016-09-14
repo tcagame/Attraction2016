@@ -4,7 +4,8 @@ const std::string PLAYER_NAME_LIST[] = {
 	"PLAYER_KNIGHT",
 	"PLAYER_MONK",
 	"PLAYER_WITCH",
-	"PLAYER_HUNTER"
+	"PLAYER_HUNTER",
+	"PLAYER_ETUDE"
 };
 
 const int FULL_SP_NUM = 100;

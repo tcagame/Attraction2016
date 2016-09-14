@@ -25,6 +25,9 @@ public:
 		TYPE_SHOT,
 		TYPE_BULLET_RAIN,
 		TYPE_FIRE_BALL,
+		TYPE_DASH,
+		TYPE_CLEAVE,
+		TYPE_SMASH,
 		TYPE_MAX,
 	};
 public:
@@ -38,6 +41,7 @@ public:
 	Vector getDir( ) const;
 protected:
 	void attackEnemy( const Vector& pos, int power );
+	void attackPlayer( const Vector& pos, int power );
 private:
 	bool isDeathBlow( );
 protected:

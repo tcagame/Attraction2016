@@ -54,7 +54,6 @@ private:
 	void drawGroundModel( );
 	void drawBossMapModel( );
 	void drawBackGround( );
-//	void drawBullet( );
 	void drawCrystal( );
 	void drawShadow( );
 	void drawBigCrystal( );
@@ -66,17 +65,6 @@ private:
 	Vector covertInputDirXZ( );
 	void deleteEffect( );
 private:
-/*	std::array< ModelPtr, GROUND_TYPE_MAX > _map_model;
-	ModelPtr _boss_map_model;
-	ModelPtr _item_model;
-	ModelPtr _crystal_model;
-	ModelPtr _big_crystal_model;
-	int _boss_map_tex_hadle;
-	int _floor_tex_handle;
-	int _path_tex_handle;
-	int _item_tex_handle;
-	int _crystal_tex_handle;
-	*/
 	int _fairy_handle;
 	int _fairy_time;
 };

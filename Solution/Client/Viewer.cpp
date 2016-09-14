@@ -227,6 +227,8 @@ void Viewer::initialize( ) {
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_SHOT, "effect/project/effect115.efk" );
 	drawer->loadEffect( Effect::EFFECT_PLAYER_ATTACK_BULLET_RAIN, "effect/project/effect116.efk" );
 	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL, "effect/project/effect204.efk" );
+	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_SMASH, "effect/project/effect205.efk" );
+	drawer->loadEffect( Effect::EFFECT_ENEMY_ATTACK_CLEAVE, "effect/project/effect206.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_FIRE, "effect/project/effect301.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING, "effect/project/effect307.efk" );
 	drawer->loadEffect( Effect::EFFECT_BOSS_HIT_EXPLOSION, "effect/project/effect306.efk" );

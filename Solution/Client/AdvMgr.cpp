@@ -88,6 +88,7 @@ AdventurePtr AdvMgr::getAdventure( ) {
 }
 
 void AdvMgr::update( ) {
+	_adventure->update( );
 	AppPtr app = App::getTask( );
 	if ( app->getPlayerMine( )->isExpired( ) && !_is_player_mine_create ) {
 		_adventure->start( PLAYER_CREATE[ _player_id ] );

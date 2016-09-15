@@ -97,7 +97,9 @@ void Adventure::start( Adventure::TYPE type ) {
 }
 
 void Adventure::update( ) {
-
+	if ( _type == TYPE_NONE ) {
+		return;
+	}
 	SoundPtr sound = Sound::getTask( );
 	if ( !sound->isPlayingVoice( ) ) {
 		_type = TYPE_NONE;

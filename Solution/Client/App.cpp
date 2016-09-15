@@ -186,14 +186,7 @@ void App::updateStatePlay( ) {
 		_weapon->update( );
 	}
 
-	/*
-	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 3 )  {
-		if ( _player_id < PLAYER_ETUDE_RED ) {
-			//_adventure->set( ADV_CONTENC[ _adv_idx ] );
-			_adv_idx++;
-		}
-	}
-	*/
+	_adv_mgr->update( );
 
 	if ( _player_id != PLAYER_NONE ) {
 		CameraPtr camera = Camera::getTask( );

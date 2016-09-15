@@ -202,7 +202,7 @@ void AdvMgr::update( ) {
 	}
 	//クリスタルの取得シーン
 	int crystal_num = app->getCrystals( )->getCrystalNum( ) -1;
-	if ( ( crystal_num > 0 ) && !_is_crystal[ crystal_num ] ) {
+	if ( ( crystal_num >= 0 ) && !_is_crystal[ crystal_num ] ) {
 		_adventure->start( CRYSTAL[ crystal_num ] );
 		_is_crystal[ crystal_num ] = true;
 		return;

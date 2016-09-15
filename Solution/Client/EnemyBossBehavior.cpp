@@ -60,12 +60,13 @@ EnemyBossBehavior::~EnemyBossBehavior() {
 
 void EnemyBossBehavior::update( ) {
 	AppPtr app = App::getTask( );
-	SoundPtr sound = Sound::getTask( );
+	//SoundPtr sound = Sound::getTask( );
 	PlayerPtr player = app->getPlayerMine( );
 	if ( player->isExpired( ) ) {
 		_target = player;
 	} else {
 		_target.reset( );
+
 	}
 
 	if ( _boss_fly_time >= BOSS_CRICLE_TIME && _boss_fly_time < BOSS_METOR_TIME ) {
@@ -76,13 +77,13 @@ void EnemyBossBehavior::update( ) {
 	if ( _boss_fly_time >= BOSS_METOR_TIME && _boss_fly_time < BOSS_EXPLOSION_TIME ) {
 		Effect effect;
 		Vector player_pos = player->getPos( );
-		sound->playSE( Sound::SE_BOSS_BOMBING );
+		//sound->playSE( Sound::SE_BOSS_BOMBING );
 		int boss_attack_bombing_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING );
 		
 		effect.drawEffect( boss_attack_bombing_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE * 3 ), player_pos, _parent->getDir( ) );
 	}
 	if ( _boss_fly_time == BOSS_EXPLOSION_TIME ) {
-		sound->playSE( Sound::SE_BOSS_BOMBING );
+		//sound->playSE( Sound::SE_BOSS_BOMBING );
 		Effect effect;
 		//int boss_attack_explosion_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING );
 		//effect.drawEffect( boss_attack_explosion_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE * 3 ), player->getPos( ), _parent->getDir( ) );
@@ -94,7 +95,7 @@ void EnemyBossBehavior::update( ) {
 
 
 void EnemyBossBehavior::switchStatus( ) {
-	SoundPtr sound = Sound::getTask( );
+	//SoundPtr sound = Sound::getTask( );
 	AppPtr app = App::getTask();
 	CrystalsPtr crystals = app->getCrystals();
 	if ( !crystals ) {
@@ -115,7 +116,7 @@ void EnemyBossBehavior::switchStatus( ) {
 			if ( range <= _attack_range[ i ] && _before_state != BOSS_STATE_ATTACK ) {
 				_boss_state = BOSS_STATE_ATTACK;
 				_attack_pattern = i;
-				sound->playSE( Sound::SE_BOSS_ATTACK_1 );
+				//sound->playSE( Sound::SE_BOSS_ATTACK_1 );
 				break;
 			}
 		}
@@ -123,7 +124,7 @@ void EnemyBossBehavior::switchStatus( ) {
 		if ( _boss_damage_hp >= hp ) {
 			_boss_damage_hp -= BOSS_DAMAGE_HP;
 			_boss_state = BOSS_STATE_DAMAGE;
-			sound->playSE( Sound::SE_BOSS_DAMAGE );
+			//sound->playSE( Sound::SE_BOSS_DAMAGE );
 
 		}
 		if ( crystals->isGetBigCrystal( ) && !_has_entry ) {
@@ -147,7 +148,7 @@ void EnemyBossBehavior::switchStatus( ) {
 	case BOSS_STATE_DAMAGE:
 		if ( _animation->isEndAnimation( ) ) {
 			_boss_state = BOSS_STATE_FLY;
-			sound->playSE( Sound::SE_BOSS_WING );
+			//sound->playSE( Sound::SE_BOSS_WING );
 
 		}
 		break;
@@ -159,14 +160,14 @@ void EnemyBossBehavior::switchStatus( ) {
 				_animation->setAnimationTime( _animation->getEndAnimTime( ) );
 			} else {
 				_boss_state = BOSS_STATE_DESCENT;
-				sound->playSE( Sound::SE_BOSS_WING );
+				//sound->playSE( Sound::SE_BOSS_WING );
 			}
 		} 
 		break;
 	case BOSS_STATE_DESCENT:
 		if ( _animation->isEndAnimation( ) ) {
 			_boss_state = BOSS_STATE_WAIT;
-			sound->playSE( Sound::SE_BOSS_WING );
+			//sound->playSE( Sound::SE_BOSS_WING );
 
 		}
 		break;
@@ -275,7 +276,7 @@ void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	Vector pos = _parent->getPos( );
 	Effect effect;
 	if ( _attack_pattern == BOSS_ATTACK_PATTERN_FIRE ) {
-		sound->playSE( Sound::SE_BOSS_ATTACK_3 );
+		//sound->playSE( Sound::SE_BOSS_ATTACK_3 );
 		int effect_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_FIRE );
 		Vector effect_dir = ( pos - _target_pos ).normalize( );
 		effect.drawEffect( effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos + ( ( _target_pos - pos ).normalize( ) * 2 ), effect_dir );

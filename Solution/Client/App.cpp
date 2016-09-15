@@ -7,7 +7,7 @@
 #include "PlayerHunterBehavior.h"
 #include "PlayerWitchBehavior.h"
 #include "EtudeBehavior.h"
-#include "Adventure.h"
+#include "AdvMgr.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -39,13 +39,7 @@ const Vector START_POS[ PLAYER_NUM ] = {
 	Vector( 3 * Ground::CHIP_WIDTH, 17 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_BLUE
 };
 
-const Adventure::TYPE ADV_CONTENC [  ]{
-	Adventure::TYPE_COMMON_AFTER_LOGIN,
-	Adventure::TYPE_COMMON_TUTORIAL_1,
-	Adventure::TYPE_COMMON_TUTORIAL_2,
-	Adventure::TYPE_COMMON_TUTORIAL_4,
 
-};
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 const int STRING_BUF = 256;
@@ -60,7 +54,6 @@ App::App( unsigned char player_id ) :
 _player_id( player_id ) {
 	_push_reset_count = 0;
 	_push_start_count = 0;
-	_adv_idx = 0;
 }
 
 App::~App( ) {
@@ -114,13 +107,12 @@ void App::updateReset( ) {
 	if ( _cohort ) _cohort->reset( );
 	_weapon->reset( );
 	if ( _crystals ) _crystals->reset( );
-	
+	_adv_mgr->reset( );
 	CameraPtr camera = Camera::getTask( );
 	camera->initialize( );
 
 	_push_reset_count = 0;
 	_push_start_count = 0;
-	_adv_idx = 0;
 }
 
 void App::updateStateReady( ) {
@@ -157,7 +149,6 @@ void App::updateStateReady( ) {
 }
 
 void App::updateStatePlay( ) {
-	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -194,15 +185,10 @@ void App::updateStatePlay( ) {
 	if ( _weapon ) {
 		_weapon->update( );
 	}
-
-	/*
-	if ( _player[ _player_id ]->isExpired( ) && !_adventure->isPlaying( ) && _adv_idx <= 3 )  {
-		if ( _player_id < PLAYER_ETUDE_RED ) {
-			//_adventure->set( ADV_CONTENC[ _adv_idx ] );
-			_adv_idx++;
-		}
+	if ( _adv_mgr ) {
+		_adv_mgr->update( );
 	}
-	*/
+	
 
 	if ( _player_id != PLAYER_NONE ) {
 		CameraPtr camera = Camera::getTask( );
@@ -220,7 +206,6 @@ void App::updateStateDead( ) {
 }
 
 void App::updateStateLive( ) {
-	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -320,7 +305,7 @@ void App::initialize( ) {
 		_cohort = CohortPtr(new Cohort());
 		_crystals = CrystalsPtr(new Crystals());
 	}
-	_adventure = AdventurePtr( new Adventure( ) );
+	_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	if ( _cohort ) {
 		_cohort->init();
@@ -370,10 +355,6 @@ DeedBoxesPtr App::getDeedBoxes( ) const{
 
 CrystalsPtr App::getCrystals( ) const {
 	return _crystals;
-}
-
-AdventurePtr App::getAdventure( ) {
-	return _adventure;
 }
 
 void App::loadToGround( ) {
@@ -452,4 +433,8 @@ int App::getStartCount( ) const {
 
 int App::getStartCountMax( ) const {
 	return START_COUNT;
+}
+
+AdvMgrPtr App::getAdvMgr( ) const {
+	return _adv_mgr;
 }

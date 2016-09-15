@@ -7,10 +7,11 @@
 #include "Field.h"
 #include "Framework.h"
 
+const double Bullet::BULLET_SCALE( 1.0 );//ƒ‚ƒfƒ‹‚Ì‘å‚«‚³‚É‡‚í‚¹‚éB
+
 Bullet::Bullet( TYPE type )
 : _type( type ) {
 }
-
 
 Bullet::~Bullet( ) {
 }

@@ -18,6 +18,7 @@
 #include "Model.h"
 #include "Animation.h"
 #include "Adventure.h"
+#include "AdvMgr.h"
 #include "Device.h"
 #include "Mouse.h"
 #include "Effect.h"
@@ -349,7 +350,7 @@ void Viewer::drawPlayer( ) {
 				_fairy_handle[ i ] = effect.setEffect( Effect::EFFECT_FAIRY );
 				_fairy_time[ i ] = 0;
 			}
-			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.0 ), dir * -1 );
+			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 2.0 * MODEL_SCALE_ALL ), dir * -1 );
 			_fairy_time[ i ]++;
 		}
 	}
@@ -762,8 +763,8 @@ void Viewer::drawResult( ) {
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );
-	AdventurePtr adv = app->getAdventure( );
-
+	AdvMgrPtr adv_mgr = app->getAdvMgr( );
+	AdventurePtr adv = adv_mgr->getAdventure( );
 	Adventure::TYPE type = adv->getType( );
 	if ( type == Adventure::TYPE_NONE ) {
 		return;

@@ -4,10 +4,11 @@
 const int LAY_POWER = 100;
 
 const double SPEED = 0.05;
-const double RADIUS = 0.1;
-const double LENGTH = 10.0;
+const double RADIUS = 0.3 * Bullet::BULLET_SCALE;
+const double LENGTH = 25.0 * Bullet::BULLET_SCALE;
 const int PARTICLE = 8;
 const Vector EFFECT_DIFF_POS = Vector( 0, 0, -2 );
+const double EFFECT_SCALE = 1.5 * Bullet::BULLET_SCALE;
 
 BulletLay::BulletLay( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_LAY ) {
@@ -35,7 +36,7 @@ BulletLay::BulletLay( const Vector& pos, const Vector& dir, int power )
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_LAY );
 	Vector effect_pos = pos - dir * 2.4 + EFFECT_DIFF_POS;
-	effect.drawEffect( _effect_handle, Vector( 1, 1, 1 ), effect_pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), effect_pos, dir );
 }
 
 BulletLay::~BulletLay( ) {

@@ -86,6 +86,7 @@ const Animation::MOTION PLAYER_STORE_MOTION[ ] {
 };
 
 const Adventure::TYPE CRYSTAL[ ] {
+	Adventure::TYPE_COMMON_HAVE_CRYSTAL_0,
 	Adventure::TYPE_COMMON_HAVE_CRYSTAL_1,
 	Adventure::TYPE_COMMON_HAVE_CRYSTAL_2,
 	Adventure::TYPE_COMMON_HAVE_CRYSTAL_3,

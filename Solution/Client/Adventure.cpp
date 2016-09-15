@@ -61,7 +61,7 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_COMMON_HUNT_BOSS ]            = Content( CHARACTER_FAIRY, "これからドラゴンとの戦いね、準備は大丈夫？さぁ気合を入れていきましょう！"                                                      , Sound::VOICE_FAIRY_BIG_CRYSTAL_NEAR );
 	_contents[ TYPE_COMMON_TUTORIAL_4 ]           = Content( CHARACTER_FAIRY, "まずはドラゴンをこの世界に留めておくためにクリスタルを３つ集めましょう！"                                                      , Sound::VOICE_FAIRY_HAVE_CRYSTAL_0 );
 	_contents[ TYPE_COMMON_HAVE_CRYSTAL_0 ]       = Content( CHARACTER_FAIRY, "クリスタル収集は順調のようね！この調子であと２つ集めましょう！"                                                                , Sound::VOICE_FAIRY_HAVE_CRYSTAL_1 );
-	_contents[ TYPE_COMMON_HAVE_CRYSTAL_1 ]       = Content( CHARACTER_FAIRY, "クリスタルが2つ集まったようね、魔法陣の中心に行ってみましょう！"                                                              , Sound::VOICE_FAIRY_HAVE_CRYSTAL_2 );
+	_contents[ TYPE_COMMON_HAVE_CRYSTAL_1 ]       = Content( CHARACTER_FAIRY, "クリスタルが2つ集まったようね、魔法陣を完成させるにはあと１つ必要ね！"                                                         , Sound::VOICE_FAIRY_HAVE_CRYSTAL_2 );
 	_contents[ TYPE_COMMON_HAVE_CRYSTAL_2 ]       = Content( CHARACTER_FAIRY, "クリスタルが3つ集まったようね、魔法陣の中心に行ってみましょう！"                                                              , Sound::VOICE_FAIRY_HAVE_CRYSTAL_3 );
 	_contents[ TYPE_COMMON_BEFORE_BOSS_1 ]        = Content( CHARACTER_FAIRY, "現在この世界は、ドラゴンを倒すために魔法陣を作っているわ"                                                                      , Sound::VOICE_FAIRY_EXPLANATION_1 );
 	_contents[ TYPE_COMMON_BEFORE_BOSS_2 ]        = Content( CHARACTER_FAIRY, "しかし魔法陣の完成を妨害するためにドラゴンは邪悪な手下を呼びだし私たちの妨害をしているの！"                                    , Sound::VOICE_FAIRY_EXPLANATION_2 );

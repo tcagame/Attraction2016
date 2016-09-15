@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Adventure.cpp" />
+    <ClCompile Include="AdvMgr.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Behavior.cpp" />
@@ -73,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adventure.h" />
+    <ClInclude Include="AdvMgr.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="App.h" />
     <ClInclude Include="Behavior.h" />

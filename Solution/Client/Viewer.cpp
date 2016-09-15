@@ -18,6 +18,7 @@
 #include "Model.h"
 #include "Animation.h"
 #include "Adventure.h"
+#include "AdvMgr.h"
 #include "Device.h"
 #include "Mouse.h"
 #include "Effect.h"
@@ -761,8 +762,8 @@ void Viewer::drawResult( ) {
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );
-	AdventurePtr adv = app->getAdventure( );
-
+	AdvMgrPtr adv_mgr = app->getAdvMgr( );
+	AdventurePtr adv = adv_mgr->getAdventure( );
 	Adventure::TYPE type = adv->getType( );
 	if ( type == Adventure::TYPE_NONE ) {
 		return;

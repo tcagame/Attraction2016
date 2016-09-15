@@ -7,7 +7,7 @@
 #include "PlayerHunterBehavior.h"
 #include "PlayerWitchBehavior.h"
 #include "EtudeBehavior.h"
-#include "Adventure.h"
+#include "AdvMgr.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -39,13 +39,7 @@ const Vector START_POS[ PLAYER_NUM ] = {
 	Vector( 11 * Ground::CHIP_WIDTH,  4 * Ground::CHIP_HEIGHT ),//PLAYER_ETUDE_BLUE
 };
 
-const Adventure::TYPE ADV_CONTENC [  ]{
-	Adventure::TYPE_COMMON_AFTER_LOGIN,
-	Adventure::TYPE_COMMON_TUTORIAL_1,
-	Adventure::TYPE_COMMON_TUTORIAL_2,
-	Adventure::TYPE_COMMON_TUTORIAL_4,
 
-};
 const int RESET_COUNT = 30;
 const int START_COUNT = 60;
 const int STRING_BUF = 256;
@@ -60,7 +54,6 @@ App::App( unsigned char player_id ) :
 _player_id( player_id ) {
 	_push_reset_count = 0;
 	_push_start_count = 0;
-	_adv_idx = 0;
 }
 
 App::~App( ) {
@@ -120,7 +113,6 @@ void App::updateReset( ) {
 
 	_push_reset_count = 0;
 	_push_start_count = 0;
-	_adv_idx = 0;
 }
 
 void App::updateStateReady( ) {
@@ -157,7 +149,6 @@ void App::updateStateReady( ) {
 }
 
 void App::updateStatePlay( ) {
-	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -220,7 +211,6 @@ void App::updateStateDead( ) {
 }
 
 void App::updateStateLive( ) {
-	_adventure->update( );
 	ClientPtr client = Client::getTask( );
 	CLIENTDATA data = client->getClientData( );
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
@@ -320,7 +310,7 @@ void App::initialize( ) {
 		_cohort = CohortPtr(new Cohort());
 		_crystals = CrystalsPtr(new Crystals());
 	}
-	_adventure = AdventurePtr( new Adventure( ) );
+	_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	if ( _cohort ) {
 		_cohort->init();
@@ -370,10 +360,6 @@ DeedBoxesPtr App::getDeedBoxes( ) const{
 
 CrystalsPtr App::getCrystals( ) const {
 	return _crystals;
-}
-
-AdventurePtr App::getAdventure( ) {
-	return _adventure;
 }
 
 void App::loadToGround( ) {
@@ -452,4 +438,8 @@ int App::getStartCount( ) const {
 
 int App::getStartCountMax( ) const {
 	return START_COUNT;
+}
+
+AdvMgrPtr App::getAdvMgr( ) const {
+	return _adv_mgr;
 }

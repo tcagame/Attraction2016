@@ -107,7 +107,7 @@ void App::updateReset( ) {
 	if ( _cohort ) _cohort->reset( );
 	_weapon->reset( );
 	if ( _crystals ) _crystals->reset( );
-	
+	_adv_mgr->reset( );
 	CameraPtr camera = Camera::getTask( );
 	camera->initialize( );
 
@@ -185,8 +185,10 @@ void App::updateStatePlay( ) {
 	if ( _weapon ) {
 		_weapon->update( );
 	}
-
-	_adv_mgr->update( );
+	if ( _adv_mgr ) {
+		_adv_mgr->update( );
+	}
+	
 
 	if ( _player_id != PLAYER_NONE ) {
 		CameraPtr camera = Camera::getTask( );

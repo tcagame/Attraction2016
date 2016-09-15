@@ -76,13 +76,13 @@ void EnemyBossBehavior::update( ) {
 	if ( _boss_fly_time >= BOSS_METOR_TIME && _boss_fly_time < BOSS_EXPLOSION_TIME ) {
 		Effect effect;
 		Vector player_pos = player->getPos( );
-		sound->playSE( Sound::SE_BOSS_BOMBING );
+		//sound->playSE( Sound::SE_BOSS_BOMBING );
 		int boss_attack_bombing_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING );
 		
 		effect.drawEffect( boss_attack_bombing_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE * 3 ), player_pos, _parent->getDir( ) );
 	}
 	if ( _boss_fly_time == BOSS_EXPLOSION_TIME ) {
-		sound->playSE( Sound::SE_BOSS_BOMBING );
+		//sound->playSE( Sound::SE_BOSS_BOMBING );
 		Effect effect;
 		//int boss_attack_explosion_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_BOMBING );
 		//effect.drawEffect( boss_attack_explosion_handle, Vector( EFFECT_SCALE * 3, EFFECT_SCALE * 3, EFFECT_SCALE * 3 ), player->getPos( ), _parent->getDir( ) );
@@ -147,7 +147,7 @@ void EnemyBossBehavior::switchStatus( ) {
 	case BOSS_STATE_DAMAGE:
 		if ( _animation->isEndAnimation( ) ) {
 			_boss_state = BOSS_STATE_FLY;
-			sound->playSE( Sound::SE_BOSS_WING );
+			//sound->playSE( Sound::SE_BOSS_WING );
 
 		}
 		break;
@@ -159,14 +159,14 @@ void EnemyBossBehavior::switchStatus( ) {
 				_animation->setAnimationTime( _animation->getEndAnimTime( ) );
 			} else {
 				_boss_state = BOSS_STATE_DESCENT;
-				sound->playSE( Sound::SE_BOSS_WING );
+				//sound->playSE( Sound::SE_BOSS_WING );
 			}
 		} 
 		break;
 	case BOSS_STATE_DESCENT:
 		if ( _animation->isEndAnimation( ) ) {
 			_boss_state = BOSS_STATE_WAIT;
-			sound->playSE( Sound::SE_BOSS_WING );
+			//sound->playSE( Sound::SE_BOSS_WING );
 
 		}
 		break;

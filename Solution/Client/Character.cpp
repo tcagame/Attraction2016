@@ -149,6 +149,6 @@ void Character::dead( ) {
 		//adventure->set( Adventure::TYPE_COMMON_MINOTAUR_DEAD );
 		//adventure->set( Adventure::TYPE_COMMON_AFTER_MINOTAUR_DEAD );
 	}
-	SoundPtr sound = Sound::getTask( );
-	sound->playSE( Sound::SE_PLAYER_DEAD );
+	//SoundPtr sound = Sound::getTask( );
+	//sound->playSE( Sound::SE_PLAYER_DEAD );
 }

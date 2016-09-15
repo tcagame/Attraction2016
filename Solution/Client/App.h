@@ -14,7 +14,7 @@ PTR( Weapon );
 PTR( DeedBoxes );
 PTR( Crystals );
 PTR( Field );
-PTR( Adventure );
+PTR( AdvMgr );
 
 class App : public Task {
 public:
@@ -44,8 +44,8 @@ public:
 	WeaponPtr getWeapon( ) const;
 	DeedBoxesPtr getDeedBoxes( ) const;
 	CrystalsPtr getCrystals( ) const;
-	AdventurePtr getAdventure( );
 	STATE getState( ) const;
+	AdvMgrPtr getAdvMgr( )const;
 	FieldPtr getField( ) const;
 	void setState( STATE state );
 	unsigned char getPlayerId( ) const;
@@ -70,12 +70,11 @@ private:
 	WeaponPtr _weapon;
 	DeedBoxesPtr _deed_boxes;
 	CrystalsPtr _crystals;
-	AdventurePtr _adventure;
+	AdvMgrPtr _adv_mgr;
 	STATE _state;
 	FieldPtr _field;
 	std::array< int , MAX_MAP_DATA_NUM > _map_convert;
 	int _push_reset_count;
 	int _push_start_count;
 	unsigned char _player_id;
-	int _adv_idx;
 };

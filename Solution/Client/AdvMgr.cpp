@@ -106,6 +106,9 @@ _player_id( player_id ) {
 	_is_deathblow_animation = false;
 	_is_store_animation = false;
 	_is_after_contact_minotaur = false;
+	for( int i = 0; i < CRYSTAL_MAX; i++ ) {
+		_is_crystal[ i ] = false;
+	}
 }
 
 AdvMgr::~AdvMgr( ) {
@@ -123,6 +126,9 @@ void AdvMgr::reset( ) {
 	_is_store_animation = false;
 	_is_deathblow_animation = false;
 	_is_after_contact_minotaur = false;
+	for( int i = 0; i < CRYSTAL_MAX; i++ ) {
+		_is_crystal[ i ] = false;
+	}
 }
 
 AdventurePtr AdvMgr::getAdventure( ) {

@@ -19,6 +19,9 @@ private:
 	bool _is_tutorial;
 	bool _is_tutorial_deathblow;
 	bool _is_store_animation;
+	bool _is_contact_etude;
+	bool _is_deathblow_animation;
+	bool _is_after_contact_minotaur;
 	int _tutorial_idx;
 
 };

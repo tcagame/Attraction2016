@@ -85,6 +85,8 @@ const Animation::MOTION PLAYER_STORE_MOTION[ ] {
 
 const int TUTORIAL_MAX = 4;
 
+const double ETUDE_CONTACT_LENGTH = 10;
+
 AdvMgr::AdvMgr( unsigned char player_id ):
 _player_id( player_id ) {
 	_adventure = AdventurePtr( new Adventure( ) );
@@ -92,7 +94,9 @@ _player_id( player_id ) {
 	_is_tutorial = false;
 	_is_player_mine_create = false;
 	_is_tutorial_deathblow = false;
+	_is_deathblow_animation = false;
 	_is_store_animation = false;
+	_is_after_contact_minotaur = false;
 }
 
 AdvMgr::~AdvMgr( ) {
@@ -107,6 +111,8 @@ void AdvMgr::reset( ) {
 	_is_player_mine_create = false;
 	_is_tutorial_deathblow = false;
 	_is_store_animation = false;
+	_is_deathblow_animation = false;
+	_is_after_contact_minotaur = false;
 }
 
 AdventurePtr AdvMgr::getAdventure( ) {
@@ -121,33 +127,60 @@ void AdvMgr::update( ) {
 	}
 	AppPtr app = App::getTask( );
 	PlayerPtr player_mine = app->getPlayerMine( );
+	//必殺技じゃない時、フラグを消す
+	if ( player_mine->getAnimation( )->getMotion( ) != PLAYER_DEATHBLOW_MOTION[ _player_id ] ) {
+		_is_deathblow_animation = false;
+	}
+	//プレイヤーが登場した時
 	if ( player_mine->isExpired( ) && !_is_player_mine_create ) {
 		_adventure->start( PLAYER_CREATE[ _player_id ] );
 		_is_player_mine_create = true;
 		return;
 	}
-	
+	//チュートリアルシーン
 	if ( _is_player_mine_create && !_is_tutorial ) {
 		_adventure->start( TUTORIAL_CONTENC[ _tutorial_idx ] );
 		_tutorial_idx++;
 		if ( _tutorial_idx == TUTORIAL_MAX ) {
 			_is_tutorial = true;
-			return;
 		}
+		return;
 	}
+	//必殺技のチュートリアル
 	if ( player_mine->getSP( ) == Player::FULL_SP_NUM && !_is_tutorial_deathblow ) {
 		_adventure->start( Adventure::TYPE_COMMON_TUTORIAL_3 );
 		_is_tutorial_deathblow = true;
 		return;
 	}
+	//プレイヤーのためのシーン
 	if ( player_mine->getAnimation( )->getMotion( ) == PLAYER_STORE_MOTION[ _player_id ]&& !_is_store_animation ) {
 		_adventure->start( PLAYER_STORE[ _player_id ] );
 		_is_store_animation  = true;
 		return;
 	}
-	if ( player_mine->getAnimation( )->getMotion( ) == PLAYER_DEATHBLOW_MOTION[ _player_id ] ) {
+	//プレイヤーの必殺技シーン
+	if ( player_mine->getAnimation( )->getMotion( ) == PLAYER_DEATHBLOW_MOTION[ _player_id ] && !_is_deathblow_animation ) {
 		_adventure->start( PLAYER_DEATHBLOW[ _player_id ] );
 		_is_store_animation = false;
+		_is_deathblow_animation = true;
+		return;
+	}
+	//エチュードと接触したシーン
+	if ( !_is_contact_etude ) {
+		for ( int i = PLAYER_ETUDE_RED; i <= PLAYER_ETUDE_BLUE; i++ ) {
+			Vector etude_pos = app->getPlayer( i )->getPos( );
+			double length = ( etude_pos - player_mine->getPos( ) ).getLength( );
+			if ( length < ETUDE_CONTACT_LENGTH ) {
+				_adventure->start( Adventure::TYPE_COMMON_MINOTAUR_ENTRY_1 );
+				_is_contact_etude = true;
+				return;
+			}
+		}
+	}
+	//エチュード接触後、妖精のシーン
+	if ( _is_contact_etude && !_is_after_contact_minotaur ) {
+		_adventure->start( Adventure::TYPE_COMMON_AFTER_MINOTAUR_ENTRY );
+		_is_after_contact_minotaur = true;
 		return;
 	}
 

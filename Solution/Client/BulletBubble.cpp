@@ -3,11 +3,11 @@
 
 const double WAIT_TIME = 1;
 const int BUBBLE_POWER = 10;
-const double BUBBLE_RADIUS = PI * 0.8;
-const double BUBBLE_LENGTH = 5;
-const double BUBBLE_SPEED = 0.5;
-const Vector EFFECT_DIFF_POS = Vector( 0, 0, -1 );
-
+const double BUBBLE_RADIUS = PI * 0.5;
+const double BUBBLE_LENGTH = 8 * Bullet::BULLET_SCALE;
+const double BUBBLE_SPEED = 0.5 * Bullet::BULLET_SCALE;
+const double EFFECT_SCALE = Bullet::BULLET_SCALE;
+const Vector EFFECT_DIFF_POS = Vector( 0, 0, -1.5 );
 
 BulletBubble::BulletBubble( const Vector& pos, const Vector& dir, int power ) :
 Bullet( Bullet::TYPE_BUBBLE ) {
@@ -17,8 +17,8 @@ Bullet( Bullet::TYPE_BUBBLE ) {
 	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BUBBLE );
-	Vector effect_pos = _pos - _dir * 1.3 + EFFECT_DIFF_POS;
-	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), effect_pos, dir );
+	Vector effect_pos = _pos  + ( _dir * -1.3 + EFFECT_DIFF_POS );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), effect_pos, dir );
 }
 
 BulletBubble::~BulletBubble( ) {

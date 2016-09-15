@@ -349,7 +349,7 @@ void Viewer::drawPlayer( ) {
 				_fairy_handle[ i ] = effect.setEffect( Effect::EFFECT_FAIRY );
 				_fairy_time[ i ] = 0;
 			}
-			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 1.0 ), dir * -1 );
+			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 2.0 * MODEL_SCALE_ALL ), dir * -1 );
 			_fairy_time[ i ]++;
 		}
 	}

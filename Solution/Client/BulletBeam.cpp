@@ -4,9 +4,9 @@
 
 const int BEAM_POWER = 100;
 const double SPEED = 0.05;
-const double RADIUS = 0.3;
-const double LENGTH = 6.0;
-const Vector EFFECT_DIFF_POS = Vector( 0, 0, 0 );
+const double RADIUS = 1.0 * Bullet::BULLET_SCALE;
+const double LENGTH = 15.0 * Bullet::BULLET_SCALE;
+const double EFFECT_SCALE = Bullet::BULLET_SCALE;
 const int PARTICLE = 8;
 
 BulletBeam::BulletBeam( const Vector& pos, const Vector& dir, int power ) 
@@ -35,8 +35,8 @@ BulletBeam::BulletBeam( const Vector& pos, const Vector& dir, int power )
 
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BEAM );
-	Vector effect_pos = _pos + EFFECT_DIFF_POS;
-	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), effect_pos, dir );
+	Vector effect_pos = _pos;
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), effect_pos, dir );
 }
 
 BulletBeam::~BulletBeam( ) {

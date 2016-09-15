@@ -7,6 +7,7 @@ PTR( Enemy );
 
 class Bullet {
 public:
+	static const double BULLET_SCALE; 
 	enum TYPE {
 		TYPE_SLASH,
 		TYPE_SWORD,

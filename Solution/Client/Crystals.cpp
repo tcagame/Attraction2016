@@ -5,14 +5,14 @@
 #include "BigCrystal.h"
 
 Vector CRYSTAL_POS[ Crystals::MAX_CRYSTAL_NUM ] {
-	Vector( 2 * 7 - 1, 33 * 4 + 2, 0.05 ),
-	Vector( 126, 85, 0.15 ),
-	Vector( 76, 13, 0.20 ),
+	Vector( 62, 52, 0.05 ),
+	Vector( 91, 83, 0.15 ),
+	Vector( 49, 103, 0.20 ),
 };
 
 
 
-const Vector BIG_CRYSTAL_POS = Vector( 76, 93, 0 ); 
+const Vector BIG_CRYSTAL_POS = Vector( 21, 60, 0 ); 
 
 Crystals::Crystals( ) {
 	for( int i = 0; i < MAX_CRYSTAL_NUM; i++ ){

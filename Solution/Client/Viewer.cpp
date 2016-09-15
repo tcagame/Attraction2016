@@ -331,6 +331,7 @@ void Viewer::drawPlayer( ) {
 		if ( !player->isExpired( ) ) {
 			continue;
 		}
+
 		AnimationPtr animation = player->getAnimation( );
 		int motion = animation->getMotion( );
 		double time = animation->getAnimTime( );
@@ -340,7 +341,7 @@ void Viewer::drawPlayer( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
-		//drawer->drawString( 2, 2, "x: %lf y: %lf", pos.x, pos.y );
+		//drawer->drawString( 2, 2, false, "x: %lf y: %lf", app->getPlayerMine( )->getPos( ).x, app->getPlayerMine( )->getPos( ).y );
 		if ( EXPIRED_FAIRY ) {
 			//ódê∏
 			Effect effect;

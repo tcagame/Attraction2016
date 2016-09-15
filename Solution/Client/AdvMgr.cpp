@@ -1,6 +1,8 @@
 #include "AdvMgr.h"
 #include "App.h"
 #include "Player.h"
+#include "Crystals.h"
+#include "Crystal.h"
 #include "Adventure.h"
 #include "Animation.h"
 #include "Sound.h"
@@ -83,6 +85,12 @@ const Animation::MOTION PLAYER_STORE_MOTION[ ] {
 	Animation::MOTION_PLAYER_WITCH_STORE,
 };
 
+const Adventure::TYPE CRYSTAL[ ] {
+	Adventure::TYPE_COMMON_HAVE_CRYSTAL_1,
+	Adventure::TYPE_COMMON_HAVE_CRYSTAL_2,
+	Adventure::TYPE_COMMON_HAVE_CRYSTAL_3,
+};
+
 const int TUTORIAL_MAX = 4;
 
 const double ETUDE_CONTACT_LENGTH = 10;
@@ -91,6 +99,7 @@ AdvMgr::AdvMgr( unsigned char player_id ):
 _player_id( player_id ) {
 	_adventure = AdventurePtr( new Adventure( ) );
 	_tutorial_idx = 0;
+	_crystal_idx = 0;
 	_is_tutorial = false;
 	_is_player_mine_create = false;
 	_is_tutorial_deathblow = false;
@@ -107,6 +116,7 @@ void AdvMgr::reset( ) {
 	_adventure.reset( );
 	_adventure = AdventurePtr( new Adventure( ) );
 	_tutorial_idx = 0;
+	_crystal_idx = 0;
 	_is_tutorial = false;
 	_is_player_mine_create = false;
 	_is_tutorial_deathblow = false;
@@ -183,5 +193,13 @@ void AdvMgr::update( ) {
 		_is_after_contact_minotaur = true;
 		return;
 	}
+	//クリスタルの取得シーン
+	int crystal_num = app->getCrystals( )->getCrystalNum( );
+	if ( _crystal_idx < CRYSTAL_MAX && !_is_crystal[ crystal_num ] ) {
+		_adventure->start( CRYSTAL[ crystal_num ] );
+		_is_crystal[ crystal_num ] = true;
+		return;
+	}
+	
 
 }

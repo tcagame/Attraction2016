@@ -95,12 +95,16 @@
     <ClCompile Include="Live.cpp" />
     <ClCompile Include="LiveCamera.cpp" />
     <ClCompile Include="LiveScene.cpp" />
+    <ClCompile Include="LiveScenePlayer.cpp" />
+    <ClCompile Include="LiveSceneTitle.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Live.h" />
     <ClInclude Include="LiveCamera.h" />
     <ClInclude Include="LiveScene.h" />
+    <ClInclude Include="LiveScenePlayer.h" />
+    <ClInclude Include="LiveSceneTitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

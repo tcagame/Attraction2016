@@ -4,6 +4,7 @@
 #include <string>
 
 PTR( Live );
+PTR( LiveScene );
 
 class Live : public Task {
 public:
@@ -16,5 +17,7 @@ public:
 	void update( );
 	void initialize( );
 	void finalize( );
+private:
+	LiveScenePtr _scene;
 };
 

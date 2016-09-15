@@ -315,7 +315,8 @@ void App::initialize( ) {
 	if ( _player_id == PLAYER_KNIGHT ||
 		 _player_id == PLAYER_MONK ||
 		 _player_id == PLAYER_WITCH ||
-		 _player_id == PLAYER_HUNTER ) {
+		 _player_id == PLAYER_HUNTER||
+		 _player_id == PLAYER_NONE ) {
 		_cohort = CohortPtr(new Cohort());
 		_crystals = CrystalsPtr(new Crystals());
 	}

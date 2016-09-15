@@ -21,7 +21,7 @@ void TableDrawer::draw( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 
 	// タイトル描画
-	drawer->drawString( _form.x, _form.y, _form.title.c_str( ) );
+	drawer->drawString( _form.x, true, _form.y,  _form.title.c_str( ) );
 
 	// テーブル基準位置
 	int origin_x = _form.x; 
@@ -56,7 +56,7 @@ void TableDrawer::draw( ) {
 		for ( int j = 0; j < _form.rows; j++ ) {
 			std::string str = _cell[ i + j * _form.cols ];
 			int sy = j * COL_PITCH + origin_y + OFFSET_Y;
-			drawer->drawString( sx, sy, str.c_str( ) );
+			drawer->drawString( sx, sy, true, str.c_str( ) );
 		}
 		sx += _form.col[ i ];
 	}

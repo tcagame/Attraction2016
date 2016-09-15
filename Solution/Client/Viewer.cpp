@@ -90,7 +90,7 @@ const int TITLE_HEIGHT = 925;
 
 const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
-const double MODEL_SCALE_ALL = 0.4;
+const double MODEL_SCALE_ALL = 1.0;
 
 const int TEXT_WORD_X = 70;
 const int TEXT_WORD_Y = 73;
@@ -783,7 +783,7 @@ void Viewer::drawAdv( ) {
 	Drawer::Sprite popup_sprite = Drawer::Sprite( text_window_transform, ( int )GRAPHIC_ADV_TEXT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( popup_sprite );
 	//テキスト描画
-	drawer->drawString( text_window_x + TEXT_WORD_X, text_window_y + TEXT_WORD_Y, adv->getWord( type ).c_str( ) );
+	drawer->drawString( text_window_x + TEXT_WORD_X, text_window_y + TEXT_WORD_Y, false, adv->getWord( type ).c_str( ) );
 }
 
 void Viewer::drawTitle( ) {

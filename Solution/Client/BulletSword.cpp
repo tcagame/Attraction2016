@@ -8,7 +8,7 @@ const int WAIT_TIME = 0;
 const double SWORD_LENGTH = 1.0;
 const int PARTICLE = 5;
 const int SWORD_PARTICLE = 3;
-const double BULLET_SCALE = 0.05;
+const double EFFECT_SCALE = 0.05;
 
 BulletSword::BulletSword( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_SWORD ) {
@@ -18,7 +18,7 @@ BulletSword::BulletSword( const Vector& pos, const Vector& dir, int power )
 	_ratio = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_SWORD );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), _pos, _dir );
 }
 
 

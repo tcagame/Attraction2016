@@ -6,7 +6,7 @@
 
 const int VANISH_TIME = 50;
 const int WAIT_TIME = 40;
-const double BULLET_SCALE = 1;
+const double EFFECT_SCALE = 1;
 const int POWER = 100;
 const int SPEED = 1;
 
@@ -18,7 +18,6 @@ BulletShot::BulletShot( const Vector& pos, const Vector& dir, int power )
 	_speed = SPEED;
 	_exist_time = 0;
 	Effect effect;
-	effect.drawEffect( _effect_handle, Vector( 0.5, 0.5, 0.5 ), pos, _dir  );
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
 }
 
@@ -40,6 +39,6 @@ bool BulletShot::update( ) {
 	attackEnemy( _pos, _power );
 
 	Effect effect;
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), _pos, _dir );
 	return true;
 }

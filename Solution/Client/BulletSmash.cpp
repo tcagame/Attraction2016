@@ -3,7 +3,7 @@
 #include "Effect.h"
 
 const int WAIT_TIME = 10;
-const double BULLET_SCALE = 0.1;
+const double EFFECT_SCALE = 0.1;
 const double RANGE = 0.5;
 const double RADIUS = 1;
 const int PARTICLE = 12;
@@ -20,7 +20,7 @@ BulletSmash::BulletSmash( const Vector& pos, const Vector& dir, int power )
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_SMASH );
 	Vector effect_pos = pos + Vector( 0,0,0.5 );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), effect_pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), effect_pos, dir );
 }
 
 BulletSmash::~BulletSmash( ) {

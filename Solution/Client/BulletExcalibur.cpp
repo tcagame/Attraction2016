@@ -5,7 +5,7 @@
 const int WAIT_TIME = 5;
 const int CASTING_TIME = 5 + WAIT_TIME;
 const int VANISH_TIME = 10 + WAIT_TIME;
-const double BULLET_SCALE = 0.3;
+const double EFFECT_SCALE = 0.3;
 const int POWER = 100;
 const double SPEED = 0.5;
 const int CIRCLE_PARTICLE = 6;
@@ -20,7 +20,7 @@ BulletExcalibur::BulletExcalibur( const Vector& pos, const Vector& dir, int powe
 	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_EXCARIBUR );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos, dir );
 }
 
 BulletExcalibur::~BulletExcalibur( ) {

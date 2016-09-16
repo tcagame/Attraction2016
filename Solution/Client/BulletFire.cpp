@@ -3,7 +3,7 @@
 #include "Effect.h"
 
 const int VANISH_TIME = 20;
-const double BULLET_SCALE = 0.3;
+const double EFFECT_SCALE = 0.3;
 const int POWER = 1;
 const double SPEED = 1;
 
@@ -16,7 +16,7 @@ BulletFire::BulletFire( const Vector& pos, const Vector& dir, int power )
 	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos, dir );
 }
 
 BulletFire::~BulletFire( ) {
@@ -32,6 +32,6 @@ bool BulletFire::update( ) {
 	_pos += _dir * _speed;
 	attackEnemy( _pos, _power );
 	Effect effect;
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), _pos, _dir );
 	return true;
 }

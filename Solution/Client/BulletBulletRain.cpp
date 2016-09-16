@@ -4,7 +4,7 @@
 
 const int VANISH_TIME = 50;
 const int WAIT_TIME = 60;
-const double BULLET_SCALE = 0.5;
+const double EFFECT_SCALE = 0.5;
 const double RANGE = 3;
 const double RADIUS = 5;
 const int PARTICLE = 12;
@@ -20,7 +20,7 @@ BulletBulletRain::BulletBulletRain( const Vector& pos, const Vector& dir, int po
 	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_BULLET_RAIN );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos, dir );
 }
 
 BulletBulletRain::~BulletBulletRain( ) {

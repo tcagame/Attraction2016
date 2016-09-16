@@ -21,7 +21,7 @@ void TableDrawer::draw( ) {
 	DrawerPtr drawer = Drawer::getTask( );
 
 	// タイトル描画
-	drawer->drawString( _form.x, true, _form.y,  _form.title.c_str( ) );
+	drawer->drawString( _form.x, _form.y, true, _form.title.c_str( ) );
 
 	// テーブル基準位置
 	int origin_x = _form.x; 

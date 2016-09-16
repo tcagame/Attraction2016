@@ -4,7 +4,7 @@
 #include "App.h"
 
 const int VANISH_TIME = 50;
-const double BULLET_SCALE = 1.0;
+const double EFFECT_SCALE = 1.0;
 
 BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_FIRE_BALL ) {
@@ -15,7 +15,7 @@ BulletFireBall::BulletFireBall( const Vector& pos, const Vector& dir, int power 
 	_exist_time = 0;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_ENEMY_ATTACK_FIRE_BALL );
-	effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos, dir );
 }
 
 
@@ -39,7 +39,7 @@ bool BulletFireBall::update( ) {
 		Vector distance = _pos - player_pos;
 		double length = distance.getLength( );
 		Effect effect;
-		effect.drawEffect( _effect_handle, Vector( BULLET_SCALE, BULLET_SCALE, BULLET_SCALE ), _pos, _dir );
+		effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), _pos, _dir );
 		if ( length <= 1.0 ) {
 			player->damage( _power );
 			return false;

@@ -187,8 +187,8 @@ void EnemyBossBehavior::animationUpdate( ) {
 			_parent->dead( );
 			AppPtr app = App::getTask( );
 			app->setState( App::STATE_CLEAR );
-			SoundPtr sound = Sound::getTask( );
-			sound->playSE( Sound::SE_GAME_CLEAR );
+			//SoundPtr sound = Sound::getTask( );
+			//sound->playSE( Sound::SE_GAME_CLEAR );
 		}
 		return;
 	}
@@ -268,7 +268,7 @@ void EnemyBossBehavior::animationUpdate( ) {
 
 void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	AppPtr app = App::getTask( );
-	SoundPtr sound = Sound::getTask( );
+	//SoundPtr sound = Sound::getTask( );
 	PlayerPtr player = app->getPlayerMine( );
 	int power = _parent->getStatus( ).power;
 	power += BOSS_ATTACK_POWER[ attack_pattern ];

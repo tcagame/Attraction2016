@@ -434,8 +434,7 @@ void Drawer::drawString( int x, int y, bool is_server, const char* string, ... )
 	va_list ap;
 	unsigned int color = 0xFFFFFF;
 	if ( !is_server ) {
-		SetFontSize( 34 );//フォントサイズの更新
-		color = 0x000000;
+		SetFontSize( 28 );//フォントサイズの更新
 	}
 	va_start( ap, string );
 	vsprintf_s( buf, 1024, string, ap );

@@ -287,11 +287,9 @@ void Viewer::update( ) {
 	App::STATE state = app->getState( );
 	switch( state ) {
 	case App::STATE_READY:
-		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		drawReady( );
 		break;
 	case App::STATE_PLAY:
-		drawer->setPlayEffect( true );		//エフェクト描画ON
 		drawAdv( );
 		drawBackGround( );
 		drawPlayer( );
@@ -308,7 +306,6 @@ void Viewer::update( ) {
 	case App::STATE_CLEAR:
 	case App::STATE_DEAD:
 		drawResult( );
-		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		break;
 	}
 }
@@ -350,7 +347,7 @@ void Viewer::drawPlayer( ) {
 				_fairy_handle[ i ] = effect.setEffect( Effect::EFFECT_FAIRY );
 				_fairy_time[ i ] = 0;
 			}
-			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 2.0 * MODEL_SCALE_ALL ), dir * -1 );
+			//effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 2.0 * MODEL_SCALE_ALL ), dir * -1 );
 			_fairy_time[ i ]++;
 		}
 	}
@@ -784,6 +781,7 @@ void Viewer::drawAdv( ) {
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( character_sprite );
+
 	//吹き出し描画
 	int text_window_x = ( fw->getWindowWidth( ) - TEXT_WINDOW_WIDTH )/ 2;
 	int text_window_y = fw->getWindowHeight( ) - ( int )( TEXT_WINDOW_HEIGHT * ratio );

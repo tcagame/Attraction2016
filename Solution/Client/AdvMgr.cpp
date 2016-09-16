@@ -133,13 +133,12 @@ void AdvMgr::update( ) {
 	AppPtr app = App::getTask( );
 	SoundPtr sound = Sound::getTask( );
 	AdventurePtr adventure = app->getAdventure( );
-	if ( sound->isPlayingVoice( ) ) {
+	if ( adventure->getType( ) != Adventure::TYPE_NONE ) {
 		return;
 	}
 	if ( _player_id >= PLAYER_ETUDE_RED ) {
 		return;
 	}
-	
 
 	PlayerPtr player_mine = app->getPlayerMine( );
 	//必殺技じゃない時、フラグを消す

@@ -2,15 +2,15 @@
 #include "App.h"
 #include "Effect.h"
 
-const int WAIT_TIME = 5;
+const int WAIT_TIME = ( int )( 10 * Bullet::BULLET_SCALE );
 const int CASTING_TIME = 5 + WAIT_TIME;
 const int VANISH_TIME = 10 + WAIT_TIME;
-const double EFFECT_SCALE = 0.3;
+const double EFFECT_SCALE = 0.5 * Bullet::BULLET_SCALE;
 const int POWER = 100;
-const double SPEED = 0.5;
-const int CIRCLE_PARTICLE = 6;
-const int RADIUS = 3;
-const int LENGTH_PARTICLE = 5;
+const double SPEED = 0.5 * Bullet::BULLET_SCALE;
+const int CIRCLE_PARTICLE = ( int )( 12 * Bullet::BULLET_SCALE );
+const int RADIUS = ( int )( 5 * Bullet::BULLET_SCALE );
+const int LENGTH_PARTICLE = ( int )( VANISH_TIME * Bullet::BULLET_SCALE );
 
 BulletExcalibur::BulletExcalibur( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_EXCALIBUR ) {

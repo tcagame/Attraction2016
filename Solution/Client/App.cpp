@@ -127,18 +127,6 @@ void App::updateStateReady( ) {
 		return;
 	}
 
-	if ( _player_id == PLAYER_KNIGHT ) {
-		//_adventure->set( Adventure::TYPE_KNIGHT_CREATE );
-	}
-	if ( _player_id == PLAYER_MONK ) {
-		//_adventure->set( Adventure::TYPE_MONK_CREATE );
-	}
-	if ( _player_id == PLAYER_HUNTER ) {
-		//_adventure->set( Adventure::TYPE_HUNTER_CREATE );
-	}
-	if ( _player_id == PLAYER_WITCH ) {
-		//_adventure->set( Adventure::TYPE_WITCH_CREATE );
-	}
 	Vector player_pos = START_POS[ _player_id ];
 	_player[ _player_id ]->create( player_pos );
 	
@@ -296,24 +284,24 @@ void App::initialize( ) {
 
 
 	std::string filepath = DIRECTORY + "CSV/";
-	_ground = GroundPtr(new Ground(filepath + "map.csv"));//マップデータ
-	_ground_model = GroundModelPtr(new GroundModel());
-	_field = FieldPtr(new Field());
-	_weapon = WeaponPtr(new Weapon());
+	_ground = GroundPtr( new Ground( filepath + "map.csv" ) );//マップデータ
+	_ground_model = GroundModelPtr( new GroundModel( ) );
+	_field = FieldPtr( new Field( ) );
+	_weapon = WeaponPtr( new Weapon( ) );
 	if ( _player_id == PLAYER_KNIGHT ||
 		 _player_id == PLAYER_MONK ||
 		 _player_id == PLAYER_WITCH ||
 		 _player_id == PLAYER_HUNTER||
 		 _player_id == PLAYER_NONE ) {
-		_cohort = CohortPtr(new Cohort());
-		_crystals = CrystalsPtr(new Crystals());
+		_cohort = CohortPtr( new Cohort( ) );
+		_crystals = CrystalsPtr( new Crystals( ) );
+		_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
+		_adventure = AdventurePtr( new Adventure( ) );
 	}
 	
-	_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
-	_adventure = AdventurePtr( new Adventure( ) );
-	loadToGround();//GroundModelとCohortのデータ読み込み
+	loadToGround() ;//GroundModelとCohortのデータ読み込み
 	if ( _cohort ) {
-		_cohort->init();
+		_cohort->init( );
 	}
 }
 

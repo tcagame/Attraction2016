@@ -142,6 +142,10 @@ void AdvMgr::update( ) {
 	if ( sound->isPlayingVoice( ) ) {
 		return;
 	}
+	if ( _player_id >= PLAYER_ETUDE_RED ) {
+		return;
+	}
+	
 	AppPtr app = App::getTask( );
 	PlayerPtr player_mine = app->getPlayerMine( );
 	//必殺技じゃない時、フラグを消す

@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Player.h"
 #include "Crystals.h"
+#include "Cohort.h"
 #include "Camera.h"
 
 const int SCENE_TIME = 300; 
@@ -11,6 +12,7 @@ LiveScenePlayer::LiveScenePlayer() {
 	_time = 0;
 	_player_id = rand( ) % 4;
 	getBigCrystal( );
+	resetCohort( );
 }
 
 
@@ -46,4 +48,13 @@ void LiveScenePlayer::getBigCrystal( ) {
 	AppPtr app = App::getTask( );
 	CrystalsPtr crystals = app->getCrystals( );
 	crystals->getBigCrystal( );
+}
+
+void LiveScenePlayer::resetCohort( ) {
+	AppPtr app = App::getTask( );
+	CohortPtr cohort = app->getCohort( );
+	if ( !cohort ) {
+		return;
+	}
+	cohort->reset( );
 }

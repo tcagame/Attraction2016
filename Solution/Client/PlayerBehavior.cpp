@@ -17,6 +17,10 @@
 #include "Device.h"
 #include "PlayerCamera.h"
 #include "Sound.h"
+
+#include "EnemyBossBehavior.h"
+#include "Enemy.h"
+
 #include "Client.h"
 #include "Adventure.h"
 #include "Player.h"

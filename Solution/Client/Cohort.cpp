@@ -13,7 +13,7 @@
 
 Cohort::Cohort( ) {
 	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
-	Character::STATUS status = Character::STATUS( 200, 1, 50, 2 );
+	Character::STATUS status = Character::STATUS( 1000, 400, 50, 2 );
 	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
 	behavior->setParent( _boss );
 }
@@ -155,28 +155,28 @@ void Cohort::putEnemy( const Vector& pos, std::string enemy_name ) {
 		add( enemy, pos );
 	}
 	if ( enemy_name == "ゴースト"  ) {
-		status = Character::STATUS( 300, 100, 0.005 );
+		status = Character::STATUS( 150, 100, 0.005 );
 		EnemyGhostBehaviorPtr behavior = EnemyGhostBehaviorPtr( new EnemyGhostBehavior( ) );
 		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_GHOST ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "アーマー"  ) {
-		status = Character::STATUS( 250, 150, 0.005 );
+		status = Character::STATUS( 200, 150, 0.005 );
 		EnemyArmorBehaviorPtr behavior = EnemyArmorBehaviorPtr( new EnemyArmorBehavior( ) );
 		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_ARMOR ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "ゴブリン"  ) {
-		status = Character::STATUS( 200, 100, 0.005 );
+		status = Character::STATUS( 100, 100, 0.005 );
 		EnemyGoblinBehaviorPtr behavior = EnemyGoblinBehaviorPtr( new EnemyGoblinBehavior( ) );
 		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_GOBLIN ) );
 		behavior->setParent( enemy );
 		add( enemy, pos );
 	}
 	if ( enemy_name == "サイクロプス"  ) {
-		status = Character::STATUS( 500, 200, 0.005 );
+		status = Character::STATUS( 250, 200, 0.005 );
 		EnemyCyclopsBehaviorPtr behavior = EnemyCyclopsBehaviorPtr( new EnemyCyclopsBehavior( ) );
 		EnemyPtr enemy = EnemyPtr( new Enemy( behavior, status, Enemy::ENEMY_TYPE_MINOTAUR ) );
 		behavior->setParent( enemy );

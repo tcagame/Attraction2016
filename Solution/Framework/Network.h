@@ -37,8 +37,8 @@ const int MAX_MACHINE = 13;
 
 #pragma pack( 1 )
 	struct SERVERDATA {
-		unsigned char command;
-		unsigned char value[ 3 ];
+		unsigned int command;
+		unsigned int value[ 3 ];
 	};
 
 	struct CLIENTDATA {

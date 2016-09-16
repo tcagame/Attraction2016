@@ -59,16 +59,9 @@ EnemyBossBehavior::~EnemyBossBehavior() {
 }
 
 void EnemyBossBehavior::update( ) {
+	searchTarget( );
 	AppPtr app = App::getTask( );
-	//SoundPtr sound = Sound::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( player->isExpired( ) ) {
-		_target = player;
-	} else {
-		_target.reset( );
-
-	}
-
+	PlayerPtr player = app->getPlayerTarget( _parent->getPos( ) );
 	if ( _boss_fly_time >= BOSS_CRICLE_TIME && _boss_fly_time < BOSS_METOR_TIME ) {
 		Effect effect;
 		int boss_hit_cricle_handle = effect.setEffect( Effect::EFFECT_BOSS_HIT_CIRCLE );
@@ -91,6 +84,18 @@ void EnemyBossBehavior::update( ) {
 	}
 	switchStatus( );
 	_before_state = _boss_state;
+}
+
+void EnemyBossBehavior::searchTarget( ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayerTarget( _parent->getPos( ) );
+	if ( !player ) {
+		_target.reset( );
+	} else if ( player->isExpired( ) ) {
+		_target = player;
+	} else {
+		_target.reset( );
+	}
 }
 
 
@@ -268,15 +273,16 @@ void EnemyBossBehavior::animationUpdate( ) {
 
 void EnemyBossBehavior::onAttack( int attack_pattern ) {
 	AppPtr app = App::getTask( );
-	SoundPtr sound = Sound::getTask( );
 	PlayerPtr player = app->getPlayerMine( );
+	if ( !player ) {
+		return;
+	}
 	int power = _parent->getStatus( ).power;
 	power += BOSS_ATTACK_POWER[ attack_pattern ];
 	player->damage( power );
 	Vector pos = _parent->getPos( );
 	Effect effect;
 	if ( _attack_pattern == BOSS_ATTACK_PATTERN_FIRE ) {
-		//sound->playSE( Sound::SE_BOSS_ATTACK_3 );
 		int effect_handle = effect.setEffect( Effect::EFFECT_BOSS_ATTACK_FIRE );
 		Vector effect_dir = ( pos - _target_pos ).normalize( );
 		effect.drawEffect( effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos + ( ( _target_pos - pos ).normalize( ) * 2 ), effect_dir );

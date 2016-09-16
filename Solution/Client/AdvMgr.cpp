@@ -144,6 +144,10 @@ void AdvMgr::update( ) {
 	}
 	AppPtr app = App::getTask( );
 	PlayerPtr player_mine = app->getPlayerMine( );
+	if ( !player_mine ) {
+		return;
+	}
+
 	//•KŽE‹Z‚¶‚á‚È‚¢ŽžAƒtƒ‰ƒO‚ðÁ‚·
 	if ( player_mine->getAnimation( )->getMotion( ) != PLAYER_DEATHBLOW_MOTION[ _player_id ] ) {
 		_is_deathblow_animation = false;

@@ -2,6 +2,7 @@
 
 #include "Task.h"
 #include "Network.h"
+#include "mathmatics.h"
 #include <string>
 #include <array>
 
@@ -39,6 +40,7 @@ public:
 	GroundPtr getGround( ) const;
 	PlayerPtr getPlayer( unsigned char player_id ) const;
 	PlayerPtr getPlayerMine( ) const;
+	PlayerPtr getPlayerTarget( const Vector& pos ) const;
 	CohortPtr  getCohort( ) const;
 	GroundModelPtr getGroundModel( ) const;
 	WeaponPtr getWeapon( ) const;

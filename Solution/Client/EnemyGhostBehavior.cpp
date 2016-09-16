@@ -22,19 +22,25 @@ EnemyGhostBehavior::~EnemyGhostBehavior( ) {
 }
 
 void EnemyGhostBehavior::update( ) {
-	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( player->isExpired( ) ) {
-		_target = player;
-	} else {
-		_target.reset( );
-	}
-
+	searchTarget( );
 	movePosToTarget( );
 	switchStatus( );
 	_before_state = _enemy_state;
 	_before_hp = _parent->getStatus( ).hp;
 }
+
+void EnemyGhostBehavior::searchTarget( ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayerTarget( _parent->getPos( ) );
+	if ( !player ) {
+		_target.reset( );
+	} else if ( player->isExpired( ) ) {
+		_target = player;
+	} else {
+		_target.reset( );
+	}
+}
+
 
 void EnemyGhostBehavior::movePosToTarget( ) {
 	if ( _target.expired( ) ) {

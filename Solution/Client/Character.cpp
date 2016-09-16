@@ -30,12 +30,13 @@ Character::~Character( ) {
 
 void Character::update( ) {
 	CameraPtr camera = Camera::getTask( );
+	if ( !_expired ) {
+		return;
+	}
 	if ( !camera->isInScreen( getPos( ) ) ) {
 		return;
 	}
-	if ( _expired ) {
-		_behavior->mainLoop( );
-	}
+	_behavior->mainLoop( );
 }
 
 

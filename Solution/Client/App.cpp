@@ -324,9 +324,27 @@ PlayerPtr App::getPlayer( unsigned char player_id ) const {
 	return _player[ player_id ];
 }
 
+PlayerPtr App::getPlayerTarget( const Vector& pos ) const  {
+	PlayerPtr target;
+
+	double min = 1000;
+	for ( int i = 0; i < 4; i++ ) {
+		if ( !_player[ i ]->isExpired( ) ) {
+			continue;
+		}
+		Vector vec = _player[ i ]->getPos( ) - pos;
+		double length = vec.getLength( );
+		if ( length < min ) {
+			target = _player[ i ];
+			min = length;
+		}
+	}
+	return target;	
+}
+
 PlayerPtr App::getPlayerMine( ) const {
 	if ( _player_id == PLAYER_NONE ) {
-		return _player[ 0 ];
+		return PlayerPtr( );
 	}
 	return _player[ _player_id ];
 }

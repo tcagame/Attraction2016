@@ -87,3 +87,7 @@ bool Crystals::isGetBigCrystal( ) {
 int Crystals::getCrystalNum( ) {
 	return _get_crystal_num;
 }
+
+void Crystals::setBigCrystal( ) {
+	_get_big_crystal = true;
+}

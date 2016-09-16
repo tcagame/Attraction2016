@@ -12,7 +12,7 @@
 #include "Character.h"
 
 Cohort::Cohort( ) {
-	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
+ 	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
 	Character::STATUS status = Character::STATUS( 1000, 400, 50, 2 );
 	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
 	behavior->setParent( _boss );

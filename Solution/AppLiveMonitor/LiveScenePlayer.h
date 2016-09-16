@@ -10,6 +10,7 @@ public:
 	virtual ~LiveScenePlayer();
 public:
 	bool update( );
+	void getBigCrystal( );
 private:
 	int _time;
 	int _player_id;

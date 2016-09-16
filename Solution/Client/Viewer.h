@@ -69,6 +69,8 @@ private:
 	void drawShadow( );
 	void drawBigCrystal( );
 	void drawUI( );
+	void drawPlayerUI( );
+	void drawBossUI( );
 	void drawReady( );
 	void drawResult( );
 	void drawAdv( );

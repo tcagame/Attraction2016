@@ -2,13 +2,15 @@
 #include "Network.h"
 #include "App.h"
 #include "Player.h"
+#include "Crystals.h"
 #include "Camera.h"
 
 const int SCENE_TIME = 300; 
 
 LiveScenePlayer::LiveScenePlayer() {
 	_time = 0;
-		_player_id = rand( ) % 4;
+	_player_id = rand( ) % 4;
+	getBigCrystal( );
 }
 
 
@@ -38,4 +40,10 @@ bool LiveScenePlayer::update( ) {
 	CameraPtr camera = Camera::getTask( );
 	camera->setTarget( player->getPos( ) );
 	return false;
+}
+
+void LiveScenePlayer::getBigCrystal( ) {
+	AppPtr app = App::getTask( );
+	CrystalsPtr crystals = app->getCrystals( );
+	crystals->getBigCrystal( );
 }

@@ -24,8 +24,16 @@ EnemyArmorBehavior::~EnemyArmorBehavior( ) {
 
 
 void EnemyArmorBehavior::update( ) {
+	searchTarget( );
+	movePosToTarget( );
+	switchStatus( );
+	_before_state = _enemy_state;
+	_befor_hp = _parent->getStatus( ).hp;
+}
+
+void EnemyArmorBehavior::searchTarget( ) {
 	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
+	PlayerPtr player = app->getPlayerTarget( _parent->getPos( ) );
 	if ( !player ) {
 		_target.reset( );
 	} else if ( player->isExpired( ) ) {
@@ -33,11 +41,6 @@ void EnemyArmorBehavior::update( ) {
 	} else {
 		_target.reset( );
 	}
-
-	movePosToTarget( );
-	switchStatus( );
-	_before_state = _enemy_state;
-	_befor_hp = _parent->getStatus( ).hp;
 }
 
 void EnemyArmorBehavior::movePosToTarget( ) {
@@ -146,10 +149,17 @@ void EnemyArmorBehavior::animationUpdate( ) {
 
 void EnemyArmorBehavior::onAttack( ) {
 	AppPtr app = App::getTask( );
-	//SoundPtr sound = Sound::getTask( );
-	//sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
-	if ( player ) {
+	if ( !player ) {
+		return;
+	}
+	Vector player_pos = player->getPos( );
+	Vector vec = player_pos - _parent->getPos( );
+	Vector dir = vec.normalize( );
+	Vector attack_pos = _parent->getPos( ) +  dir * 1.0;
+	Vector smash_dis = attack_pos - player_pos;
+
+	if ( player && smash_dis.getLength( ) < 2.0 ) {
 		player->damage( _parent->getStatus( ).power );
 	}
 }

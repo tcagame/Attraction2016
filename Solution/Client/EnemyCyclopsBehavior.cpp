@@ -23,19 +23,25 @@ EnemyCyclopsBehavior::~EnemyCyclopsBehavior( ) {
 
 
 void EnemyCyclopsBehavior::update( ) {
-	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( player->isExpired( ) ) {
-		_target = player;
-	} else {
-		_target.reset( );
-	}
-
+	searchTarget( );
 	movePosToTarget( );
 	switchStatus( );
 	_before_state = _enemy_state;
 	_befor_hp = _parent->getStatus( ).hp;
 }
+
+void EnemyCyclopsBehavior::searchTarget( ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayerTarget( _parent->getPos( ) );
+	if ( !player ) {
+		_target.reset( );
+	} else if ( player->isExpired( ) ) {
+		_target = player;
+	} else {
+		_target.reset( );
+	}
+}
+
 
 void EnemyCyclopsBehavior::movePosToTarget( ) {
 	if ( _target.expired( ) ) {
@@ -144,15 +150,16 @@ void EnemyCyclopsBehavior::onAttack( ) {
 	//SoundPtr sound = Sound::getTask( );
 	//sound->playSE( Sound::SE_ENEMY_ATTACK );
 	PlayerPtr player = app->getPlayerMine( );
-
+	if ( !player ) {
+		return;
+	}
 	Vector player_pos = player->getPos( );
-	Vector pos = _parent->getPos( );
-	Vector vec = player_pos - pos;
+	Vector vec = player_pos - _parent->getPos( );
 	Vector dir = vec.normalize( );
-	Vector attack_pos = pos +  dir * 1.5;
+	Vector attack_pos = _parent->getPos( ) +  dir * 1.0;
 	Vector smash_dis = attack_pos - player_pos;
 
-	if ( smash_dis.getLength( ) < 1.0 ) {
+	if ( smash_dis.getLength( ) < 2.0 ) {
 		player->damage( _parent->getStatus( ).power );
 	}
 }

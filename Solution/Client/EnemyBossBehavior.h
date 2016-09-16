@@ -32,6 +32,7 @@ private:
 	void animationUpdate( );	
 	void switchStatus( );
 	void onAttack( int attack_pattern );
+	void searchTarget( );
 private:
 	PlayerWeakPtr _target;
 	BOSS_STATE _boss_state;

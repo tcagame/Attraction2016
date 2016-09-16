@@ -19,18 +19,23 @@ EnemyMinotaurBehavior::~EnemyMinotaurBehavior( ) {
 }
 
 void EnemyMinotaurBehavior::update( ) {
-	AppPtr app = App::getTask( );
-	PlayerPtr player = app->getPlayerMine( );
-	if ( player->isExpired( ) ) {
-		_target = player;
-	} else {
-		_target.reset( );
-	}
-
+	searchTarget( );
 	movePosToTarget( );
 	switchStatus( );
 	_before_state = _enemy_state;
 	_befor_hp = _parent->getStatus( ).hp;
+}
+
+void EnemyMinotaurBehavior::searchTarget( ) {
+	AppPtr app = App::getTask( );
+	PlayerPtr player = app->getPlayerTarget( _parent->getPos( ) );
+	if ( !player ) {
+		_target.reset( );
+	} else if ( player->isExpired( ) ) {
+		_target = player;
+	} else {
+		_target.reset( );
+	}
 }
 
 void EnemyMinotaurBehavior::movePosToTarget( ) {
@@ -138,6 +143,9 @@ void EnemyMinotaurBehavior::onAttack( ) {
 
 	AppPtr app = App::getTask( );
 	PlayerPtr player = app->getPlayerMine( );
+	if ( !player ) {
+		return;
+	}
 	Vector target_pos = player->getPos( );
 	Vector stance = target_pos - _parent->getPos( );
 

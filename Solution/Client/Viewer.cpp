@@ -342,7 +342,6 @@ void Viewer::drawPlayer( ) {
 		DrawerPtr drawer = Drawer::getTask( );
 		Drawer::ModelMV1 model = Drawer::ModelMV1( pos, dir, motion, time );
 		drawer->setModelMV1( model );
-		//drawer->drawString( 2, 2, false, "x: %lf y: %lf", app->getPlayerMine( )->getPos( ).x, app->getPlayerMine( )->getPos( ).y );
 		if ( EXPIRED_FAIRY ) {
 			//妖精
 			Effect effect;
@@ -568,7 +567,20 @@ void Viewer::drawBigCrystal( ) {
 }
 
 void Viewer::drawUI( ) {
+	drawPlayerUI( );
+	drawBossUI( );
+}
+
+void Viewer::drawPlayerUI( ) {
 	AppPtr app = App::getTask( );
+	
+	int id = app->getPlayerId( );
+	if ( id != PLAYER_KNIGHT &&
+		 id != PLAYER_MONK   &&
+		 id != PLAYER_WITCH  &&
+		 id != PLAYER_HUNTER ) {
+		return;
+	}
 
 	//プレイヤー
 	PlayerPtr player = app->getPlayerMine( );
@@ -586,114 +598,113 @@ void Viewer::drawUI( ) {
 	int window_width = fw->getWindowWidth( );
 	int window_height = fw->getWindowHeight( );
 
-	//プレイヤーUI描画
-	int id = app->getPlayerId( );
-	if ( id == PLAYER_KNIGHT ||
-			id == PLAYER_MONK ||
-			id == PLAYER_WITCH ||
-			id == PLAYER_HUNTER ) {
+	//ステータスウィンドウ
+	int status_base_x = STATUS_POS_OFFSET;
+	int status_base_y = STATUS_POS_OFFSET * 8;
 
-		//ステータスウィンドウ
-		int status_base_x = STATUS_POS_OFFSET;
-		int status_base_y = STATUS_POS_OFFSET * 8;
+	Drawer::Transform base_transform = Drawer::Transform( status_base_x, status_base_y );
+	Drawer::Sprite base_sprite = Drawer::Sprite( base_transform, id + ( int )GRAPHIC_UI_BASE_KNIGHT, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( base_sprite );
 
-		Drawer::Transform base_transform = Drawer::Transform( status_base_x, status_base_y );
-		Drawer::Sprite base_sprite = Drawer::Sprite( base_transform, id + ( int )GRAPHIC_UI_BASE_KNIGHT, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( base_sprite );
+	//ゲージ下地
+	int status_gauge_background_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
+	int status_gauge_background_y = status_base_y + STATUS_POS_OFFSET * 15;
+	Drawer::Transform background_transform = Drawer::Transform( status_gauge_background_x, status_gauge_background_y );
+	Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, GRAPHIC_UI_GAUGE_BACKGROUND, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( background_sprite );
 
-		//ゲージ下地
-		int status_gauge_background_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_HP_GAUGE_WIDTH / 2;
-		int status_gauge_background_y = status_base_y + STATUS_POS_OFFSET * 15;
-		Drawer::Transform background_transform = Drawer::Transform( status_gauge_background_x, status_gauge_background_y );
-		Drawer::Sprite background_sprite = Drawer::Sprite( background_transform, GRAPHIC_UI_GAUGE_BACKGROUND, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( background_sprite );
+	//HPゲージ
+	Player::STATUS status = player->getStatus( );
+	double hp = ( double )status.hp;
+	double max_hp = ( double )player->getMaxHp( );
+	double hp_percentage = hp / max_hp;
+	double hp_tw = ( ( double )STATUS_HP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * hp_percentage + STATUS_GAUSGE_OFFSET;
+		
+	int status_hp_gauge_x = status_gauge_background_x + STATUS_POS_OFFSET;
+	int status_hp_gauge_y = status_gauge_background_y;
+	Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
+	Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( gauge_sprite );
+		
+	//SPゲージ
+	double sp = ( double )player->getSP( );
+	double sp_percentage = sp / ( double )Player::FULL_SP_NUM;
+	double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
+		
+	int status_sp_gauge_x = status_gauge_background_x;
+	int status_sp_gauge_y = status_gauge_background_y;
+		
+	Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )sp_tw, STATUS_SP_GAUGE_HEIGHT );
+	Drawer::Sprite sp_sprite = Drawer::Sprite( sp_transform, GRAPHIC_UI_SP_GAUGE, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( sp_sprite );
 
-		//HPゲージ
-		Player::STATUS status = player->getStatus( );
-		double hp = ( double )status.hp;
-		double max_hp = ( double )player->getMaxHp( );
-		double hp_percentage = hp / max_hp;
-		double hp_tw = ( ( double )STATUS_HP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * hp_percentage + STATUS_GAUSGE_OFFSET;
+	//ゲージフレーム
+	int status_gauge_frame_x = status_gauge_background_x;
+	int status_gauge_frame_y = status_gauge_background_y;
 		
-		int status_hp_gauge_x = status_gauge_background_x + STATUS_POS_OFFSET;
-		int status_hp_gauge_y = status_gauge_background_y;
-		Drawer::Transform gauge_transform = Drawer::Transform( status_hp_gauge_x, status_hp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )hp_tw, STATUS_HP_GAUGE_HEIGHT );
-		Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_UI_HP_GAUGE, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( gauge_sprite );
-		
-		//SPゲージ
-		double sp = ( double )player->getSP( );
-		double sp_percentage = sp / ( double )Player::FULL_SP_NUM;
-		double sp_tw = ( ( double )STATUS_SP_GAUGE_WIDTH - STATUS_GAUSGE_OFFSET * 2 ) * sp_percentage + STATUS_GAUSGE_OFFSET;
-		
-		int status_sp_gauge_x = status_gauge_background_x;
-		int status_sp_gauge_y = status_gauge_background_y;
-		
-		Drawer::Transform sp_transform = Drawer::Transform( status_sp_gauge_x, status_sp_gauge_y, ( int )STATUS_GAUSGE_OFFSET, 0, ( int )sp_tw, STATUS_SP_GAUGE_HEIGHT );
-		Drawer::Sprite sp_sprite = Drawer::Sprite( sp_transform, GRAPHIC_UI_SP_GAUGE, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( sp_sprite );
-
-		//ゲージフレーム
-		int status_gauge_frame_x = status_gauge_background_x;
-		int status_gauge_frame_y = status_gauge_background_y;
-		
-		Drawer::Transform gauge_frame_transform = Drawer::Transform( status_gauge_frame_x, status_gauge_frame_y );
-		Drawer::Sprite gauge_frame_sprite = Drawer::Sprite( gauge_frame_transform, GRAPHIC_UI_GAUGE_FRAME, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( gauge_frame_sprite );
+	Drawer::Transform gauge_frame_transform = Drawer::Transform( status_gauge_frame_x, status_gauge_frame_y );
+	Drawer::Sprite gauge_frame_sprite = Drawer::Sprite( gauge_frame_transform, GRAPHIC_UI_GAUGE_FRAME, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( gauge_frame_sprite );
 
 		
-		//ネームタグ
-		int status_name_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
-		int status_name_y = status_base_y - STATUS_POS_OFFSET * 9;
-		Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
-		Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, id + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( name_sprite );
+	//ネームタグ
+	int status_name_x = status_base_x + STATUS_BASE_WIDTH / 2 - STATUS_NAME_WIDTH / 2;
+	int status_name_y = status_base_y - STATUS_POS_OFFSET * 9;
+	Drawer::Transform name_transform = Drawer::Transform( status_name_x, status_name_y );
+	Drawer::Sprite name_sprite = Drawer::Sprite( name_transform, id + ( int )GRAPHIC_UI_NAME_KNIGHT, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( name_sprite );
+}
+
+//ボス
+void Viewer::drawBossUI( ) {
+	AppPtr app = App::getTask( );
+	CrystalsPtr crystals = app->getCrystals( );
+	if ( !crystals ) {
+		return;
+	}
+	if ( !crystals->isGetBigCrystal( ) ) {
+		return;
 	}
 
-	//ボス
-	{
-		CrystalsPtr crystals = app->getCrystals( );
-		if ( !crystals ) {
-			return;
+	//ウィンドウサイズ取得
+	FrameworkPtr fw = Framework::getInstance( );
+	int window_width = fw->getWindowWidth( );
+	int window_height = fw->getWindowHeight( );
+	int status_window_x = window_width / 2 - STATUS_BASE_WIDTH / 2;
+	int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
+
+	DrawerPtr drawer = Drawer::getTask( );
+
+	//下地
+	int boss_background_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
+	int boss_background_y = window_height - BOSS_BACKGROUND_HEIGHT - STATUS_POS_OFFSET;
+	Drawer::Transform boss_hp_background_transform = Drawer::Transform( boss_background_x, boss_background_y );
+	Drawer::Sprite boss_hp_background_sprite = Drawer::Sprite( boss_hp_background_transform, GRAPHIC_UI_BOSS_BACKGROUND, Drawer::BLEND_NONE, 0 );
+	drawer->setSprite( boss_hp_background_sprite );
+
+	//HP描画
+	CohortPtr cohort = app->getCohort( );
+	if ( cohort ) {
+		EnemyPtr boss = cohort->getBoss( );
+		int hp = boss->getStatus( ).hp;
+		if ( hp > 0 ) {
+			int max_hp = boss->getMaxHp( );
+			double percentage = ( double )hp / ( double )max_hp;
+			double tw = BOSS_HP_GAUGE_WIDTH * percentage;
+
+			//HP描画
+			int boss_hp_gauge_x = boss_background_x;
+			int boss_hp_gauge_y = boss_background_y;
+			Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
+			Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
+			drawer->setSprite( boss_hp_gauge_sprite );
 		}
-		if ( !crystals->isGetBigCrystal( ) ) {
-			return;
-		}
-
-		int status_window_x = window_width / 2 - STATUS_BASE_WIDTH / 2;
-		int status_window_y = window_height - STATUS_BASE_HEIGHT - STATUS_POS_OFFSET * 3;
-
-		//下地
-		int boss_background_x = window_width / 2 - BOSS_HP_FRAME_WIDTH / 2;
-		int boss_background_y = window_height - BOSS_BACKGROUND_HEIGHT - STATUS_POS_OFFSET;
-		Drawer::Transform boss_hp_background_transform = Drawer::Transform( boss_background_x, boss_background_y );
-		Drawer::Sprite boss_hp_background_sprite = Drawer::Sprite( boss_hp_background_transform, GRAPHIC_UI_BOSS_BACKGROUND, Drawer::BLEND_NONE, 0 );
-		drawer->setSprite( boss_hp_background_sprite );
-
-		//HP描画
-		CohortPtr cohort = app->getCohort( );
-		if ( cohort ) {
-			EnemyPtr boss = cohort->getBoss( );
-			int hp = boss->getStatus( ).hp;
-			if ( hp > 0 ) {
-				int max_hp = boss->getMaxHp( );
-				double percentage = ( double )hp / ( double )max_hp;
-				double tw = BOSS_HP_GAUGE_WIDTH * percentage;
-
-				//HP描画
-				int boss_hp_gauge_x = boss_background_x;
-				int boss_hp_gauge_y = boss_background_y;
-				Drawer::Transform boss_hp_gauge_transform = Drawer::Transform( boss_hp_gauge_x, boss_hp_gauge_y, 0, 0, ( int )tw, BOSS_HP_GAUGE_HEIGHT );
-				Drawer::Sprite boss_hp_gauge_sprite = Drawer::Sprite( boss_hp_gauge_transform, GRAPHIC_UI_BOSS_HP_GAUGE, Drawer::BLEND_NONE, 0 );
-				drawer->setSprite( boss_hp_gauge_sprite );
-			}
-			//HPフレーム
-			int boss_hp_gauge_frame_x = boss_background_x;
-			int boss_hp_gauge_frame_y = boss_background_y;
-			Drawer::Transform boss_hp_frame_transform = Drawer::Transform( boss_hp_gauge_frame_x, boss_hp_gauge_frame_y );
-			Drawer::Sprite boss_hp_frame_sprite = Drawer::Sprite( boss_hp_frame_transform, GRAPHIC_UI_BOSS_HP_FRAME, Drawer::BLEND_NONE, 0 );
-			drawer->setSprite( boss_hp_frame_sprite );
-		}
+		//HPフレーム
+		int boss_hp_gauge_frame_x = boss_background_x;
+		int boss_hp_gauge_frame_y = boss_background_y;
+		Drawer::Transform boss_hp_frame_transform = Drawer::Transform( boss_hp_gauge_frame_x, boss_hp_gauge_frame_y );
+		Drawer::Sprite boss_hp_frame_sprite = Drawer::Sprite( boss_hp_frame_transform, GRAPHIC_UI_BOSS_HP_FRAME, Drawer::BLEND_NONE, 0 );
+		drawer->setSprite( boss_hp_frame_sprite );
 	}
 }
 

@@ -28,6 +28,7 @@ public:
 	};
 public:						
 	void update( );			
+	bool isDead( );
 private:
 	void animationUpdate( );	
 	void switchStatus( );
@@ -37,11 +38,13 @@ private:
 	PlayerWeakPtr _target;
 	BOSS_STATE _boss_state;
 	BOSS_STATE _before_state;
-
+	bool _is_dead;
 	Vector _target_pos; 
 	double _boss_damage_hp;
 	int _boss_fly_time;
 	double _attack_range[ BOSS_ATTACK_PATTERN_MAX ];
 	bool _has_entry;
 	int _attack_pattern;
+	int _clear_time;
+	bool _is_clear;
 };

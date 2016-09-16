@@ -23,6 +23,12 @@ private:
 	bool _is_deathblow_animation;
 	bool _is_after_contact_minotaur;
 	bool _is_crystal[ CRYSTAL_MAX ];
+	bool _is_boss_introduction;
+	bool _is_telport_boss;
+	bool _is_boss_dead_lines;
+	bool _is_boss_dead_introduction;
+	bool _is_clear;
+	bool _is_clear_fairy;
 	int _tutorial_idx;
 	int _crystal_idx;
 };

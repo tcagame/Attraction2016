@@ -180,7 +180,6 @@ void App::updateStatePlay( ) {
 	if ( _adventure ) {
 		_adventure->update( );
 	}
-
 	if ( _player_id != PLAYER_NONE ) {
 		CameraPtr camera = Camera::getTask( );
 		camera->setTarget( _player[ _player_id ]->getPos( ) );

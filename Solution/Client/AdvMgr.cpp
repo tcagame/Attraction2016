@@ -1,10 +1,12 @@
 #include "AdvMgr.h"
 #include "App.h"
 #include "Player.h"
+#include "Enemy.h"
 #include "Crystals.h"
 #include "Crystal.h"
 #include "Adventure.h"
 #include "Animation.h"
+#include "Cohort.h"
 #include "Sound.h"
 #include "Network.h"
 
@@ -106,6 +108,12 @@ _player_id( player_id ) {
 	_is_deathblow_animation = false;
 	_is_store_animation = false;
 	_is_after_contact_minotaur = false;
+	_is_boss_introduction = false;
+	_is_telport_boss = false;
+	_is_boss_dead_lines = false;
+	_is_boss_dead_introduction = false;
+	_is_clear = false;
+	_is_clear_fairy = false;
 	for( int i = 0; i < CRYSTAL_MAX; i++ ) {
 		_is_crystal[ i ] = false;
 	}
@@ -124,6 +132,12 @@ void AdvMgr::reset( ) {
 	_is_store_animation = false;
 	_is_deathblow_animation = false;
 	_is_after_contact_minotaur = false;
+	_is_boss_introduction = false;
+	_is_telport_boss = false;
+	_is_boss_dead_lines = false;
+	_is_boss_dead_introduction = false;
+	_is_clear = false;
+	_is_clear_fairy = false;
 	for( int i = 0; i < CRYSTAL_MAX; i++ ) {
 		_is_crystal[ i ] = false;
 	}
@@ -208,6 +222,42 @@ void AdvMgr::update( ) {
 		_is_crystal[ crystal_num ] = true;
 		return;
 	}
-	
-
+	//ボスの登場セリフ
+	bool get_big_crystal = app->getCrystals( )->isGetBigCrystal( );
+	if ( !_is_telport_boss && get_big_crystal  ) {
+		adventure->start( Adventure::TYPE_COMMON_BOSS_ENTRY );
+		_is_telport_boss = true;
+		return;
+	}
+	//ボス登場後、妖精のセリフ
+	if ( _is_telport_boss && !_is_boss_introduction ) {
+		adventure->start( Adventure::TYPE_COMMON_AFTER_BOSS_ENTRY );
+		_is_boss_introduction = true;
+		return;
+	}
+	//ボスが死んだときのセリフ
+	bool boss_dead = !app->getCohort( )->getBoss( )->isExpired( );
+	if ( _is_boss_introduction && boss_dead && !_is_boss_dead_lines ) {
+		adventure->start( Adventure::TYPE_COMMON_BOSS_DEAD );
+		_is_boss_dead_lines = true;
+		return;
+	}
+	//ボスが死んだあと妖精のセリフ
+	if ( _is_boss_dead_lines && !_is_boss_dead_introduction ) {
+		adventure->start( Adventure::TYPE_COMMON_AFTER_BOSS_DEAD );
+		_is_boss_dead_introduction = true;
+		return;
+	}
+	//クリア時、プレイやーのセリフ
+	if ( _is_boss_dead_introduction && !_is_clear ) {
+		adventure->start( PLAYER_CLEAR[ _player_id ] );
+		_is_clear = true;
+		return;
+	}
+	//クリア後、妖精のセリフ
+	if ( _is_clear && !_is_clear_fairy ) {
+		adventure->start( Adventure::TYPE_COMMON_CLEAR );
+		_is_clear_fairy = true;
+		return;
+	}
 }

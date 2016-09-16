@@ -3,6 +3,7 @@
 #include "Effect.h"
 #include "Animation.h"
 #include "Crystals.h"
+#include "Adventure.h"
 #include "Sound.h"
 #include "App.h"
 #include "Player.h"
@@ -44,7 +45,9 @@ const int BOSS_ATTACK_POWER[ ] = {
 	1000,
 };
 
-EnemyBossBehavior::EnemyBossBehavior() {
+const int CLEAR_TIME = 3600;
+
+EnemyBossBehavior::EnemyBossBehavior( ) {
 	_attack_range[ BOSS_ATTACK_PATTERN_CLEAVE ] = 3.0;
 	_attack_range[ BOSS_ATTACK_PATTERN_BITE ] = 5.0;
 	_attack_range[ BOSS_ATTACK_PATTERN_FIRE ] = 7.0;
@@ -53,6 +56,8 @@ EnemyBossBehavior::EnemyBossBehavior() {
 	_boss_fly_time = 0;
 	_boss_state = BOSS_STATE_WAIT;
 	_boss_damage_hp = BOSS_DAMAGE_HP;
+	_clear_time = 0;
+	_is_clear = false;
 }
 
 EnemyBossBehavior::~EnemyBossBehavior() {
@@ -96,6 +101,9 @@ void EnemyBossBehavior::searchTarget( ) {
 	} else {
 		_target.reset( );
 	}
+}
+bool EnemyBossBehavior::isDead( ) {
+	return _is_dead;
 }
 
 
@@ -181,17 +189,26 @@ void EnemyBossBehavior::switchStatus( ) {
 	}
 	if ( _parent->getStatus( ).hp <= 0 ) {
 		_boss_state = BOSS_STATE_DEAD;
+		_is_dead = true;
 	}
-	
+	if ( _is_dead ) {
+		_clear_time++;
+	}
+	if ( _clear_time > CLEAR_TIME && ( app->getAdventure( )->getType( ) == Adventure::TYPE_NONE ) ) {
+		app->setState( App::STATE_CLEAR );
+		_is_clear = true;
+	}
 }
 
 void EnemyBossBehavior::animationUpdate( ) {
 	
 	if ( _animation->getMotion( ) == Animation::MOTION_BOSS_DEAD ) {
-		if ( _animation->isEndAnimation( ) ) {
-			_parent->dead( );
-			AppPtr app = App::getTask( );
-			app->setState( App::STATE_CLEAR );
+		if ( _animation->isEndAnimation( ) ) { 
+			if ( !_is_clear ) {
+				_animation->setAnimationTime( _animation->getEndAnimTime( ) - 1 );
+			} else {
+				_parent->dead( );
+			}
 			//SoundPtr sound = Sound::getTask( );
 			//sound->playSE( Sound::SE_GAME_CLEAR );
 		}

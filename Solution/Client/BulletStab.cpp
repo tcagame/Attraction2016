@@ -1,11 +1,11 @@
 #include "BulletStab.h"
 #include "Effect.h"
 
-const int SWORD_POWER = 50;
-const double SWORD_LENGTH = 2;
-const int SWORD_RATIO = 5;
-const int WAIT_TIME = 5;
-const double EFFECT_SCALE = 0.05;
+const int SWORD_POWER = 100;
+const double SWORD_LENGTH = 3.5 * Bullet::BULLET_SCALE;
+const int SWORD_RATIO =10;
+const int WAIT_TIME = 10;
+const double EFFECT_SCALE = 0.12 * Bullet::BULLET_SCALE;
 
 BulletStab::BulletStab( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_STAB ) {

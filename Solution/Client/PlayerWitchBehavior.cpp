@@ -45,7 +45,7 @@ void PlayerWitchBehavior::attack( const CONTROLL& controll ) {
 		}
 		if ( enabled ) {
 			Effect effect;
-			int id = effect.setEffect( Effect::EFFECT_PLAYER_HUNTER_STORE );
+			int id = effect.setEffect( Effect::EFFECT_PLAYER_WITCH_STORE );
 			effect.drawEffect( id, Vector( 1, 1, 1 ), _parent->getPos( ) + Vector( 0, 0, 0.5 ),_parent->getDir( ) );
 			_player_state = PLAYER_STATE_STORE;
 			sound->playSE( Sound::SE_PLAYER_STORE );

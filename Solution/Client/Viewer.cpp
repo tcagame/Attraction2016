@@ -51,8 +51,8 @@ const int STATUS_BASE_HEIGHT = 229;
 const int STATUS_NAME_WIDTH = 495;
 const int STATUS_NAME_HEIGHT = 148;
 
-const int TEXT_WINDOW_WIDTH  = 1800;
-const int TEXT_WINDOW_HEIGHT = 347;
+const int TEXT_WINDOW_WIDTH  = 1920;
+const int TEXT_WINDOW_HEIGHT = 170;
 
 const double STATUS_GAUSGE_OFFSET = 6.7;
 
@@ -93,20 +93,20 @@ const double MODEL_SCALE_2015 = 0.008;
 const double MODEL_SCALE_2016 = 0.06;
 const double MODEL_SCALE_ALL = 1.0;
 
-const int TEXT_WORD_X = 70;
-const int TEXT_WORD_Y = 73;
+const int TEXT_WORD_X = 54;
+const int TEXT_WORD_Y = 60;
 
 const double MODEL_SHADOW_HEIGTH = 0.002;
 
 const int CHARACTER_WIDTH[ Adventure::CHARACTER_MAX ] = {
-	617,
+	309,
+	222,
 	444,
-	887,
-	646,
-	800,
-	1372
+	323,
+	400,
+	686
 };
-const int CHARACTER_HEIGHT = 1000;
+const int CHARACTER_HEIGHT = 500;
 
 
 const Vector UP_VEC = Vector( 0, 0, 1 );
@@ -287,11 +287,9 @@ void Viewer::update( ) {
 	App::STATE state = app->getState( );
 	switch( state ) {
 	case App::STATE_READY:
-		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		drawReady( );
 		break;
 	case App::STATE_PLAY:
-		drawer->setPlayEffect( true );		//エフェクト描画ON
 		drawAdv( );
 		drawBackGround( );
 		drawPlayer( );
@@ -308,7 +306,6 @@ void Viewer::update( ) {
 	case App::STATE_CLEAR:
 	case App::STATE_DEAD:
 		drawResult( );
-		drawer->setPlayEffect( false );		//エフェクト描画OFF
 		break;
 	}
 }
@@ -349,7 +346,7 @@ void Viewer::drawPlayer( ) {
 				_fairy_handle[ i ] = effect.setEffect( Effect::EFFECT_FAIRY );
 				_fairy_time[ i ] = 0;
 			}
-			effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 2.0 * MODEL_SCALE_ALL ), dir * -1 );
+			//effect.drawEffect( _fairy_handle[ i ], Vector( 0.5, 0.5, 0.5 ), pos + Vector( 0, 0, 2.0 * MODEL_SCALE_ALL ), dir * -1 );
 			_fairy_time[ i ]++;
 		}
 	}
@@ -774,24 +771,31 @@ void Viewer::drawResult( ) {
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );
-	AdvMgrPtr adv_mgr = app->getAdvMgr( );
-	AdventurePtr adv = adv_mgr->getAdventure( );
+	AdventurePtr adv = app->getAdventure( );
+	if ( !adv ) {
+		return;
+	}
+
 	Adventure::TYPE type = adv->getType( );
 	if ( type == Adventure::TYPE_NONE ) {
 		return;
 	}
 
+	double ratio = adv->getRatio( );
+
 	FrameworkPtr fw = Framework::getInstance( );
 	DrawerPtr drawer = Drawer::getTask( );
+
 	//バストアップ描画	
-	int character_x = fw->getWindowWidth( ) / 4 * 3 - CHARACTER_WIDTH[ adv->getCharacter( type ) ] / 2;
-	int character_y = fw->getWindowHeight( ) / 2 - CHARACTER_HEIGHT / 2;
+	int character_x = fw->getWindowWidth( )  - ( int )( CHARACTER_WIDTH[ adv->getCharacter( type ) ] * ratio );
+	int character_y = fw->getWindowHeight( ) - CHARACTER_HEIGHT;
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( character_sprite );
+
 	//吹き出し描画
 	int text_window_x = ( fw->getWindowWidth( ) - TEXT_WINDOW_WIDTH )/ 2;
-	int text_window_y = fw->getWindowHeight( ) - TEXT_WINDOW_HEIGHT;
+	int text_window_y = fw->getWindowHeight( ) - ( int )( TEXT_WINDOW_HEIGHT * ratio );
 	Drawer::Transform text_window_transform = Drawer::Transform( text_window_x, text_window_y );
 	Drawer::Sprite popup_sprite = Drawer::Sprite( text_window_transform, ( int )GRAPHIC_ADV_TEXT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( popup_sprite );

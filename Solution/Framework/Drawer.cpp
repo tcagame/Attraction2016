@@ -127,18 +127,19 @@ void Drawer::initialize( ) {
 	_fps = FPS;
 	_start_time = 0;
 
-	_is_play_effect = true;
 }
 
 void Drawer::update( ) {
+	
 	flip( );
+
 	drawShadow( );
 	drawModelMV1( );
 	drawModelMDL( );
 	drawBillboard( );
 	drawEffect( );
 	drawSprite( );
-
+	
 }
 
 void Drawer::deleteEffect( int effect_handle ) {
@@ -276,6 +277,18 @@ void Drawer::drawEffect( ) {
 		int check = SetPosPlayingEffekseer3DEffect( effect.playing_handle, ( float )effect.pos.x, ( float )effect.pos.y, ( float )effect.pos.z);
 	}
 	_effect_idx = 0;
+	
+	// ※
+	/*
+	Effekseerに処理を渡すためには何らかのDxlibの初期化が必要とおもわれる
+	その初期化がDrawStringを実行することで行われているので、対処療法として実行
+	*/
+	drawString( 0, -100, false, "ABCDEF" );
+
+	// Effekseerにより再生中のエフェクトを更新する。
+	UpdateEffekseer3D( );
+	// Effekseerにより再生中のエフェクトを描画する。
+	DrawEffekseer3D( );
 }
 
 void Drawer::loadMV1Model( int motion, const char* filename, double scale ) {
@@ -408,14 +421,8 @@ void Drawer::flip( ) {
 	if ( wait_time > 0 ) {
 		Sleep( wait_time );	//待機
 	}
-	//drawString( 600, 0, "FPS :  %lf", _fps );//現状のFPSの表示//デバッグコマンド
+	
 
-	// Effekseerにより再生中のエフェクトを更新する。
-	UpdateEffekseer3D();
-	// Effekseerにより再生中のエフェクトを描画する。
-	if ( _is_play_effect ) {
-		DrawEffekseer3D( );
-	}
 	ScreenFlip( );
 	ClearDrawScreen( );
 }
@@ -434,16 +441,11 @@ void Drawer::drawString( int x, int y, bool is_server, const char* string, ... )
 	va_list ap;
 	unsigned int color = 0xFFFFFF;
 	if ( !is_server ) {
-		SetFontSize( 34 );//フォントサイズの更新
-		color = 0x000000;
+		SetFontSize( 28 );//フォントサイズの更新
 	}
 	va_start( ap, string );
 	vsprintf_s( buf, 1024, string, ap );
 	DrawString( x, y, buf, color );
 	va_end( ap );
 	SetFontSize( oridin_font_size );
-}
-
-void Drawer::setPlayEffect( bool play_flag ) {
-	_is_play_effect = play_flag;
 }

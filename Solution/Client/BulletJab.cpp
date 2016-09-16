@@ -1,10 +1,11 @@
 #include "BulletJab.h"
 #include "Effect.h"
 
-const int POWER = 10;
-const int ANIMATION_TIME = 5;
+const int POWER = 50;
+const int ANIMATION_TIME = 8;
 const int WAIT_TIME = 8;
-const double RANGE = 1;
+const double RANGE = 1.5 * Bullet::BULLET_SCALE;
+const double EFFECT_SCALE = 0.5 * BulletJab::BULLET_SCALE;
 
 BulletJab::BulletJab( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_JAB )
@@ -14,7 +15,8 @@ BulletJab::BulletJab( const Vector& pos, const Vector& dir, int power )
 	_dir = dir;
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_JAB );
-	effect.drawEffect( _effect_handle, Vector( 0.3, 0.3, 0.3 ), pos + dir * 0.5, dir );
+	Vector effect_pos = pos + dir * Bullet::BULLET_SCALE + Vector( 0 ,0, 0.3 ) * Bullet::BULLET_SCALE;
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), effect_pos, dir );
 }
 
 BulletJab::~BulletJab( ) {

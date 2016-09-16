@@ -192,8 +192,8 @@ void EnemyBossBehavior::animationUpdate( ) {
 			_parent->dead( );
 			AppPtr app = App::getTask( );
 			app->setState( App::STATE_CLEAR );
-			SoundPtr sound = Sound::getTask( );
-			sound->playSE( Sound::SE_GAME_CLEAR );
+			//SoundPtr sound = Sound::getTask( );
+			//sound->playSE( Sound::SE_GAME_CLEAR );
 		}
 		return;
 	}

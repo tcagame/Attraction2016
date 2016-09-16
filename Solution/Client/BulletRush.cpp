@@ -2,10 +2,10 @@
 #include "Effect.h"
 
 const int POWER = 100;
-const int END_TIME = 20;
-const double RANGE = 2;
+const int VANISH_TIME = ( int )( 5 * Bullet::BULLET_SCALE );
+const double RANGE = 2 * Bullet::BULLET_SCALE;
+const double EFFECT_SCALE = 0.5 * Bullet::BULLET_SCALE;
 
-const int VANISH_TIME = 5;
 const Vector BASE_DIR = Vector( 1, 0, 0 );
 const Vector BLOW_POS[ BulletRush::BLOW_NUM ] = {
 	Vector( 0, 1, 1 ),
@@ -16,7 +16,6 @@ const Vector BLOW_POS[ BulletRush::BLOW_NUM ] = {
 	Vector( 0, -0.5, 0 ),
 	Vector( 0, 0, 0 ),
 };
-
 const int POP_TIME[ BulletRush::BLOW_NUM ] {
 	10,
 	10,
@@ -26,6 +25,7 @@ const int POP_TIME[ BulletRush::BLOW_NUM ] {
 	13,
 	15
 };
+const int END_TIME = POP_TIME[ BulletRush::BLOW_NUM - 1 ] + ( int )VANISH_TIME;
 
 BulletRush::BulletRush( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_RUSH )
@@ -42,7 +42,7 @@ BulletRush::BulletRush( const Vector& pos, const Vector& dir, int power )
 	}
 	Effect effect;
 	_effect_handle = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_RUSH );
-	effect.drawEffect( _effect_handle, Vector( 0.2, 0.2, 0.2 ), pos, dir );
+	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), pos, dir );
 }
 
 BulletRush::~BulletRush( ) {

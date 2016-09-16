@@ -95,8 +95,6 @@ public:
 	void drawString( int x, int y, bool is_server, const char* string, ... );
 	void drawLine( int x1, int y1, int x2, int y2 );
 
-	void setPlayEffect( bool play_flag );
-
 	bool _back;
 	void setBack( ) { _back = true; };
 private:
@@ -150,6 +148,4 @@ private:
 	int _shadow_handle;
 	int _start_time;
 	double _fps;
-
-	bool _is_play_effect;
 };

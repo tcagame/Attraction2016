@@ -105,6 +105,7 @@ public:
 	CHARACTER getCharacter( Adventure::TYPE type );
 	std::string getWord( Adventure::TYPE type );
 	TYPE getType( );
+	double getRatio( );
 private:
 	struct Content {
 		CHARACTER character;
@@ -121,5 +122,6 @@ private:
 private:
 	std::array< Content, MAX_TYPE > _contents;
 	TYPE _type;
+	int _count;
 };
 

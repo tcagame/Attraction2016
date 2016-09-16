@@ -81,6 +81,7 @@ Adventure::Adventure( ) {
 	_contents[ TYPE_LIVEMONITOR_WELCOME_3 ]       = Content( CHARACTER_FAIRY, "現在、この世界にドラゴンが出現中。至急勇者様は目の前のコントローラをとって討伐に向かってください…こんなのでほんとにくるの～？", Sound::VOICE_FAIRY_PROLOGUE_3 );
 }
 
+const int COUNT = 10;
 
 Adventure::~Adventure( ) {
 }
@@ -90,20 +91,38 @@ void Adventure::start( Adventure::TYPE type ) {
 		return;
 	}
 	_type = type;
+	_count = 0;
 
-	// 対応voiceを流す
-	SoundPtr sound = Sound::getTask( );
-	sound->playVoice( _contents[ _type ].voice );
 }
 
 void Adventure::update( ) {
 	if ( _type == TYPE_NONE ) {
 		return;
 	}
-	SoundPtr sound = Sound::getTask( );
-	if ( !sound->isPlayingVoice( ) ) {
-		_type = TYPE_NONE;
+
+	_count++;
+
+	if ( _count == COUNT ) {
+		// 対応voiceを流す
+		SoundPtr sound = Sound::getTask( );
+		sound->playVoice( _contents[ _type ].voice );
 	}
+
+	if ( _count > COUNT ) {
+		SoundPtr sound = Sound::getTask( );
+		if ( !sound->isPlayingVoice( ) ) {
+			_type = TYPE_NONE;
+		}
+	}
+}
+
+double Adventure::getRatio( ) {
+	double ratio = ( double )_count / COUNT;
+	if ( ratio > 1.0 ) {
+		ratio = 1.0;
+	}
+	
+	return ratio;
 }
 
 Adventure::CHARACTER Adventure::getCharacter( Adventure::TYPE type ) {

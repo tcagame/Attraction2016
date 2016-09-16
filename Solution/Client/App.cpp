@@ -8,6 +8,7 @@
 #include "PlayerWitchBehavior.h"
 #include "EtudeBehavior.h"
 #include "AdvMgr.h"
+#include "Adventure.h"
 #include "GroundModel.h"
 #include "Weapon.h"
 #include "Crystals.h"
@@ -188,7 +189,9 @@ void App::updateStatePlay( ) {
 	if ( _adv_mgr ) {
 		_adv_mgr->update( );
 	}
-	
+	if ( _adventure ) {
+		_adventure->update( );
+	}
 
 	if ( _player_id != PLAYER_NONE ) {
 		CameraPtr camera = Camera::getTask( );
@@ -307,6 +310,7 @@ void App::initialize( ) {
 	}
 	
 	_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
+	_adventure = AdventurePtr( new Adventure( ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	if ( _cohort ) {
 		_cohort->init();
@@ -436,6 +440,6 @@ int App::getStartCountMax( ) const {
 	return START_COUNT;
 }
 
-AdvMgrPtr App::getAdvMgr( ) const {
-	return _adv_mgr;
+AdventurePtr App::getAdventure( ) const {
+	return _adventure;
 }

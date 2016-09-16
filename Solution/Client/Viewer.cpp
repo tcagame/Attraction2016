@@ -763,24 +763,30 @@ void Viewer::drawResult( ) {
 
 void Viewer::drawAdv( ) {
 	AppPtr app = App::getTask( );
-	AdvMgrPtr adv_mgr = app->getAdvMgr( );
-	AdventurePtr adv = adv_mgr->getAdventure( );
+	AdventurePtr adv = app->getAdventure( );
+	if ( !adv ) {
+		return;
+	}
+
 	Adventure::TYPE type = adv->getType( );
 	if ( type == Adventure::TYPE_NONE ) {
 		return;
 	}
 
+	double ratio = adv->getRatio( );
+
 	FrameworkPtr fw = Framework::getInstance( );
 	DrawerPtr drawer = Drawer::getTask( );
+
 	//バストアップ描画	
-	int character_x = fw->getWindowWidth( )  - CHARACTER_WIDTH[ adv->getCharacter( type ) ];
+	int character_x = fw->getWindowWidth( )  - ( int )( CHARACTER_WIDTH[ adv->getCharacter( type ) ] * ratio );
 	int character_y = fw->getWindowHeight( ) - CHARACTER_HEIGHT;
 	Drawer::Transform character_transform = Drawer::Transform( character_x, character_y );
 	Drawer::Sprite character_sprite = Drawer::Sprite( character_transform, ( int )adv->getCharacter( type ) + ( int )GRAPHIC_ADV_KNIGHT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( character_sprite );
 	//吹き出し描画
 	int text_window_x = ( fw->getWindowWidth( ) - TEXT_WINDOW_WIDTH )/ 2;
-	int text_window_y = fw->getWindowHeight( ) - TEXT_WINDOW_HEIGHT;
+	int text_window_y = fw->getWindowHeight( ) - ( int )( TEXT_WINDOW_HEIGHT * ratio );
 	Drawer::Transform text_window_transform = Drawer::Transform( text_window_x, text_window_y );
 	Drawer::Sprite popup_sprite = Drawer::Sprite( text_window_transform, ( int )GRAPHIC_ADV_TEXT, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( popup_sprite );

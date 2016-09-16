@@ -305,9 +305,8 @@ void App::initialize( ) {
 		_cohort = CohortPtr(new Cohort());
 		_crystals = CrystalsPtr(new Crystals());
 	}
-	if ( _player_id < PLAYER_ETUDE_RED ) {
-		_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
-	}
+	
+	_adv_mgr = AdvMgrPtr( new AdvMgr( _player_id ) );
 	loadToGround();//GroundModel‚ÆCohort‚Ìƒf[ƒ^“Ç‚Ýž‚Ý
 	if ( _cohort ) {
 		_cohort->init();

@@ -3,12 +3,12 @@
 
 const double SLASH_RADIUS = PI * 0.5;
 
-const int SLASH_POWER = 10;
-const double SLASH_LENGTH = 0.5;
+const int SLASH_POWER = 50;
+const double SLASH_LENGTH = 2.0 * Bullet::BULLET_SCALE;
 const int WAIT_TIME = 5;
 const int PARTICLE = 2;
 const int SWORD_PARTICLE = 3;
-const double EFFECT_SCALE = 0.08;
+const double EFFECT_SCALE = 0.2 * Bullet::BULLET_SCALE;
 
 BulletSlash::BulletSlash( const Vector& pos, const Vector& dir, int power ) 
 : Bullet( Bullet::TYPE_SLASH ) {

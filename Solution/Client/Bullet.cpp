@@ -36,18 +36,12 @@ void Bullet::attackEnemy( const Vector& pos, int power ) {
 	if ( !enemy ) {
 		return;
 	}
-	double bottom = enemy->getPos().z;
-	double top = bottom + 2;
-	if ( pos.z > bottom && pos.z < top ) {
-		Character::STATUS status = enemy->getStatus();
-		if ( status.hp > 0 ) {
-			enemy->damage( power );
+	Character::STATUS status = enemy->getStatus();
+	enemy->damage( power );
 
-			PlayerPtr player = app->getPlayerMine( );
-			if ( player && !isDeathBlow( ) ) {
-				player->addSP( 100 );
-			}
-		}
+	PlayerPtr player = app->getPlayerMine( );
+	if ( player && !isDeathBlow( ) ) {
+		player->addSP( 100 );
 	}
 }
 

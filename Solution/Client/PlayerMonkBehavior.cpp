@@ -83,6 +83,7 @@ void PlayerMonkBehavior::attack( const CONTROLL& controll ) {
 		CharacterPtr character = _target.lock( );
 		isEnemy = character->getType( ) == Character::TYPE_ENEMY;
 	}
+	isEnemy = true;//•KŽE‹ZƒLƒƒƒ“ƒZƒ‹‚ð‚È‚­‚·
 	if ( _animation->getMotion( ) == Animation::MOTION_PLAYER_MONK_STORE && _animation->isEndAnimation( ) && isEnemy ) {
 		bullet = BulletPtr( new BulletRush( _parent->getPos( ), _parent->getDir( ), power ) );
 		weapon->add( bullet );

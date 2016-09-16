@@ -126,12 +126,12 @@ void PlayerHunterBehavior::attack( const CONTROLL& controll ) {
 			switch ( _attack_pattern ) {
 				case 0:
 					id = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_FIRE );
-					effect_pos = _parent->getPos( ) + _parent->getDir( ) * 0.5 + Vector( 0, 0, 0.5 );
+					effect_pos = _parent->getPos( ) + _parent->getDir( ) * 1.2 * Bullet::BULLET_SCALE + Vector( 0, 0, 1 ) * 1.2 * Bullet::BULLET_SCALE;
 					effect.drawEffect( id, Vector( 0.05, 0.05, 0.05 ), effect_pos, _parent->getDir( )  );
 					break;
 				case 1:
 					id = effect.setEffect( Effect::EFFECT_PLAYER_ATTACK_RAPID_FIRE );
-					effect_pos = _parent->getPos( ) + _parent->getDir( ) * 0.3 + Vector( 0, 0, 0.2 );
+					effect_pos = _parent->getPos( ) + _parent->getDir( ) * Bullet::BULLET_SCALE + Vector( 0, 0, 1 ) * Bullet::BULLET_SCALE;
 					effect.drawEffect( id, Vector( 0.05, 0.05, 0.05 ), effect_pos, _parent->getDir( )  );
 					break;
 				case 2:

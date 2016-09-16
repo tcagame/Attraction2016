@@ -7,8 +7,8 @@
 const int WAIT_TIME = 10; 
 const int VANISH_TIME = 50 + WAIT_TIME;
 const int RAPID_TIME = 10;
-const int POWER = 1;
-const double SPEED = 1;
+const int POWER = 100;
+const double SPEED = Bullet::BULLET_SCALE;
 const Vector BULLET_POS[ 2 ] = {
 	Vector( 0, 0.2, 0 ),
 	Vector( 0, -0.2, 0 )
@@ -16,7 +16,7 @@ const Vector BULLET_POS[ 2 ] = {
 
 BulletRapidFire::BulletRapidFire( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_FIRE ) {
-	_pos = pos + Vector( 0, 0, 0.5 );
+	_pos = pos + Vector( 0, 0, 1 ) * Bullet::BULLET_SCALE;
 	_dir = dir.normalize( );
 	for ( int i = 0; i < BULLET_NUM; i++ ) {
 		_bullet_pos[ i ] = _pos + BULLET_POS[ i ];

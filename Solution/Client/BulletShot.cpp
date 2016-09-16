@@ -6,14 +6,14 @@
 
 const int VANISH_TIME = 50;
 const int WAIT_TIME = 40;
-const double EFFECT_SCALE = 1;
-const int POWER = 100;
-const int SPEED = 1;
+const double EFFECT_SCALE = Bullet::BULLET_SCALE;
+const int POWER = 200;
+const int SPEED = ( int )( Bullet::BULLET_SCALE );
 
 BulletShot::BulletShot( const Vector& pos, const Vector& dir, int power )
 : Bullet( Bullet::TYPE_FIRE ) {
 	_dir = dir.normalize( );
-	_pos = pos + Vector( 0, 0, 0.5 );
+	_pos = pos + Vector( 0, 0, 1.0 ) * Bullet::BULLET_SCALE;
 	_power = POWER * power;
 	_speed = SPEED;
 	_exist_time = 0;
@@ -37,7 +37,6 @@ bool BulletShot::update( ) {
 
 	_pos += _dir * _speed;
 	attackEnemy( _pos, _power );
-
 	Effect effect;
 	effect.drawEffect( _effect_handle, Vector( EFFECT_SCALE, EFFECT_SCALE, EFFECT_SCALE ), _pos, _dir );
 	return true;

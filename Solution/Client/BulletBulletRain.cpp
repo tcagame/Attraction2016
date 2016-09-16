@@ -2,13 +2,13 @@
 #include "App.h"
 #include "Effect.h"
 
+const int POWER = 100;
+const double RANGE = 5 * Bullet::BULLET_SCALE;
+const double RADIUS = 5 * Bullet::BULLET_SCALE;
+const double EFFECT_SCALE = Bullet::BULLET_SCALE;
+const int PARTICLE = 12;
 const int VANISH_TIME = 50;
 const int WAIT_TIME = 60;
-const double EFFECT_SCALE = 0.5;
-const double RANGE = 3;
-const double RADIUS = 5;
-const int PARTICLE = 12;
-const int POWER = 50;
 const int SPEED = 1;
 
 BulletBulletRain::BulletBulletRain( const Vector& pos, const Vector& dir, int power )

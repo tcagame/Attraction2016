@@ -8,6 +8,9 @@ const Vector START_TARGET_POS = Vector( 0, 0, 0 );
 const double CEILING_HEIGHT = 75.0;
 const double BASE_HEIGHT = 25.0;
 
+const int MAX_LENGTH = 60;
+const int MIN_LENGTH = 40;
+
 LiveCamera::LiveCamera( ) {
 	
 }
@@ -21,19 +24,19 @@ void LiveCamera::initialize( ) {
 }
 
 void LiveCamera::update( ) {
-	/*
-	AppPtr app = App::getTask( );
-	LiveScenePtr live_scene = app->getLiveScene( );
+	Vector vec = _pos - _target;
+	vec.z = 0;
 
-	switch( live_scene->getScene( ) ) {
-	case LiveScene::SCENE_TITLE:
-		sceneTitle( );
-		break;
-	case LiveScene::SCENE_VIEWER_STAGE_CENTER:
-		sceneViewCenter( );
-		break;
+	if( vec.getLength( ) > MAX_LENGTH) {
+		vec = vec.normalize( ) * MAX_LENGTH;
 	}
-	*/
+	if ( vec.getLength( ) < MIN_LENGTH ) {
+		vec = vec.normalize( ) * MIN_LENGTH;
+	}
+	vec.z = 15;
+
+	// _camera_pos‚ð•ÏX
+	_pos = _target + vec;
 }
 
 void LiveCamera::sceneTitle( ) {

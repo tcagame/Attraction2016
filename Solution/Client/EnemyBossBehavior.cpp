@@ -42,10 +42,10 @@ const int BOSS_ATTACK_POWER[ ] = {
 	40,
 	30,
 	20,
-	1000,
+	100,
 };
 
-const int CLEAR_TIME = 3600;
+const int CLEAR_TIME = 150;
 
 EnemyBossBehavior::EnemyBossBehavior( ) {
 	_attack_range[ BOSS_ATTACK_PATTERN_CLEAVE ] = 3.0;

@@ -108,7 +108,7 @@ void App::updateReset( ) {
 	if ( _cohort ) _cohort->reset( );
 	_weapon->reset( );
 	if ( _crystals ) _crystals->reset( );
-	_adv_mgr->reset( );
+	if ( _adv_mgr ) _adv_mgr->reset( );
 	CameraPtr camera = Camera::getTask( );
 	camera->initialize( );
 

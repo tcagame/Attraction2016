@@ -13,7 +13,7 @@
 
 Cohort::Cohort( ) {
  	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
-	Character::STATUS status = Character::STATUS( 1000, 400, 50, 2 );
+	Character::STATUS status = Character::STATUS( 30000, 400, 50, 2 );
 	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
 	behavior->setParent( _boss );
 }
@@ -48,7 +48,7 @@ void Cohort::reset( ) {
 		putBlockEnemy(i);
 	}
 	EnemyBossBehaviorPtr behavior = EnemyBossBehaviorPtr( new EnemyBossBehavior );
-	Character::STATUS status = Character::STATUS( 1000, 1, 50, 2 );
+	Character::STATUS status = Character::STATUS( 30000, 400, 50, 2 );
 	_boss = EnemyPtr( new Enemy( behavior,	status , Enemy::ENEMY_TYPE_BOSS ) );
 	behavior->setParent( _boss );
 	_boss->create( Vector( Ground::CHIP_WIDTH * Ground::BOSS_X, Ground::CHIP_HEIGHT * Ground::BOSS_Y + 3, 0 ) );

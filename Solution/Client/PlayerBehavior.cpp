@@ -187,6 +187,11 @@ bool PlayerBehavior::isDeathblow( ) {
 }
 
 void PlayerBehavior::pickupCrystal( const CONTROLL& controll ) {
+	//コントロールプレイヤーじゃなかったら取れない
+	if ( !_controll ) {
+		return;
+	}
+
 	AppPtr app = App::getTask();
 	CrystalsPtr crystals = app->getCrystals();
 	if ( !crystals ) {
@@ -203,7 +208,6 @@ void PlayerBehavior::pickupCrystal( const CONTROLL& controll ) {
 				if ( !crystal ) {
 					continue;
 				}
-
 				//大きいクリスタルをとったら
 				if ( crystals->getCrystalNum( ) >= Crystals::MAX_CRYSTAL_NUM ) {
 					CameraPtr camera = Camera::getTask();

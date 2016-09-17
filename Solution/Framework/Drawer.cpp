@@ -20,13 +20,15 @@ tw( 0 ),
 th( -1 ) {
 }
 
-Drawer::Transform::Transform( int sx_, int sy_, int tx_, int ty_, int tw_, int th_ ) :
+Drawer::Transform::Transform( int sx_, int sy_, int tx_, int ty_, int tw_, int th_, int sx2_, int sy2_ ) :
 sx( sx_ ),
 sy( sy_ ),
 tx( tx_ ),
 ty( ty_ ),
 tw( tw_ ),
-th( th_ ) {
+th( th_ ),
+sx2( sx2_ ),
+sy2( sy2_ ) {
 }
 
 Drawer::ModelMV1::ModelMV1( ) :
@@ -221,8 +223,14 @@ void Drawer::drawSprite( ) {
 
 		if ( sprite.trans.tw < 0 ) {
 			DrawGraph( sprite.trans.sx, sprite.trans.sy, _graphic_id[ sprite.res ], TRUE );
-		} else {
+		} else if ( sprite.trans.sy2 < 0 ) {
 			DrawRectGraph( sprite.trans.sx, sprite.trans.sy, sprite.trans.tx, sprite.trans.ty, sprite.trans.tw, sprite.trans.th, _graphic_id[ sprite.res ], TRUE, FALSE );
+		} else {
+			DrawRectExtendGraph(
+				sprite.trans.sx , sprite.trans.sy ,
+				sprite.trans.sx2, sprite.trans.sy2,
+				sprite.trans.tx , sprite.trans.ty ,
+				sprite.trans.tw , sprite.trans.th , _graphic_id[ sprite.res ], TRUE );
 		}
 
 		if ( sprite.blend != BLEND_NONE ) {

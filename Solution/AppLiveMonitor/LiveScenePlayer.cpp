@@ -6,7 +6,7 @@
 #include "Cohort.h"
 #include "Camera.h"
 
-const int SCENE_TIME = 300; 
+const int SCENE_TIME = 150; 
 
 LiveScenePlayer::LiveScenePlayer() {
 	_time = 0;

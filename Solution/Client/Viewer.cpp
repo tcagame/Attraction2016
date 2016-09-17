@@ -232,6 +232,10 @@ void Viewer::initialize( ) {
 	drawer->loadGraph( GRAPHIC_ADV_FAIRY,			    "Adventure/Fairy.png" );
 	drawer->loadGraph( GRAPHIC_ADV_MINOTAUR,			"Adventure/Mino.png" );
 
+	//Live
+	drawer->loadGraph( GRAPHIC_LIVE_FADE_WHITE,			"Images/fade/fade_white.png" );
+	drawer->loadGraph( GRAPHIC_LIVE_FADE_STRIPE,		"Images/Fade/fade_stripe.png" );
+
 	//テクスチャ
 	drawer->loadGraph( GRAPHIC_BULLET_MISSILE,	"EnemyModel/ghost/missile.png" );
 	//エフェクトのロード
@@ -279,6 +283,9 @@ void Viewer::initialize( ) {
 	for ( int i = 0; i < PLAYER_NUM; i++ ) {
 		_fairy_time[ i ] = END_FAIRY_TIME + 1;
 	}
+
+	_fade_out = false;
+	_fade_ratio = 1.0;
 }
 
 void Viewer::update( ) {
@@ -301,6 +308,7 @@ void Viewer::update( ) {
 		drawBigCrystal( );
 		drawCrystal( );
 		drawUI( );
+		drawFade( );
 		updateCamera( );
 		break;
 	case App::STATE_CLEAR:
@@ -813,3 +821,51 @@ void Viewer::drawTitle( ) {
 	Drawer::Sprite gauge_sprite = Drawer::Sprite( gauge_transform, GRAPHIC_READY_GAUGE, Drawer::BLEND_NONE, 0 );
 	drawer->setSprite( gauge_sprite );
 }
+
+void Viewer::drawFade( ) {
+	if ( !_fade_out && _fade_ratio >= 1.0 ) {
+		return;
+	}
+
+	FrameworkPtr fw = Framework::getInstance( );
+	DrawerPtr drawer = Drawer::getTask( );
+	int window_width  = fw->getWindowWidth( );
+	int window_height = fw->getWindowHeight( );
+	const int FADE_SIZE = 256;
+
+	if ( _fade_out ) {
+		{
+			int height = window_height / 2;
+			int range = ( int )( height * _fade_ratio * 4 );
+			int y1 = height - range;
+			int y2 = height + range;
+			Drawer::Transform transform = Drawer::Transform( 0, y1, 0, 0, FADE_SIZE, FADE_SIZE, window_width, y2 );
+			double ratio = _fade_ratio * 2;
+			if ( ratio > 1.0 ) {
+				ratio = 1.0;
+			}
+			Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_LIVE_FADE_STRIPE, Drawer::BLEND_ADD, ratio );
+			drawer->setSprite( sprite );
+		}
+		{
+			Drawer::Transform transform = Drawer::Transform( 0, 0, 0, 0, FADE_SIZE, FADE_SIZE, window_width, window_height );
+			double ratio = ( _fade_ratio - 0.5 ) * 2;
+			if ( ratio < 0 ) {
+				ratio = 0;
+			}
+			Drawer::Sprite sprite = Drawer::Sprite( transform, GRAPHIC_LIVE_FADE_WHITE, Drawer::BLEND_ALPHA, ratio );
+			drawer->setSprite( sprite );
+		}
+	} else {
+		Drawer::Transform white_transform = Drawer::Transform( 0, 0, 0, 0, FADE_SIZE, FADE_SIZE, window_width, window_height );
+		double ratio = 1.0 - _fade_ratio;
+		Drawer::Sprite white_sprite = Drawer::Sprite( white_transform, GRAPHIC_LIVE_FADE_WHITE, Drawer::BLEND_ALPHA, ratio );
+		drawer->setSprite( white_sprite );
+	}
+}
+
+void Viewer::setFade( bool out, double ratio ) {
+	_fade_out = out;
+	_fade_ratio = ratio;
+}
+

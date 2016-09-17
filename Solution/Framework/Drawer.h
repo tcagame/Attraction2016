@@ -28,8 +28,10 @@ public:
 		int ty;
 		int tw;
 		int th;
+		int sx2;
+		int sy2;
 		Transform( );
-		Transform( int sx_, int sy_, int tx_ = -1, int ty_ = -1, int tw_ = -1, int th_ = -1 );
+		Transform( int sx_, int sy_, int tx_ = -1, int ty_ = -1, int tw_ = -1, int th_ = -1, int sx2 = -1, int sy2 = -1 );
 	};
 	struct Sprite {
 		Transform trans;

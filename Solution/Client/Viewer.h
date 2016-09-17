@@ -23,6 +23,7 @@ public:
 	void initialize( );
 public:
 	void drawTitle( );
+	void setFade( bool out, double ratio );
 private:
 	enum GRAPHIC {
 		GRAPHIC_UI_NAME_KNIGHT,
@@ -54,6 +55,8 @@ private:
 		GRAPHIC_ADV_WITCH,
 		GRAPHIC_ADV_FAIRY,
 		GRAPHIC_ADV_MINOTAUR,
+		GRAPHIC_LIVE_FADE_WHITE,
+		GRAPHIC_LIVE_FADE_STRIPE,
 
 		GRAPHIC_MAX
 	};
@@ -74,6 +77,7 @@ private:
 	void drawReady( );
 	void drawResult( );
 	void drawAdv( );
+	void drawFade( );
 	void updateCamera( );
 	Vector getCameraDir( );
 	Vector covertInputDirXZ( );
@@ -81,4 +85,6 @@ private:
 private:
 	int _fairy_handle[ PLAYER_NUM ];
 	int _fairy_time[ PLAYER_NUM ];
+	bool _fade_out;
+	double _fade_ratio;
 };

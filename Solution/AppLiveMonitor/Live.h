@@ -19,5 +19,7 @@ public:
 	void finalize( );
 private:
 	LiveScenePtr _scene;
+	int _fade_count;
+	bool _fade_out;
 };
 

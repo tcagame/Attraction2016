@@ -11,7 +11,8 @@ const double BASE_HEIGHT = 25.0;
 const int MAX_LENGTH = 60;
 const int MIN_LENGTH = 40;
 
-LiveCamera::LiveCamera( ) {
+LiveCamera::LiveCamera( ) :
+_mode( MODE_NONE ) {
 	
 }
 
@@ -24,31 +25,21 @@ void LiveCamera::initialize( ) {
 }
 
 void LiveCamera::update( ) {
-	Vector vec = _pos - _target;
-	vec.z = 0;
-
-	if( vec.getLength( ) > MAX_LENGTH) {
-		vec = vec.normalize( ) * MAX_LENGTH;
+	switch ( _mode ) {
+	case MODE_NONE:
+		break;
+	case MODE_ROLLING:
+		updateRolling( );
+		break;
 	}
-	if ( vec.getLength( ) < MIN_LENGTH ) {
-		vec = vec.normalize( ) * MIN_LENGTH;
-	}
-	vec.z = 15;
+}
 
-	// _camera_pos‚ð•ÏX
+void LiveCamera::updateRolling( ) {
+	static double rot = 0;
+	rot += 0.01;
+
+	Matrix mat = Matrix::makeTransformRotation( Vector( 0, 0, 1 ), rot );
+	Vector vec = mat.multiply( Vector( 20, 0, 5 ) );
+
 	_pos = _target + vec;
-}
-
-void LiveCamera::sceneTitle( ) {
-
-}
-
-void LiveCamera::sceneViewCenter( ) {
-	_pos = Vector( 200, 200, 30 );
-
-	AppPtr app = App::getTask( );
-	GroundPtr ground = app->getGround( );
-	int ground_height = ground->getHeight( ) * Ground::CHIP_HEIGHT;
-	int ground_width = ground->getWidth( ) * Ground::CHIP_WIDTH;
-	_target = Vector( ground_width / 2, ground_height / 2, 0 );
 }

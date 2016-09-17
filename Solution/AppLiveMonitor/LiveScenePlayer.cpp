@@ -4,15 +4,18 @@
 #include "Player.h"
 #include "Crystals.h"
 #include "Cohort.h"
-#include "Camera.h"
+#include "LiveCamera.h"
 
-const int SCENE_TIME = 150; 
+const int SCENE_TIME = 300; 
 
 LiveScenePlayer::LiveScenePlayer() {
 	_time = 0;
 	_player_id = rand( ) % 4;
 	getBigCrystal( );
 	resetCohort( );
+	
+	LiveCameraPtr camera = std::dynamic_pointer_cast< LiveCamera >( Camera::getTask( ) );
+	camera->setMode( LiveCamera::MODE_ROLLING );
 }
 
 

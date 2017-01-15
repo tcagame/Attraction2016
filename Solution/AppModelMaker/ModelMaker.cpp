@@ -113,9 +113,9 @@ void ModelMaker::view( ) {
 		Vector max;
 		for ( int i = 0; i < count; i++ ) {
 			Vector pos = _model->getPoint( i );
-			if ( ( int )( pos.z * 1000 ) != 0 ) {
+			/*if ( ( int )( pos.z * 1000 ) != 0 ) {
 				continue;
-			}
+			}*/
 
 			if ( max.x < abs( pos.x ) ) {
 				max.x = abs( pos.x );
@@ -132,7 +132,7 @@ void ModelMaker::view( ) {
 			length = max.y;
 		}
 		double scale = 0.5 / length;
-		Matrix matrix = Matrix::makeTransformScaling( Vector( scale * 7, scale * 7, scale * 7 ) );
+		Matrix matrix = Matrix::makeTransformScaling( Vector( scale * 250, scale * 250, scale * 250 ) );
 		_model->multiply( matrix );
 	}
 
